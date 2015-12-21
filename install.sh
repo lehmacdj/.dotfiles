@@ -42,16 +42,18 @@ while [ ! -n "$result" ]; do
 done
 
 if [ "$result" == "yes" ]; then
-    rm ~/.profile
+    mv ~/.profile ~/.profile.installerbackup
     ln -s ~/.dotfiles/profile ~/.profile
-    rm ~/.vimrc
+    mv ~/.vimrc ~/.vimrc.installerbackup
     ln -s ~/.dotfiles/vimrc ~/.vimrc
-    rm ~/.bashrc
+    mv ~/.bashrc ~/.bashrc.installerbackup
     ln -s ~/.dotfiles/bashrc ~/.bashrc
-    rm ~/.aliases
+    mv ~/.aliases ~/.aliases.installerbackup
     ln -s ~/.dotfiles/aliases ~/.aliases
-    rm -rf ~/.vim
+    mv ~/.vim ~/.vim.installerbackup
     ln -s ~/.dotfiles/vim ~/.vim
+    echo "Finished! Backups of previous config files were moved to a file with the same"
+    echo "name followed by .installerbackup"
 else
     echo "Aborted!"
 fi
