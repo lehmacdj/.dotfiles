@@ -1,9 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =7
-let g:netrw_dirhist_1='/Applications/Notes.app'
-let g:netrw_dirhist_2='/Applications/Notes.app/Contents'
-let g:netrw_dirhist_3='/Applications/Notes.app/Contents/Resources'
-let g:netrw_dirhist_4='/Applications/Notes.app/Contents/Resources/Notes.help'
-let g:netrw_dirhist_5='/Applications/Notes.app/Contents/Resources/Notes.help/Contents'
-let g:netrw_dirhist_6='/Applications/Notes.app/Contents/Resources/Notes.help/Contents/Resources'
-let g:netrw_dirhist_7='/Applications/Notes.app/Contents/Resources/Notes.help/Contents/Resources/ar.lproj'
