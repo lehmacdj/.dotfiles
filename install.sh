@@ -6,8 +6,6 @@
 # WARNING: Deletes the existing configuration files that go by the same name as
 # the ones contained in this package.
 
-cd "$(dirname "$0")"
-
 # Check for the existence of the files this would overwrite
 if [ -e ~/.profile ]; then
     profile=".profile  "
