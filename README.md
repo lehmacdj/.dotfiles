@@ -1,7 +1,7 @@
 # .dotfiles
 My unix/linux configuration files.
 Consists of mostly vim and bash configuration.
-Includes some configuration for homebrew (macosx)
+Includes some configuration for homebrew.
 
 Installation is very simple:
 
