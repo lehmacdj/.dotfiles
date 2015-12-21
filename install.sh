@@ -29,13 +29,13 @@ ${profile}${bashrc}${aliases}${vimrc}${vim}
 In addition you should make sure that this git repository is located
 In a directory with the name .dotfiles in your home directory."
 while [ ! -n "$result" ]; do
-    read -p "Proceed? [y/n]" input
-    if [ "$input" == "y" ]; then
+    read -p "Do you want to continue? [Y/n]" input
+    if [ "$input" == "Y" ]; then
         result="yes"
     elif [ "$input" == "n" ]; then
         result="no"
     else
-        echo "Please enter y or n"
+        echo "Please enter Y or n"
     fi
 done
 
