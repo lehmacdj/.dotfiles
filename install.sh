@@ -9,48 +9,49 @@
 cd "$(dirname "$0")"
 
 # Check for the existence of the files this would overwrite
-if [ -f ~/.profile ]; then
-    profile=".profile, "
+if [ -e ~/.profile ]; then
+    profile=".profile  "
 fi
-if [ -f ~/.vimrc ]; then
-    vimrc=".vimrc, "
+if [ -e ~/.vimrc ]; then
+    vimrc=".vimrc  "
 fi
-if [ -f ~/.bashrc ]; then
-    bashrc=".bashrc, "
+if [ -e ~/.bashrc ]; then
+    bashrc=".bashrc  "
 fi
-if [ -f ~/.aliases ]; then
-    aliases=".aliases, "
+if [ -e ~/.aliases ]; then
+    aliases=".aliases  "
 fi
-if [ -d ~/.vim ]; then
-    vim=".vim"
+if [ -e ~/.vim ]; then
+    vim=".vim  "
 fi
 
 # Get user confirmation that deleting these files is okay
 echo "The following files in your home directory will be deleted:
-${profile?}${bashrc?}${aliases?}${vimrc?}${vim?}
-Is that okay? [Y/n]"
+${profile}${bashrc}${aliases}${vimrc}${vim}
+In addition you should make sure that this git repository is located
+In a directory with the name .dotfiles in your home directory."
 while [ ! -n "$result" ]; do
-    read input
-    if [ "$input" == "Y" ]; then
+    read -p "Proceed? [y/n]" input
+    if [ "$input" == "y" ]; then
         result="yes"
     elif [ "$input" == "n" ]; then
         result="no"
     else
-        echo "Please enter Y or n"
+        echo "Please enter y or n"
     fi
 done
 
 if [ "$result" == "yes" ]; then
     rm ~/.profile
-    ln -s profile ~/.profile
+    ln -s ~/.dotfiles/profile ~/.profile
     rm ~/.vimrc
-    ln -s vimrc ~/.vimrc
+    ln -s ~/.dotfiles/vimrc ~/.vimrc
     rm ~/.bashrc
-    ln -s bashrc ~/.bashrc
+    ln -s ~/.dotfiles/bashrc ~/.bashrc
     rm ~/.aliases
-    ln -s aliases ~/.aliases
+    ln -s ~/.dotfiles/aliases ~/.aliases
     rm -rf ~/.vim
-    ln -s vim ~/.vim
+    ln -s ~/.dotfiles/vim ~/.vim
 else
     echo "Aborted!"
 fi

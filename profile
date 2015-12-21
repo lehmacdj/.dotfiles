@@ -1,4 +1,4 @@
-# Contains config details for any shell environment
+#Contains config details for any shell environment
 
 #if running bash
 if [ -n "$BASH_VERSION" ]; then

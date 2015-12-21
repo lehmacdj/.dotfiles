@@ -10,7 +10,7 @@ set -o vi
 bind -m vi-insert '"jj": vi-movement-mode'
 bind -m vi-insert '"jk": vi-movement-mode'
 
-if [ -d "$HOME/.a" ]
+if [ -d "$HOME/.a" ]; then
     # Create a special shortcut directory
     export CDPATH="~/.a/"
 fi
