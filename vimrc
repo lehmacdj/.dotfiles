@@ -1,11 +1,28 @@
-syntax on
+" Configure vundle first
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+" Other plugins
+Plugin 'tpope/vim-sensible'
+Plugin 'xu-cheng/brew.vim'
+Plugin 'lervag/vimtex'
+
+call vundle#end()
+" see :h vundle for more details or wiki for FAQ
+" End vundle configuration
+
 filetype plugin indent on
+syntax on
 set tabstop=4
 set shiftwidth=4
 set expandtab
-
-" Add Pathogen and source plugins
-execute pathogen#infect()
 
 " Make backspace behave the way I expect
 set backspace=indent,eol,start
