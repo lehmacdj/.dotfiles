@@ -10,8 +10,10 @@ fi
 
 # Set up various shell environment variables
 
-# set the default java version
-export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
+if [ -f "/usr/libexec/java_home" ]; then
+    # set the default java version
+    export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
+fi
 
 # Setup the PATH 
 if [ -d "$HOME/bin" ] ; then
