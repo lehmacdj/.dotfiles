@@ -47,12 +47,13 @@ if [ "$result" == "yes" ]; then
     mv ~/.aliases ~/.aliases.installerbackup
     mv ~/.vim/ftplugin ~/.vim/ftplugin.installerbackup
     echo "Linking files..."
+    mkdir -p ~/.vim/bundle
     ln -s ~/.dotfiles/ftplugin ~/.vim/ftplugin
     ln -s ~/.dotfiles/profile ~/.profile
     ln -s ~/.dotfiles/vimrc ~/.vimrc
     ln -s ~/.dotfiles/aliases ~/.aliases
     ln -s ~/.dotfiles/bashrc ~/.bashrc
-    git clone "https://github.com/VundleVim/Vundle.vim"
+    git clone "https://github.com/VundleVim/Vundle.vim" ~/.vim/bundle/Vundle.vim
     vim +PluginInstall +qall
     echo "Finished! Backups of previous config files were moved to a file with the same"
     echo "name followed by .installerbackup"

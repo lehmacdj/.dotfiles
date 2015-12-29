@@ -23,6 +23,7 @@ syntax on
 set tabstop=4
 set shiftwidth=4
 set expandtab
+set autoread
 
 " Make backspace behave the way I expect
 set backspace=indent,eol,start
