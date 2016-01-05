@@ -10,8 +10,8 @@ alias l.='ls -d .*'
 alias ls='ls --color=auto'
 
 alias dspurge='find . -name .DS_Store -delete'
-alias viprofile='vi ~/.profile'
-alias vialiases='vi ~/.aliases'
+alias vipr='vi ~/.profile'
+alias vial='vi ~/.aliases'
 alias bc='bc -l'
 alias which='alias | /usr/local/bin/gwhich --tty-only --read-alias --show-dot --show-tilde'
 alias find='gfind'
@@ -34,11 +34,11 @@ fi
 # First the workspace must exist then run this command from the 
 # root directory of the workspace
 # The settings folder of the workspace will be deleted and symlinked to
-# The template workspace at ~/Documents/template
+# The template workspace at ~/.templates/eclipse
 function eclset () {
     present_dir=`pwd`
     cd  $1/.metadata/.plugins/org.eclipse.core.runtime
     rm -rf .settings
-    ln -s ~/Documents/template/.metadata/.plugins/org.eclipse.core.runtime/.settings .settings
+    ln -s ~/.templates/eclipse/.metadata/.plugins/org.eclipse.core.runtime/.settings .settings
     cd $present_dir
 }
