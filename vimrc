@@ -20,6 +20,21 @@ call vundle#end()
 " see :h vundle for more details or wiki for FAQ
 " End vundle configuration
 
+" Plugin configuration
+
+" Nerdtree
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "✹",
+    \ "Staged"    : "✚",
+    \ "Untracked" : "✭",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "✖",
+    \ "Dirty"     : "✗",
+    \ "Clean"     : "✔︎",
+    \ "Unknown"   : "?"
+    \ }
+
 filetype plugin indent on
 syntax on
 set tabstop=4
@@ -36,7 +51,7 @@ set backspace=indent,eol,start
 
 " Define the mapleader
 let mapleader=","
-"
+
 " MARK: map
 
 " Edit the .vimrc
