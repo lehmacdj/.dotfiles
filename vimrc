@@ -13,6 +13,8 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'tpope/vim-sensible'
 Plugin 'xu-cheng/brew.vim'
 Plugin 'lervag/vimtex'
+Plugin 'scrooloose/nerdtree'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
 
 call vundle#end()
 " see :h vundle for more details or wiki for FAQ
@@ -24,6 +26,10 @@ set tabstop=4
 set shiftwidth=4
 set expandtab
 set autoread
+
+" Completion
+set omnifunc=syntaxcomplete#Complete
+inoremap <NUL> <C-x><C-f>
 
 " Make backspace behave the way I expect
 set backspace=indent,eol,start
@@ -48,6 +54,6 @@ inoremap jk <esc>
 cmap W w !sudo tee % >/dev/null
 
 " Git mappings
-nnoremap <leader>gp :w<cr>:!git add % && git commit -m "Updated %" && git push<cr><cr>
-nnoremap <leader>gc :w<cr>:!git add % && git commit -m "Updated %"<cr><cr>
+nnoremap <leader>gp :w<cr>:!git add % && git commit -m "Change %" && git push<cr><cr>
+nnoremap <leader>gc :w<cr>:!git add % && git commit -m "Change %"<cr><cr>
 nnoremap <leader>gs :!git status<cr>
