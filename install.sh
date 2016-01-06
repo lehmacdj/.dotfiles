@@ -22,10 +22,13 @@ fi
 if [ -e ~/.vim/ftplugin ]; then
     ftplugin=".vim/ftplugin  "
 fi
+if [ -e ~/.tmux.conf ]; then
+    tmux=".tmux.conf"
+fi
 
 # Get user confirmation that deleting these files is okay
 echo "The following files in your home directory will be deleted:
-${profile}${bashrc}${aliases}${vimrc}${ftplugin}
+${profile}${bashrc}${aliases}${vimrc}${ftplugin}${tmux}
 In addition you should make sure that this git repository is located
 In a directory with the name .dotfiles in your home directory."
 while [ ! -n "$result" ]; do
@@ -46,6 +49,7 @@ if [ "$result" == "yes" ]; then
     mv ~/.bashrc ~/.bashrc.installerbackup
     mv ~/.aliases ~/.aliases.installerbackup
     mv ~/.vim/ftplugin ~/.vim/ftplugin.installerbackup
+    mv ~/.tmux.conf ~/.tmux.conf.installerbackup
     echo "Linking files..."
     mkdir -p ~/.vim/bundle
     ln -s ~/.dotfiles/ftdetect ~/.vim/ftdetect
@@ -53,6 +57,7 @@ if [ "$result" == "yes" ]; then
     ln -s ~/.dotfiles/vimrc ~/.vimrc
     ln -s ~/.dotfiles/aliases ~/.aliases
     ln -s ~/.dotfiles/bashrc ~/.bashrc
+    ln -s ~/.dotfiles/tmux.conf ~/.tmux.conf
     git clone "https://github.com/VundleVim/Vundle.vim" ~/.vim/bundle/Vundle.vim
     vim +PluginInstall +qall
     echo "Finished! Backups of previous config files were moved to a file with the same"
