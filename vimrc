@@ -41,6 +41,7 @@ set tabstop=4
 set shiftwidth=4
 set expandtab
 set autoread
+set mouse=a
 
 " Completion
 set omnifunc=syntaxcomplete#Complete
