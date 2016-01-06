@@ -48,7 +48,7 @@ if [ "$result" == "yes" ]; then
     mv ~/.vim/ftplugin ~/.vim/ftplugin.installerbackup
     echo "Linking files..."
     mkdir -p ~/.vim/bundle
-    ln -s ~/.dotfiles/ftplugin ~/.vim/ftplugin
+    ln -s ~/.dotfiles/ftdetect ~/.vim/ftdetect
     ln -s ~/.dotfiles/profile ~/.profile
     ln -s ~/.dotfiles/vimrc ~/.vimrc
     ln -s ~/.dotfiles/aliases ~/.aliases
