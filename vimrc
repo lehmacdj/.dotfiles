@@ -11,12 +11,19 @@ Plugin 'VundleVim/Vundle.vim'
 
 " Other plugins
 Plugin 'tpope/vim-sensible'
+
 Plugin 'xu-cheng/brew.vim'
+
 Plugin 'lervag/vimtex'
+
 Plugin 'keith/tmux.vim'
 
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
+
+Plugin 'cakebaker/scss-syntax.vim'
+
+Plugin 'christoomey/vim-tmux-navigator'
 
 call vundle#end()
 " see :h vundle for more details or wiki for FAQ
