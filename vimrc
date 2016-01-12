@@ -13,6 +13,8 @@ Plugin 'VundleVim/Vundle.vim'
 Plugin 'tpope/vim-sensible'
 Plugin 'xu-cheng/brew.vim'
 Plugin 'lervag/vimtex'
+Plugin 'keith/tmux.vim'
+
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 
@@ -73,3 +75,6 @@ cmap W w !sudo tee % >/dev/null
 nnoremap <leader>gp :w<cr>:!git add % && git commit -m "Change %" && git push<cr><cr>
 nnoremap <leader>gc :w<cr>:!git add % && git commit -m "Change %"<cr><cr>
 nnoremap <leader>gs :!git status<cr>
+
+" Mapping to trim whitespace from end of lines
+nnoremap <leader>t<space> :%s/\s\+$//<cr>
