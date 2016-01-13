@@ -1,14 +1,19 @@
 # .dotfiles
 My unix/linux configuration files.
-Consists of mostly vim and bash configuration.
-Includes some configuration for homebrew.
+
+Contains configuration for all of the following:
+
++ bash
++ vim
++ tmux
 
 Installation is very simple:
 
 1. clone the repository to your home directory
-2. execute the install.sh command
+2. execute the install command
+3. run vim +PluginInstall +qall
 
 ```
 git clone https://github.com/lehmacdj/.dotfiles.git
-.dotfiles/install.sh
+~/.dotfiles/install
 ```

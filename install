@@ -1,0 +1,5 @@
+#!/bin/bash
+# Install script to set up a general unix / linux capable computer as a
+# development machine
+
+source install.d/link.sh
