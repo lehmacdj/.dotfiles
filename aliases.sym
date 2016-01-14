@@ -14,7 +14,6 @@ alias vipr='vi ~/.bash_profile'
 alias vial='vi ~/.bash_aliases'
 alias bc='bc -l'
 alias which='alias | /usr/local/bin/gwhich --tty-only --read-alias --show-dot --show-tilde'
-alias find='gfind'
 
 # Functions -- Slightly longer things than aliases
 
