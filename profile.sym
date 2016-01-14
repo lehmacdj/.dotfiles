@@ -1,3 +1,5 @@
+#!/bin/bash
+
 #Contains config details for any shell environment
 
 #if running bash

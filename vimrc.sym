@@ -54,7 +54,7 @@ set mouse=a
 
 " Completion
 set omnifunc=syntaxcomplete#Complete
-inoremap <NUL> <C-x><C-f>
+inoremap <NUL> <C-x><C-o>
 
 " Make backspace behave the way I expect
 set backspace=indent,eol,start

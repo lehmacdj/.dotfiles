@@ -1,8 +1,14 @@
+#!/bin/bash
+
 # Executed every time that a new interactive shell is created
 
+if [ -f "$HOME/.bash_aliases" ]; then
+    # include the bash alias file
+    source "$HOME/.bash_aliases"
+fi
 if [ -f "$HOME/.aliases" ]; then
     # include the alias file
-    . "$HOME/.aliases"
+    source "$HOME/.aliases"
 fi
 
 # Use vi mode and set a few key bindings

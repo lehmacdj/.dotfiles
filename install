@@ -1,5 +1,9 @@
 #!/bin/bash
 # Install script to set up a general unix / linux capable computer as a
 # development machine
+# Sources all of the files in install.d in addition to some other 
+# configurations.
 
-source install.d/link.sh
+for i in install.d/*; do
+    source "$i"
+done
