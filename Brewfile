@@ -1,37 +1,29 @@
-# Bash essentials
-brew bash
-brew bash-completion
-brew wget
-brew tree
+# Tap
+tap 'beeftornado/rmtree'
 
-# GNU
-brew coreutils
-
-# dev-tools
-brew git
-brew tmux
-brew python
-
-# Vim
-brew vim --override-system-vi
-brew neovim/neovim/neovim
-
-# Archive
-brew p7zip
-brew unar
-
-# Miscellaneous
-brew openssl
-brew ssh-copy-id
-brew youtube-dl
-brew ffmpeg
-tap beeftornado/rmtree
-brew brew-rmtree
+# Brew
+brew 'bash'
+brew 'bash-completion'
+brew 'wget'
+brew 'tree'
+brew 'coreutils'
+brew 'git'
+brew 'tmux'
+brew 'python'
+brew 'vim', args: %w[--override-system-vi]
+brew 'p7zip'
+brew 'unar'
+brew 'openssl'
+brew 'ssh-copy-id'
+brew 'brew-rmtree'
+brew 'youtube-dl'
+brew 'ffmpeg', args: %w[--with-libvpx --with-libvorbis]
 
 # Cask
-tap caskroom/cask
-brew brew-cask
-cask google-chrome
-cask dropbox
-cask eclipse-java
-cask flux
+tap 'caskroom/cask'
+brew 'brew-cask'
+cask 'google-chrome'
+cask 'dropbox'
+cask 'eclipse-java'
+cask 'flux'
+cask 'skype'

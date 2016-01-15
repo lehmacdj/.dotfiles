@@ -1,1 +1,4 @@
-vim/.netrwhist
+vim.sym/*
+!vim.sym/autoload/
+!vim.sym/ftdetection.vim
+!vim.sym/plugins.vim

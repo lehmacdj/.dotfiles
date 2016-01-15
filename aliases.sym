@@ -1,4 +1,4 @@
-#!/usr/bin
+#!/bin/bash
 
 # Aliases -- These are sourced in .profile
 
@@ -10,8 +10,8 @@ alias l.='ls -d .*'
 alias ls='ls --color=auto'
 
 alias dspurge='find . -name .DS_Store -delete'
-alias vipr='vi ~/.bash_profile'
-alias vial='vi ~/.bash_aliases'
+alias vipr='vi ~/.profile'
+alias vial='vi ~/.aliases'
 alias bc='bc -l'
 alias which='alias | /usr/local/bin/gwhich --tty-only --read-alias --show-dot --show-tilde'
 

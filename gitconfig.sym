@@ -3,3 +3,5 @@
 	name = Devin Lehmacher
 [push]
 	default = simple
+[core]
+	excludesfile = ~/.gitignore

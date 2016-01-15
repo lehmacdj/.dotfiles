@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Links all of the files with the extension .sym to the home directory.
+
 DOTFILES="$HOME/.dotfiles"
 
 echo "Creating symlinks..."
