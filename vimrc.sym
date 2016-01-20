@@ -15,18 +15,27 @@ let g:NERDTreeIndicatorMapCustom = {
     \ "Clean"     : "✔︎",
     \ "Unknown"   : "?"
     \ }
+nnoremap <silent> <leader>n :NERDTreeToggle<cr>
 
 filetype plugin indent on
 syntax on
+
+" Tabbing
 set tabstop=4
 set shiftwidth=4
 set expandtab
+set autoindent
+set smartindent
+set smarttab
 set autoread
-set mouse=a
-set so=7
 
-" Additional file detection for some stuff
-source ~/.vim/ftdetection.vim
+set mouse=a
+set so=5
+
+" Searching
+set magic
+set ignorecase
+set smartcase
 
 " Completion
 set omnifunc=syntaxcomplete#Complete
@@ -59,5 +68,5 @@ nnoremap <leader>gp :w<cr>:!git add % && git commit -m "Change %" && git push<cr
 nnoremap <leader>gc :w<cr>:!git add % && git commit -m "Change %"<cr><cr>
 nnoremap <leader>gs :!git status<cr>
 
-" Mapping to trim whitespace from end of lines
+" trim whitespace from end of lines
 nnoremap <leader>t<space> :%s/\s\+$//<cr>

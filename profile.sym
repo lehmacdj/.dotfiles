@@ -39,12 +39,11 @@ if [ -e "~/bin/consolidate-path" ]; then
 fi
 export PATH
 
-# Add some brew-cask configuration
-# Harmless if brew-cask is not installed
-export HOMEBREW_CASK_OPTS='--appdir=/Applications'
-
 # # set up dir colors
-# not in use because I don't like this color scheme
 # if [ -f "$HOME/.dir_colors" ]; then
 #     eval $( dircolors -b $HOME/.dir_colors )
 # fi
+
+# Add some brew-cask configuration
+# Harmless if brew-cask is not installed
+export HOMEBREW_CASK_OPTS='--appdir=/Applications'
