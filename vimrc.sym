@@ -15,6 +15,7 @@ let g:NERDTreeIndicatorMapCustom = {
     \ "Clean"     : "✔︎",
     \ "Unknown"   : "?"
     \ }
+nnoremap <silent> <leader>n :NERDTreeToggle<cr>
 
 filetype plugin indent on
 syntax on
