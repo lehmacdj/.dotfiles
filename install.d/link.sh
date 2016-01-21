@@ -21,10 +21,22 @@ DOTFILES="$HOME/.dotfiles"
 
 echo "Creating symlinks..."
 
-tolink=$(find -H "$DOTFILES" -maxdepth 3 -name '*.sym')
+tolink=$(find -H "$DOTFILES" -maxdepth 3 -name '*.symdot')
 
 for file in $tolink; do
-    target="$HOME/.$(basename $file ".sym")"
+    target="$HOME/.$(basename $file ".symdot")"
+    if [ -e $target -o -h $target ]; then
+        echo "~${target#$HOME} exists... Skipping."
+    else
+        echo "Creating symlink for $file"
+        ln -s $file $target
+    fi
+done
+
+tolink=$(find -H "$DOTFILES" -maxdepth 3 -name '*.symtobin')
+
+for file in $tolink; do
+    target="$HOME/bin/$(basename $file ".symtobin")"
     if [ -e $target -o -h $target ]; then
         echo "~${target#$HOME} exists... Skipping."
     else
