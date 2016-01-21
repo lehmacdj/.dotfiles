@@ -1,5 +1,6 @@
 # Tap
 tap 'beeftornado/rmtree'
+tap 'universal-ctags/universal-ctags'
 
 # Brew
 brew 'bash'
@@ -10,12 +11,13 @@ brew 'coreutils'
 brew 'git'
 brew 'tmux'
 brew 'python'
-brew 'vim', args: %w[--override-system-vi]
+brew 'vim', args: %w[--with-lua]
 brew 'p7zip'
 brew 'unar'
 brew 'openssl'
 brew 'ssh-copy-id'
 brew 'brew-rmtree'
+brew 'universal-ctags', args: %w[HEAD]
 brew 'youtube-dl'
 brew 'ffmpeg', args: %w[--with-libvpx --with-libvorbis]
 
