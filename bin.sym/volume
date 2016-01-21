@@ -1,0 +1,17 @@
+#!/bin/bash
+if [ "$1" == "mute" -o "$1" == "m" ]; then
+    osascript -e "set volume with output muted"
+elif [ "$1" == "unmute" -o "$1" == "nomute" -o "$1" == "um" -o "$1" == "nm" ]; then
+    osascript -e "set volume without output muted"
+elif [[ "$1" =~ ^[+-][0-9]+$ ]]; then
+    osascript -e "set volume output volume (output volume of (get volume settings) + $1) --100%"
+elif [[ "$1" =~ ^[0-9]+$ ]]; then
+    # Set volume
+    osascript -e "set volume output volume $1 --100%"
+else
+   echo "Illegal argument: usage:"
+    echo "volume mute/m|unmute/nomute/um/nm"
+    echo "or"
+    echo "volume [+|-]<amount>"
+fi
+osascript -e "output volume of (get volume settings) & output muted of (get volume settings)"

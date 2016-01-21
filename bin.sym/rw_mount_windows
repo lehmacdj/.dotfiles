@@ -1,0 +1,11 @@
+#!/bin/bash
+# A script which mounts the BOOTCAMP filesystem as read-write
+if [ $EUID -eq 0 ]; then
+    if [ -d /Volumes/BOOTCAMP ]; then
+        umount /Volumes/BOOTCAMP/
+    fi
+    mkdir /Volumes/BOOTCAMP/
+    ntfs-3g /dev/disk0s4 /Volumes/BOOTCAMP/
+else
+    echo "Please run using: sudo rw_mount_windows"
+fi
