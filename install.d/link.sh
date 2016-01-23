@@ -34,14 +34,10 @@ for file in $tolink; do
     fi
 done
 
-tolink=$(find -H "$DOTFILES" -maxdepth 3 -name '*.symtobin')
-
-for file in $tolink; do
-    target="$HOME/bin/$(basename $file ".symtobin")"
-    if [ -e $target -o -h $target ]; then
-        echo "~${target#$HOME} exists... Skipping."
-    else
-        echo "Creating symlink for $file"
-        ln -s $file $target
-    fi
-done
+Symlink the bin if it exists.
+if [ -e ~/bin ]; then
+    echo "~/bin exists... Skipping."
+else
+    echo "Creating symlink for ~/bin"
+    ln -s ~/.dotfiles/bin ~/bin
+fi

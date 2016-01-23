@@ -1,5 +1,6 @@
-vim.symdot/*
-!vim.symdot/autoload/
-!vim.symdot/ftplugin/
-!vim.symdot/ftdetect/
-!vim.symdot/plugins.vim
+# Specify only the .vim files that need to be versioned
+vim.*/*
+!vim.*/autoload/
+!vim.*/ftplugin/
+!vim.*/ftdetect/
+!vim.*/plugins.vim
