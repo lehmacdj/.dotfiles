@@ -34,7 +34,7 @@ for file in $tolink; do
     fi
 done
 
-Symlink the bin if it exists.
+# Symlink the bin if it exists.
 if [ -e ~/bin ]; then
     echo "~/bin exists... Skipping."
 else

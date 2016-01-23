@@ -15,4 +15,4 @@ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/
 
 # Use brew-bundle to install brewfiles in a good order
 brew tap Homebrew/bundle
-brew bundle
+brew bundle --file="~/.dotfiles/Brewfile"
