@@ -3,8 +3,9 @@
 # Install homebrew and brew everything in Brewfile
 
 echo "Installing xcode commandline tools..."
-echo "Follow the onscreen instructions"
 xcode-select --install
+
+echo
 
 echo "Brewing formulas..."
 

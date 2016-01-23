@@ -1,15 +1,21 @@
 call plug#begin('~/.vim/plugged')
 
+" General Plugins
 Plug 'tpope/vim-sensible'
-Plug 'scrooloose/nerdtree' | Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'tpope/vim-repeat'
+Plug 'scrooloose/nerdtree' 
+    \| Plug 'Xuyuanp/nerdtree-git-plugin'
+    \| Plug 'ivalkeen/nerdtree-execute'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-fugitive'
 
-" Other filetype specific
-Plug 'lervag/vimtex'
+" Webdev plugins
+Plug 'othree/html5.vim'
+Plug 'tpope/vim-surround'
 Plug 'cakebaker/scss-syntax.vim'
 
-" Syntax Plugins
+" Other filetype specific
+Plug 'lervag/vimtex'
 Plug 'keith/tmux.vim'
 Plug 'xu-cheng/brew.vim'
 

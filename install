@@ -1,9 +1,30 @@
 #!/bin/bash
 # Install script to set up a general unix / linux capable computer as a
 # development machine
-# Sources all of the files in install.d in addition to some other 
-# configurations.
+#
+# Does all nescessary configuration and also sources any script in
+# install.d/*.auto.sh
 
-for i in $HOME/.dotfiles/install.d/*.sh; do
-    source "$i"
-done
+if [ $(uname) == "Darwin" ]; then
+    DARWIN=1
+fi
+
+echo
+if [ -n "$DARWIN" ]; then
+    source "$HOME/.dotfiles/install.d/brew.sh"
+fi
+
+echo
+source "$HOME/.dotfiles/install.d/link.sh"
+
+echo
+if [ -n "$DARWIN" ]; then
+    source "$HOME/.dotfiles/install.d/osx.sh"
+fi
+
+echo
+if test $(find ~/.dotfiles/install.d -name "*.sh.auto"); then
+    for i in $HOME/.dotfiles/install.d/*.sh.auto; do
+        source "$i"
+    done
+fi

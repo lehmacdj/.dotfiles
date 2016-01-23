@@ -1,11 +1,11 @@
 #!/bin/bash
-
+#
 # Links all of the files with the extension .sym to the home directory.
 # If a file with a .sym extension is in a directory it is linked to the 
 # location in the home directory that coresponds to the file in that
 # directory.  For example ~/.dotfiles/bin/consolidate-path.sym is 
 # symlinked to ~/bin/consolidate-path
-
+#
 # Possible ways to obtain the dotfiles directory without it having to
 # be in ~/.dotfiles
 # Currently the program assumes dotfiles directory is at ~/.dotfiles
@@ -17,6 +17,7 @@
 # pushd $(dirname $0) > /dev/null
 # SCRIPTPATH=$(pwd)
 # popd > /dev/null
+
 DOTFILES="$HOME/.dotfiles"
 
 echo "Creating symlinks..."

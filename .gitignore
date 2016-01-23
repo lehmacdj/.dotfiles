@@ -1,4 +1,5 @@
-vim.sym/*
-!vim.sym/autoload/
-!vim.sym/ftdetection.vim
-!vim.sym/plugins.vim
+vim.symdot/*
+!vim.symdot/autoload/
+!vim.symdot/ftplugin/
+!vim.symdot/ftdetect/
+!vim.symdot/plugins.vim

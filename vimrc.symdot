@@ -51,8 +51,11 @@ let mapleader="\\"
 
 " Edit the .vimrc
 nnoremap <leader>ev :split $MYVIMRC<cr>
+" Edit plugins.vim
+nnoremap <leader>ep :split ~/.vim/plugins.vim<cr>
 " Source the .vimrc
 nnoremap <leader>sv :source $MYVIMRC<cr>
+
 
 " Keybindings for Escape
 inoremap jj <esc>
