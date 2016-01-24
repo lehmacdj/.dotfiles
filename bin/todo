@@ -1,0 +1,5 @@
+#!/bin/bash
+#
+# Puts a file on the desktop with a name equal to the command line arguments.
+
+touch ~/Desktop/"$*"
