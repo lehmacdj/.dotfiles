@@ -10,6 +10,7 @@ brew 'tree'
 brew 'coreutils'
 brew 'git'
 brew 'tmux'
+brew 'reattach-to-user-namespace'
 brew 'python'
 brew 'vim', args: %w[--with-lua]
 brew 'p7zip'
