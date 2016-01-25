@@ -41,3 +41,11 @@ function eclset () {
     ln -s ~/.templates/eclipse/.metadata/.plugins/org.eclipse.core.runtime/.settings .settings
     cd $present_dir
 }
+
+# Swaps the location of two files
+function swap () {
+    local TMPFILE=tmp.$$
+    mv "$1" $TMPFILE
+    mv "$2" "$1"
+    mv $TMPFILE "$2"
+}
