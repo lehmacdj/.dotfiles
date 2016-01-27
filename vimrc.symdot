@@ -1,21 +1,5 @@
-" Initialize plugins
+" Initialize and configure plugins
 source ~/.vim/plugins.vim
-
-" Plugin configuration
-
-" Nerdtree
-let g:NERDTreeIndicatorMapCustom = {
-    \ "Modified"  : "✹",
-    \ "Staged"    : "✚",
-    \ "Untracked" : "✭",
-    \ "Renamed"   : "➜",
-    \ "Unmerged"  : "═",
-    \ "Deleted"   : "✖",
-    \ "Dirty"     : "✗",
-    \ "Clean"     : "✔︎",
-    \ "Unknown"   : "?"
-    \ }
-nnoremap <silent> <Leader>n :NERDTreeToggle<cr>
 
 filetype plugin indent on
 syntax on
@@ -91,9 +75,8 @@ cmap W w !sudo tee % >/dev/null
 nnoremap <Leader>t<space> :%s/\s\+$//<cr>
 
 " Show / Toggle colorcolumn
-set colorcolumn=81
-let s:color_column_old = 0
-
+set colorcolumn=0
+let s:color_column_old = 81
 function! s:ToggleColorColumn()
     if s:color_column_old == 0
         let s:color_column_old = &colorcolumn
@@ -103,5 +86,5 @@ function! s:ToggleColorColumn()
         let s:color_column_old = 0
     endif
 endfunction
-
 nnoremap <silent> <Leader>8 :call <SID>ToggleColorColumn()<cr>
+

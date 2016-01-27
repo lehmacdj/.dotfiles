@@ -4,7 +4,7 @@
 [push]
 	default = simple
 [core]
-	excludesfile = ~/.gitignore
+	excludesfile = ~/.gitignore_global
 [alias]
     s = status
     a = add

@@ -20,3 +20,20 @@ Plug 'keith/tmux.vim'
 Plug 'xu-cheng/brew.vim'
 
 call plug#end()
+
+" Plugin configuration
+
+" Nerdtree
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "✹",
+    \ "Staged"    : "✚",
+    \ "Untracked" : "✭",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "✖",
+    \ "Dirty"     : "✗",
+    \ "Clean"     : "✔︎",
+    \ "Unknown"   : "?"
+    \ }
+nnoremap <silent> <Leader>n :NERDTreeToggle<cr>
+
