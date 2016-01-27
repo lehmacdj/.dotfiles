@@ -15,7 +15,7 @@ let g:NERDTreeIndicatorMapCustom = {
     \ "Clean"     : "✔︎",
     \ "Unknown"   : "?"
     \ }
-nnoremap <silent> <leader>n :NERDTreeToggle<cr>
+nnoremap <silent> <Leader>n :NERDTreeToggle<cr>
 
 filetype plugin indent on
 syntax on
@@ -41,20 +41,41 @@ set smartcase
 set omnifunc=syntaxcomplete#Complete
 inoremap <NUL> <C-x><C-o>
 
+set completeopt=longest
+
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" keep menu item always highlighted by simulating <Down> on pu visible
+inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
+    \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+" keep menu item always highlighted by simulating <Up> on pu visible
+inoremap <expr> <C-p> pumvisible() ? '<C-p>' :
+  \ '<C-p><C-r>=pumvisible() ? "\<lt>Up>" : ""<CR>'
+" Arcane witchcraft
+inoremap <expr> <M-,> pumvisible() ? '<C-n>' :
+    \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+
+" open omni completion menu closing previous if open and opening new menu without changing the text
+inoremap <expr> <C-Space> (pumvisible() ? (col('.') > 1 ? '<Esc>i<Right>' : '<Esc>i') : '') .
+    \ '<C-x><C-o><C-r>=pumvisible() ? "\<lt>C-n>\<lt>C-p>\<lt>Down>" : ""<CR>'
+" open user completion menu closing previous if open and opening new menu without changing the text
+inoremap <expr> <S-Space> (pumvisible() ? (col('.') > 1 ? '<Esc>i<Right>' : '<Esc>i') : '') .
+    \ '<C-x><C-u><C-r>=pumvisible() ? "\<lt>C-n>\<lt>C-p>\<lt>Down>" : ""<CR>'
+
+
 " Make backspace behave the way I expect
 set backspace=indent,eol,start
 
-" Define the mapleader
+" Define the map Leader
 let mapleader="\\"
 
 " MARK: map
 
 " Edit the .vimrc
-nnoremap <leader>ev :split $MYVIMRC<cr>
+nnoremap <Leader>ev :split $MYVIMRC<cr>
 " Edit plugins.vim
-nnoremap <leader>ep :split ~/.vim/plugins.vim<cr>
+nnoremap <Leader>ep :split ~/.vim/plugins.vim<cr>
 " Source the .vimrc
-nnoremap <leader>sv :source $MYVIMRC<cr>
+nnoremap <Leader>sv :source $MYVIMRC<cr>
 
 
 " Keybindings for Escape
@@ -66,10 +87,21 @@ inoremap jk <esc>
 " Force save a file
 cmap W w !sudo tee % >/dev/null
 
-" Git mappings
-nnoremap <leader>gp :w<cr>:!git add % && git commit -m "Change %" && git push<cr><cr>
-nnoremap <leader>gc :w<cr>:!git add % && git commit -m "Change %"<cr><cr>
-nnoremap <leader>gs :!git status<cr>
-
 " trim whitespace from end of lines
-nnoremap <leader>t<space> :%s/\s\+$//<cr>
+nnoremap <Leader>t<space> :%s/\s\+$//<cr>
+
+" Show / Toggle colorcolumn
+set colorcolumn=81
+let s:color_column_old = 0
+
+function! s:ToggleColorColumn()
+    if s:color_column_old == 0
+        let s:color_column_old = &colorcolumn
+        windo let &colorcolumn = 0
+    else
+        windo let &colorcolumn=s:color_column_old
+        let s:color_column_old = 0
+    endif
+endfunction
+
+nnoremap <silent> <Leader>8 :call <SID>ToggleColorColumn()<cr>

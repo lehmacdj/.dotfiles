@@ -5,3 +5,6 @@
 	default = simple
 [core]
 	excludesfile = ~/.gitignore
+[alias]
+    s = status
+    a = add
