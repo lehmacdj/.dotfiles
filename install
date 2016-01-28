@@ -20,7 +20,6 @@ source "$HOME/.dotfiles/install.d/link.sh"
 echo
 if [ -n "$DARWIN" ]; then
     source "$HOME/.dotfiles/install.d/osx.sh"
-    source "$HOME/.dotfiles/install.d/eclim.sh"
 fi
 
 echo
