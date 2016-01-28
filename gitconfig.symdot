@@ -8,3 +8,5 @@
 [alias]
     s = status
     a = add
+    pl = pull
+    pu = push
