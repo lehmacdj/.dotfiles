@@ -22,17 +22,31 @@ DOTFILES="$HOME/.dotfiles"
 
 echo -e "\nCreating symlinks..."
 
+# Symlink files to be symlinked to every platform
 tolink=$(find -H "$DOTFILES" -maxdepth 3 -name '*.symdot')
-
 for file in $tolink; do
     target="$HOME/.$(basename $file ".symdot")"
-    if [ -e $target -o -h $target ]; then
+    if [ -e "$target" -o -h "$target" ]; then
         echo "~${target#$HOME} exists... Skipping."
     else
         echo "Creating symlink for $file"
-        ln -s $file $target
+        ln -s "$file" "$target"
     fi
 done
+
+if [ -n "$DARWIN" ]; then
+    # Symlink OS X specific files
+    tolink=$(find -H "$DOTFILES" -maxdepth 3 -name '*.symdot.osx')
+    for file in $tolink; do
+        target="$HOME/.$(basename $file ".symdot")"
+        if [ -e "$target" -o -h "$target" ]; then
+            echo "~${target#$HOME} exists... Skipping."
+        else
+            echo "Creating symlink for $file"
+            ln -s "$file" "$target"
+        fi
+    done
+fi
 
 # Symlink the bin if it exists.
 if [ -e ~/bin ]; then

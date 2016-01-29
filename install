@@ -5,8 +5,12 @@
 # Does all nescessary configuration and also sources any script in
 # install.d/*.auto.sh
 
+echo "Beginning installation of dotfiles..."
+
 if [ $(uname) == "Darwin" ]; then
     DARWIN=1
+elif [ $(uname) == "Linux" ]; then
+    LINUX=1
 fi
 
 if [ -n "$DARWIN" ]; then
