@@ -10,3 +10,6 @@
     a = add
     pl = pull
     pu = push
+	last = log -1 HEAD
+	unstage = reset HEAD --
+	amend = commit --amend
