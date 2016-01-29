@@ -30,8 +30,8 @@ if [ -f "/usr/libexec/java_home" ]; then
 fi
 
 # Sets up an eclipse workspace
-# First the workspace must exist then run this command from the 
-# root directory of the workspace
+# First the workspace must exist then run this command with the path
+# to the workspace as the argument
 # The settings folder of the workspace will be deleted and symlinked to
 # The template workspace at ~/.templates/eclipse
 function eclset () {
