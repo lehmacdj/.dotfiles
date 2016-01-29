@@ -18,6 +18,10 @@ set mouse=a
 set so=4
 set showcmd
 
+" Splits
+set splitbelow
+set splitright
+
 " Searching
 set magic
 set ignorecase

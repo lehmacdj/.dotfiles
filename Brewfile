@@ -8,6 +8,7 @@ brew 'bash-completion'
 brew 'wget'
 brew 'tree'
 brew 'coreutils'
+brew 'gnu-which'
 brew 'git'
 brew 'tmux'
 brew 'reattach-to-user-namespace'
@@ -21,6 +22,7 @@ brew 'brew-rmtree'
 brew 'universal-ctags', args: %w[HEAD]
 brew 'youtube-dl'
 brew 'ffmpeg', args: %w[--with-libvpx --with-libvorbis]
+brew 'opam'
 
 # Cask
 tap 'caskroom/cask'

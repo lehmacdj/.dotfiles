@@ -39,11 +39,10 @@ if [ -e "~/bin/consolidate-path" ]; then
 fi
 export PATH
 
-# # set up dir colors
-# if [ -f "$HOME/.dir_colors" ]; then
-#     eval $( dircolors -b $HOME/.dir_colors )
-# fi
-
 # Add some brew-cask configuration
 # Harmless if brew-cask is not installed
 export HOMEBREW_CASK_OPTS='--appdir=/Applications'
+
+# OPAM and OCaml Configuration
+. /Users/devin/.opam/opam-init/init.sh > /dev/null 2> /dev/null || true
+eval `opam config env`
