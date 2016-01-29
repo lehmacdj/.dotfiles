@@ -13,8 +13,10 @@ set smartindent
 set smarttab
 set autoread
 
+" Display
 set mouse=a
 set so=4
+set showcmd
 
 " Searching
 set magic
