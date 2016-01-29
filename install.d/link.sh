@@ -20,7 +20,7 @@
 
 DOTFILES="$HOME/.dotfiles"
 
-echo "Creating symlinks..."
+echo -e "\nCreating symlinks..."
 
 tolink=$(find -H "$DOTFILES" -maxdepth 3 -name '*.symdot')
 

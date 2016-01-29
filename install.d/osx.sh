@@ -2,4 +2,5 @@
 
 # Sets up the proper OS X settings for a computer.
 
-echo "Setting settings..."
+echo -e "\nSetting settings..."
+

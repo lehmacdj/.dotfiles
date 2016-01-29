@@ -9,20 +9,16 @@ if [ $(uname) == "Darwin" ]; then
     DARWIN=1
 fi
 
-echo
 if [ -n "$DARWIN" ]; then
     source "$HOME/.dotfiles/install.d/brew.sh"
 fi
 
-echo
 source "$HOME/.dotfiles/install.d/link.sh"
 
-echo
 if [ -n "$DARWIN" ]; then
     source "$HOME/.dotfiles/install.d/osx.sh"
 fi
 
-echo
 if test $(find ~/.dotfiles/install.d -name "*.sh.auto"); then
     for i in $HOME/.dotfiles/install.d/*.sh.auto; do
         source "$i"
