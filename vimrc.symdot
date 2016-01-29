@@ -14,7 +14,7 @@ set smarttab
 set autoread
 
 set mouse=a
-set so=5
+set so=4
 
 " Searching
 set magic
