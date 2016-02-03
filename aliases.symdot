@@ -14,7 +14,6 @@ alias vipr='vi ~/.profile'
 alias vial='vi ~/.aliases'
 alias bc='bc -l'
 
-
 # Functions -- Slightly longer things than aliases
 
 if [ -f "/usr/libexec/java_home" ]; then
@@ -49,10 +48,7 @@ function swap () {
     mv "$2" "$1"
     mv $TMPFILE "$2"
 }
-
-# Which alias
-which ()
-{
-   (alias; declare -f) | /usr/bin/which --tty-only --read-alias --read-functions --show-tilde --show-dot $@
+function which () {
+    (alias; declare -f) | /usr/local/bin/gwhich --tty-only --read-alias --read-functions --show-tilde --show-dot $@
 }
 export -f which

@@ -19,7 +19,6 @@ set so=4
 set showcmd
 
 " Splits
-set splitbelow
 set splitright
 
 " Searching
