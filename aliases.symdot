@@ -11,7 +11,8 @@ alias ls='ls --color=auto'
 
 alias dspurge='find . -name .DS_Store -delete'
 alias vipr='vi ~/.profile'
-alias vial='vi ~/.aliases' alias bc='bc -l' 
+alias vial='vi ~/.aliases' 
+alias bc='bc -l' 
 # Functions -- Slightly longer things than aliases
 
 if [ -f "/usr/libexec/java_home" ]; then
