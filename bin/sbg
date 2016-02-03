@@ -3,16 +3,22 @@
 # Changes the terminal profile for Terminal.app to the one specified
 # by the command line argument.
 
+if [ $# -lt 1 ]; then
+    echo "Usage: sbg <args>"
+    exit 1
+fi
+
 if [ $1 == "list" ]; then
     echo "Options: b, w, ssh, su"
-    if [ $2 == "all" ]; then
-        echo "Full option dump:"
-        /usr/libexec/PlistBuddy -c "Print :Window\ Settings" ~/Library/Preferences/com.apple.Terminal.plist | 
-            grep -a " = Dict {" | 
-            sed -e "s/    //" | 
-            sed -e "s/ = Dict {//"
+    if [ $# -eq 2 ]; then
+        if [ $2 == "all" ]; then
+            echo "Full option dump:"
+            /usr/libexec/PlistBuddy -c "Print :Window\ Settings" ~/Library/Preferences/com.apple.Terminal.plist |
+                grep -a " = Dict {" |
+                sed -e "s/    //" |
+                sed -e "s/ = Dict {//"
+        fi
     fi
-    exit
 else
     osascript -e "on run argv
 tell application \"Terminal\" to set current settings of selected tab of front window to first settings set whose name is (item 1 of argv)
