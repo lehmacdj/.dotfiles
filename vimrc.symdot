@@ -1,8 +1,14 @@
 " Initialize and configure plugins
 source ~/.vim/plugins.vim
 
+
 filetype plugin indent on
 syntax on
+
+" source local vimrc file
+if filereadable("~/.vim/local.vim")
+    source ~/.vim/local.vim
+endif
 
 " Tabbing
 set tabstop=4
@@ -92,4 +98,3 @@ function! s:ToggleColorColumn()
     endif
 endfunction
 nnoremap <silent> <Leader>8 :call <SID>ToggleColorColumn()<cr>
-
