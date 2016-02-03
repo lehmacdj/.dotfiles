@@ -12,3 +12,11 @@ inoremap \ua ↑
 inoremap \pe ⟂
 " assert
 inoremap \as ⊦
+" subset
+inoremap \so ⊂ 
+" element of
+inoremap \eo ∈
+" epsilon
+inoremap \ep ε
+" delta
+inoremap \de δ
