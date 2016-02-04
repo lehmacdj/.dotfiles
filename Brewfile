@@ -1,6 +1,7 @@
 # Tap
 tap 'beeftornado/rmtree'
 tap 'universal-ctags/universal-ctags'
+tap 'Homebrew/homebrew-completions'
 
 # Brew
 brew 'bash'
@@ -19,10 +20,12 @@ brew 'unar'
 brew 'openssl'
 brew 'ssh-copy-id'
 brew 'brew-rmtree'
+brew 'vagrant-completion' # for cask 'vagrant'
 brew 'universal-ctags', args: %w[HEAD]
 brew 'youtube-dl'
 brew 'ffmpeg', args: %w[--with-libvpx --with-libvorbis]
 brew 'opam'
+
 
 # Cask
 tap 'caskroom/cask'
@@ -32,3 +35,4 @@ cask 'dropbox'
 cask 'eclipse-java'
 cask 'flux'
 cask 'skype'
+cask 'vagrant'
