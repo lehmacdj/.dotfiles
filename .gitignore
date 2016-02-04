@@ -4,3 +4,6 @@ vim.*/*
 !vim.*/ftplugin/
 !vim.*/ftdetect/
 !vim.*/plugins.vim
+
+# Local files
+*.local*
