@@ -6,10 +6,12 @@
 [core]
 	excludesfile = ~/.gitignore_global
 [alias]
-    s = status
+    s = status -sb
     a = add
     pl = pull
     pu = push
 	last = log -1 HEAD
 	unstage = reset HEAD --
 	amend = commit --amend
+    co = checkout
+    ci = commit

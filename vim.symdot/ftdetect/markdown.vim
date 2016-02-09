@@ -1,1 +1,1 @@
-au BufNewFile,BufRead .vrapperrc set filetype=vim
+au BufNewFile,BufRead *.md  set filetype=markdown
