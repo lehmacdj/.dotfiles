@@ -3,8 +3,8 @@
 # Executed every time that a new interactive shell is created
 
 # Set vim as the default editor
-EDITOR=vim
-VISUAL=vim
+export EDITOR=vim
+export VISUAL=vim
 
 if [ -f "$HOME/.bash_aliases" ]; then
     # include the bash alias file
