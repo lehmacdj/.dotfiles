@@ -32,6 +32,9 @@ set magic
 set ignorecase
 set smartcase
 
+" Buffers
+set hidden
+
 " Completion
 set omnifunc=syntaxcomplete#Complete
 inoremap <NUL> <C-x><C-o>

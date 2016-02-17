@@ -9,7 +9,7 @@ if [ $# -lt 1 ]; then
 fi
 
 if [ $1 == "list" ]; then
-    echo "Options: b, w, ssh, su"
+    echo "Options: b, w, t, ssh, su"
     if [ $# -eq 2 ]; then
         if [ $2 == "all" ]; then
             echo "Full option dump:"
