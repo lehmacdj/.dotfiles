@@ -8,6 +8,7 @@ Plug 'scrooloose/nerdtree'
     \| Plug 'ivalkeen/nerdtree-execute'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-fugitive'
+Plug 'scrooloose/syntastic'
 
 " Webdev plugins
 Plug 'othree/html5.vim'
