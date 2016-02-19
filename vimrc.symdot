@@ -81,3 +81,6 @@ function! s:ToggleColorColumn()
     endif
 endfunction
 nnoremap <silent> <Leader>8 :call <SID>ToggleColorColumn()<cr>
+
+" Easy macro-replay
+nnoremap Q @q
