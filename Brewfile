@@ -6,6 +6,8 @@ tap 'Homebrew/homebrew-completions'
 # Brew
 brew 'bash'
 brew 'bash-completion'
+brew 'zsh'
+brew 'zsh-completion'
 brew 'wget'
 brew 'tree'
 brew 'coreutils'
