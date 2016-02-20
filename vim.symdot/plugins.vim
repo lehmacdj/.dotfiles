@@ -21,6 +21,9 @@ Plug 'keith/tmux.vim'
 Plug 'xu-cheng/brew.vim'
 " Plug 'def-lkb/ocp-indent-vim'
 
+" Solarized
+Plug 'altercation/vim-colors-solarized'
+
 call plug#end()
 
 " Plugin configuration
@@ -39,3 +42,7 @@ let g:NERDTreeIndicatorMapCustom = {
     \ }
 nnoremap <silent> <Leader>n :NERDTreeToggle<cr>
 
+" Solarized
+syntax enable
+set background=dark
+colorscheme solarized

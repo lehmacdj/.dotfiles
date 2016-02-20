@@ -7,7 +7,7 @@ source ~/.zsh/history.zsh
 source ~/.zsh/env.zsh
 source ~/.zsh/path.zsh
 source ~/.zsh/zsh_hooks.zsh
-# source ~/.zsh/antigen.zsh
+source ~/.zsh/anitgen.zsh
 
 # Not quite sure what this does
 precmd() {

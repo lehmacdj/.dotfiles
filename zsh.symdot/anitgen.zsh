@@ -9,5 +9,8 @@ antigen bundle command-not-found
 # Syntax
 antigen bundle zsh-users/zsh-syntax-highlighting
 
-# Finish applying
+# Theme
+antigen theme agnoster
+
+# Apply settings
 antigen apply
