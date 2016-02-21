@@ -1,11 +1,14 @@
 # .dotfiles
 My unix/linux configuration files.
 
+In progress: Deprecating bash
+
 Contains configuration for all of the following:
 
 + bash
 + vim
 + tmux
++ zsh
 
 Installation is very simple:
 

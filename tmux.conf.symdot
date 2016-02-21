@@ -1,3 +1,6 @@
+# Set default shell
+set-option -g default-shell /usr/local/bin/zsh
+
 # Rebind Prefix Key
 unbind-key C-b
 set -g prefix 'C-\'
@@ -18,4 +21,4 @@ bind -n C-l if-shell "$is_vim" "send-keys C-l" "select-pane -R"
 
 bind r source-file ~/.tmux.conf
 
-if-shell 'test $(uname)" = "Darwin"' 'source ~/.tmux-osx.conf'
+if-shell 'test "$(uname)" = "Darwin"' 'source ~/.tmux-osx.conf'

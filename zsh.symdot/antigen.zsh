@@ -1,4 +1,4 @@
-ANTIGEN_COMPDUMPFILE=~/.zsh/.zcompdump
+export ANTIGEN_COMPDUMPFILE=~/.zsh/.zcompdump
 
 source /usr/local/share/antigen.zsh
 
@@ -14,7 +14,7 @@ antigen bundle zsh-users/zsh-syntax-highlighting
 
 # Theme
 antigen theme agnoster
-source ~/.zsh/fix.zsh
+source ~/.zsh/fix-theme.zsh
 
 # Apply settings
 antigen apply
