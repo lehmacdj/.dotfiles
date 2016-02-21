@@ -1,3 +1,5 @@
+ANTIGEN_COMPDUMPFILE=~/.zsh/.zcompdump
+
 source /usr/local/share/antigen.zsh
 
 # Bundles
