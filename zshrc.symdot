@@ -7,8 +7,9 @@ source ~/.zsh/env.zsh
 source ~/.zsh/path.zsh
 source ~/.zsh/antigen.zsh
 source ~/.zsh/zsh_hooks.zsh
+source ~/.zsh/opam.zsh
 
-# Deprecated things
+# Possibly up and comming things
 # source ~/.zsh/prompt.zsh
 
 # Not quite sure what this does
