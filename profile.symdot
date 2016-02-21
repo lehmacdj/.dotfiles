@@ -11,8 +11,8 @@ if [ -n "$BASH_VERSION" ]; then
 fi
 
 # set system uname variables
-if [ $(uname) == "Darwin" ]; then
-    DARWIN=1
+if [ $(uname) = "Darwin" ]; then
+    export DARWIN=1
 fi
 
 # Set up various shell environment variables
