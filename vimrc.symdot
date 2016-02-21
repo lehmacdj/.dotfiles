@@ -10,6 +10,9 @@ if filereadable("~/.vim/local.vim")
     source ~/.vim/local.vim
 endif
 
+" encoding
+set encoding=utf8
+
 " Tabbing
 set tabstop=4
 set shiftwidth=4

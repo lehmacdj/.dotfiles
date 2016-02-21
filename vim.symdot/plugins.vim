@@ -3,9 +3,11 @@ call plug#begin('~/.vim/plugged')
 " General Plugins
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-repeat'
+Plug 'vim-airline/vim-airline'
 Plug 'scrooloose/nerdtree' 
     \| Plug 'Xuyuanp/nerdtree-git-plugin'
     \| Plug 'ivalkeen/nerdtree-execute'
+    \| Plug 'ryanoasis/vim-devicons'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-fugitive'
 Plug 'scrooloose/syntastic'
@@ -46,3 +48,6 @@ nnoremap <silent> <Leader>n :NERDTreeToggle<cr>
 syntax enable
 set background=dark
 colorscheme solarized
+
+" vim-devicons
+let g:airline_powerline_fonts = 1
