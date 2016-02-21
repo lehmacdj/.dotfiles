@@ -1,5 +1,5 @@
 # Set default shell
-set-option -g default-shell zsh
+set-option -g default-shell $SHELL
 
 # Rebind Prefix Key
 unbind-key C-b
