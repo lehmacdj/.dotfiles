@@ -38,7 +38,7 @@ if [ -n "$DARWIN" ]; then
     # Symlink OS X specific files
     tolink=$(find -H "$DOTFILES" -maxdepth 3 -name '*.symdot.osx')
     for file in $tolink; do
-        target="$HOME/.$(basename $file ".symdot")"
+        target="$HOME/.$(basename $file ".symdot.osx")"
         if [ -e "$target" -o -h "$target" ]; then
             echo "~${target#$HOME} exists... Skipping."
         else
