@@ -4,6 +4,8 @@ call plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-repeat'
 Plug 'vim-airline/vim-airline'
+    \| Plug 'vim-airline/vim-airline-themes'
+Plug 'edkolev/tmuxline.vim'
 Plug 'scrooloose/nerdtree' 
     \| Plug 'Xuyuanp/nerdtree-git-plugin'
     \| Plug 'ivalkeen/nerdtree-execute'
@@ -15,13 +17,13 @@ Plug 'scrooloose/syntastic'
 " Webdev plugins
 Plug 'othree/html5.vim'
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-markdown'
 Plug 'cakebaker/scss-syntax.vim'
 
 " Other filetype specific
 Plug 'lervag/vimtex'
 Plug 'keith/tmux.vim'
 Plug 'xu-cheng/brew.vim'
-" Plug 'def-lkb/ocp-indent-vim'
 
 " Solarized
 Plug 'altercation/vim-colors-solarized'
