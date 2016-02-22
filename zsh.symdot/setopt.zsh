@@ -34,10 +34,13 @@ setopt COMPLETE_IN_WORD
 # When completing from the middle of a word, move the cursor to the end of the word
 setopt ALWAYS_TO_END            
 
+# Make shift-tab work properly
+setopt MENU_COMPLETE
+
 # ===== Prompt
 
 # Enable parameter expansion, command substitution, and arithmetic expansion in the prompt
 setopt PROMPT_SUBST
 
 # Get rid of beeping
-unsetopt beep
+unsetopt BEEP
