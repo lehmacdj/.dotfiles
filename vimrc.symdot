@@ -1,7 +1,6 @@
 " Initialize and configure plugins
 source ~/.vim/plugins.vim
 
-
 filetype plugin indent on
 syntax on
 
