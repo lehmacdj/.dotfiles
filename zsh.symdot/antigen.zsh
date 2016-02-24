@@ -8,6 +8,7 @@ antigen bundle command-not-found
 antigen bundle brew
 antigen bundle brew-cask
 antigen bundle man
+antigen bundle vagrant
 
 # Syntax
 antigen bundle zsh-users/zsh-syntax-highlighting

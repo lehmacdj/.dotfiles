@@ -1,5 +1,5 @@
 # backwards search through completions
-bindkey '^[[Z' reverse-menu-complete
+bindkey -M menuselect '[Z' reverse-menu-complete
 
 # Use vi-mode
 bindkey -v
