@@ -61,7 +61,6 @@ nnoremap <Leader>sv :source $MYVIMRC<cr>
 
 
 " Keybindings for Escape
-inoremap jj <esc>
 inoremap jk <esc>
 
 " Convenience mappings
