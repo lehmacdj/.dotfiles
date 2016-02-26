@@ -86,3 +86,6 @@ nnoremap <silent> <Leader>8 :call <SID>ToggleColorColumn()<cr>
 
 " Easy macro-replay
 nnoremap Q @q
+
+" make Y more logical
+nnoremap Y y$
