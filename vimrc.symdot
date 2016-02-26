@@ -26,7 +26,6 @@ set mouse=a
 set so=4
 set showcmd
 set number
-set relativenumber
 
 " Splits
 set splitright

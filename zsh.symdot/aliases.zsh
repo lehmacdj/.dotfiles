@@ -14,6 +14,14 @@ alias ls='ls --color=auto'
 alias dspurge='find . -name .DS_Store -delete'
 alias bc='bc -l'
 
+# editing of things
+alias vial='vi ~/.zsh/aliases.zsh'
+alias virc='vi ~/.zshrc'
+alias vizh='vi ~/.zsh'
+
+# latexmk
+alias latexmk='latexmk -pdf'
+
 if [ -f "/usr/libexec/java_home" ]; then
     # Sets the version to the specified version
     # Kind of actually just a glorified alias to /usr/libexed/java_home
