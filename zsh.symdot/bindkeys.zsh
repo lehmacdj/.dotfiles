@@ -7,6 +7,11 @@ bindkey -v
 # make backspace work
 bindkey '^?' backward-delete-char
 
+# Make editor invoking work
+autoload edit-command-line
+zle -N edit-command-line
+bindkey -M vicmd v edit-command-line
+
 # Bind jk to escape
 bindkey -M viins 'jk' vi-cmd-mode
 # Make key timeout smaller so switch is faster

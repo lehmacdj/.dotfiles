@@ -22,6 +22,10 @@ alias vizh='vi ~/.zsh'
 # latexmk
 alias latexmk='latexmk -pdf'
 
+# Directory aliases
+hash -d 2800=~/Documents/cornell/2/2800
+hash -d cornell=~/Documents/cornell/2/
+
 if [ -f "/usr/libexec/java_home" ]; then
     # Sets the version to the specified version
     # Kind of actually just a glorified alias to /usr/libexed/java_home
