@@ -13,6 +13,13 @@ Plug 'scrooloose/nerdtree'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-fugitive'
 Plug 'scrooloose/syntastic'
+Plug 'airblade/vim-gitgutter'
+
+" vim-vim-plugins
+Plug 'tpope/vim-scriptease'
+
+" R plugins
+Plug 'vim-scripts/csv.vim'
 
 " Webdev plugins
 Plug 'othree/html5.vim'

@@ -9,6 +9,9 @@ if filereadable("~/.vim/local.vim")
     source ~/.vim/local.vim
 endif
 
+" make vim completion better
+set wildmode=longest:full,full
+
 " encoding
 set encoding=utf8
 
