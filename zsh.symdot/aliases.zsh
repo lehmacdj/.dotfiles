@@ -24,7 +24,7 @@ alias latexmk='latexmk -pdf'
 
 # Directory aliases
 hash -d 2800=~/Documents/cornell/2/2800
-hash -d cornell=~/Documents/cornell/2/
+hash -d 1440=~/Documents/cornell/2/1440
 
 if [ -f "/usr/libexec/java_home" ]; then
     # Sets the version to the specified version
