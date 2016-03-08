@@ -22,6 +22,9 @@ alias vizh='vi ~/.zsh'
 # latexmk
 alias latexmk='latexmk -pdf'
 
+# General convenience of things
+alias gpg="gpg2"
+
 # Directory aliases
 hash -d 2800=~/Documents/cornell/2/2800
 hash -d 1440=~/Documents/cornell/2/1440
