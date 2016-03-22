@@ -1,3 +1,6 @@
+# Devin Lehmacher
+# A hacky script to use apple script to change the volume on OS X computers
+#
 #!/bin/bash
 if [ "$1" == "mute" -o "$1" == "m" ]; then
     osascript -e "set volume with output muted"
