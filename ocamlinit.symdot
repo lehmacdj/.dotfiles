@@ -4,3 +4,4 @@ let () =
   with Not_found -> ()
 ;;
 
+#directory "+compiler-libs";;
