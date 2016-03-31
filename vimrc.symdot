@@ -41,6 +41,9 @@ set smartcase
 " Buffers
 set hidden
 
+" GUI
+set guifont=Hack\ Regular:h14
+
 " Completion
 set omnifunc=syntaxcomplete#Complete
 inoremap <NUL> <C-x><C-o>
