@@ -95,3 +95,6 @@ nnoremap Q @q
 
 " make Y more logical
 nnoremap Y y$
+
+" Add a mapping to show buffers
+nnoremap <silent> <Leader>b :buffers<cr>
