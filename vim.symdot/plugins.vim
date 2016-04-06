@@ -62,3 +62,12 @@ call togglebg#map("<F3>")
 
 " vim-devicons
 let g:airline_powerline_fonts = 1
+
+" merlin
+let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
+execute "set rtp+=" . g:opamshare . "/merlin/vim"
+execute "helptags " . g:opamshare . "/merlin/vim/doc"
+let g:syntastic_ocaml_checkers = ['merlin']
+
+" ocp-indent
+set rtp^="/Users/devin/.opam/4.02.3/share/ocp-indent/vim"
