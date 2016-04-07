@@ -1,7 +1,6 @@
 call plug#begin('~/.vim/plugged')
 
 " General Plugins
-Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-eunuch'
 Plug 'vim-airline/vim-airline'
