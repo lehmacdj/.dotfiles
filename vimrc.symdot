@@ -11,6 +11,7 @@ endif
 
 " make vim completion better
 set wildmode=longest:full,full
+set wildmenu
 
 " encoding
 set encoding=utf8
