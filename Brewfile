@@ -29,7 +29,7 @@ brew 'universal-ctags', args: %w[HEAD]
 brew 'youtube-dl'
 brew 'ffmpeg', args: %w[--with-libvpx --with-libvorbis]
 brew 'opam'
-
+brew 'gcc', args: %w[--with-all-languages]
 
 # Cask
 tap 'caskroom/cask'
