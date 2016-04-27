@@ -7,6 +7,7 @@ vim.*/*
 
 # zsh
 zsh.*/.*
+zsh.*/cache/
 
 # Local files
 *.local*

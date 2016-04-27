@@ -1,17 +1,24 @@
 [user]
-	name = Devin Lehmacher
-	email = lehmacdj@gmail.com
+    name = Devin Lehmacher
+    email = lehmacdj@gmail.com
 [push]
-	default = simple
+    default = simple
 [core]
-	excludesfile = ~/.gitignore_global
+    excludesfile = ~/.gitignore_global
 [alias]
+    # Convenient aliases
+    status = status -sb
+    unstage = reset -q HEAD --
+    amend = commit --amend
+    last = log -1 HEAD
+    discard = checkout --
+    graph = log --graph -10 --branches --remotes --tags  --format=format: '%Cgreen%h %Creset• %<(75,trunc)%s (%cN, %cr) %Cred%d' --date-order
+    precommit = diff --cached --diff-algorithm=minimal -w
+    nevermind = !get reset --hard HEAD && git clean -d -f
+    # Shortcuts
     s = status -sb
     a = add
     pl = pull
     pu = push
-	last = log -1 HEAD
-	unstage = reset HEAD --
-	amend = commit --amend
     co = checkout
     ci = commit
