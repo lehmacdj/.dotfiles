@@ -51,7 +51,7 @@ let g:NERDTreeIndicatorMapCustom = {
     \ "Clean"     : "✔︎",
     \ "Unknown"   : "?"
     \ }
-nnoremap <silent> <Leader>n :NERDTreeToggle<cr>
+nnoremap <Leader>n :NERDTreeToggle<cr>
 
 " Solarized
 syntax enable
