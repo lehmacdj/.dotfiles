@@ -54,8 +54,13 @@ set undolevels=1000
 
 " Completion
 set omnifunc=syntaxcomplete#Complete
-inoremap <NUL> <C-x><C-o>
-" set completeopt=longest
+" inoremap <NUL> <C-x><C-o>
+set completeopt=longest,menuone
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
+  \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+inoremap <expr> <NUL> pumvisible() ? '<C-n>' :
+  \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
 
 " Make backspace behave the way I expect
 set backspace=indent,eol,start
