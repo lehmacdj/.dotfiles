@@ -25,9 +25,13 @@ alias latexmk='latexmk -pdf'
 # General convenience of things
 alias gpg="gpg2"
 
+# Exit like vim
+alias :q="exit"
+
 # Directory aliases
 hash -d 2800=~/Documents/cornell/2/2800
 hash -d 1440=~/Documents/cornell/2/1440
+hash -d 1500=~/Documents/cornell/2/1500
 
 if [ -f "/usr/libexec/java_home" ]; then
     # Sets the version to the specified version
