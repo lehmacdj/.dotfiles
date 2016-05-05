@@ -1,0 +1,5 @@
+#!/bin/bash
+#
+# Moves to the current location but on its real path
+
+cd "$(realpath "$PWD")" || exit
