@@ -18,9 +18,9 @@ if [ $(brew -v >/dev/null 2>&1) ]; then
 
     # Deal with coreutils if installed
     [ -d "$BREW_PREFIX/opt/coreutils/libexec/gnubin" ] &&
-        PATH="$BREW_PREFIX/opt/coreutils/libexec/gnubin"
+        PATH="$BREW_PREFIX/opt/coreutils/libexec/gnubin:$PATH"
     [ -d "$BREW_PREFIX/opt/coreutils/libexec/gnuman" ] &&
-        MANPATH="$BREW_PREFIX/opt/coreutils/libexec/gnuman"
+        MANPATH="$BREW_PREFIX/opt/coreutils/libexec/gnuman:$PATH"
 fi
 
 if [ "$LINUX" ] && [ -d "$HOME/brew" ]; then
