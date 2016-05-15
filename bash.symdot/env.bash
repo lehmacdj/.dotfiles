@@ -11,22 +11,22 @@ export VISUAL='vim'
 [ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
 
 # Homebrew
-if [ $(brew -v) ]; then
+if [ $(brew -v >/dev/null 2>&1) ]; then
     BREW_PREFIX=$(brew --prefix)
 
     PATH="$BREW_PREFIX/bin:$PATH"
-    
-    # Deal with coreutils if installed
-    [ -d "$BREW_PREFIX/opt/coreutils/libexec/gnubin" ]
-        && PATH="$BREW_PREFIX/opt/coreutils/libexec/gnubin"
-    [ -d "$BREW_PREFIX/opt/coreutils/libexec/gnuman" ]
-        && MANPATH="$BREW_PREFIX/opt/coreutils/libexec/gnuman"
 
-    # If homebrew is installed on linux we also need to update build variables
-    if [ "$LINUX" ]; then
-        export CPATH="$BREW_PREFIX/include:$CPATH"
-        export LD_LIBRARY_PATH="$BREW_PREFIX/lib:$LD_LIBRARY_PATH"
-    fi
+    # Deal with coreutils if installed
+    [ -d "$BREW_PREFIX/opt/coreutils/libexec/gnubin" ] &&
+        PATH="$BREW_PREFIX/opt/coreutils/libexec/gnubin"
+    [ -d "$BREW_PREFIX/opt/coreutils/libexec/gnuman" ] &&
+        MANPATH="$BREW_PREFIX/opt/coreutils/libexec/gnuman"
+fi
+
+if [ "$LINUX" ] && [ -d "$HOME/brew" ]; then
+    export PATH="$HOME/brew/bin:$PATH"
+    export CPATH="$HOME/brew/include:$CPATH"
+    export LD_LIBRARY_PATH="$HOME/brew/lib:$LD_LIBRARY_PATH"
 fi
 
 [ -f "$HOME/bin/consolidate-path" ] && PATH="$(consolidate-path "$PATH")"

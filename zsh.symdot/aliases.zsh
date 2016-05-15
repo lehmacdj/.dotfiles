@@ -16,8 +16,6 @@ alias bc='bc -l'
 
 # editing of things
 alias vial='vi ~/.zsh/aliases.zsh'
-alias virc='vi ~/.zshrc'
-alias vizh='vi ~/.zsh'
 
 # latexmk
 alias latexmk='latexmk -pdf'
