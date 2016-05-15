@@ -51,7 +51,7 @@ fi
 # The settings folder of the workspace will be deleted and symlinked to
 # The template workspace at ~/.templates/eclipse
 function eclset () {
-    present_dir=`pwd`
+    present_dir="$PWD"
     cd  $1/.metadata/.plugins/org.eclipse.core.runtime
     rm -rf .settings
     ln -s ~/.templates/eclipse/.metadata/.plugins/org.eclipse.core.runtime/.settings .settings
@@ -95,6 +95,14 @@ gittree() {
 
     echo
   done
+}
+
+function up () {
+    count="$1"
+    while [ "$count" -gt 0 ]; do
+        cd ..
+        ((count--))
+    done
 }
 
 if [ -f "$HOME/.aliases.local" ]; then

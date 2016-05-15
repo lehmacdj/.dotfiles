@@ -42,6 +42,7 @@ cask 'skype'
 cask 'vagrant'
 cask 'iterm2'
 cask 'quicksilver'
+cask 'jadengeller-helium'
 
 # Quicklook -- make quicklook better / more useful
 cask 'qlstephen'

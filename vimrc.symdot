@@ -111,3 +111,7 @@ nnoremap Y y$
 
 " Add a mapping to show buffers
 nnoremap <silent> <Leader>b :buffers<cr>
+
+" add a mapping for spelling stuff
+" (I should probably move this to a spell plugin and load that through vim-plug)
+nnoremap <Leader>z 1z=
