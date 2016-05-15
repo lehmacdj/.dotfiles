@@ -1,19 +1,30 @@
-#!/bin/bash
+# Configure aliases and functions
 
-# Aliases -- These are sourced in .profile
-
+# grep
 alias grep='grep --color=auto'
+
+# ls
 alias l='ls -CF'
 alias la='ls -A'
 alias ll='ls -alF'
 alias l.='ls -d .*'
 alias ls='ls --color=auto'
 
+# other
 alias dspurge='find . -name .DS_Store -delete'
-alias vipr='vi ~/.profile'
-alias vial='vi ~/.aliases' 
-alias bc='bc -l' 
-# Functions -- Slightly longer things than aliases
+alias bc='bc -l'
+
+# editing of things
+alias vial='vim ~/.bash/aliases.bash'
+
+# latexmk
+alias latexmk='latexmk -pdf'
+
+# General convenience of things
+alias gpg="gpg2"
+
+# Exit like vim
+alias :q="exit"
 
 if [ -f "/usr/libexec/java_home" ]; then
     # Sets the version to the specified version
@@ -48,12 +59,36 @@ function swap () {
     mv $TMPFILE "$2"
 }
 
-if [ -n $DARWIN ]; then
-    function which () {
-        (alias; declare -f) | /usr/local/bin/gwhich --tty-only --read-alias --read-functions --show-tilde --show-dot $@
-    }
-    export -f which
-fi
+# Recursively traverse directory tree for git repositories, run git command
+# e.g.
+#   gittree status
+#   gittree diff
+gittree() {
+  if [ $# -lt 1 ]; then
+    echo "Usage: gittree <command>"
+    return 1
+  fi
+
+  for gitdir in $(find . -type d -name .git); do
+    # Display repository name in blue
+    repo=$(dirname $gitdir)
+    echo -e "\033[34m$repo\033[0m"
+
+    # Run git command in the repositories directory
+    cd $repo && git $@
+    ret=$?
+
+    # Return to calling directory (ignore output)
+    cd - > /dev/null
+
+    # Abort if cd or git command fails
+    if [ $ret -ne 0 ]; then
+      return 1
+    fi
+
+    echo
+  done
+}
 
 if [ -f "$HOME/.aliases.local" ]; then
     source "$HOME/.aliases.local"
