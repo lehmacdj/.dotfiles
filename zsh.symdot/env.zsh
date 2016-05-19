@@ -39,3 +39,6 @@ if [ -f "$HOME/.opam/opam-init/init.sh" ]; then
     source "$HOME/.opam/opam-init/init.sh" > /dev/null 2>&1 || true
     eval $(opam config env)
 fi
+
+# Make applications go to the right spot by default
+export HOMEBREW_CASK_OPTS='--appdir=/Applications'
