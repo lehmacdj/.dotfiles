@@ -6,7 +6,7 @@ Plug 'tpope/vim-eunuch'
 Plug 'vim-airline/vim-airline'
     \| Plug 'vim-airline/vim-airline-themes'
 Plug 'edkolev/tmuxline.vim'
-Plug 'scrooloose/nerdtree' 
+Plug 'scrooloose/nerdtree'
     \| Plug 'Xuyuanp/nerdtree-git-plugin'
     \| Plug 'ivalkeen/nerdtree-execute'
     \| Plug 'ryanoasis/vim-devicons'
@@ -62,13 +62,14 @@ call togglebg#map("<F3>")
 " vim-devicons
 let g:airline_powerline_fonts = 1
 
-" merlin
-if filereadable("~/.opam/")
-    let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
+" ocaml configuration dependent on opam
+let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
+if v:shell_error == 0
+    " merlin
     execute "set rtp+=" . g:opamshare . "/merlin/vim"
     execute "helptags " . g:opamshare . "/merlin/vim/doc"
     let g:syntastic_ocaml_checkers = ['merlin']
-endif
 
-" ocp-indent
-set rtp^="/Users/devin/.opam/4.02.3/share/ocp-indent/vim"
+    " ocp-indent
+    execute "set rtp+=" . g:opamshare . "/ocp-indent/vim"
+endif

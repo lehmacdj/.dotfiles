@@ -7,11 +7,14 @@ export VISUAL='vim'
 [ $(uname) = "Linux" ] && export LINUX=1
 
 # Path configuration
+# Local bin
+PATH="/usr/local/bin:$PATH"
+
 # Private bin
 [ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
 
 # Homebrew
-if [ $(brew -v >/dev/null 2>&1) ]; then
+if [ "$(brew -v)" ]; then
     BREW_PREFIX=$(brew --prefix)
 
     PATH="$BREW_PREFIX/bin:$PATH"
@@ -20,7 +23,7 @@ if [ $(brew -v >/dev/null 2>&1) ]; then
     [ -d "$BREW_PREFIX/opt/coreutils/libexec/gnubin" ] &&
         PATH="$BREW_PREFIX/opt/coreutils/libexec/gnubin:$PATH"
     [ -d "$BREW_PREFIX/opt/coreutils/libexec/gnuman" ] &&
-        MANPATH="$BREW_PREFIX/opt/coreutils/libexec/gnuman:$PATH"
+        MANPATH="$BREW_PREFIX/opt/coreutils/libexec/gnuman:$MANPATH"
 fi
 
 if [ "$LINUX" ] && [ -d "$HOME/brew" ]; then

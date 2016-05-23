@@ -21,13 +21,12 @@ if [ "$(brew -v)" ]; then
         PATH="$BREW_PREFIX/opt/coreutils/libexec/gnubin:$PATH"
     [ -d "$BREW_PREFIX/opt/coreutils/libexec/gnuman" ] &&
         MANPATH="$BREW_PREFIX/opt/coreutils/libexec/gnuman:$MANPATH"
-
 fi
 
-if [ "$LINUX" ]; then
+if [ "$LINUX" ] && [ -d "$HOME/brew" ]; then
     export PATH="$HOME/brew/bin:$PATH"
-    export CPATH="$BREW_PREFIX/include:$CPATH"
-    export LD_LIBRARY_PATH="$BREW_PREFIX/lib:$LD_LIBRARY_PATH"
+    export CPATH="$HOME/brew/include:$CPATH"
+    export LD_LIBRARY_PATH="$HOME/brew/lib:$LD_LIBRARY_PATH"
 fi
 
 [ -f "$HOME/bin/consolidate-path" ] && PATH="$(consolidate-path "$PATH")"
