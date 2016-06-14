@@ -13,9 +13,5 @@ antigen bundle vagrant
 # Syntax
 antigen bundle zsh-users/zsh-syntax-highlighting
 
-# Theme
-antigen theme agnoster
-source ~/.zsh/fix-theme.zsh
-
 # Apply settings
 antigen apply

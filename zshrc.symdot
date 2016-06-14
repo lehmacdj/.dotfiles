@@ -5,6 +5,7 @@ source ~/.zsh/bindkeys.zsh
 source ~/.zsh/history.zsh
 source ~/.zsh/env.zsh
 source ~/.zsh/antigen.zsh
+source ~/.zsh/theme.zsh
 source ~/.zsh/zsh_hooks.zsh
 
 # Possibly up and comming things
