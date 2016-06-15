@@ -227,4 +227,4 @@ build_prompt() {
 
 PROMPT='%{%f%b%k%}$(build_prompt) '
 
-export DEFAULT_USER='devin'
+export DEFAULT_USER="$(whoami)"
