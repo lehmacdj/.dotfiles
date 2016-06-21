@@ -84,7 +84,7 @@ inoremap jk <esc>
 " Convenience mappings
 
 " Force save a file
-cmap W w !sudo tee % >/dev/null
+cmap W! w !sudo tee % >/dev/null
 
 " trim whitespace from end of lines
 nnoremap <Leader>t<space> :%s/\s\+$//<cr>
