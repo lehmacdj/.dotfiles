@@ -2,6 +2,7 @@
 
 source "$HOME/.bash/env.bash"
 source "$HOME/.bash/aliases.bash"
+source "$HOME/.bash/theme.bash"
 
 if [ -f "/usr/local/etc/bash_completion" ]; then
     # set up bash-completion
