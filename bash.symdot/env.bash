@@ -14,7 +14,7 @@ PATH="/usr/local/bin:$PATH"
 [ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
 
 # Homebrew
-if [ "$(brew -v)" ]; then
+if [ "$(brew -v >/dev/null 2>&1)" ]; then
     BREW_PREFIX=$(brew --prefix)
 
     PATH="$BREW_PREFIX/bin:$PATH"
