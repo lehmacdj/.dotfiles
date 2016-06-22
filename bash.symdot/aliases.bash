@@ -26,13 +26,16 @@ alias gpg="gpg2"
 # Exit like vim
 alias :q="exit"
 
+# Edit like vim
+alias :e="\$EDITOR"
+
 if [ -f "/usr/libexec/java_home" ]; then
     # Sets the version to the specified version
     # Kind of actually just a glorified alias to /usr/libexed/java_home
     # use -v <version> to set the version to the specified version
     function jhome () {
-        export JAVA_HOME=`/usr/libexec/java_home $@`
-        echo "JAVA_HOME:" $JAVA_HOME
+        export JAVA_HOME="$(/usr/libexec/java_home "$@")"
+        echo "JAVA_HOME:" "$JAVA_HOME"
         echo "java -version:"
         java -version
     }
@@ -44,11 +47,11 @@ fi
 # The settings folder of the workspace will be deleted and symlinked to
 # The template workspace at ~/.templates/eclipse
 function eclset () {
-    present_dir=`pwd`
+    present_dir=$(pwd)
     cd  $1/.metadata/.plugins/org.eclipse.core.runtime
     rm -rf .settings
     ln -s ~/.templates/eclipse/.metadata/.plugins/org.eclipse.core.runtime/.settings .settings
-    cd $present_dir
+    cd "$present_dir"
 }
 
 # Swaps the location of two files
