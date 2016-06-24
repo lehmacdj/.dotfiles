@@ -65,6 +65,8 @@ inoremap <expr> <NUL> pumvisible() ? '<C-n>' :
 " Make backspace behave the way I expect
 set backspace=indent,eol,start
 
+set fileformat=unix
+
 " Define the map Leader
 let mapleader=" "
 
