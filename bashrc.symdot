@@ -1,8 +1,11 @@
 #!/bin/bash
 
-source "$HOME/.bash/env.bash"
-source "$HOME/.bash/aliases.bash"
-source "$HOME/.bash/theme.bash"
+export DOTFILES="$HOME/.dotfiles/"
+
+source "$DOTFILES/bash/env.bash"
+source "$DOTFILES/bash/aliases.bash"
+source "$DOTFILES/bash/theme.bash"
+source "$DOTFILES/bash/settings.bash"
 
 if [ -f "/usr/local/etc/bash_completion" ]; then
     # set up bash-completion
