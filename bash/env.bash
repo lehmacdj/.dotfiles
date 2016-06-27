@@ -16,7 +16,7 @@ export VISUAL='vim'
 [ -d "$DOTFILES/bin" ] && PATH="$DOTFILES/bin:$PATH"
 
 # Homebrew
-if [ $(which brew) ]; then
+if [ $(which brew >/dev/null 2>&1) ]; then
     BREW_PREFIX=$(brew --prefix)
 
     PATH="$BREW_PREFIX/bin:$PATH"
