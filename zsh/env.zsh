@@ -10,8 +10,11 @@ export VISUAL='vim'
 # Private bin
 [ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
 
+# Dotfiles bin
+[ -d "$DOTFILES/bin" ] && PATH="$DOTFILES/bin:$PATH"
+
 # Homebrew
-if [ "$(brew -v)" ]; then
+if [ "$(brew -v >/dev/null 2>&1)" ]; then
     BREW_PREFIX=$(brew --prefix)
 
     PATH="$BREW_PREFIX/bin:$PATH"
@@ -38,6 +41,3 @@ if [ -f "$HOME/.opam/opam-init/init.sh" ]; then
     source "$HOME/.opam/opam-init/init.sh" > /dev/null 2>&1 || true
     eval $(opam config env)
 fi
-
-# Make applications go to the right spot by default
-export HOMEBREW_CASK_OPTS='--appdir=/Applications'

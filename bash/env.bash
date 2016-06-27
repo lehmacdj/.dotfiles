@@ -1,17 +1,19 @@
+#!/bin/bash
+
 # Editor variables
 export EDITOR='vim'
 export VISUAL='vim'
 
 # System name
-[ $(uname) = "Darwin" ] && export DARWIN=1
-[ $(uname) = "Linux" ] && export LINUX=1
+[ "$(uname)" = "Darwin" ] && export DARWIN=1
+[ "$(uname)" = "Linux" ] && export LINUX=1
 
 # Path configuration
-# Local bin
-PATH="/usr/local/bin:$PATH"
-
 # Private bin
 [ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
+
+# Dotfiles bin
+[ -d "$DOTFILES/bin" ] && PATH="$DOTFILES/bin:$PATH"
 
 # Homebrew
 if [ "$(brew -v >/dev/null 2>&1)" ]; then
@@ -39,5 +41,5 @@ export PATH
 # OCaml/OPAM configuration
 if [ -f "$HOME/.opam/opam-init/init.sh" ]; then
     source "$HOME/.opam/opam-init/init.sh" > /dev/null 2>&1 || true
-    eval $(opam config env)
+    eval "$(opam config env)"
 fi
