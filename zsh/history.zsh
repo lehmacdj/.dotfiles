@@ -1,7 +1,7 @@
 # HISTORY
 HISTSIZE=100000
 SAVEHIST=100000
-HISTFILE=~/.zsh/.zhistory
+HISTFILE="$DOTFILES/zsh/.zhistory"
 
 # Allow multiple terminal sessions to all append to one zsh command history
 setopt APPEND_HISTORY 

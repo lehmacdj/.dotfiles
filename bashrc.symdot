@@ -1,10 +1,10 @@
 #!/bin/bash
 
-export DOTFILES="$HOME/.dotfiles/"
+export DOTFILES="$HOME/.dotfiles"
 
 source "$DOTFILES/bash/env.bash"
 source "$DOTFILES/bash/aliases.bash"
-source "$DOTFILES/bash/theme.bash"
+source "$DOTFILES/bash/prompt.bash"
 source "$DOTFILES/bash/settings.bash"
 
 if [ -f "/usr/local/etc/bash_completion" ]; then

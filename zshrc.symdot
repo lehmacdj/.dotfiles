@@ -1,5 +1,5 @@
 # Set the location of the dotfiles
-export DOTFILES="$HOME/.dotfiles/"
+export DOTFILES="$HOME/.dotfiles"
 
 source "$DOTFILES/zsh/env.zsh"
 source "$DOTFILES/zsh/setopt.zsh"
