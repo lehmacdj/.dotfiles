@@ -1,17 +1,24 @@
 call plug#begin('~/.vim/plugged')
 
-" General Plugins
+" Motion Plugins
+Plug 'wellle/targets.vim'
+Plug 'tpope/vim-surround'
+Plug 'justinmk/vim-sneak'
 Plug 'tpope/vim-repeat'
+
+" Convenience Plugins
 Plug 'tpope/vim-eunuch'
-Plug 'vim-airline/vim-airline'
-    \| Plug 'vim-airline/vim-airline-themes'
-Plug 'edkolev/tmuxline.vim'
+Plug 'christoomey/vim-tmux-navigator'
+Plug 'tpope/vim-fugitive'
+
+" UI Plugins
 Plug 'scrooloose/nerdtree'
     \| Plug 'Xuyuanp/nerdtree-git-plugin'
     \| Plug 'ivalkeen/nerdtree-execute'
     \| Plug 'ryanoasis/vim-devicons'
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'tpope/vim-fugitive'
+Plug 'vim-airline/vim-airline'
+    \| Plug 'vim-airline/vim-airline-themes'
+Plug 'edkolev/tmuxline.vim'
 Plug 'scrooloose/syntastic'
 Plug 'airblade/vim-gitgutter'
 
@@ -23,7 +30,6 @@ Plug 'vim-scripts/csv.vim'
 
 " Webdev plugins
 Plug 'othree/html5.vim'
-Plug 'tpope/vim-surround'
 Plug 'tpope/vim-markdown'
 Plug 'cakebaker/scss-syntax.vim'
 
