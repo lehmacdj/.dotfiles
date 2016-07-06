@@ -23,8 +23,12 @@ alias latexmk='latexmk -pdf'
 # General convenience of things
 alias gpg="gpg2"
 
-# Exit like vim
+# Vimlike commandline bindings
 alias :q="exit"
+alias :e="\$EDITOR"
+
+# Ed!
+alias ed="ed -p:"
 
 # Directory aliases
 hash -d 2800=~/Documents/cornell/2/2800

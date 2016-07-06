@@ -1,3 +1,5 @@
+#!/bin/bash
+#
 # Configure aliases and functions
 
 # grep
@@ -23,11 +25,12 @@ alias latexmk='latexmk -pdf'
 # General convenience of things
 alias gpg="gpg2"
 
-# Exit like vim
+# Vimlike commandline bindings
 alias :q="exit"
-
-# Edit like vim
 alias :e="\$EDITOR"
+
+# Ed!
+alias ed="ed -p:"
 
 if [ -f "/usr/libexec/java_home" ]; then
     # Sets the version to the specified version

@@ -16,3 +16,7 @@ bindkey -M vicmd v edit-command-line
 bindkey -M viins 'jk' vi-cmd-mode
 # Make key timeout smaller so switch is faster
 export KEYTIMEOUT=10
+
+# Make ^R work as expected
+bindkey -M viins '^R' history-incremental-search-backward
+bindkey -M vicmd '^R' history-incremental-search-backward
