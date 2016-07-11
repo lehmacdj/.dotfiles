@@ -25,6 +25,9 @@ Plug 'airblade/vim-gitgutter'
 " vim-vim-plugins
 Plug 'tpope/vim-scriptease'
 
+" perl-plugins
+Plug 'vim-perl/vim-perl'
+
 " R plugins
 Plug 'vim-scripts/csv.vim'
 
