@@ -15,7 +15,7 @@ alias dspurge='find . -name .DS_Store -delete'
 alias bc='bc -l'
 
 # editing of things
-alias vial='vi ~/.zsh/aliases.zsh'
+alias vial='vi ~/.dotfiles/zsh/aliases.zsh'
 
 # latexmk
 alias latexmk='latexmk -pdf'
@@ -29,6 +29,10 @@ alias :e="\$EDITOR"
 
 # Ed!
 alias ed="ed -p:"
+
+# Why not!
+alias kitten="curl -s https://placekitten.com/\$(shuf -i 100-1000 -n 1)/\
+\$(shuf -i 100-1000 -n 1) | imgcat"
 
 # Directory aliases
 hash -d 2800=~/Documents/cornell/2/2800
