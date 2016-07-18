@@ -92,16 +92,12 @@ cmap W! w !sudo tee % >/dev/null
 nnoremap <Leader>t<space> :%s/\s\+$//<cr>
 
 " Show / Toggle colorcolumn
-set colorcolumn=0
-let s:color_column_old = 81
+set colorcolumn=81
+let s:color_column_old = 0
 function! s:ToggleColorColumn()
-    if s:color_column_old == 0
-        let s:color_column_old = &colorcolumn
-        windo let &colorcolumn = 0
-    else
-        windo let &colorcolumn=s:color_column_old
-        let s:color_column_old = 0
-    endif
+    let l:tmp = &colorcolumn
+    windo let &colorcolumn = s:color_column_old
+    let s:color_column_old = l:tmp
 endfunction
 nnoremap <silent> <Leader>8 :call <SID>ToggleColorColumn()<cr>
 
