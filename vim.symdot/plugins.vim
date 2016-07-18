@@ -15,7 +15,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'scrooloose/nerdtree'
     \| Plug 'Xuyuanp/nerdtree-git-plugin'
     \| Plug 'ivalkeen/nerdtree-execute'
-    \| Plug 'ryanoasis/vim-devicons'
 Plug 'vim-airline/vim-airline'
     \| Plug 'vim-airline/vim-airline-themes'
 Plug 'edkolev/tmuxline.vim'
@@ -44,6 +43,8 @@ Plug 'xu-cheng/brew.vim'
 " Solarized
 Plug 'altercation/vim-colors-solarized'
 
+" Devicons
+Plug 'ryanoasis/vim-devicons'
 call plug#end()
 
 " Plugin configuration
