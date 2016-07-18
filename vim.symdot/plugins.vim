@@ -1,3 +1,6 @@
+" Use matchit builtin plugin
+runtime 'macros/matchit.vim'
+
 call plug#begin('~/.vim/plugged')
 
 " Motion Plugins
