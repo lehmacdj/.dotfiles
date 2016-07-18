@@ -17,7 +17,7 @@ alias dspurge='find . -name .DS_Store -delete'
 alias bc='bc -l'
 
 # editing of things
-alias vial='vim ~/.bash/aliases.bash'
+alias vial="\$EDITOR ~/.dotfiles/bash/aliases.bash"
 
 # latexmk
 alias latexmk='latexmk -pdf'
@@ -37,7 +37,8 @@ if [ -f "/usr/libexec/java_home" ]; then
     # Kind of actually just a glorified alias to /usr/libexed/java_home
     # use -v <version> to set the version to the specified version
     function jhome () {
-        export JAVA_HOME="$(/usr/libexec/java_home "$@")"
+        JAVA_HOME="$(/usr/libexec/java_home "$@")"
+        export JAVA_HOME
         echo "JAVA_HOME:" "$JAVA_HOME"
         echo "java -version:"
         java -version
@@ -51,10 +52,10 @@ fi
 # The template workspace at ~/.templates/eclipse
 function eclset () {
     present_dir=$(pwd)
-    cd  $1/.metadata/.plugins/org.eclipse.core.runtime
+    cd  "$1/.metadata/.plugins/org.eclipse.core.runtime" || exit
     rm -rf .settings
     ln -s ~/.templates/eclipse/.metadata/.plugins/org.eclipse.core.runtime/.settings .settings
-    cd "$present_dir"
+    cd "$present_dir" || exit
 }
 
 # Swaps the location of two files
@@ -77,15 +78,15 @@ gittree() {
 
   for gitdir in $(find . -type d -name .git); do
     # Display repository name in blue
-    repo=$(dirname $gitdir)
+    repo=$(dirname "$gitdir")
     echo -e "\033[34m$repo\033[0m"
 
     # Run git command in the repositories directory
-    cd $repo && git $@
+    cd "$repo" && git "$@"
     ret=$?
 
     # Return to calling directory (ignore output)
-    cd - > /dev/null
+    cd - > /dev/null || exit
 
     # Abort if cd or git command fails
     if [ $ret -ne 0 ]; then
