@@ -8,6 +8,7 @@ Plug 'wellle/targets.vim'
 Plug 'tpope/vim-surround'
 Plug 'justinmk/vim-sneak'
 Plug 'tpope/vim-repeat'
+Plug 'tommcdo/vim-exchange'
 
 " Convenience Plugins
 Plug 'tpope/vim-eunuch'
