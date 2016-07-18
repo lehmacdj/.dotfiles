@@ -1,4 +1,4 @@
-export ANTIGEN_COMPDUMPFILE=~/.zsh/.zcompdump
+export ANTIGEN_COMPDUMPFILE="$HOME/.dotfiles/zsh/.zcompdump"
 
 source /usr/local/share/antigen.zsh
 
