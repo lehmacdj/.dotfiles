@@ -43,6 +43,7 @@ cask 'iterm2'
 cask 'quicksilver'
 cask 'jadengeller-helium'
 cask 'appcleaner'
+cask '1password'
 
 # Quicklook -- make quicklook better / more useful
 cask 'qlstephen'
