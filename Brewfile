@@ -18,7 +18,7 @@ brew 'shellcheck'
 brew 'tmux'
 brew 'reattach-to-user-namespace'
 brew 'python'
-brew 'vim', args: %w[--with-lua]
+brew 'vim', args: %w[--with-override-system-vi]
 brew 'p7zip'
 brew 'unar'
 brew 'openssl'
@@ -37,12 +37,10 @@ cask 'google-chrome'
 cask 'dropbox'
 cask 'eclipse-java'
 cask 'flux'
-cask 'skype'
 cask 'vagrant'
-cask 'iterm2'
+cask 'iterm2-beta'
 cask 'quicksilver'
 cask 'jadengeller-helium'
-cask 'appcleaner'
 cask '1password'
 
 # Quicklook -- make quicklook better / more useful
