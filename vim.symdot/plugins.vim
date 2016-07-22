@@ -70,8 +70,6 @@ let g:NERDTreeIndicatorMapCustom = {
 nnoremap <Leader>n :NERDTreeToggle<cr>
 
 " Solarized
-syntax enable
-set background=dark
 colorscheme solarized
 call togglebg#map("<F3>")
 
