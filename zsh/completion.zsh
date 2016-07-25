@@ -1,7 +1,7 @@
 # add in zsh-completions
 fpath=(/usr/local/share/zsh-completions/ $fpath)
 
-autoload -U compinit && compinit -d ~/.zsh/.zcompdump
+autoload -U compinit && compinit -u -d ~/.zsh/.zcompdump
 zmodload -i zsh/complist
 
 # man zshcontrib

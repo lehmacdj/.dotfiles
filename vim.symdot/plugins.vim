@@ -16,6 +16,8 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-fugitive'
 
 " UI Plugins
+Plug 'vim-airline/vim-airline'
+    \| Plug 'vim-airline/vim-airline-themes'
 Plug 'scrooloose/nerdtree'
     \| Plug 'Xuyuanp/nerdtree-git-plugin'
     \| Plug 'ivalkeen/nerdtree-execute'
