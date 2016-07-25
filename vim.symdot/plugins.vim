@@ -28,6 +28,9 @@ Plug 'airblade/vim-gitgutter'
 " vim-vim-plugins
 Plug 'tpope/vim-scriptease'
 
+" swift
+Plug 'keith/swift.vim'
+
 " perl-plugins
 Plug 'vim-perl/vim-perl'
 
@@ -68,22 +71,27 @@ let g:NERDTreeIndicatorMapCustom = {
 nnoremap <Leader>n :NERDTreeToggle<cr>
 
 " Solarized
-syntax enable
-set background=dark
 colorscheme solarized
 call togglebg#map("<F3>")
 
 " vim-devicons
 let g:airline_powerline_fonts = 1
 
-" ocaml configuration dependent on opam
-let g:opamshare = substitute(system('opam config var share'),'\n$','','''')
-if v:shell_error == 0
-    " merlin
-    execute "set rtp+=" . g:opamshare . "/merlin/vim"
-    execute "helptags " . g:opamshare . "/merlin/vim/doc"
-    let g:syntastic_ocaml_checkers = ['merlin']
+" OCaml Plugins
+if executable('opam')
+    let g:opamshare = substitute(system('opam config var share'), '\n$', '', '''')
 
-    " ocp-indent
-    execute "set rtp+=" . g:opamshare . "/ocp-indent/vim"
+    if executable('ocamlmerlin') && has('python')
+        execute "set rtp+=".g:opamshare . "/merlin/vim"
+        " To update the documentation
+        " execute "helptags " . g:opamshare . "/merlin/vim/doc"
+        let g:syntastic_ocaml_checkers=['merlin']
+
+        nnoremap <LocalLeader>m :GotoDotMerlin<CR>
+        nnoremap <LocalLeader>d :MerlinDocument<CR>
+    endif
+
+    if executable('ocp-indent')
+        execute "set rtp+=" . g:opamshare . "/ocp-indent/vim"
+    endif
 endif
