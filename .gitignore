@@ -5,6 +5,13 @@ vim.*/*
 !vim.*/ftdetect/
 !vim.*/plugins.vim
 
+nvim.*/*
+!nvim.*/autoload/
+!nvim.*/ftplugin/
+!nvim.*/ftdetect/
+!nvim.*/plugins.vim
+!nvim.*/init.vim
+
 # zsh
 zsh/.*
 zsh/cache/

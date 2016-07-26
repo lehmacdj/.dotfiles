@@ -7,11 +7,15 @@
 
 echo "Beginning installation of dotfiles..."
 
-if [ $(uname) == "Darwin" ]; then
+# Set Operating System Variables
+if [ "$(uname)" == "Darwin" ]; then
     DARWIN=1
-elif [ $(uname) == "Linux" ]; then
+elif [ "$(uname)" == "Linux" ]; then
     LINUX=1
 fi
+
+# Set XDG_CONFIG_HOME if unset
+[ -n "$XDG_CONFIG_HOME" ] || export XDG_CONFIG_HOME="$HOME/.config"
 
 if [ -n "$DARWIN" ]; then
     source "$HOME/.dotfiles/install.d/brew.sh"
