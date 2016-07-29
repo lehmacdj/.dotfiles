@@ -78,15 +78,17 @@ let mapleader=" "
 " MARK: map
 
 " Edit the .vimrc
-nnoremap <Leader>ev :split $MYVIMRC<cr>
+nnoremap <Leader>ev :split $MYVIMRC<CR>
 " Edit plugins.vim
-nnoremap <Leader>ep :split ~/.vim/plugins.vim<cr>
+nnoremap <Leader>ep :split ~/.vim/plugins.vim<CR>
+" Edit filetype file (e.g. markdown.vim if editing a markdown file etc.)
+nnoremap <expr> <Leader>ef ':split ~/.vim/ftplugin/' . &filetype . '.vim<CR>'
 " Source the .vimrc
-nnoremap <Leader>sv :source $MYVIMRC<cr>
+nnoremap <Leader>sv :source $MYVIMRC<CR>
 
 
 " Keybindings for Escape
-inoremap jk <esc>
+inoremap jk <ESC>
 
 " Convenience mappings
 
@@ -94,7 +96,7 @@ inoremap jk <esc>
 cmap W! w !sudo tee % >/dev/null
 
 " trim whitespace from end of lines
-nnoremap <Leader>t<space> :%s/\s\+$//<cr>
+nnoremap <Leader>t<Space> :%s/\s\+$//<CR>
 
 " Show / Toggle colorcolumn
 set colorcolumn=81
@@ -104,7 +106,7 @@ function! s:ToggleColorColumn()
     windo let &colorcolumn = s:color_column_old
     let s:color_column_old = l:tmp
 endfunction
-nnoremap <silent> <Leader>8 :call <SID>ToggleColorColumn()<cr>
+nnoremap <silent> <Leader>8 :call <SID>ToggleColorColumn()<CR>
 
 " Easy macro-replay
 nnoremap Q @q
@@ -113,7 +115,7 @@ nnoremap Q @q
 nnoremap Y y$
 
 " Add a mapping to show buffers
-nnoremap <silent> <Leader>b :buffers<cr>
+nnoremap <silent> <Leader>b :buffers<CR>
 
 " add a mapping for spelling stuff
 " (I should probably move this to a spell plugin and load that through vim-plug)
