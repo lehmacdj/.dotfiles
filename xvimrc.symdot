@@ -1,0 +1,14 @@
+set magic
+set incsearch
+set ignorecase
+
+imap jk <ESC>
+
+map Q @q
+
+map zf :xccmd fold<CR>
+map zo :xccmd unfold<CR>
+
+map <Space>o :xccmd openQuickly<CR>
+map <Space>n :xccmd selectNextTab<CR>
+map <Space>d :xcmenucmd Quick Help for Selected Item<CR>
