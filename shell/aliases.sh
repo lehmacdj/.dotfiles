@@ -1,5 +1,5 @@
 #!/bin/bash
-#
+# Works for zsh and bash
 # Configure aliases and functions
 
 # grep
@@ -17,7 +17,7 @@ alias dspurge='find . -name .DS_Store -delete'
 alias bc='bc -l'
 
 # editing of things
-alias vial="\$EDITOR ~/.dotfiles/bash/aliases.bash"
+alias vial="\$EDITOR ~/.dotfiles/shell/aliases.sh"
 
 # latexmk
 alias latexmk='latexmk -pdf'
@@ -29,8 +29,19 @@ alias gpg="gpg2"
 alias :q="exit"
 alias :e="\$EDITOR"
 
-# Ed!
+# Ed
 alias ed="ed -p:"
+
+# Why not!
+alias kitten="curl -s https://placekitten.com/\$(shuf -i 100-1000 -n 1)/\
+\$(shuf -i 100-1000 -n 1) | imgcat"
+
+if [ -z "$ZSH" ]; then
+    # Directory aliases
+    hash -d 2800=~/Documents/cornell/2/2800
+    hash -d 1440=~/Documents/cornell/2/1440
+    hash -d 1500=~/Documents/cornell/2/1500
+fi
 
 if [ -f "/usr/libexec/java_home" ]; then
     # Sets the version to the specified version
@@ -51,7 +62,7 @@ fi
 # The settings folder of the workspace will be deleted and symlinked to
 # The template workspace at ~/.templates/eclipse
 function eclset () {
-    present_dir=$(pwd)
+    present_dir="$PWD"
     cd  "$1/.metadata/.plugins/org.eclipse.core.runtime" || exit
     rm -rf .settings
     ln -s ~/.templates/eclipse/.metadata/.plugins/org.eclipse.core.runtime/.settings .settings
@@ -70,31 +81,44 @@ function swap () {
 # e.g.
 #   gittree status
 #   gittree diff
-gittree() {
-  if [ $# -lt 1 ]; then
-    echo "Usage: gittree <command>"
-    return 1
-  fi
-
-  for gitdir in $(find . -type d -name .git); do
-    # Display repository name in blue
-    repo=$(dirname "$gitdir")
-    echo -e "\033[34m$repo\033[0m"
-
-    # Run git command in the repositories directory
-    cd "$repo" && git "$@"
-    ret=$?
-
-    # Return to calling directory (ignore output)
-    cd - > /dev/null || exit
-
-    # Abort if cd or git command fails
-    if [ $ret -ne 0 ]; then
-      return 1
+function gittree () {
+    if [ $# -lt 1 ]; then
+        echo "Usage: gittree <command>"
+        return 1
     fi
+    local gitdirs
+    gitdirs="$(find . -type d -name .git)"
+    for gitdir in $gitdirs; do
+        # Display repository name in blue
+        repo=$(dirname "$gitdir")
+        echo -e "\033[34m$repo\033[0m"
 
-    echo
-  done
+        # Run git command in the repositories directory
+        cd "$repo" && git "$@"
+        ret=$?
+
+        # Return to calling directory (ignore output)
+        cd - > /dev/null || exit
+
+        # Abort if cd or git command fails
+        if [ $ret -ne 0 ]; then
+            return 1
+        fi
+
+        echo
+    done
+}
+
+function up () {
+    count="$1"
+    while [ "$count" -gt 0 ]; do
+        cd ..
+        ((count--))
+    done
+}
+
+function real () {
+    cd "$(realpath "$PWD")" || exit
 }
 
 if [ -f "$HOME/.aliases.local" ]; then

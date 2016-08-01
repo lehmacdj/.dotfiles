@@ -2,8 +2,8 @@
 
 export DOTFILES="$HOME/.dotfiles"
 
-source "$DOTFILES/bash/env.bash"
-source "$DOTFILES/bash/aliases.bash"
+source "$DOTFILES/shell/env.sh"
+source "$DOTFILES/shell/aliases.sh"
 source "$DOTFILES/bash/prompt.bash"
 source "$DOTFILES/bash/settings.bash"
 
