@@ -1,35 +1,34 @@
-###########################################################
 # Use Vi, not Emacs, style editing
 set editing-mode vi
 # Show all completions as soon as I press tab, even if there's more than one
 set show-all-if-ambiguous on
 # First prefix then tab to cycle
 set menu-complete-display-prefix on
-# Prompt to show when 35+ completions
+# prompt when completing more than 50
 set completion-query-items 50
 # Never ring bell
 set bell-style none
 # Ignore case while completeing things
 set completion-ignore-case on
 
-###########################################################
 # Keymaps for when we're in command mode (e.g., after hitting ESC)
 set keymap vi-command
 
 # Insert the arguments from the last command
 "p": "i !!*\r"
 
-###########################################################
-# Keymaps for when we're in insert (i.e., typing stuff in) mode
+# Insert mode mappings
 set keymap vi-insert
 
 # Completion for tab and tab backwards
 TAB: menu-complete
 "\e[Z": menu-complete-backward
 
-# Needed because binding 'p' in command mode above wipes its insert mode
-# function, too. This fixes that, and will insert 'p' when you type 'p'.
+# Fix p in insert mode
 "p": self-insert
 
 # jk = <esc>
 "jk": vi-movement-mode
+
+# Make C-w work better
+"\C-w": unix-filename-rubout
