@@ -77,7 +77,9 @@ call togglebg#map("<F3>")
 " vim-devicons
 let g:airline_powerline_fonts = 1
 
-" OCaml Plugins
+
+" Externally managed plugins
+
 if executable('opam')
     let g:opamshare = substitute(system('opam config var share'), '\n$', '', '''')
 
@@ -86,9 +88,6 @@ if executable('opam')
         " To update the documentation
         " execute "helptags " . g:opamshare . "/merlin/vim/doc"
         let g:syntastic_ocaml_checkers=['merlin']
-
-        nnoremap <LocalLeader>m :GotoDotMerlin<CR>
-        nnoremap <LocalLeader>d :MerlinDocument<CR>
     endif
 
     if executable('ocp-indent')
