@@ -36,7 +36,7 @@ alias ed="ed -p:"
 alias kitten="curl -s https://placekitten.com/\$(shuf -i 100-1000 -n 1)/\
 \$(shuf -i 100-1000 -n 1) | imgcat"
 
-if [ -z "$ZSH" ]; then
+if [ -n "$ZSH_VERSION" ]; then
     # Directory aliases
     hash -d 2800=~/Documents/cornell/2/2800
     hash -d 1440=~/Documents/cornell/2/1440
