@@ -14,21 +14,84 @@ elif [ "$(uname)" == "Linux" ]; then
     LINUX=1
 fi
 
+# Get the location of the dotfiles
+pushd "$(dirname "$0")" > /dev/null
+DOTFILES="$(pwd -P)"
+popd > /dev/null
+
+# Create a file at ~/.dotfiles if no file is present there and not installed there
+if [ "$DOTFILES" != "$HOME/.dotfiles" ]; then
+    # test if a file or symlink is present at ~/.dotfiles
+    if [ -e "$HOME/.dotfiles" ] || [ -h "$HOME/.dotfiles" ]; then
+        # exit the program as this cannot be sucessfully installed then
+        echo -e "A file or directory is present at $HOME/.dotfiles... Aborting."
+        exit 1
+    fi
+    # put the location of dotfiles at ~/.dotfiles in a file
+    echo "$DOTFILES" > "$HOME/.dotfiles"
+fi
+
 # Set XDG_CONFIG_HOME if unset
 [ -n "$XDG_CONFIG_HOME" ] || export XDG_CONFIG_HOME="$HOME/.config"
 
 if [ -n "$DARWIN" ]; then
-    source "$HOME/.dotfiles/install.d/brew.sh"
+    # Install homebrew and brew everything in Brewfile
+
+    echo -e "\nInstalling xcode commandline tools..."
+    xcode-select --install
+
+
+    # Install homebrew if nescessary
+    brew help >/dev/null 2>&1 || \
+    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+    echo -e "\nBrewing formulas..."
+
+    # Use brew-bundle to install brewfiles in a good order
+    brew tap Homebrew/bundle 2>/dev/null
+    brew bundle --file="~/.dotfiles/Brewfile"
 fi
 
-source "$HOME/.dotfiles/install.d/link.sh"
+# Links all of the files with the extension .sym* to the home directory.
+echo -e "\nCreating symlinks..."
 
-if [ -n "$DARWIN" ]; then
-    source "$HOME/.dotfiles/install.d/osx.sh"
-fi
-
-if test $(find ~/.dotfiles/install.d -name "*.sh.auto"); then
-    for i in $HOME/.dotfiles/install.d/*.sh.auto; do
-        source "$i"
+# Takes a pattern (e.g. ".symdot" and a function that transforms the basename
+# of the file to its destination then links all files ending in the pattern to
+# the correct location
+function linkfiles () {
+    local pattern="$1"
+    local mapper="$2"
+    tolink=$(find -H "$DOTFILES" -maxdepth 5 -name "*$pattern")
+    for file in $tolink; do
+        local target
+        target="$("$mapper" "$(basename "$file" "$pattern")")"
+        if [ -e "$target" ] || [ -h "$target" ]; then
+            echo "$target exists... Skipping."
+        else
+            echo "Creating symlink for $file"
+            ln -s "$file" "$target"
+        fi
     done
-fi
+}
+
+function symdot_mapper { echo "$HOME/.$1"; }
+# Symlink files to be symlinked to every platform
+linkfiles ".symdot" "symdot_mapper"
+# Symlink OS X specific files
+[ -n "$DARWIN" ] && linkfiles ".symdot.osx" "symdot_mapper"
+
+function config_mapper { echo "$HOME/.config/$1"; }
+# symlink files that should go in xdg_config_home
+linkfiles ".symconfig" "config_mapper"
+
+# # Set any relevant settings on os x (currently none are being set)
+# if [ -n "$DARWIN" ]; then
+#     echo -e "\nSetting settings..."
+# fi
+
+# Source all files in install.d (currently there are none)
+# if [ -n $(find ~/.dotfiles/install.d -name "*.sh") ]; then
+#     for i in $HOME/.dotfiles/install.d/*.sh; do
+#         source "$i"
+#     done
+# fi
