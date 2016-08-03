@@ -85,6 +85,8 @@ nnoremap <Leader>ep :split ~/.vim/plugins.vim<CR>
 nnoremap <expr> <Leader>ef ':split ~/.vim/ftplugin/' . &filetype . '.vim<CR>'
 " Source the .vimrc
 nnoremap <Leader>sv :source $MYVIMRC<CR>
+" Install plugins
+nnoremap <Leader>ip :PlugInstall<CR>
 
 
 " Keybindings for Escape
