@@ -4,31 +4,39 @@ set editing-mode vi
 set show-all-if-ambiguous on
 # First prefix then tab to cycle
 set menu-complete-display-prefix on
-# prompt when completing more than 50
-set completion-query-items 50
+# prompt when completing more than 80
+set completion-query-items 80
 # Never ring bell
 set bell-style none
 # Ignore case while completeing things
 set completion-ignore-case on
+# Don't append / to directories
+set skip-completed-text on
+# Add slash to symlinked directories
+set mark-symlinked-directories on
+# Different colors for different types of stats
+set colored-stats on
+# Don't expand ~
+set expand-tilde off
+# Make cursor be on same point on lines
+set history-preserve-point on
 
-# Keymaps for when we're in command mode (e.g., after hitting ESC)
+# Show command mode vs insert mode
+# set show-mode-in-prompt on
+
 set keymap vi-command
-
 # Insert the arguments from the last command
 "p": "i !!*\r"
+Control-j: history-search-forward
+Control-k: history-search-backward
 
-# Insert mode mappings
 set keymap vi-insert
-
 # Completion for tab and tab backwards
 TAB: menu-complete
 "\e[Z": menu-complete-backward
-
 # Fix p in insert mode
 "p": self-insert
-
 # jk = <esc>
 "jk": vi-movement-mode
-
 # Make C-w work better
 "\C-w": unix-filename-rubout
