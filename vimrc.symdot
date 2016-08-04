@@ -35,9 +35,6 @@ set nohlsearch
 set laststatus=2
 set background=dark
 
-" Splits
-set splitright
-
 " Searching
 set magic
 set ignorecase
