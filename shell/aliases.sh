@@ -32,6 +32,9 @@ alias :e="\$EDITOR"
 # Ed
 alias ed="ed -p:"
 
+# Make "ag" available everywhere
+alias ag="ag || ack"
+
 # Why not!
 alias kitten="curl -s https://placekitten.com/\$(shuf -i 100-1000 -n 1)/\
 \$(shuf -i 100-1000 -n 1) | imgcat"
