@@ -11,12 +11,6 @@ source "$DOTFILES/zsh/antigen.zsh"
 source "$DOTFILES/zsh/theme.zsh"
 source "$DOTFILES/zsh/zsh_hooks.zsh"
 
-# Possibly up and comming things
-# source ~/.zsh/prompt.zsh
-
-# Not quite sure what this does
-precmd() {
-  if [[ -n "$TMUX" ]]; then
-     tmux setenv "$(tmux display -p 'TMUX_PWD_#D')" "$PWD"
-  fi
-}
+# Setup fzf
+source "$DOTFILES/fzf/shell/completion.zsh"
+source "$DOTFILES/fzf/shell/key-bindings.zsh"

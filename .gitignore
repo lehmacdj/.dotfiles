@@ -5,6 +5,7 @@ vim.*/*
 !vim.*/ftdetect/
 !vim.*/plugins.vim
 
+# the same for nvim
 nvim.*/*
 !nvim.*/autoload/
 !nvim.*/ftplugin/
@@ -18,3 +19,6 @@ zsh/cache/
 
 # Local files
 *.local*
+
+# FZF
+fzf/

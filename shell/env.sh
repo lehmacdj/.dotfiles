@@ -34,12 +34,19 @@ if [ "$LINUX" ] && [ -d "$HOME/brew" ]; then
     export LD_LIBRARY_PATH="$HOME/brew/lib:$LD_LIBRARY_PATH"
 fi
 
-[ -f "$HOME/bin/consolidate-path" ] && PATH="$(consolidate-path "$PATH")"
 
-export PATH
 
 # OCaml/OPAM configuration
 if [ -f "$HOME/.opam/opam-init/init.sh" ]; then
     source "$HOME/.opam/opam-init/init.sh" > /dev/null 2>&1 || true
     eval "$(opam config env)"
 fi
+
+# FZF configuration
+PATH="$PATH:$DOTFILES/fzf/bin"
+MANPATH="$PATH:$DOTFILES/fzf/man"
+
+# Remove inconsistent path entries and export
+[ -f "$DOTFILES/bin/consolidate-path" ] && PATH="$(consolidate-path "$PATH")"
+export PATH
+export MANPATH

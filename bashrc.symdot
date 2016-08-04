@@ -7,8 +7,12 @@ source "$DOTFILES/shell/aliases.sh"
 source "$DOTFILES/bash/prompt.bash"
 source "$DOTFILES/bash/settings.bash"
 
+# configure fzf
+source "$DOTFILES/fzf/shell/completion.bash"
+source "$DOTFILES/fzf/shell/key-bindings.bash"
+
+# set up bash-completion
 if [ -f "/usr/local/etc/bash_completion" ]; then
-    # set up bash-completion
     source "/usr/local/etc/bash_completion"
 fi
 
