@@ -55,6 +55,7 @@ Plug 'altercation/vim-colors-solarized'
 " Devicons
 Plug 'ryanoasis/vim-devicons'
 call plug#end()
+
 " Solarized
 colorscheme solarized
 call togglebg#map("<F3>")
