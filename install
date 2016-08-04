@@ -84,11 +84,9 @@ function config_mapper { echo "$HOME/.config/$1"; }
 linkfiles ".symconfig" "config_mapper"
 
 # Setup fzf
-if [ ! -d "$DOTFILES/fzf" ]; then
+if [ ! -d "$HOME/.fzf" ]; then
     echo -e "\nInstalling fzf..."
-    git clone https://github.com/junegunn/fzf.git --depth 1 "$DOTFILES/fzf" >/dev/null 2>&1 &&\
-    yes n | "$DOTFILES/fzf/install" >/dev/null 2>&1 ||\
+    git clone https://github.com/junegunn/fzf.git --depth 1 "$HOME/.fzf" >/dev/null &&\
+    echo -e "y\ny\nn" | "$HOME/.fzf/install" ||\
     echo "Failed to install fzf!"
-    [ -f "$HOME/.fzf.bash" ] && rm "$HOME/.fzf.bash"
-    [ -f "$HOME/.fzf.zsh" ] && rm "$HOME/.fzf.zsh"
 fi
