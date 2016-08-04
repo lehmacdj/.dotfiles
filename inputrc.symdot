@@ -27,8 +27,8 @@ set history-preserve-point on
 set keymap vi-command
 # Insert the arguments from the last command
 "p": "i !!*\r"
-Control-j: history-search-forward
-Control-k: history-search-backward
+"\C-j": history-search-forward
+"\C-k": history-search-backward
 
 set keymap vi-insert
 # Completion for tab and tab backwards
@@ -40,3 +40,5 @@ TAB: menu-complete
 "jk": vi-movement-mode
 # Make C-w work better
 "\C-w": unix-filename-rubout
+"\C-j": history-search-forward
+"\C-k": history-search-backward
