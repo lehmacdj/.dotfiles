@@ -10,4 +10,4 @@ source "$DOTFILES/zsh/history.zsh"
 source "$DOTFILES/zsh/antigen.zsh"
 source "$DOTFILES/zsh/theme.zsh"
 source "$DOTFILES/zsh/zsh_hooks.zsh"
-source "$HOME/.fzf.zsh"
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

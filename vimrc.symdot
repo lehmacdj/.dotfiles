@@ -69,33 +69,35 @@ set backspace=indent,eol,start
 
 set fileformat=unix
 
-" Define the map Leader
+" Escape more easily
+inoremap jk <ESC>
+" Easy macro-replay
+nnoremap Q @q
+" make Y more logical
+nnoremap Y y$
+
+" Leader mappings
 let mapleader=" "
 
-" MARK: map
-
-" Edit the .vimrc
+" Edit vimrc
 nnoremap <Leader>ev :split $MYVIMRC<CR>
-" Edit plugins.vim
+" Edit plugins
 nnoremap <Leader>ep :split ~/.vim/plugins.vim<CR>
-" Edit filetype file (e.g. markdown.vim if editing a markdown file etc.)
+" Edit filetype file
 nnoremap <expr> <Leader>ef ':split ~/.vim/ftplugin/' . &filetype . '.vim<CR>'
-" Source the .vimrc
+" Source vimrc
 nnoremap <Leader>sv :source $MYVIMRC<CR>
 " Install plugins
 nnoremap <Leader>ip :PlugInstall<CR>
-
-
-" Keybindings for Escape
-inoremap jk <ESC>
-
-" Convenience mappings
+" Fuzzy file open
+nnoremap <Leader>o :FZF<CR>
+" NERDTree
+nnoremap <Leader>n :NERDTreeToggle<cr>
+" Trim whitespace (FIXME: configure to be automatic on save?)
+nnoremap <Leader>t<Space> :%s/\s\+$//<CR>
 
 " Force save a file
 cmap W! w !sudo tee % >/dev/null
-
-" trim whitespace from end of lines
-nnoremap <Leader>t<Space> :%s/\s\+$//<CR>
 
 " Show / Toggle colorcolumn
 set colorcolumn=81
@@ -107,15 +109,10 @@ function! s:ToggleColorColumn()
 endfunction
 nnoremap <silent> <Leader>8 :call <SID>ToggleColorColumn()<CR>
 
-" Easy macro-replay
-nnoremap Q @q
+" Spelling related things
+if &spell
+    nnoremap <Leader>z 1z=
 
-" make Y more logical
-nnoremap Y y$
-
-" Add a mapping to show buffers
-nnoremap <silent> <Leader>b :buffers<CR>
-
-" add a mapping for spelling stuff
-" (I should probably move this to a spell plugin and load that through vim-plug)
-nnoremap <Leader>z 1z=
+    " Spelling corrections
+    abbreviate teh the
+end

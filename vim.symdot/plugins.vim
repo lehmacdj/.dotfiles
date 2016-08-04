@@ -14,6 +14,7 @@ Plug 'tommcdo/vim-exchange'
 Plug 'tpope/vim-eunuch'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-fugitive'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
 " UI Plugins
 Plug 'vim-airline/vim-airline'
@@ -54,23 +55,6 @@ Plug 'altercation/vim-colors-solarized'
 " Devicons
 Plug 'ryanoasis/vim-devicons'
 call plug#end()
-
-" Plugin configuration
-
-" Nerdtree
-let g:NERDTreeIndicatorMapCustom = {
-    \ "Modified"  : "✹",
-    \ "Staged"    : "✚",
-    \ "Untracked" : "✭",
-    \ "Renamed"   : "➜",
-    \ "Unmerged"  : "═",
-    \ "Deleted"   : "✖",
-    \ "Dirty"     : "✗",
-    \ "Clean"     : "✔︎",
-    \ "Unknown"   : "?"
-    \ }
-nnoremap <Leader>n :NERDTreeToggle<cr>
-
 " Solarized
 colorscheme solarized
 call togglebg#map("<F3>")
@@ -78,9 +62,7 @@ call togglebg#map("<F3>")
 " vim-devicons
 let g:airline_powerline_fonts = 1
 
-
 " Externally managed plugins
-
 if executable('opam')
     let g:opamshare = substitute(system('opam config var share'), '\n$', '', '''')
 

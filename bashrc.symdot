@@ -6,7 +6,7 @@ source "$DOTFILES/shell/env.sh"
 source "$DOTFILES/shell/aliases.sh"
 source "$DOTFILES/bash/prompt.bash"
 source "$DOTFILES/bash/settings.bash"
-source "$HOME/.fzf.bash"
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
 # set up bash-completion
 if [ -f "/usr/local/etc/bash_completion" ]; then
