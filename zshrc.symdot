@@ -10,5 +10,4 @@ source "$DOTFILES/zsh/history.zsh"
 source "$DOTFILES/zsh/antigen.zsh"
 source "$DOTFILES/zsh/theme.zsh"
 source "$DOTFILES/zsh/zsh_hooks.zsh"
-source "$HOME/.fzf/shell/key-bindings.zsh"
-source "$HOME/.fzf/shell/completion.zsh" 2>/dev/null
+source "$DOTFILES/shell/fzf.sh"

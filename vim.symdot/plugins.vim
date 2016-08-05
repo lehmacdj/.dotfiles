@@ -15,6 +15,7 @@ Plug 'tpope/vim-eunuch'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
+Plug 'junegunn/fzf.vim'
 
 " UI Plugins
 Plug 'vim-airline/vim-airline'
