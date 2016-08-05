@@ -39,13 +39,6 @@ alias ag="ag || ack"
 alias kitten="curl -s https://placekitten.com/\$(shuf -i 100-1000 -n 1)/\
 \$(shuf -i 100-1000 -n 1) | imgcat"
 
-if [ -n "$ZSH_VERSION" ]; then
-    # Directory aliases
-    hash -d 2800=~/Documents/cornell/2/2800
-    hash -d 1440=~/Documents/cornell/2/1440
-    hash -d 1500=~/Documents/cornell/2/1500
-fi
-
 if [ -f "/usr/libexec/java_home" ]; then
     # Sets the version to the specified version
     # Kind of actually just a glorified alias to /usr/libexed/java_home
@@ -126,4 +119,13 @@ function real () {
 
 if [ -f "$HOME/.aliases.local" ]; then
     source "$HOME/.aliases.local"
+fi
+
+# ZSH specific aliases and functions
+if [ -n "$ZSH_VERSION" ]; then
+    # Goes to a section of the man pages for zsh in vim
+    # https://github.com/wellle/dotfiles/blob/master/zshrc
+    function zman () {
+        PAGER="less -g -s '+/^       $1'" man zshall
+    }
 fi

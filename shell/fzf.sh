@@ -26,6 +26,17 @@ fi
 # Set the default fzf command
 export FZF_DEFAULT_COMMAND='find .'
 
+# open files selected using fzf
 function vif () {
-    vim $(fzf)
+  IFS='
+'
+  local files=($(fzf-tmux --query="$1" --select-1 --exit-0))
+  [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
+  unset IFS
+}
+
+# cd to directory using fzf
+function cdf () {
+  local dir
+  dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
 }
