@@ -7,7 +7,7 @@ HISTSIZE=1000000
 
 # Ignore commands that don't need to be remembered
 HISTCONTROL=ignoreboth
-HISTIGNORE='ls:bg:fg:history'
+HISTIGNORE='ls:ll:bg:fg:history'
 
 # Use one line per command and record time
 shopt -s cmdhist
