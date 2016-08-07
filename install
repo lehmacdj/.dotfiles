@@ -87,6 +87,6 @@ linkfiles ".symconfig" "config_mapper"
 if [ ! -d "$HOME/.fzf" ]; then
     echo -e "\nInstalling fzf..."
     git clone https://github.com/junegunn/fzf.git --depth 1 "$HOME/.fzf" >/dev/null &&\
-    "$HOME/.fzf/install --bin" ||\
+    "$HOME/.fzf/install" --bin ||\
     echo "Failed to install fzf!"
 fi
