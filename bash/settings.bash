@@ -3,7 +3,7 @@
 # Store more history + append don't overwrite
 shopt -s histappend
 HISTFILESIZE=1000000
-HISTSIZE=1000000
+HISTSIZE=100000
 
 # Ignore commands that don't need to be remembered
 HISTCONTROL=ignoreboth

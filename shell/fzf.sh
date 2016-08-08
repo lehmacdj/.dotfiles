@@ -27,7 +27,7 @@ fi
 export FZF_DEFAULT_COMMAND='find .'
 
 # open files selected using fzf
-function vif () {
+function vf () {
   IFS='
 '
   local files=($(fzf-tmux --query="$1" --select-1 --exit-0))
@@ -36,7 +36,7 @@ function vif () {
 }
 
 # cd to directory using fzf
-function cdf () {
+function cf () {
   local dir
-  dir=$(find ${1:-.} -type d 2> /dev/null | fzf +m) && cd "$dir"
+  dir=$(find "${1:-.}" -type d 2> /dev/null | fzf +m) && cd "$dir" || exit
 }
