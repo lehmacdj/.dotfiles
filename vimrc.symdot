@@ -93,8 +93,8 @@ nnoremap <Leader>ip :PlugInstall<CR>
 nnoremap <Leader>o :FZF<CR>
 " NERDTree
 nnoremap <Leader>n :NERDTreeToggle<cr>
-" Trim whitespace (FIXME: configure to be automatic on save?)
-nnoremap <Leader>t<Space> :%s/\s\+$//<CR>
+" Trim whitespace
+noremap <Leader>t<Space> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 
 " Force save a file
 cmap W! w !sudo tee % >/dev/null
