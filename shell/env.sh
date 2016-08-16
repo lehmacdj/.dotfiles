@@ -32,6 +32,8 @@ if [ "$LINUX" ] && [ -d "$HOME/brew" ]; then
     export PATH="$HOME/brew/bin:$PATH"
     export CPATH="$HOME/brew/include:$CPATH"
     export LD_LIBRARY_PATH="$HOME/brew/lib:$LD_LIBRARY_PATH"
+
+    [ -f "/etc/bash_completion" ] && source "/etc/bash_completion"
 fi
 
 

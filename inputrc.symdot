@@ -26,19 +26,25 @@ set history-preserve-point on
 
 set keymap vi-command
 # Insert the arguments from the last command
-"p": "i !!*\r"
+"y": vi-yank-to
+"p": vi-put
 "\C-j": history-search-forward
 "\C-k": history-search-backward
+"\C-f": edit-and-execute-command
+"v": none
 
 set keymap vi-insert
 # Completion for tab and tab backwards
 TAB: menu-complete
 "\e[Z": menu-complete-backward
-# Fix p in insert mode
+# Fix broken keys
+"y": self-insert
 "p": self-insert
+"v": self-insert
 # jk = <esc>
 "jk": vi-movement-mode
 # Make C-w work better
 "\C-w": unix-filename-rubout
 "\C-j": history-search-forward
 "\C-k": history-search-backward
+"\C-f": edit-and-execute-command
