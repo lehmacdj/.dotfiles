@@ -15,7 +15,7 @@ unsetopt BEEP
 HISTSIZE=100000
 SAVEHIST=100000
 HISTFILE="$DOTFILES/zsh/.zhistory"
-HISTIGNORE="ls:ll:bg:fg:history"
+HISTORY_IGNORE="(ls|ll|bg|fg|history)"
 
 # Allow multiple terminal sessions to all append to one zsh command history
 setopt APPEND_HISTORY 
