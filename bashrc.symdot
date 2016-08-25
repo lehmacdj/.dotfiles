@@ -1,6 +1,13 @@
 #!/bin/bash
 
-export DOTFILES="$HOME/.dotfiles"
+# Set the location of the dotfiles to ~/.dotfiles or the path contained within
+# that file
+if [ -d "$HOME/.dotfiles" ]; then
+    DOTFILES="$HOME/.dotfiles"
+elif [ -f "$HOME/.dotfiles" ]; then
+    read -r DOTFILES < "$HOME/.dotfiles"
+fi
+export DOTFILES
 
 source "$DOTFILES/shell/env.sh"
 source "$DOTFILES/shell/aliases.sh"
