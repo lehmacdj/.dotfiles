@@ -1,0 +1,88 @@
+#!/bin/bash
+#
+# Copies a template into the current directory.
+# A template is simply a directory under $TEMPLATE_HOME which contains a
+# .template file. This file is encouraged to have a description of what the
+# template is for in it. A future version of this may support displaying info
+# contained within that file.
+
+function usage_info () {
+    echo "Usage: template [-da] <identifiers...>"
+    echo "    -d        -- describe the template"
+    echo "    -a <file> -- add file to the stored templates"
+    exit 1
+}
+
+function assert_template_exists () {
+    # Determine if the template exists
+    if [ ! -f "$template/.template" ]; then
+        echo "\"$template\" does not exist"
+        exit 1
+    fi
+}
+
+# invoke getopt
+args="$(getopt da: $*)"
+[ $? != 0 ] && usage_info
+set -- $args
+
+# Process the command line arguments
+for i; do
+    case "$i" in
+        -d)
+            describe=1;
+            shift;;
+        -a)
+            [ "$describe" ] || add_file="$2";
+            shift;
+            shift;;
+        --)
+            shift; break;;
+    esac
+done
+
+[ $# -lt 1 ] && usage_info
+
+TEMPLATE_HOME="$DOTFILES"
+template="$TEMPLATE_HOME/templates"
+
+# Process command line parameters
+while [ $# -gt 0 ]; do
+    template="$template/$1"
+    shift
+done
+
+if [ "$add_file" ]; then
+    if [ -e "$add_file" ]; then
+        mkdir -p "$template"
+        cp -r "$add_file" "$template"
+        [ ! -f "$template/.template" ] && touch "$template/.template"
+        echo "Added \"$add_file\" to templates"
+    else
+        echo "\"$add_file\" does not exist"
+        exit 1
+    fi
+elif [ "$describe" ]; then
+    assert_template_exists
+    read -r description <"$template/.template"
+    echo "$description"
+else
+    assert_template_exists
+    # Get a list of the files to copy
+    files=$(find "$template"\
+        -maxdepth 1\
+        -mindepth 1\
+        -not -name '.template')
+
+    # Copy the files over
+    for file in $files; do
+        name="$(basename "$file")"
+
+        if [ -e "$name" ]; then
+            echo "\"$name\" exists"
+        else
+            echo "Copied $name"
+            cp -r "$file" .
+        fi
+    done
+fi
