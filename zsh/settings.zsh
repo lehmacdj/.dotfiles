@@ -1,15 +1,16 @@
 # Automatically enter directories without using cd
-setopt AUTO_CD
+setopt auto_cd
 # Allow comments even in interactive shells
-setopt INTERACTIVE_COMMENTS
+setopt interactive_comments
 # Allow completion from within a word/phrase
-setopt COMPLETE_IN_WORD 
+setopt complete_in_word
 # When completing from the middle of a word, move the cursor to the end of the word
-setopt ALWAYS_TO_END            
+setopt always_to_end
 # Enable expansion of lots of things at the prompt
-setopt PROMPT_SUBST
+setopt prompt_subst
 # Get rid of beeping
-unsetopt BEEP
+unsetopt beep
+setopt extended_glob
 
 # HISTORY
 HISTSIZE=100000
@@ -18,14 +19,14 @@ HISTFILE="$DOTFILES/zsh/.zhistory"
 HISTORY_IGNORE="(ls|ll|bg|fg|history)"
 
 # Allow multiple terminal sessions to all append to one zsh command history
-setopt APPEND_HISTORY 
+setopt append_history
 # Add comamnds as they are typed, don't wait until shell exit
-setopt APPEND_HISTORY 
+setopt append_history
 # Include more information about when the command was executed, etc
-setopt EXTENDED_HISTORY
+setopt extended_history
 # Do not write events to history that are duplicates of previous events
-setopt HIST_IGNORE_DUPS
+setopt hist_ignore_dups
 # When searching history don't display results already cycled through twice
-setopt HIST_FIND_NO_DUPS
+setopt hist_find_no_dups
 # Remove extra blanks from each command line being added to history
-setopt HIST_REDUCE_BLANKS
+setopt hist_reduce_blanks

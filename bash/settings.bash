@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Main settings
+shopt -s extglob
+
+# History
 # Store more history + append don't overwrite
 shopt -s histappend
 HISTFILESIZE=1000000
