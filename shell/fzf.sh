@@ -24,7 +24,7 @@ elif [ -n "$ZSH_VERSION" ]; then
 fi
 
 # Set the default fzf command
-export FZF_DEFAULT_COMMAND='find .'
+export FZF_DEFAULT_COMMAND='ag -g ""'
 
 # open files selected using fzf
 function vf () {
