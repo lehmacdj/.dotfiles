@@ -53,6 +53,9 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'ryanoasis/vim-devicons'
 call plug#end()
 
+" Netrw
+let g:netrw_liststyle = 3
+
 " Solarized
 colorscheme solarized
 call togglebg#map("<F3>")
