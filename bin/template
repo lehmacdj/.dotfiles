@@ -10,6 +10,7 @@ function usage_info () {
     echo "Usage: template [-da] <identifiers...>"
     echo "    -d        -- describe the template"
     echo "    -a <file> -- add file to the stored templates"
+    echo "    -e        -- edit the template"
     exit 1
 }
 
@@ -22,7 +23,7 @@ function assert_template_exists () {
 }
 
 # invoke getopt
-args="$(getopt da: $*)"
+args="$(getopt dea: $*)"
 [ $? != 0 ] && usage_info
 set -- $args
 
@@ -35,6 +36,9 @@ for i; do
         -a)
             [ "$describe" ] || add_file="$2";
             shift;
+            shift;;
+        -e)
+            [ "$describe" ] || [ "$add_file" ] || edit=1;
             shift;;
         --)
             shift; break;;
@@ -66,6 +70,9 @@ elif [ "$describe" ]; then
     assert_template_exists
     read -r description <"$template/.template"
     echo "$description"
+elif [ "$edit" ]; then
+    assert_template_exists
+    "$EDITOR" "$template"
 else
     assert_template_exists
     # Get a list of the files to copy
