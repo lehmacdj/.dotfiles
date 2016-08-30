@@ -54,6 +54,9 @@ set undolevels=1000
 " Virtualedit
 set virtualedit=block
 
+" Delete comment character when joining commented lines
+set formatoptions+=j
+
 " Completion
 set omnifunc=syntaxcomplete#Complete
 " inoremap <NUL> <C-x><C-o>

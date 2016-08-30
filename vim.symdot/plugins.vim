@@ -40,7 +40,6 @@ Plug 'vim-scripts/csv.vim'
 Plug 'othree/html5.vim'
 Plug 'tpope/vim-markdown'
 Plug 'cakebaker/scss-syntax.vim'
-Plug 'lilydjwg/colorizer'
 
 " Other filetype specific
 Plug 'lervag/vimtex'
