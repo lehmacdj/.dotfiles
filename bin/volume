@@ -1,10 +1,11 @@
-# Devin Lehmacher
-# A hacky script to use apple script to change the volume on OS X computers
-#
 #!/bin/bash
-if [ "$1" == "mute" -o "$1" == "m" ]; then
+#
+# A hacky script to use apple script to change the volume on OS X computers
+
+if [ "$1" == "mute" ] || [ "$1" == "m" ]; then
     osascript -e "set volume with output muted"
-elif [ "$1" == "unmute" -o "$1" == "nomute" -o "$1" == "um" -o "$1" == "nm" ]; then
+elif [ "$1" == "unmute" ] || [ "$1" == "nomute" ] ||\
+    [ "$1" == "um" ] || [ "$1" == "nm" ]; then
     osascript -e "set volume without output muted"
 elif [[ "$1" =~ ^[+-][0-9]+$ ]]; then # increment volume
     osascript -e "set volume output volume (output volume of (get volume settings) + $1) --100%"
