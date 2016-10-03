@@ -57,6 +57,9 @@ set virtualedit=block
 " Delete comment character when joining commented lines
 set formatoptions+=j
 
+" ag
+set grepprg="ag --vimgrep"
+
 " Completion
 set omnifunc=syntaxcomplete#Complete
 " inoremap <NUL> <C-x><C-o>
@@ -96,11 +99,15 @@ nnoremap <Leader>ip :PlugInstall<CR>
 nnoremap <Leader>o :FZF<CR>
 " Trim whitespace
 noremap <Leader>t<Space> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
-
+" Generate ctags
+nnoremap <Leader>mt :!ctags -R .<CR><CR>
+" Toggle hlsearch
+nnoremap <Leader>ht :set hlsearch!<CR>
 " Force save a file
 cmap W! w !sudo tee % >/dev/null
 
-" Show / Toggle colorcolumn
+
+" Toggle colorcolumn
 set colorcolumn=81
 let s:color_column_old = 0
 function! s:ToggleColorColumn()
@@ -108,7 +115,7 @@ function! s:ToggleColorColumn()
     windo let &colorcolumn = s:color_column_old
     let s:color_column_old = l:tmp
 endfunction
-nnoremap <silent> <Leader>8 :call <SID>ToggleColorColumn()<CR>
+nnoremap <Leader>8 :call <SID>ToggleColorColumn()<CR>
 
 " Spelling related things
 if &spell
