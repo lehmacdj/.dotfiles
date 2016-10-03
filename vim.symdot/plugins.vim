@@ -51,6 +51,9 @@ Plug 'altercation/vim-colors-solarized'
 
 " Devicons
 Plug 'ryanoasis/vim-devicons'
+
+Plug g:plug_home.'/eclim'
+let g:EclimCompletionMethod = 'omnifunc'
 call plug#end()
 
 " Netrw
@@ -62,6 +65,10 @@ call togglebg#map("<F3>")
 
 " vim-devicons
 let g:airline_powerline_fonts = 1
+
+" syntastic checkers
+let g:syntastic_cpp_compiler = 'g++'
+let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
 
 " Externally managed plugins
 if executable('opam')
