@@ -33,8 +33,8 @@ alias :e="\$EDITOR"
 alias ed="ed -p:"
 
 # Why not!
-alias kitten="curl -s https://placekitten.com/\$(shuf -i 100-1000 -n 1)/\
-\$(shuf -i 100-1000 -n 1) | imgcat"
+alias kitten="curl -s https://placekitten.com/\$(shuf -i 300-1000 -n 1)/\
+\$(shuf -i 300-1000 -n 1) | imgcat"
 
 if [ -f "/usr/libexec/java_home" ]; then
     # Sets the version to the specified version
@@ -55,6 +55,7 @@ fi
 # The settings folder of the workspace will be deleted and symlinked to
 # The template workspace at ~/.templates/eclipse
 function eclset () {
+    echo "This function is deprecated!"
     present_dir="$PWD"
     cd  "$1/.metadata/.plugins/org.eclipse.core.runtime" || exit
     rm -rf .settings
