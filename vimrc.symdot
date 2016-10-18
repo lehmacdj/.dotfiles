@@ -49,10 +49,7 @@ set guifont=Knack\ Regular\ Nerd\ Font:h14
 set guicursor=a:blinkon0
 
 " History
-set undolevels=1000
-
-" Virtualedit
-set virtualedit=block
+set undolevels=10000
 
 " Delete comment character when joining commented lines
 set formatoptions+=j
@@ -103,6 +100,11 @@ noremap <Leader>t<Space> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 nnoremap <Leader>mt :!ctags -R .<CR><CR>
 " Toggle hlsearch
 nnoremap <Leader>ht :set hlsearch!<CR>
+" Open buffer list
+nnoremap <Leader>b :Buffers<CR>
+" run the last normal mode command
+nnoremap <Leader>: :<Up><CR>
+
 " Force save a file
 cmap W! w !sudo tee % >/dev/null
 
