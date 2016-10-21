@@ -17,3 +17,6 @@ source "$DOTFILES/zsh/hooks.zsh"
 source "$DOTFILES/zsh/inputrc.zsh"
 source "$DOTFILES/zsh/antigen.zsh"
 source "$DOTFILES/zsh/plugins.zsh"
+
+# load a local zsh file if it exists
+[ -d "$HOME/.local.zsh" ] && source ".local.zsh"
