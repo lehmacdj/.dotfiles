@@ -1,8 +1,7 @@
 export ANTIGEN_COMPDUMPFILE="$HOME/.dotfiles/zsh/.zcompdump"
 
 # Bundles
-antigen bundle git
-antigen bundle command-not-found
+antigen bundle gitfast
 antigen bundle brew
 antigen bundle brew-cask
 antigen bundle man
