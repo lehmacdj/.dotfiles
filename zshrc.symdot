@@ -19,4 +19,4 @@ source "$DOTFILES/zsh/antigen.zsh"
 source "$DOTFILES/zsh/plugins.zsh"
 
 # load a local zsh file if it exists
-[ -f "$HOME/.local.zsh" ] && source ".local.zsh" || exit 0
+[ -f "$HOME/.local.zsh" ] && source ".local.zsh" || true
