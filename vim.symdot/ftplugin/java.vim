@@ -7,3 +7,5 @@ nnoremap <Leader>N :lNe<CR>
 
 " Abbreviations
 abbreviate sysout System.out.println
+
+setlocal noexpandtab

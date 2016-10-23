@@ -104,6 +104,7 @@ nnoremap <Leader>ht :set hlsearch!<CR>
 nnoremap <Leader>b :Buffers<CR>
 " run the last normal mode command
 nnoremap <Leader>: :<Up><CR>
+xnoremap <Leader>: :<Up><CR>
 
 " Force save a file
 cmap W! w !sudo tee % >/dev/null

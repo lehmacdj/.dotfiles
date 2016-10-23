@@ -20,6 +20,7 @@ if which brew >/dev/null 2>&1; then
     BREW_PREFIX="$(brew --prefix)"
 
     PATH="$BREW_PREFIX/bin:$PATH"
+    MANPATH="$BREW_PREFIX/share/man"
 
     # Deal with coreutils if installed
     [ -d "$BREW_PREFIX/opt/coreutils/libexec/gnubin" ] &&
@@ -49,6 +50,9 @@ PATH="$PATH:$HOME/.fzf/bin"
 MANPATH="$MANPATH:$HOME/.fzf/man"
 
 # Remove inconsistent path entries and export
-[ -f "$DOTFILES/bin/consolidate-path" ] && PATH="$(consolidate-path "$PATH")"
+if [ -f "$DOTFILES/bin/consolidate-path" ]; then
+    PATH="$(consolidate-path "$PATH")"
+    MANPATH="$(consolidate-path "$MANPATH")"
+fi
 export PATH
 export MANPATH
