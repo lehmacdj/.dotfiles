@@ -100,19 +100,30 @@ function up () {
     done
 }
 
+# cd to the realpath of the current path
+# Depends on gnu-realpath
 function real () {
     cd "$(realpath "$PWD")" || exit
 }
 
-if [ -f "$HOME/.aliases.local" ]; then
-    source "$HOME/.aliases.local"
-fi
+# source the local aliases file (the file is "local_aliases.sh")
+function alias_local () {
+    if [ -f "local_aliases.sh" ]; then
+        source "local_aliases.sh"
+    else
+        echo "no local alias file available for sourcing!"
+        exit 1
+    fi
+}
 
-# ZSH specific aliases and functions
+# Goes to a section of the man pages for zsh in vim
+# https://github.com/wellle/dotfiles/blob/master/zshrc
 if [ -n "$ZSH_VERSION" ]; then
-    # Goes to a section of the man pages for zsh in vim
-    # https://github.com/wellle/dotfiles/blob/master/zshrc
     function zman () {
         PAGER="less -g -s '+/^       $1'" man zshall
     }
+fi
+
+if [ -f "/Applications/Eclipse.app/Contents/Eclipse/eclimd" ]; then
+    alias eclimd='/Applications/Eclipse.app/Contents/Eclipse/eclimd'
 fi
