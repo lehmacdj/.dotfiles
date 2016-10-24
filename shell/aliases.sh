@@ -2,7 +2,7 @@
 # Works for zsh and bash
 # Configure aliases and functions
 
-# grep
+# use color for grep
 alias grep='grep --color=auto'
 
 # ls
@@ -12,34 +12,36 @@ alias ll='ls -alF'
 alias l.='ls -d .*'
 alias ls='ls --color=auto'
 
-# other
+# delete .DS_Store files
 alias dspurge='find . -name .DS_Store -delete'
+
+# make bc use floats by default
 alias bc='bc -l'
 
 # editing of things
 alias vial="\$EDITOR ~/.dotfiles/shell/aliases.sh"
 
-# latexmk
+# latexmk default pdf mode
 alias latexmk='latexmk -pdf'
 
-# General convenience of things
+# gpg to make it have a easier alias
 alias gpg="gpg2"
 
 # Vimlike commandline bindings
 alias :q="exit"
 alias :e="\$EDITOR"
 
-# Ed
+# Ed prompt
 alias ed="ed -p:"
 
-# Why not!
+# Summon a random kitten
 alias kitten="curl -s https://placekitten.com/\$(shuf -i 300-1000 -n 1)/\
 \$(shuf -i 300-1000 -n 1) | imgcat"
 
+# Sets the version to the specified version
+# Kind of actually just a glorified alias to /usr/libexed/java_home
+# use -v <version> to set the version to the specified version
 if [ -f "/usr/libexec/java_home" ]; then
-    # Sets the version to the specified version
-    # Kind of actually just a glorified alias to /usr/libexed/java_home
-    # use -v <version> to set the version to the specified version
     function jhome () {
         JAVA_HOME="$(/usr/libexec/java_home "$@")"
         export JAVA_HOME
@@ -48,20 +50,6 @@ if [ -f "/usr/libexec/java_home" ]; then
         java -version
     }
 fi
-
-# Sets up an eclipse workspace
-# First the workspace must exist then run this command with the path
-# to the workspace as the argument
-# The settings folder of the workspace will be deleted and symlinked to
-# The template workspace at ~/.templates/eclipse
-function eclset () {
-    echo "This function is deprecated!"
-    present_dir="$PWD"
-    cd  "$1/.metadata/.plugins/org.eclipse.core.runtime" || exit
-    rm -rf .settings
-    ln -s ~/.templates/eclipse/.metadata/.plugins/org.eclipse.core.runtime/.settings .settings
-    cd "$present_dir" || exit
-}
 
 # Swaps the location of two files
 function swap () {
@@ -103,6 +91,7 @@ function gittree () {
     done
 }
 
+# go up $1 directories in the hierarchy
 function up () {
     count="$1"
     while [ "$count" -gt 0 ]; do
