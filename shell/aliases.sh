@@ -124,6 +124,14 @@ if [ -n "$ZSH_VERSION" ]; then
     }
 fi
 
+# launch eclim
 if [ -f "/Applications/Eclipse.app/Contents/Eclipse/eclimd" ]; then
     alias eclimd='/Applications/Eclipse.app/Contents/Eclipse/eclimd'
+fi
+
+# convert a binary string to a hexadecimal string
+if [ -n "$ZSH_VERSION" ]; then
+    function bin2hex () {
+        typeset -i16 a="2#$1"; echo "${a#16\#}"
+    }
 fi
