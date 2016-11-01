@@ -12,11 +12,11 @@ Plug 'tommcdo/vim-exchange'
 
 " Convenience Plugins
 Plug 'tpope/vim-eunuch'
-Plug 'christoomey/vim-tmux-navigator'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-unimpaired'
+Plug 'junegunn/vim-easy-align'
 
 " UI Plugins
 Plug 'vim-airline/vim-airline'
@@ -57,6 +57,10 @@ Plug g:plug_home.'/eclim'
 let g:EclimCompletionMethod = 'omnifunc'
 call plug#end()
 
+" vim-easy-align
+vmap <Enter> <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
+
 " Netrw
 let g:netrw_liststyle = 3
 
@@ -66,6 +70,7 @@ call togglebg#map("<F3>")
 
 " vim-devicons
 let g:airline_powerline_fonts = 1
+let g:airline#extensions#whitespace#mixed_indent_algo = 1
 
 " syntastic checkers
 let g:syntastic_cpp_compiler = 'g++'
