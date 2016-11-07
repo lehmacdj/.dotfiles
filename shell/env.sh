@@ -46,8 +46,10 @@ if [ -f "$HOME/.opam/opam-init/init.sh" ]; then
 fi
 
 # Add fzf to path
-PATH="$PATH:$HOME/.fzf/bin"
-MANPATH="$MANPATH:$HOME/.fzf/man"
+if [ -d "$HOME/.fzf" ]; then
+    PATH="$PATH:$HOME/.fzf/bin"
+    MANPATH="$MANPATH:$HOME/.fzf/man"
+fi
 
 # Remove inconsistent path entries and export
 if [ -f "$DOTFILES/bin/consolidate-path" ]; then
