@@ -31,8 +31,6 @@ brew 'ffmpeg', args: %w[--with-libvpx --with-libvorbis]
 brew 'opam'
 
 # Cask
-tap 'caskroom/cask'
-brew 'brew-cask'
 cask 'google-chrome'
 cask 'dropbox'
 cask 'eclipse-java'
