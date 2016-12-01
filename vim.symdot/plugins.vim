@@ -1,6 +1,3 @@
-" Use matchit builtin plugin
-runtime 'macros/matchit.vim'
-
 call plug#begin('~/.vim/plugged')
 
 " Motion Plugins
@@ -28,9 +25,6 @@ Plug 'airblade/vim-gitgutter'
 " vim-vim-plugins
 Plug 'tpope/vim-scriptease'
 
-" swift
-Plug 'keith/swift.vim'
-
 " perl-plugins
 Plug 'vim-perl/vim-perl'
 
@@ -46,6 +40,10 @@ Plug 'cakebaker/scss-syntax.vim'
 Plug 'lervag/vimtex'
 Plug 'keith/tmux.vim'
 Plug 'xu-cheng/brew.vim'
+" idris highlighting + indentation
+Plug 'idris-hackers/idris-vim'
+" haskell highlighting + indentation
+Plug 'neovimhaskell/haskell-vim'
 
 " Solarized
 Plug 'altercation/vim-colors-solarized'
