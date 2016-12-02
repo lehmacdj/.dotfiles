@@ -1,14 +1,8 @@
 # Tap
-tap 'beeftornado/rmtree'
-tap 'universal-ctags/universal-ctags'
-tap 'Homebrew/homebrew-completions'
 
 # Brew
 brew 'bash'
-brew 'bash-completion'
 brew 'zsh'
-brew 'zsh-completions'
-brew 'htop-osx'
 brew 'wget'
 brew 'tree'
 brew 'coreutils'
@@ -21,14 +15,18 @@ brew 'python'
 brew 'vim', args: %w[--with-override-system-vi]
 brew 'p7zip'
 brew 'unar'
-brew 'openssl'
 brew 'ssh-copy-id'
-brew 'brew-rmtree'
-brew 'vagrant-completion' # for cask 'vagrant'
-brew 'universal-ctags', args: %w[HEAD]
 brew 'youtube-dl'
 brew 'ffmpeg', args: %w[--with-libvpx --with-libvorbis]
 brew 'opam'
+
+tap 'universal-ctags/universal-ctags'
+brew 'universal-ctags', args: %w[HEAD]
+
+tap 'Homebrew/homebrew-completions'
+brew 'bash-completion'
+brew 'zsh-completions'
+brew 'vagrant-completion' # for cask 'vagrant'
 
 # Cask
 cask 'google-chrome'
