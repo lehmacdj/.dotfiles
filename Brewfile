@@ -40,6 +40,7 @@ cask 'iterm2'
 cask 'quicksilver'
 cask 'jadengeller-helium'
 cask '1password'
+cask 'xquartz'
 
 # Quicklook -- make quicklook better / more useful
 cask 'qlstephen'
