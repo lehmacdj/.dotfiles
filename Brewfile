@@ -38,7 +38,6 @@ cask 'flux'
 cask 'vagrant'
 cask 'iterm2'
 cask 'quicksilver'
-cask 'jadengeller-helium'
 cask '1password'
 cask 'xquartz'
 
