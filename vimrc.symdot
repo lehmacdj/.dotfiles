@@ -73,7 +73,7 @@ set backspace=indent,eol,start
 set fileformat=unix
 
 " Escape more easily
-inoremap jk <ESC>
+" inoremap jk <ESC>
 " Easy macro-replay
 nnoremap Q @q
 " make Y more logical
