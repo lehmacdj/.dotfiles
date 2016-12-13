@@ -6,6 +6,7 @@ Plug 'tpope/vim-surround'
 Plug 'justinmk/vim-sneak'
 Plug 'tpope/vim-repeat'
 Plug 'tommcdo/vim-exchange'
+Plug 'scrooloose/syntastic'
 
 " Convenience Plugins
 Plug 'tpope/vim-eunuch'
@@ -19,7 +20,6 @@ Plug 'junegunn/vim-easy-align'
 Plug 'vim-airline/vim-airline'
     \| Plug 'vim-airline/vim-airline-themes'
 Plug 'edkolev/tmuxline.vim'
-Plug 'scrooloose/syntastic'
 Plug 'airblade/vim-gitgutter'
 
 " vim-vim-plugins
@@ -44,14 +44,17 @@ Plug 'xu-cheng/brew.vim'
 Plug 'idris-hackers/idris-vim'
 " haskell highlighting + indentation
 Plug 'neovimhaskell/haskell-vim'
+" rust syntax, highlighting, etc.
+Plug 'rust-lang/rust.vim'
+
+
+
+Plug g:plug_home.'/eclim'
 
 " Solarized
 Plug 'altercation/vim-colors-solarized'
-
 " Devicons
 Plug 'ryanoasis/vim-devicons'
-
-Plug g:plug_home.'/eclim'
 let g:EclimCompletionMethod = 'omnifunc'
 call plug#end()
 
@@ -69,6 +72,9 @@ call togglebg#map("<F3>")
 " vim-devicons
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#whitespace#mixed_indent_algo = 1
+
+" idris
+let g:idris_conceal = 1
 
 " syntastic checkers
 let g:syntastic_cpp_compiler = 'g++'
