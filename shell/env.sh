@@ -20,6 +20,7 @@ if which brew >/dev/null 2>&1; then
     BREW_PREFIX="$(brew --prefix)"
 
     PATH="$BREW_PREFIX/bin:$PATH"
+    PATH="$BREW_PREFIX/sbin:$PATH"
     MANPATH="$BREW_PREFIX/share/man:$MANPATH"
 
     # Deal with coreutils if installed
