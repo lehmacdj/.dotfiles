@@ -41,8 +41,6 @@ TAB: menu-complete
 "y": self-insert
 "p": self-insert
 "v": self-insert
-# jk = <esc>
-"jk": vi-movement-mode
 # Make C-w work better
 "\C-w": unix-filename-rubout
 "\C-j": history-search-forward
