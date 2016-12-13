@@ -52,16 +52,18 @@ fi
 # Links all of the files with the extension .sym* to the home directory.
 echo -e "\nCreating symlinks..."
 
-# Takes a pattern (e.g. ".symdot" and a function that transforms the basename
+# Takes a pattern (e.g. "dot_home/any/*" and a function that transforms the basename
 # of the file to its destination then links all files ending in the pattern to
 # the correct location
 function linkfiles () {
-    local pattern="$1"
-    local mapper="$2"
-    tolink=$(find -H "$DOTFILES" -maxdepth 5 -name "*$pattern")
+    local path="$1"
+    local pattern="$2"
+    local mapper="$3"
+    tolink=$(find -H "$DOTFILES/link/$path" -mindepth 1 -maxdepth 1 -name "$pattern")
     for file in $tolink; do
         local target
-        target="$("$mapper" "$(basename "$file" "$pattern")")"
+        # FIXME: doesn't remove suffixes etc. This is acceptable
+        target="$("$mapper" "$(basename "$file")")"
         if [ -e "$target" ] || [ -h "$target" ]; then
             echo "$target exists... Skipping."
         else
@@ -73,15 +75,15 @@ function linkfiles () {
 
 function symdot_mapper { echo "$HOME/.$1"; }
 # Symlink files to be symlinked to every platform
-linkfiles ".symdot" "symdot_mapper"
+linkfiles "dot_home/any" "*" "symdot_mapper"
 # Symlink OS X specific files
-[ -n "$DARWIN" ] && linkfiles ".symdot.osx" "symdot_mapper"
+[ -n "$DARWIN" ] && linkfiles "dot_home/osx" "*" "symdot_mapper"
 
 # Make sure XDG_CONFIG_HOME exists
 mkdir -p "$HOME/.config"
 function config_mapper { echo "$HOME/.config/$1"; }
 # symlink files that should go in xdg_config_home
-linkfiles ".symconfig" "config_mapper"
+linkfiles "config" "*" "config_mapper"
 
 # Setup fzf
 if [ ! -d "$HOME/.fzf" ]; then
