@@ -135,3 +135,5 @@ if [ -n "$ZSH_VERSION" ]; then
         typeset -i16 a="2#$1"; echo "${a#16\#}"
     }
 fi
+
+alias idris='idris --nobanner'
