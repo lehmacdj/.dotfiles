@@ -6,6 +6,9 @@ if [ -d "$HOME/.dotfiles" ]; then
     DOTFILES="$HOME/.dotfiles"
 elif [ -f "$HOME/.dotfiles" ]; then
     read -r DOTFILES < "$HOME/.dotfiles"
+else
+    echo "Could not determine path for \$DOTFILES"
+    exit 1
 fi
 export DOTFILES
 
