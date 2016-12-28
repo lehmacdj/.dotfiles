@@ -2,6 +2,9 @@
 # Install script to set up a general unix / linux capable computer as a
 # development machine
 
+# TODO: handle some command line parameters to do things such as only installing
+# dotfiles and reinstalling dotfiles
+
 echo "Beginning installation of dotfiles..."
 
 # Set Operating System Variables
