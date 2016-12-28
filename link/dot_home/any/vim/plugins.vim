@@ -46,8 +46,8 @@ Plug 'idris-hackers/idris-vim'
 Plug 'neovimhaskell/haskell-vim'
 " rust syntax, highlighting, etc.
 Plug 'rust-lang/rust.vim'
-
-
+" Swift syntax
+Plug 'keith/swift.vim'
 
 Plug g:plug_home.'/eclim'
 
