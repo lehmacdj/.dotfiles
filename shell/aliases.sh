@@ -8,7 +8,7 @@ alias grep='grep --color=auto'
 # ls
 alias l='ls -CF'
 alias la='ls -A'
-alias ll='ls -alF'
+alias ll='ls -alFh'
 alias l.='ls -d .*'
 alias ls='ls --color=auto'
 
