@@ -6,7 +6,6 @@ Plug 'tpope/vim-surround'
 Plug 'justinmk/vim-sneak'
 Plug 'tpope/vim-repeat'
 Plug 'tommcdo/vim-exchange'
-Plug 'scrooloose/syntastic'
 
 " Convenience Plugins
 Plug 'tpope/vim-eunuch'
@@ -56,6 +55,8 @@ Plug 'altercation/vim-colors-solarized'
 " Devicons
 Plug 'ryanoasis/vim-devicons'
 let g:EclimCompletionMethod = 'omnifunc'
+
+Plug 'scrooloose/syntastic'
 call plug#end()
 
 " vim-easy-align
@@ -76,9 +77,17 @@ let g:airline#extensions#whitespace#mixed_indent_algo = 1
 " idris
 let g:idris_conceal = 1
 
-" syntastic checkers
+" syntastic options
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+" syntastic filetype checker options
 let g:syntastic_cpp_compiler = 'g++'
 let g:syntastic_cpp_compiler_options = ' -std=c++11 -stdlib=libc++'
+
+let g:syntastic_idris_checkers = ['idris']
+let g:syntastic_rust_checkers = ['rustc']
 
 " Externally managed plugins
 if executable('opam')
