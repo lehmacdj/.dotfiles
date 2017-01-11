@@ -52,7 +52,8 @@ set guicursor=a:blinkon0
 set undolevels=10000
 
 " Delete comment character when joining commented lines
-set formatoptions+=j
+set formatoptions+=jn
+set nojoinspaces
 
 " ag
 set grepprg="ag --vimgrep"
