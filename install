@@ -42,6 +42,10 @@ for arg; do
         --help)
             usage_info
             exit 0;;
+        *)
+            echo "invalid option"
+            usage_info
+            exit 1;;
     esac
 done
 
