@@ -101,7 +101,8 @@ function linkfiles () {
     local suffix="$2"
     local depth="$3"
     local mapper="$4"
-    tolink=$(find -H "$DOTFILES/$path" -maxdepth "$depth" -name "*$suffix")
+    tolink=$(find -H "$DOTFILES/$path" -mindepth 1\
+        -maxdepth "$depth" -name "*$suffix")
     for file in $tolink; do
         local target
         # FIXME: doesn't remove suffixes etc. This is acceptable
