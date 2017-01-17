@@ -101,7 +101,7 @@ function linkfiles () {
     local path="$1"
     local pattern="$2"
     local mapper="$3"
-    tolink=$(find -H "$DOTFILES/link/$path" -mindepth 1 -maxdepth 1 -name "$pattern")
+    tolink=$(find -H "$DOTFILES/$path" -mindepth 1 -maxdepth 1 -name "$pattern")
     for file in $tolink; do
         local target
         # FIXME: doesn't remove suffixes etc. This is acceptable
@@ -121,15 +121,15 @@ if [ "$features" -ge 1 ]; then
 
     function symdot_mapper { echo "$HOME/.$1"; }
     # Symlink files to be symlinked to every platform
-    linkfiles "dot_home/any" "*" "symdot_mapper"
+    linkfiles "link/dot_home/any" "*" "symdot_mapper"
     # Symlink OS X specific files
-    [ -n "$DARWIN" ] && linkfiles "dot_home/osx" "*" "symdot_mapper"
+    [ -n "$DARWIN" ] && linkfiles "link/dot_home/osx" "*" "symdot_mapper"
 
     # Make sure XDG_CONFIG_HOME exists
     mkdir -p "$HOME/.config"
     function config_mapper { echo "$HOME/.config/$1"; }
     # symlink files that should go in xdg_config_home
-    linkfiles "config" "*" "config_mapper"
+    linkfiles "link/config" "*" "config_mapper"
 fi
 
 # Setup fzf
