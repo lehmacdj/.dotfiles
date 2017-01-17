@@ -94,18 +94,18 @@ if [ -n "$DARWIN" ] && [ "$features" -ge 3 ]; then
     brew bundle --file="$DOTFILES/Brewfile"
 fi
 
-# Takes a pattern (e.g. "dot_home/any/*" and a function that transforms the basename
-# of the file to its destination then links all files ending in the pattern to
-# the correct location
+# links files on $path with $suffix mapping them using $mapper where $suffix is
+# implicitly removed with a maximum depth of $depth
 function linkfiles () {
     local path="$1"
-    local pattern="$2"
-    local mapper="$3"
-    tolink=$(find -H "$DOTFILES/$path" -mindepth 1 -maxdepth 1 -name "$pattern")
+    local suffix="$2"
+    local depth="$3"
+    local mapper="$4"
+    tolink=$(find -H "$DOTFILES/$path" -maxdepth "$depth" -name "*$suffix")
     for file in $tolink; do
         local target
         # FIXME: doesn't remove suffixes etc. This is acceptable
-        target="$("$mapper" "$(basename "$file")")"
+        target="$("$mapper" "$(basename "$file" "$suffix")")"
         if [ -n "$force" ] || [ ! -e "$target" ] ||\
             [ -n "$update" ] && [ -h "$target" ]; then
             echo "Creating symlink for $file"
@@ -121,15 +121,15 @@ if [ "$features" -ge 1 ]; then
 
     function symdot_mapper { echo "$HOME/.$1"; }
     # Symlink files to be symlinked to every platform
-    linkfiles "link/dot_home/any" "*" "symdot_mapper"
+    linkfiles "link/dot_home/any" "" 1 "symdot_mapper"
     # Symlink OS X specific files
-    [ -n "$DARWIN" ] && linkfiles "link/dot_home/osx" "*" "symdot_mapper"
+    [ -n "$DARWIN" ] && linkfiles "link/dot_home/osx" "" 1 "symdot_mapper"
 
     # Make sure XDG_CONFIG_HOME exists
     mkdir -p "$HOME/.config"
     function config_mapper { echo "$HOME/.config/$1"; }
     # symlink files that should go in xdg_config_home
-    linkfiles "link/config" "*" "config_mapper"
+    linkfiles "link/config" "" 1 "config_mapper"
 fi
 
 # Setup fzf
