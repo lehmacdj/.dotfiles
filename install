@@ -5,7 +5,17 @@
 # TODO: handle some command line parameters to do things such as only installing
 # dotfiles and reinstalling dotfiles
 
-echo "Beginning installation of dotfiles..."
+function usage_info () {
+    echo "Usage: $0 [options]"
+    echo "Install dotfiles and do any other necessary configuration"
+    echo ""
+    echo "  --update        update the configuration that is currently installed"
+    echo "  --minimal       install a minimal set of files that can be completely"
+    echo "                      uninstalled using the --uninstall option"
+    echo "  --force         overwrite existing configuration when installing files"
+    echo "  --uninstall     symlink configuration to its proper location"
+    echo "  --help          show this help and then quit"
+}
 
 # Set Operating System Variables
 if [ "$(uname)" == "Darwin" ]; then
@@ -13,6 +23,35 @@ if [ "$(uname)" == "Darwin" ]; then
 elif [ "$(uname)" == "Linux" ]; then
     export LINUX=1
 fi
+
+# represents the number of features to install
+# 0 := none, 1 := minimal, 2 := all, "uninstall" := uninstall
+features=2
+
+for arg; do
+    case "$arg" in
+        --update)
+            update=1;;
+        --minimal)
+            features=1;;
+        --force)
+            force=1;;
+        --uninstall)
+            features=uninstall;;
+        --help)
+            usage_info
+            exit 0;;
+    esac
+done
+
+if [ "$features" == "uninstall" ]; then
+    # uninstall the dotfiles
+    echo "uninstalling is currently unimplemented"
+    exit 0
+fi
+
+echo "Installing dotfiles..."
+echo -e "update: $update\nforce: $force\nfeatures: $features"
 
 # Get the location of the dotfiles
 pushd "$(dirname "$0")" > /dev/null
@@ -34,7 +73,7 @@ fi
 # Set XDG_CONFIG_HOME if unset
 [ -n "$XDG_CONFIG_HOME" ] || export XDG_CONFIG_HOME="$HOME/.config"
 
-if [ -n "$DARWIN" ]; then
+if [ -n "$DARWIN" ] && [ "$features" -ge 2 ]; then
     # Install homebrew and brew everything in Brewfile
 
     echo -e "\nInstalling xcode commandline tools..."
@@ -49,11 +88,8 @@ if [ -n "$DARWIN" ]; then
 
     # Use brew-bundle to install brewfiles in a good order
     brew tap Homebrew/bundle 2>/dev/null
-    brew bundle --file="~/.dotfiles/Brewfile"
+    brew bundle --file="$DOTFILES/Brewfile"
 fi
-
-# Links all of the files with the extension .sym* to the home directory.
-echo -e "\nCreating symlinks..."
 
 # Takes a pattern (e.g. "dot_home/any/*" and a function that transforms the basename
 # of the file to its destination then links all files ending in the pattern to
@@ -67,31 +103,35 @@ function linkfiles () {
         local target
         # FIXME: doesn't remove suffixes etc. This is acceptable
         target="$("$mapper" "$(basename "$file")")"
-        if [ -e "$target" ] || [ -h "$target" ]; then
-            echo "$target exists... Skipping."
-        else
+        if [ -n "$force" ] || [ ! -e "$target" ] ||\
+            [ -n "$update" ] && [ -h "$target" ]; then
             echo "Creating symlink for $file"
-            ln -s "$file" "$target"
+            ln -f -s "$file" "$target"
+        else
+            echo "$target exists... Skipping."
         fi
     done
 }
 
-function symdot_mapper { echo "$HOME/.$1"; }
-# Symlink files to be symlinked to every platform
-linkfiles "dot_home/any" "*" "symdot_mapper"
-# Symlink OS X specific files
-[ -n "$DARWIN" ] && linkfiles "dot_home/osx" "*" "symdot_mapper"
+if [ "$features" -ge 1 ]; then
+    echo -e "\nCreating symlinks..."
 
-# Make sure XDG_CONFIG_HOME exists
-mkdir -p "$HOME/.config"
-function config_mapper { echo "$HOME/.config/$1"; }
-# symlink files that should go in xdg_config_home
-linkfiles "config" "*" "config_mapper"
+    function symdot_mapper { echo "$HOME/.$1"; }
+    # Symlink files to be symlinked to every platform
+    linkfiles "dot_home/any" "*" "symdot_mapper"
+    # Symlink OS X specific files
+    [ -n "$DARWIN" ] && linkfiles "dot_home/osx" "*" "symdot_mapper"
+
+    # Make sure XDG_CONFIG_HOME exists
+    mkdir -p "$HOME/.config"
+    function config_mapper { echo "$HOME/.config/$1"; }
+    # symlink files that should go in xdg_config_home
+    linkfiles "config" "*" "config_mapper"
+fi
 
 # Setup fzf
-if [ ! -d "$HOME/.fzf" ]; then
+if [ ! -d "$HOME/.fzf" ] && [ "$features" -ge 1 ]; then
     echo -e "\nInstalling fzf..."
     git clone https://github.com/junegunn/fzf.git --depth 1 "$HOME/.fzf" >/dev/null &&\
-    "$HOME/.fzf/install" --bin ||\
-    echo "Failed to install fzf!"
+    "$HOME/.fzf/install" --bin || echo "Failed to install fzf!"
 fi
