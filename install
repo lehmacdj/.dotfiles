@@ -55,7 +55,6 @@ if [ "$features" == "uninstall" ]; then
 fi
 
 echo "Installing dotfiles..."
-echo -e "update: $update\nforce: $force\nfeatures: $features"
 
 # Get the location of the dotfiles
 pushd "$(dirname "$0")" > /dev/null
