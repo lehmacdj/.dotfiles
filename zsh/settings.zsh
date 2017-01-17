@@ -10,6 +10,7 @@ setopt always_to_end
 setopt prompt_subst
 # Get rid of beeping
 unsetopt beep
+# extended globbing
 setopt extended_glob
 
 # HISTORY
@@ -17,7 +18,6 @@ HISTSIZE=100000
 SAVEHIST=100000
 HISTFILE="$DOTFILES/zsh/.zhistory"
 HISTORY_IGNORE="(ls|ll|bg|fg|history)"
-
 # Allow multiple terminal sessions to all append to one zsh command history
 setopt append_history
 # Add comamnds as they are typed, don't wait until shell exit
@@ -30,3 +30,6 @@ setopt hist_ignore_dups
 setopt hist_find_no_dups
 # Remove extra blanks from each command line being added to history
 setopt hist_reduce_blanks
+
+# autoload plugins
+autoload -U zmv
