@@ -1,17 +1,17 @@
 # Specify only the .vim files that need to be versioned
-link/dot_home/any/vim/*
-!link/dot_home/any/vim/autoload/
-!link/dot_home/any/vim/ftplugin/
-!link/dot_home/any/vim/ftdetect/
-!link/dot_home/any/vim/plugins.vim
+vim.symdot/*
+!vim.symdot/autoload/
+!vim.symdot/ftplugin/
+!vim.symdot/ftdetect/
+!vim.symdot/plugins.vim
 
 # the same for nvim
-link/config/nvim/*
-!link/config/nvim/autoload/
-!link/config/nvim/ftplugin/
-!link/config/nvim/ftdetect/
-!link/config/nvim/plugins.vim
-!link/config/nvim/init.vim
+nvim.symconfig/*
+!nvim.symconfig/autoload/
+!nvim.symconfig/ftplugin/
+!nvim.symconfig/ftdetect/
+!nvim.symconfig/plugins.vim
+!nvim.symconfig/init.vim
 
 # zsh
 zsh/.*
