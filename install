@@ -108,8 +108,8 @@ function linkfiles () {
         target="$("$mapper" "$(basename "$file" "$suffix")")"
         if [ -n "$force" ] || [ ! -e "$target" ] ||\
             [ -n "$update" ] && [ -h "$target" ]; then
-            echo "Creating symlink for $file"
             ln -f -s "$file" "$target"
+            echo "Created symlink for $file"
         else
             echo "$target exists... Skipping."
         fi
