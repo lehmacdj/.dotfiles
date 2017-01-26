@@ -75,8 +75,8 @@ call togglebg#map("<F3>")
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#whitespace#mixed_indent_algo = 1
 
-" idris
-let g:idris_conceal = 1
+" haskell
+let g:haskell_enable_quantification = 1
 
 " syntastic options
 let g:syntastic_always_populate_loc_list = 1
