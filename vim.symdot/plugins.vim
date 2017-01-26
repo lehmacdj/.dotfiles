@@ -6,6 +6,7 @@ Plug 'tpope/vim-surround'
 Plug 'justinmk/vim-sneak'
 Plug 'tpope/vim-repeat'
 Plug 'tommcdo/vim-exchange'
+Plug 'tpope/vim-commentary'
 
 " Convenience Plugins
 Plug 'tpope/vim-eunuch'
