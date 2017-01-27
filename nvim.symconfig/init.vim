@@ -83,9 +83,9 @@ let mapleader=" "
 " Edit vimrc
 nnoremap <Leader>ev :split $MYVIMRC<CR>
 " Edit plugins
-nnoremap <Leader>ep :split ~/.vim/plugins.vim<CR>
+nnoremap <Leader>ep :split $VIMHOME/plugins.vim<CR>
 " Edit filetype file
-nnoremap <expr> <Leader>ef ':split ~/.vim/ftplugin/' . &filetype . '.vim<CR>'
+nnoremap <expr> <Leader>ef ':split '.$VIMHOME.'/ftplugin/'.&filetype.'.vim<CR>'
 " Source vimrc
 nnoremap <Leader>sv :source $MYVIMRC<CR>
 " Install plugins
