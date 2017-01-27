@@ -30,8 +30,9 @@ set keymap vi-command
 "p": vi-put
 "\C-j": history-search-forward
 "\C-k": history-search-backward
-"\C-f": edit-and-execute-command
-"v": none
+$if bash
+    "\C-f": edit-and-execute-command
+$endif
 
 set keymap vi-insert
 # Completion for tab and tab backwards
@@ -42,7 +43,9 @@ TAB: menu-complete
 "p": self-insert
 "v": self-insert
 # Make C-w work better
-"\C-w": unix-filename-rubout
 "\C-j": history-search-forward
 "\C-k": history-search-backward
-"\C-f": edit-and-execute-command
+$if bash
+    "\C-w": unix-filename-rubout
+    "\C-f": edit-and-execute-command
+$endif
