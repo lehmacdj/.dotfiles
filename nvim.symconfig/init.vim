@@ -73,8 +73,6 @@ set fileformat=unix
 nnoremap Q @q
 " make Y more logical
 nnoremap Y y$
-" Force save a file
-cmap W! w !sudo tee % >/dev/null
 " navigation from terminal
 tnoremap <C-\>j <C-\><C-n><C-w><C-j>
 tnoremap <C-\>k <C-\><C-n><C-w><C-k>
