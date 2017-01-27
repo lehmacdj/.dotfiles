@@ -2,13 +2,7 @@
 source ~/.vim/plugins.vim
 
 filetype plugin indent on
-syntax on
 syntax enable
-
-" source local vimrc file
-if filereadable("~/.vim/local.vim")
-    source ~/.vim/local.vim
-endif
 
 " make vim completion better
 set wildmode=longest:full,full
@@ -55,9 +49,6 @@ set undolevels=10000
 set formatoptions+=jn
 set nojoinspaces
 
-" ag
-set grepprg="ag --vimgrep"
-
 " Completion
 set omnifunc=syntaxcomplete#Complete
 " inoremap <NUL> <C-x><C-o>
@@ -73,16 +64,16 @@ set backspace=indent,eol,start
 
 set fileformat=unix
 
-" Escape more easily
-" inoremap jk <ESC>
+" Global mappings
 " Easy macro-replay
 nnoremap Q @q
 " make Y more logical
 nnoremap Y y$
+" Force save a file
+cmap W! w !sudo tee % >/dev/null
 
 " Leader mappings
 let mapleader=" "
-
 " Edit vimrc
 nnoremap <Leader>ev :split $MYVIMRC<CR>
 " Edit plugins
@@ -107,10 +98,6 @@ nnoremap <Leader>b :Buffers<CR>
 nnoremap <Leader>: :<Up><CR>
 xnoremap <Leader>: :<Up><CR>
 
-" Force save a file
-cmap W! w !sudo tee % >/dev/null
-
-
 " Toggle colorcolumn
 set colorcolumn=81
 let s:color_column_old = 0
@@ -128,3 +115,8 @@ if &spell
     " Spelling corrections
     abbreviate teh the
 end
+
+" finally load local vim configuration if it exists
+if filereadable("~/.vim/local.vim")
+    source ~/.vim/local.vim
+endif

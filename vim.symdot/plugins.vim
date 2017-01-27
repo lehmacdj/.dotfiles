@@ -28,9 +28,6 @@ Plug 'tpope/vim-scriptease'
 " perl-plugins
 Plug 'vim-perl/vim-perl'
 
-" R plugins
-Plug 'vim-scripts/csv.vim'
-
 " Webdev plugins
 Plug 'othree/html5.vim'
 Plug 'tpope/vim-markdown'
