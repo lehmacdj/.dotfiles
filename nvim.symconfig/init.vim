@@ -23,7 +23,8 @@ set smartindent
 set smarttab
 set autoread
 
-" display
+" ui
+silent! colorscheme solarized
 set mouse=a
 set scrolloff=4
 set showcmd
@@ -31,6 +32,8 @@ set number
 set nohlsearch
 set laststatus=2
 set background=dark
+let g:airline_powerline_fonts = 1
+let g:netrw_liststyle = 3
 
 " searching
 set magic

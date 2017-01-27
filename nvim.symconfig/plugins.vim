@@ -10,6 +10,9 @@ Plug 'tommcdo/vim-exchange'
 Plug 'tpope/vim-commentary'
 Plug 'junegunn/vim-easy-align'
 
+" completion
+" TODO: deoplete + plugins (esp. c)
+
 " utility
 Plug 'tpope/vim-repeat'
 
@@ -62,13 +65,3 @@ Plug 'ryanoasis/vim-devicons'
 Plug 'altercation/vim-colors-solarized'
 
 call plug#end()
-
-" probably want to migrate all of these settings back to vimrc
-let g:netrw_liststyle = 3
-
-" use solarized theme
-silent! colorscheme solarized
-call togglebg#map("<F3>")
-
-" enable powerline font in airline
-let g:airline_powerline_fonts = 1
