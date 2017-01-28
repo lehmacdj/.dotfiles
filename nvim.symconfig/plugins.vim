@@ -13,6 +13,7 @@ Plug 'junegunn/vim-easy-align'
 " completion
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     \| Plug 'eagletmt/neco-ghc'
+    \| Plug 'racer-rust/vim-racer'
 
 " utility
 Plug 'tpope/vim-repeat'
@@ -51,7 +52,8 @@ Plug 'tpope/vim-markdown'
 Plug 'idris-hackers/idris-vim'
 
 " haskell
-" TODO: intero
+Plug 'parsonsmatt/intero-neovim'
+Plug 'neovimhaskell/haskell-vim'
 
 " rust
 Plug 'rust-lang/rust.vim'
