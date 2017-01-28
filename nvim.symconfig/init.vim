@@ -35,6 +35,9 @@ set background=dark
 let g:airline_powerline_fonts = 1
 let g:netrw_liststyle = 3
 
+" fix delay when exiting insert mode
+set noesckeys
+
 " searching
 set magic
 set ignorecase
