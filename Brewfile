@@ -1,5 +1,3 @@
-# Tap
-
 # Brew
 brew 'bash'
 brew 'zsh'
