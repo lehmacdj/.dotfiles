@@ -65,8 +65,6 @@ inoremap <expr><BS>  deoplete#smart_close_popup()."\<C-h>"
 " Make backspace behave the way I expect
 set backspace=indent,eol,start
 
-set fileformat=unix
-
 " Global mappings
 " Easy macro-replay
 nnoremap Q @q
