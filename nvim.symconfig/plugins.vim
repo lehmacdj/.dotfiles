@@ -9,6 +9,7 @@ Plug 'tpope/vim-surround'
 Plug 'tommcdo/vim-exchange'
 Plug 'tpope/vim-commentary'
 Plug 'junegunn/vim-easy-align'
+Plug 'tpope/vim-unimpaired'
 
 " completion
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -52,7 +53,6 @@ Plug 'tpope/vim-markdown'
 Plug 'idris-hackers/idris-vim'
 
 " haskell
-Plug 'parsonsmatt/intero-neovim'
 Plug 'neovimhaskell/haskell-vim'
 
 " rust
