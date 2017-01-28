@@ -11,7 +11,8 @@ Plug 'tpope/vim-commentary'
 Plug 'junegunn/vim-easy-align'
 
 " completion
-" TODO: deoplete + plugins (esp. c)
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    \| Plug 'eagletmt/neco-ghc'
 
 " utility
 Plug 'tpope/vim-repeat'

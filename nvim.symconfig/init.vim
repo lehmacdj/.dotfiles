@@ -52,16 +52,15 @@ set undolevels=10000
 set formatoptions+=jn
 set nojoinspaces
 
-" Completion
-" probably replacing all of this configuration with deoplete
-set omnifunc=syntaxcomplete#Complete
-" inoremap <NUL> <C-x><C-o>
-set completeopt=longest,menuone
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
-  \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
-inoremap <expr> <NUL> pumvisible() ? '<C-n>' :
-  \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+" deoplete
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_smart_case = 1
+let g:deoplete#sources = {}
+" let g:deoplete#sources._ = ['buffer']
+" autocmd CmdwinEnter * let b:deoplete_sources = ['buffer']
+" make backspace close the popup window
+inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS>  deoplete#smart_close_popup()."\<C-h>"
 
 " Make backspace behave the way I expect
 set backspace=indent,eol,start
@@ -73,6 +72,8 @@ set fileformat=unix
 nnoremap Q @q
 " make Y more logical
 nnoremap Y y$
+" align lines
+nnoremap ga <Plug>(EasyAlign)
 " navigation from terminal
 tnoremap <C-\>j <C-\><C-n><C-w><C-j>
 tnoremap <C-\>k <C-\><C-n><C-w><C-k>
@@ -105,7 +106,7 @@ nnoremap <Leader>b :Buffers<CR>
 nnoremap <Leader>: :<Up><CR>
 xnoremap <Leader>: :<Up><CR>
 
-" Toggle colorcolumn
+" toggle colorcolumn
 set colorcolumn=81
 let s:color_column_old = 0
 function! s:ToggleColorColumn()
