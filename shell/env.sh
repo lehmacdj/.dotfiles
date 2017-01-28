@@ -38,12 +38,16 @@ if [ "$LINUX" ] && [ -d "$HOME/brew" ]; then
     [ -f "/etc/bash_completion" ] && source "/etc/bash_completion"
 fi
 
-
-
 # OCaml/OPAM configuration
 if [ -f "$HOME/.opam/opam-init/init.sh" ]; then
     source "$HOME/.opam/opam-init/init.sh" > /dev/null 2>&1 || true
     eval "$(opam config env)"
+fi
+
+# Add Haskell bin to the path
+if [ -d "$HOME/Library/Haskell/" ]; then
+    PATH="$PATH:$HOME/Library/Haskell/bin"
+    MANPATH="$MANPATH:$HOME/Library/Haskell/share/man"
 fi
 
 # Add fzf to path
