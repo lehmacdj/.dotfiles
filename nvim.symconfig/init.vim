@@ -65,6 +65,9 @@ let g:deoplete#sources = {}
 inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
 inoremap <expr><BS>  deoplete#smart_close_popup()."\<C-h>"
 
+" neomake
+autocmd BufWritePost,BufWinEnter * silent Neomake
+
 " Make backspace behave the way I expect
 set backspace=indent,eol,start
 
