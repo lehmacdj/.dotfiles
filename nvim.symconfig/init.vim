@@ -43,6 +43,7 @@ set magic
 set ignorecase
 set smartcase
 set incsearch
+set inccommand=split
 
 " buffers
 set hidden
