@@ -69,4 +69,17 @@ Plug 'vim-airline/vim-airline'
 Plug 'ryanoasis/vim-devicons'
 Plug 'altercation/vim-colors-solarized'
 
+" opam plugins
+if executable('opam')
+    let g:opamshare = substitute(system('opam config var share'), '\n$', '', '''')
+
+    if executable('ocamlmerlin') && has('python')
+        Plug g:opamshare.'/merlin/vim'
+    endif
+
+    if executable('ocp-indent')
+        Plug g:opamshare.'/ocp-indent/vim'
+    endif
+endif
+
 call plug#end()
