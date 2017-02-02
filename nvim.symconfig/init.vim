@@ -60,8 +60,11 @@ set nojoinspaces
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_smart_case = 1
 let g:deoplete#sources = {}
-" let g:deoplete#sources._ = ['buffer']
-" autocmd CmdwinEnter * let b:deoplete_sources = ['buffer']
+let g:deoplete#sources._ = ['buffer']
+let g:deoplete#sources.ocaml = ['buffer', 'omni']
+let g:deoplete#omni#input_patterns = {}
+let g:deoplete#omni#input_patterns.ocaml = ['[^. *\t]\.\w*','[A-Za-z_]\w*','#']
+autocmd CmdwinEnter * let b:deoplete_sources = ['buffer']
 " make backspace close the popup window
 inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
 inoremap <expr><BS>  deoplete#smart_close_popup()."\<C-h>"
