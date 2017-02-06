@@ -1,5 +1,5 @@
 " Wrap lines at 80 automatically
-setlocal textwidth=80
+" setlocal textwidth=80
 
 " Make c a new surround command for a latex command
 " e.g. ysapc[arg] would surround a paragraph like \arg{[paragraph]}
