@@ -38,18 +38,11 @@ alias ed="ed -p:"
 alias kitten="curl -s https://placekitten.com/\$(shuf -i 300-1000 -n 1)/\
 \$(shuf -i 300-1000 -n 1) | imgcat"
 
-# Sets the version to the specified version
-# Kind of actually just a glorified alias to /usr/libexed/java_home
-# use -v <version> to set the version to the specified version
-if [ -f "/usr/libexec/java_home" ]; then
-    function jhome () {
-        JAVA_HOME="$(/usr/libexec/java_home "$@")"
-        export JAVA_HOME
-        echo "JAVA_HOME:" "$JAVA_HOME"
-        echo "java -version:"
-        java -version
-    }
-fi
+# make java_home accessible
+alias java_home='/usr/libexec/java_home'
+
+# work with plist files
+alias PlistBuddy='/usr/libexec/PlistBuddy'
 
 # Swaps the location of two files
 function swap () {
