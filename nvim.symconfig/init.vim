@@ -59,11 +59,22 @@ set nojoinspaces
 " deoplete
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_smart_case = 1
-let g:deoplete#sources = {}
+let g:deoplete#sources = get(g:, 'deoplete#sources', {})
 let g:deoplete#sources._ = ['buffer']
 let g:deoplete#sources.ocaml = ['buffer', 'omni']
-let g:deoplete#omni#input_patterns = {}
+let g:deoplete#sources.c = ['buffer', 'include', 'omni']
+let g:deoplete#omni#input_patterns = get(g:, 'deoplete#omni#input_patterns', {})
 let g:deoplete#omni#input_patterns.ocaml = ['[^. *\t]\.\w*','[A-Za-z_]\w*','#']
+let g:deoplete#omni#input_patterns.tex = '\\(?:'
+    \ .  '\w*cite\w*(?:\s*\[[^]]*\]){0,2}\s*{[^}]*'
+    \ . '|\w*ref(?:\s*\{[^}]*|range\s*\{[^,}]*(?:}{)?)'
+    \ . '|hyperref\s*\[[^]]*'
+    \ . '|includegraphics\*?(?:\s*\[[^]]*\]){0,2}\s*\{[^}]*'
+    \ . '|(?:include(?:only)?|input)\s*\{[^}]*'
+    \ . '|\w*(gls|Gls|GLS)(pl)?\w*(\s*\[[^]]*\]){0,2}\s*\{[^}]*'
+    \ . '|includepdf(\s*\[[^]]*\])?\s*\{[^}]*'
+    \ . '|includestandalone(\s*\[[^]]*\])?\s*\{[^}]*'
+    \ .')'
 autocmd CmdwinEnter * let b:deoplete_sources = ['buffer']
 " make backspace close the popup window
 inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
@@ -81,7 +92,10 @@ nnoremap Q @q
 " make Y more logical
 nnoremap Y y$
 " align lines
-nnoremap ga <Plug>(EasyAlign)
+nmap ga <Plug>(EasyAlign)
+xmap ga <Plug>(EasyAlign)
+" toggle background color
+nnoremap <F3> :set background!<CR>
 " navigation from terminal
 tnoremap <C-\>j <C-\><C-n><C-w><C-j>
 tnoremap <C-\>k <C-\><C-n><C-w><C-k>
