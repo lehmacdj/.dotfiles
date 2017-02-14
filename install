@@ -16,6 +16,11 @@ function usage_info () {
     echo "  --help          show this help and then quit"
 }
 
+# print data if verbose = true
+function log () {
+    [ -n "$verbose" ] && echo "$@"
+}
+
 # Set Operating System Variables
 if [ "$(uname)" == "Darwin" ]; then
     export DARWIN=1
@@ -39,6 +44,8 @@ for arg; do
             force=1;;
         --uninstall)
             features=uninstall;;
+        --verbose)
+            verbose=1;;
         --help)
             usage_info
             exit 0;;
@@ -102,12 +109,20 @@ function linkfiles () {
     local suffix="$2"
     local depth="$3"
     local mapper="$4"
+    log "linking files with: "
+    log "path=$path"
+    log "suffix=$suffix"
+    log "depth=$depth"
+    log "mapper=$mapper"
     tolink=$(find -H "$DOTFILES$path" -mindepth 1\
         -maxdepth "$depth" -name "*$suffix")
     for file in $tolink; do
         local target
         # FIXME: doesn't remove suffixes etc. This is acceptable
         target="$("$mapper" "$(basename "$file" "$suffix")")"
+        log "Processing file=$file"
+        log "    target=$target"
+        log "    force=$force update=$update"
         if [ -n "$force" ] || [ ! -e "$target" ] ||\
             [ -n "$update" ] && [ -h "$target" ]; then
             ln -f -s "$file" "$target"
