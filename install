@@ -124,7 +124,7 @@ function linkfiles () {
         log "    target=$target"
         log "    force=$force update=$update"
         if [ -n "$force" ] || [ ! -e "$target" ] ||\
-            [ -n "$update" ] && [ -h "$target" ]; then
+            ([ -n "$update" ] && [ -h "$target" ]); then
             ln -f -s "$file" "$target"
             echo "Created symlink for $file"
         else
