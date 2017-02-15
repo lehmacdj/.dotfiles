@@ -22,6 +22,8 @@ source "$DOTFILES/shell/z.sh"
 # set up bash-completion
 if [ -f "/usr/local/etc/bash_completion" ]; then
     source "/usr/local/etc/bash_completion"
+elif [ -f "/etc/bash_completion" ]; then
+    source "/etc/bash_completion"
 fi
 
 [ -f "$HOME/.local.bash" ] && source "$HOME/.local.bash" || true
