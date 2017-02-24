@@ -116,6 +116,8 @@ nnoremap <Leader>sv :source $MYVIMRC<CR>
 nnoremap <Leader>ip :PlugInstall<CR>
 " Fuzzy file open
 nnoremap <Leader>o :FZF<CR>
+" Fuzzy ag
+nnoremap <Leader>/ :Ag<CR>
 " Trim whitespace
 noremap <Leader>t<Space> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 " Generate ctags
