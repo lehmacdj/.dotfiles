@@ -6,6 +6,10 @@ setlocal shiftwidth=2
 nnoremap <LocalLeader>m :GotoDotMerlin<CR>
 nnoremap <LocalLeader>d :MerlinDocument<CR>
 
+" enable merlin completion
+let b:deoplete_omni_input_patterns = ['[^. *\t]\.\w*','[A-Za-z_]\w*','#']
+let b:deoplete_sources = ['buffer', 'omni']
+
 " forward merlin data to neomake
 function! g:OCaml_Merlin_GenerateArgs()
     let s:errors = merlin#ErrorLocList()

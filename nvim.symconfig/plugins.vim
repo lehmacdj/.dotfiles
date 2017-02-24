@@ -16,6 +16,7 @@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
     \| Plug 'eagletmt/neco-ghc'
     \| Plug 'racer-rust/vim-racer'
     \| Plug 'Shougo/neoinclude.vim'
+    \| Plug 'zchee/deoplete-jedi'
 
 " utility
 Plug 'tpope/vim-repeat'
