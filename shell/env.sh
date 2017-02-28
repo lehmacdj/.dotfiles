@@ -4,6 +4,9 @@
 export EDITOR='vim'
 export VISUAL='vim'
 
+# Use vim for manpager
+export MANPAGER='vim -c "set ft=man" -'
+
 # System name
 [ "$(uname)" = "Darwin" ] && export DARWIN=1
 [ "$(uname)" = "Linux" ] && export LINUX=1
