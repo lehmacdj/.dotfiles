@@ -1,0 +1,7 @@
+" vimrc like stuff for vrapper in eclipse
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set incsearch
+
+nnoremap <space>t<space> :%s/\s+$//<cr>
