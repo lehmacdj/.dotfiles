@@ -21,6 +21,9 @@ export MANPAGER='vim -c "set ft=man" -'
 # Local bin
 [ -d "$HOME/.local/bin" ] && PATH="$HOME/.local/bin:$PATH"
 
+# Rust/Cargo bin
+[ -d "$HOME/.cargo/bin" ] && PATH="$HOME/.local/bin:$PATH"
+
 # Homebrew
 if which brew >/dev/null 2>&1; then
     BREW_PREFIX="$(brew --prefix)"
