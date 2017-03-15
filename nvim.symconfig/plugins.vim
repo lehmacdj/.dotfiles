@@ -20,6 +20,7 @@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
 " utility
 Plug 'tpope/vim-repeat'
+Plug 'editorconfig/editorconfig-vim'
 
 " unix
 Plug 'tpope/vim-eunuch'
@@ -69,17 +70,17 @@ Plug 'vim-airline/vim-airline'
 Plug 'ryanoasis/vim-devicons'
 Plug 'altercation/vim-colors-solarized'
 
+call plug#end()
+
 " opam plugins
 if executable('opam')
     let g:opamshare = substitute(system('opam config var share'), '\n$', '', '''')
 
     if executable('ocamlmerlin') && has('python')
-        Plug g:opamshare.'/merlin/vim'
+        execute "set rtp+=".g:opamshare . "/merlin/vim"
     endif
 
     if executable('ocp-indent')
-        Plug g:opamshare.'/ocp-indent/vim'
+        execute "set rtp+=" . g:opamshare . "/ocp-indent/vim"
     endif
 endif
-
-call plug#end()
