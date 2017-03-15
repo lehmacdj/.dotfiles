@@ -33,6 +33,7 @@ set nohlsearch
 set laststatus=2
 set background=dark
 let g:airline_powerline_fonts = 1
+let g:airline#extensions#whitespace#mixed_indent_algo = 2
 let g:netrw_liststyle = 3
 
 " fix delay when exiting insert mode
