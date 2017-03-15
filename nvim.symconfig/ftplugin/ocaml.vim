@@ -2,6 +2,8 @@
 setlocal tabstop=2
 setlocal shiftwidth=2
 
+setlocal iskeyword+='
+
 " Bindings for merlin
 nnoremap <LocalLeader>m :GotoDotMerlin<CR>
 nnoremap <LocalLeader>d :MerlinDocument<CR>
