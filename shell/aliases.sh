@@ -30,6 +30,9 @@ alias gpg="gpg2"
 # Vimlike commandline bindings
 alias :q="exit"
 alias :e="\$EDITOR"
+alias vi="\$EDITOR"
+alias vim="\$EDITOR"
+alias nvim="\$EDITOR"
 
 # Ed prompt
 alias ed="ed -p:"

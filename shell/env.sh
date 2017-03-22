@@ -14,8 +14,10 @@ fi
 export EDITOR
 export VISUAL
 
-# Use vim for manpager
-export MANPAGER='vim -c "set ft=man" -'
+if test "$EDITOR" = 'vim' || test "$EDITOR" = 'nvim'; then
+    # Use (n)vim for manpager if it is available
+    export MANPAGER="\$EDITOR -c 'set ft=man' -"
+fi
 
 # System name
 [ "$(uname)" = "Darwin" ] && export DARWIN=1
