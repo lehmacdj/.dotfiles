@@ -36,3 +36,7 @@
     smtpencryption = tls
     smtpserverport = 587
     suppresscc = self
+[diff]
+	tool = (n)vimdiff
+[difftool "(n)vimdiff"]
+	cmd = "\"$EDITOR\" -d \"$LOCAL\" \"$REMOTE\""
