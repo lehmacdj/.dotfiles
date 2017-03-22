@@ -1,8 +1,18 @@
 #!/bin/bash
 #
 # Editor variables
-export EDITOR='vim'
-export VISUAL='vim'
+if nvim --version >/dev/null; then
+    EDITOR='nvim'
+    VISUAL='nvim'
+elif vim --version >/dev/null; then
+    EDITOR='vim'
+    VISUAL='vim'
+else
+    EDITOR='vi'
+    VISUAL='vi'
+fi
+export EDITOR
+export VISUAL
 
 # Use vim for manpager
 export MANPAGER='vim -c "set ft=man" -'
