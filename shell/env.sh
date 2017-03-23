@@ -1,10 +1,10 @@
 #!/bin/bash
 #
 # Editor variables
-if nvim --version >/dev/null; then
+if nvim --version >/dev/null 2>&1; then
     EDITOR='nvim'
     VISUAL='nvim'
-elif vim --version >/dev/null; then
+elif vim --version >/dev/null 2>&1; then
     EDITOR='vim'
     VISUAL='vim'
 else
