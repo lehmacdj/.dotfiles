@@ -34,7 +34,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
 " syntax checking
-Plug 'benekastah/neomake'
+Plug 'w0rp/ale'
 
 " vim
 Plug 'tpope/vim-scriptease'

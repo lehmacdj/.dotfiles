@@ -73,9 +73,6 @@ let g:ale_lint_on_text_changed = 'never'
 let g:ale_sign_error = '✖'
 let g:ale_sign_warning = '⚠'
 
-" neomake
-" autocmd BufWritePost,BufWinEnter * silent Neomake
-
 " Make backspace behave the way I expect
 set backspace=indent,eol,start
 
