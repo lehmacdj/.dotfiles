@@ -16,9 +16,9 @@ function usage_info () {
     echo "  --help          show this help and then quit"
 }
 
-# print data if verbose = true
+# print data if verbose > level
 function log () {
-    [ -n "$verbose" ] && echo "$@"
+    [ "$verbose" -gt "$1" ] && shift && echo "$@"
 }
 
 # Set Operating System Variables
@@ -31,6 +31,10 @@ fi
 # represents the number of features to install
 # 0 := none, 1 := minimal, 2 := default, 3 := all, "uninstall" := uninstall
 features=2
+
+# the verbosity of the program
+# 0 := none, 1 := default, 2 := verbose
+verbose=1
 
 for arg; do
     case "$arg" in
@@ -45,7 +49,7 @@ for arg; do
         --uninstall)
             features=uninstall;;
         --verbose)
-            verbose=1;;
+            verbose=2;;
         --help)
             usage_info
             exit 0;;
@@ -62,7 +66,7 @@ if [ "$features" == "uninstall" ]; then
     exit 0
 fi
 
-echo "Installing dotfiles..."
+log 0 "Installing dotfiles..."
 
 # Get the location of the dotfiles
 pushd "$(dirname "$0")" > /dev/null
@@ -74,7 +78,7 @@ if [ "$DOTFILES" != "$HOME/.dotfiles" ]; then
     # test if a file or symlink is present at ~/.dotfiles
     if [ -e "$HOME/.dotfiles" ] || [ -h "$HOME/.dotfiles" ]; then
         # exit the program as this cannot be sucessfully installed then
-        echo -e "A file or directory is present at $HOME/.dotfiles... Aborting."
+        log 0 "A file or directory is present at $HOME/.dotfiles... Aborting."
         exit 1
     fi
     # put the location of dotfiles at ~/.dotfiles in a file
@@ -87,7 +91,8 @@ fi
 if [ -n "$DARWIN" ] && [ "$features" -ge 3 ]; then
     # Install homebrew and brew everything in Brewfile
 
-    echo -e "\nInstalling xcode commandline tools..."
+    log 1 ""
+    log 0 "Installing xcode commandline tools..."
     xcode-select --install >/dev/null 2>&1
 
 
@@ -95,7 +100,8 @@ if [ -n "$DARWIN" ] && [ "$features" -ge 3 ]; then
     brew help >/dev/null 2>&1 || \
     ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
-    echo -e "\nBrewing formulas..."
+    log 1 ""
+    log 0 "Brewing formulas..."
 
     # Use brew-bundle to install brewfiles in a good order
     brew tap Homebrew/bundle 2>/dev/null
@@ -109,32 +115,32 @@ function linkfiles () {
     local suffix="$2"
     local depth="$3"
     local mapper="$4"
-    log "linking files with: "
-    log "path=$path"
-    log "suffix=$suffix"
-    log "depth=$depth"
-    log "mapper=$mapper"
+    log 1 "linking files with: "
+    log 1 "    path=$path"
+    log 1 "    suffix=$suffix"
+    log 1 "    depth=$depth"
+    log 1 "    mapper=$mapper"
     tolink=$(find -H "$DOTFILES$path" -mindepth 1\
         -maxdepth "$depth" -name "*$suffix")
     for file in $tolink; do
         local target
-        # FIXME: doesn't remove suffixes etc. This is acceptable
         target="$("$mapper" "$(basename "$file" "$suffix")")"
-        log "Processing file=$file"
-        log "    target=$target"
-        log "    force=$force update=$update"
+        log 1 "    Processing file=$file"
+        log 1 "        target=$target"
+        log 1 "        force=$force update=$update"
         if [ -n "$force" ] || [ ! -e "$target" ] ||\
             ([ -n "$update" ] && [ -h "$target" ]); then
             ln -f -s "$file" "$target"
-            echo "Created symlink for $file"
+            log 0 "Created symlink for $file"
         else
-            echo "$target exists... Skipping."
+            log 0 "$target exists... Skipping."
         fi
     done
 }
 
 if [ "$features" -ge 1 ]; then
-    echo -e "\nCreating symlinks..."
+    log 1 ""
+    log 0 "Creating symlinks..."
 
     function symdot_mapper { echo "$HOME/.$1"; }
     # Symlink files to be symlinked to every platform
@@ -151,7 +157,8 @@ fi
 
 # Setup fzf
 if [ "$features" -ge 2 ] && [ ! -d "$HOME/.fzf" ]; then
-    echo -e "\nInstalling fzf..."
+    log 1 ""
+    log 0 "Installing fzf..."
     git clone https://github.com/junegunn/fzf.git --depth 1 "$HOME/.fzf" >/dev/null &&\
     "$HOME/.fzf/install" --bin || echo "Failed to install fzf!"
 fi
