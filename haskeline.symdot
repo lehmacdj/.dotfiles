@@ -1,0 +1,7 @@
+# http://trac.haskell.org/haskeline/wiki/UserPrefs
+bellStyle: NoBell
+editMode: Vi
+maxHistorySize: Just 10000
+completionPromptLimit: Just 80
+listCompletionsImmediately: True
+historyDuplicates: IgnoreConsecutive
