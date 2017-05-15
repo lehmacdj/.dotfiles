@@ -33,8 +33,14 @@ fi
 # Local bin
 [ -d "$HOME/.local/bin" ] && PATH="$HOME/.local/bin:$PATH"
 
-# Rust/Cargo bin
-[ -d "$HOME/.cargo/bin" ] && PATH="$HOME/.cargo/bin:$PATH"
+# Rust
+if [ -d "$HOME/.cargo/bin" ]; then
+    # Cargo bin
+    PATH="$HOME/.cargo/bin:$PATH"
+    # Rust src folder
+    toolchain="$(rustup toolchain list | awk '/\(default\)/{print $1}')"
+    export RUST_SRC_PATH="$HOME/.multirust/toolchains/$toolchain/lib/rustlib/src/rust/src"
+fi
 
 # Homebrew
 if which brew >/dev/null 2>&1; then
