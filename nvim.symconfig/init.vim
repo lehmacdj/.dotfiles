@@ -37,7 +37,9 @@ let g:airline#extensions#whitespace#mixed_indent_algo = 2
 let g:netrw_liststyle = 3
 
 " fix delay when exiting insert mode
-set noesckeys
+if !has('nvim')
+    set noesckeys
+endif
 
 " searching
 set magic
@@ -66,8 +68,13 @@ autocmd CmdwinEnter * let b:deoplete_sources = ['buffer']
 inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
 inoremap <expr><BS>  deoplete#smart_close_popup()."\<C-h>"
 
+" ale
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_sign_error = '✖'
+let g:ale_sign_warning = '⚠'
+
 " neomake
-autocmd BufWritePost,BufWinEnter * silent Neomake
+" autocmd BufWritePost,BufWinEnter * silent Neomake
 
 " Make backspace behave the way I expect
 set backspace=indent,eol,start
