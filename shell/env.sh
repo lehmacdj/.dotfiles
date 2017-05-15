@@ -34,7 +34,7 @@ fi
 [ -d "$HOME/.local/bin" ] && PATH="$HOME/.local/bin:$PATH"
 
 # Rust/Cargo bin
-[ -d "$HOME/.cargo/bin" ] && PATH="$HOME/.local/bin:$PATH"
+[ -d "$HOME/.cargo/bin" ] && PATH="$HOME/.cargo/bin:$PATH"
 
 # Homebrew
 if which brew >/dev/null 2>&1; then
