@@ -65,8 +65,9 @@ let g:deoplete#enable_at_startup = 1
 let g:deoplete#enable_smart_case = 1
 autocmd CmdwinEnter * let b:deoplete_sources = ['buffer']
 " make backspace close the popup window
-inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS>  deoplete#smart_close_popup()."\<C-h>"
+inoremap <expr> <C-h> deoplete#smart_close_popup()."\<C-h>"
+inoremap <expr> <BS>  deoplete#smart_close_popup()."\<C-h>"
+inoremap <expr> <C-Space> deoplete#mappings#manual_complete()
 
 " ale
 let g:ale_lint_on_text_changed = 'never'
