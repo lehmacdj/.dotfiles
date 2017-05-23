@@ -7,6 +7,8 @@ let g:surround_{char2nr('c')} = "\\\1command\1{\r}"
 
 setlocal spell
 
+setlocal tw=80
+
 nnoremap <LocalLeader>o :!open %:r.pdf<CR><CR>
 
 nnoremap <LocalLeader>m :make<CR>
