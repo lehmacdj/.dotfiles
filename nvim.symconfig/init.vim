@@ -70,9 +70,12 @@ inoremap <expr> <BS>  deoplete#smart_close_popup()."\<C-h>"
 inoremap <expr> <C-Space> deoplete#mappings#manual_complete()
 
 " ale
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_sign_error = '✖'
-let g:ale_sign_warning = '⚠'
+" let g:ale_lint_on_text_changed = 'never'
+" let g:ale_sign_error = '✖'
+" let g:ale_sign_warning = '⚠'
+
+" neomake
+autocmd BufWinEnter,BufWritePost * Neomake
 
 " Make backspace behave the way I expect
 set backspace=indent,eol,start
