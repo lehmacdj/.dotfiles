@@ -1,5 +1,11 @@
+if has('win32')
+    let $VIMHOME = 'vimfiles'
+else
+    let $VIMHOME = '~/.vim'
+endif
+
 " Initialize and configure plugins
-source ~/.vim/plugins.vim
+source $VIMHOME/plugins.vim
 
 filetype plugin indent on
 syntax enable
@@ -22,12 +28,13 @@ set autoread
 
 " Display
 set mouse=a
-set so=4
+set scrolloff=4
 set showcmd
 set number
 set nohlsearch
 set laststatus=2
 set background=dark
+set belloff=all
 
 " Searching
 set magic
@@ -77,9 +84,9 @@ let mapleader=" "
 " Edit vimrc
 nnoremap <Leader>ev :split $MYVIMRC<CR>
 " Edit plugins
-nnoremap <Leader>ep :split ~/.vim/plugins.vim<CR>
+nnoremap <Leader>ep :split $VIMHOME/plugins.vim<CR>
 " Edit filetype file
-nnoremap <expr> <Leader>ef ':split ~/.vim/ftplugin/' . &filetype . '.vim<CR>'
+nnoremap <expr> <Leader>ef ':split ' . $VIMHOME . '/ftplugin/' . &filetype . '.vim<CR>'
 " Source vimrc
 nnoremap <Leader>sv :source $MYVIMRC<CR>
 " Install plugins
@@ -117,6 +124,6 @@ if &spell
 end
 
 " finally load local vim configuration if it exists
-if filereadable("~/.vim/local.vim")
-    source ~/.vim/local.vim
+if filereadable($VIMHOME . '/local.vim')
+    source $VIMHOME/local.vim
 endif
