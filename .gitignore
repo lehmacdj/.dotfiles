@@ -4,6 +4,7 @@ vim.symdot/*
 !vim.symdot/ftplugin/
 !vim.symdot/ftdetect/
 !vim.symdot/plugins.vim
+!vim.symdot/vimrc
 
 # the same for nvim
 nvim.symconfig/*
