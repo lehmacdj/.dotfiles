@@ -55,6 +55,24 @@ function swap () {
     mv $TMPFILE "$2"
 }
 
+# move files even if they are the same on case insensitive file systems
+function mv_case_insensitive () {
+    if [ $# -eq 2 ]; then
+        lower1="$(tr '[:lower:]' '[:upper:]' <<< "$1")"
+        lower2="$(tr '[:lower:]' '[:upper:]' <<< "$2")"
+        if [ "$lower1" = "$lower2" ]; then
+            mv "$1" "$1."
+            mv "$1." "$2"
+        else
+            mv "$@"
+        fi
+    else
+        mv "$@"
+    fi
+}
+
+alias mv=mv_case_insensitive
+
 # Recursively traverse directory tree for git repositories, run git command
 # e.g.
 #   gittree status
