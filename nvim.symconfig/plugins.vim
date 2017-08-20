@@ -12,11 +12,13 @@ Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-unimpaired'
 
 " completion
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    \| Plug 'eagletmt/neco-ghc'
-    \| Plug 'racer-rust/vim-racer'
-    \| Plug 'Shougo/neoinclude.vim'
-    \| Plug 'zchee/deoplete-jedi'
+if has('nvim')
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+        \| Plug 'eagletmt/neco-ghc'
+        \| Plug 'racer-rust/vim-racer'
+        \| Plug 'Shougo/neoinclude.vim'
+        \| Plug 'zchee/deoplete-jedi'
+end
 
 " utility
 Plug 'tpope/vim-repeat'
@@ -34,7 +36,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
 " syntax checking
-" Plug 'w0rp/ale'
 Plug 'neomake/neomake'
 
 " vim
