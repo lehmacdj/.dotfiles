@@ -98,6 +98,7 @@ tnoremap <C-\>h <C-\><C-n><C-w><C-h>
 
 " Leader mappings
 let mapleader=" "
+let maplocalleader = "\\"
 " Edit vimrc
 nnoremap <Leader>ev :split $MYVIMRC<CR>
 " Edit plugins

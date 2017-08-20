@@ -58,6 +58,7 @@ Plug 'idris-hackers/idris-vim'
 
 " haskell
 Plug 'neovimhaskell/haskell-vim'
+Plug 'parsonsmatt/intero-neovim'
 
 " rust
 Plug 'rust-lang/rust.vim'
