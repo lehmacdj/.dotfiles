@@ -1,11 +1,3 @@
-# Specify only the .vim files that need to be versioned
-vim.symdot/*
-!vim.symdot/autoload/
-!vim.symdot/ftplugin/
-!vim.symdot/ftdetect/
-!vim.symdot/plugins.vim
-!vim.symdot/vimrc
-
 # the same for nvim
 nvim.symconfig/*
 !nvim.symconfig/autoload/
@@ -13,6 +5,7 @@ nvim.symconfig/*
 !nvim.symconfig/ftdetect/
 !nvim.symconfig/plugins.vim
 !nvim.symconfig/init.vim
+!nvim.symconfig/vimrc
 
 # zsh
 zsh/.*
