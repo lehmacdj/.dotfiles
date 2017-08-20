@@ -21,7 +21,6 @@ set expandtab
 set autoindent
 set smartindent
 set smarttab
-set autoread
 
 " ui
 silent! colorscheme solarized
@@ -32,6 +31,7 @@ set number
 set nohlsearch
 set laststatus=2
 set background=dark
+set belloff=all
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#whitespace#mixed_indent_algo = 2
 let g:netrw_liststyle = 3
@@ -46,14 +46,18 @@ set magic
 set ignorecase
 set smartcase
 set incsearch
-set inccommand=split
+if has('nvim')
+    set inccommand=split
+end
 
 " buffers
 set hidden
 
 " history
 set undolevels=10000
-let g:terminal_scrollback_buffer_size = 10000
+if has('nvim')
+    let g:terminal_scrollback_buffer_size = 10000
+end
 
 " formatting
 " delete comment character when joining lines
@@ -61,18 +65,24 @@ set formatoptions+=jn
 set nojoinspaces
 
 " deoplete
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#enable_smart_case = 1
-autocmd CmdwinEnter * let b:deoplete_sources = ['buffer']
-" make backspace close the popup window
-inoremap <expr> <C-h> deoplete#smart_close_popup()."\<C-h>"
-inoremap <expr> <BS>  deoplete#smart_close_popup()."\<C-h>"
-inoremap <expr> <C-Space> deoplete#mappings#manual_complete()
-
-" ale
-" let g:ale_lint_on_text_changed = 'never'
-" let g:ale_sign_error = '✖'
-" let g:ale_sign_warning = '⚠'
+if has('nvim')
+    let g:deoplete#enable_at_startup = 1
+    let g:deoplete#enable_smart_case = 1
+    autocmd CmdwinEnter * let b:deoplete_sources = ['buffer']
+    " make backspace close the popup window
+    inoremap <expr> <C-h> deoplete#smart_close_popup()."\<C-h>"
+    inoremap <expr> <BS>  deoplete#smart_close_popup()."\<C-h>"
+    inoremap <expr> <C-Space> deoplete#mappings#manual_complete()
+else
+    set omnifunc=syntaxcomplete#Complete
+    " inoremap <NUL> <C-x><C-o>
+    set completeopt=longest,menuone
+    inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+    inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
+      \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+    inoremap <expr> <NUL> pumvisible() ? '<C-n>' :
+      \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+end
 
 " neomake
 autocmd BufWinEnter,BufWritePost * Neomake
@@ -90,11 +100,13 @@ nmap ga <Plug>(EasyAlign)
 xmap ga <Plug>(EasyAlign)
 " toggle background color
 nnoremap <F3> :set background!<CR>
-" navigation from terminal
-tnoremap <C-\>j <C-\><C-n><C-w><C-j>
-tnoremap <C-\>k <C-\><C-n><C-w><C-k>
-tnoremap <C-\>l <C-\><C-n><C-w><C-l>
-tnoremap <C-\>h <C-\><C-n><C-w><C-h>
+if has('nvim')
+    " navigation from terminal
+    tnoremap <C-\>j <C-\><C-n><C-w><C-j>
+    tnoremap <C-\>k <C-\><C-n><C-w><C-k>
+    tnoremap <C-\>l <C-\><C-n><C-w><C-l>
+    tnoremap <C-\>h <C-\><C-n><C-w><C-h>
+end
 
 " Leader mappings
 let mapleader=" "
