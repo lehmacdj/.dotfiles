@@ -49,12 +49,6 @@ if which brew >/dev/null 2>&1; then
     PATH="$BREW_PREFIX/bin:$PATH"
     PATH="$BREW_PREFIX/sbin:$PATH"
     MANPATH="$BREW_PREFIX/share/man:$MANPATH"
-
-    # Deal with coreutils if installed
-    [ -d "$BREW_PREFIX/opt/coreutils/libexec/gnubin" ] &&
-        PATH="$BREW_PREFIX/opt/coreutils/libexec/gnubin:$PATH"
-    [ -d "$BREW_PREFIX/opt/coreutils/libexec/gnuman" ] &&
-        MANPATH="$BREW_PREFIX/opt/coreutils/libexec/gnuman:$MANPATH"
 fi
 
 # OCaml/OPAM configuration

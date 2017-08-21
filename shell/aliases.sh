@@ -6,11 +6,11 @@
 alias grep='grep --color=auto'
 
 # ls
+alias ls='gls --color=auto'
 alias l='ls -CF'
 alias la='ls -A'
 alias ll='ls -alFh'
 alias l.='ls -d .*'
-alias ls='ls --color=auto'
 
 # delete .DS_Store files
 alias dspurge='find . -name .DS_Store -delete'
