@@ -130,6 +130,8 @@ function alias_local () {
     fi
 }
 
+alias al=alias_local
+
 # Goes to a section of the man pages for zsh in vim
 # https://github.com/wellle/dotfiles/blob/master/zshrc
 if [ -n "$ZSH_VERSION" ]; then
