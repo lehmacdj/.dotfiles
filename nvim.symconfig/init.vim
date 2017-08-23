@@ -117,6 +117,8 @@ nnoremap <Leader>ev :split $MYVIMRC<CR>
 nnoremap <Leader>ep :split $VIMHOME/plugins.vim<CR>
 " Edit filetype file
 nnoremap <expr> <Leader>ef ':split '.$VIMHOME.'/ftplugin/'.&filetype.'.vim<CR>'
+" Edit config file
+nnoremap <Leader>ec :split $VIMHOME/autoload/config.vim<CR>
 " Source vimrc
 nnoremap <Leader>sv :source $MYVIMRC<CR>
 " Install plugins
@@ -126,7 +128,7 @@ nnoremap <Leader>o :FZF<CR>
 " Fuzzy ag
 nnoremap <Leader>/ :Ag<CR>
 " Trim whitespace
-noremap <Leader>t<Space> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
+noremap <Leader>t<Space> :call config#StripWhitespace()<CR>
 " Generate ctags
 nnoremap <Leader>mt :!ctags -R .<CR><CR>
 " Toggle hlsearch
