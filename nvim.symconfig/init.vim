@@ -137,15 +137,9 @@ nnoremap <Leader>b :Buffers<CR>
 nnoremap <Leader>: :<Up><CR>
 xnoremap <Leader>: :<Up><CR>
 
-" toggle colorcolumn
+" toggle colorcolumn with <space>8
 set colorcolumn=81
-let s:color_column_old = 0
-function! s:ToggleColorColumn()
-    let l:tmp = &colorcolumn
-    windo let &colorcolumn = s:color_column_old
-    let s:color_column_old = l:tmp
-endfunction
-nnoremap <Leader>8 :call <SID>ToggleColorColumn()<CR>
+nnoremap <Leader>8 :call config#ToggleColorColumn()<CR>
 
 " Spelling related things
 if &spell
