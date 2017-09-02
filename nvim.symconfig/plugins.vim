@@ -23,6 +23,7 @@ end
 " utility
 Plug 'tpope/vim-repeat'
 Plug 'editorconfig/editorconfig-vim'
+Plug 'tpope/vim-sleuth'
 
 " unix
 Plug 'tpope/vim-eunuch'
