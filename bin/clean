@@ -11,7 +11,7 @@
 set -e
 
 # git clean will remove files ignored using the gitignore
-command git clean -fXd || exit
+command git rev-parse --is-inside-work-tree &>/dev/null && command git clean -fXd
 
 # cleanup .DS_Store files that irritate me and are generally a little pesky
-command find . -name .DS_Store -delete || exit
+command find . -name .DS_Store -delete
