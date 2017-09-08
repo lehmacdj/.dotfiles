@@ -132,7 +132,7 @@ noremap <Leader>t<Space> :call config#StripWhitespace()<CR>
 " Generate ctags
 nnoremap <Leader>mt :!ctags -R .<CR><CR>
 " Toggle hlsearch
-nnoremap <Leader>ht :set hlsearch!<CR>
+nnoremap <Leader>th :set hlsearch!<CR>
 " Open buffer list
 nnoremap <Leader>b :Buffers<CR>
 " run the last normal mode command
