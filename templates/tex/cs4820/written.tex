@@ -2,10 +2,27 @@
 
 \documentclass{homework}
 
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{enumerate}
+
 \author{Devin Lehmacher}
 \problemset{}
 \classname{CS 4820}
 \topic{}
+
+\newtheorem*{theorem}{Theorem}
+
+\newtheoremstyle{simple}%
+    {.3cm}{.3cm}%
+    {\rmfamily}%
+    {}%
+    {\bfseries}{:}%
+    {\newline}%
+    {\thmname{#1}\thmnote{\ \displaystyle\textnormal{{#3}}}}
+
+\theoremstyle{simple}
+\newtheorem*{algorithm}{Algorithm}
 
 \begin{document}
 \maketitle
