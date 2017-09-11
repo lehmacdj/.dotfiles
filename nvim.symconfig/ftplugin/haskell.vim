@@ -6,5 +6,6 @@ autocmd BufWritePost *.hs InteroReload
 map <LocalLeader>t <Plug>InteroGenericType
 map <LocalLeader>T <Plug>InteroType
 nnoremap <LocalLeader>it :InteroTypeInsert<CR>
+nnoremap <LocalLeader>oi :InteroOpen<CR>
 
 nnoremap <LocalLeader>gd :InteroGoToDef<CR>
