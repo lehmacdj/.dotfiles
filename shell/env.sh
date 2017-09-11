@@ -34,12 +34,15 @@ fi
 [ -d "$HOME/.local/bin" ] && PATH="$HOME/.local/bin:$PATH"
 
 # Rust
-if [ -d "$HOME/.cargo/bin" ]; then
+if [ -d "$HOME/.cargo" ]; then
     # Cargo bin
-    PATH="$HOME/.cargo/bin:$PATH"
+    export PATH="$HOME/.cargo/bin:$PATH"
+    # PATH="$HOME/.cargo/bin:$PATH"
     # Rust src folder
-    toolchain="$(rustup toolchain list | awk '/\(default\)/{print $1}')"
-    export RUST_SRC_PATH="$HOME/.multirust/toolchains/$toolchain/lib/rustlib/src/rust/src"
+    # toolchain="$(rustup toolchain list | awk '/\(default\)/{print $1}')"
+    # RUST_HOME="$HOME/.rustup/toolchains/$toolchain"
+    # PATH="$RUST_HOME/bin:$PATH"
+    # export RUST_SRC_PATH="$HOME/.rustup/toolchains/$toolchain/lib/rustlib/src/rust/src"
 fi
 
 # Homebrew
