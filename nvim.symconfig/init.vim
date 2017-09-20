@@ -55,6 +55,7 @@ set hidden
 
 " history
 set undolevels=10000
+set undofile
 if has('nvim')
     let g:terminal_scrollback_buffer_size = 10000
 end
