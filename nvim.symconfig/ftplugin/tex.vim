@@ -13,6 +13,8 @@ nnoremap <LocalLeader>o :!open %:r.pdf<CR><CR>
 
 nnoremap <LocalLeader>m :make<CR>
 
+nnoremap <LocalLeader>s :VimtexCompile<CR>
+
 " let b:deoplete_omni_input_patterns = '\\(?:'
 "     \ .  '\w*cite\w*(?:\s*\[[^]]*\]){0,2}\s*{[^}]*'
 "     \ . '|\w*ref(?:\s*\{[^}]*|range\s*\{[^,}]*(?:}{)?)'
