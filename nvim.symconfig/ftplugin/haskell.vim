@@ -9,3 +9,4 @@ nnoremap <LocalLeader>it :InteroTypeInsert<CR>
 nnoremap <LocalLeader>oi :InteroOpen<CR>
 
 nnoremap <LocalLeader>gd :InteroGoToDef<CR>
+nnoremap <LocalLeader>lf :InteroLoadCurrentFile<CR>
