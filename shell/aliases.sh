@@ -60,7 +60,7 @@ function mv_case_insensitive () {
     if [ $# -eq 2 ]; then
         lower1="$(tr '[:lower:]' '[:upper:]' <<< "$1")"
         lower2="$(tr '[:lower:]' '[:upper:]' <<< "$2")"
-        if [ "$lower1" = "$lower2" ]; then
+        if [ "$lower1" = "$lower2" ] && ! [ -f "$1." ]; then
             mv "$1" "$1."
             mv "$1." "$2"
         else
