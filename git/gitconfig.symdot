@@ -33,6 +33,6 @@
     suppresscc = self
 
 [diff]
-	tool = (n)vimdiff
+    tool = "(n)vimdiff"
 [difftool "(n)vimdiff"]
-	cmd = "\"$EDITOR\" -d \"$LOCAL\" \"$REMOTE\""
+    cmd = "\"$EDITOR\" -d \"$LOCAL\" \"$REMOTE\""
