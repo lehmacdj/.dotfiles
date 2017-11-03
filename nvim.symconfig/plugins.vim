@@ -58,6 +58,9 @@ Plug 'tpope/vim-markdown'
 " idris
 Plug 'idris-hackers/idris-vim'
 
+" purescript
+Plug 'purescript-contrib/purescript-vim'
+
 " haskell
 Plug 'neovimhaskell/haskell-vim'
 Plug 'parsonsmatt/intero-neovim'
