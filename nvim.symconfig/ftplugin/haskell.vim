@@ -10,3 +10,7 @@ nnoremap <LocalLeader>oi :InteroOpen<CR>
 
 nnoremap <LocalLeader>gd :InteroGoToDef<CR>
 nnoremap <LocalLeader>lf :InteroLoadCurrentFile<CR>
+
+set tabstop=4
+set shiftwidth=4
+set expandtab
