@@ -60,6 +60,7 @@ Plug 'idris-hackers/idris-vim'
 
 " purescript
 Plug 'purescript-contrib/purescript-vim'
+Plug 'FrigoEU/psc-ide-vim'
 
 " haskell
 Plug 'neovimhaskell/haskell-vim'
