@@ -6,7 +6,11 @@
 alias grep='grep --color=auto'
 
 # ls
-alias ls='gls --color=auto'
+if [ -n "$DARWIN" ]; then
+    alias ls='gls --color=auto'
+else
+    alias ls='ls --color=auto'
+fi
 alias l='ls -CF'
 alias la='ls -A'
 alias ll='ls -alFh'
