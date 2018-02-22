@@ -13,7 +13,8 @@ endfunction
 augroup devin-haskell
     autocmd!
     if len(systemlist('stack ide packages')) == 0
-        autocmd BufEnter,InteroLoaded <buffer> call s:intero_exe("InteroLoadCurrentFile")
+        autocmd BufEnter,InteroLoaded <buffer> \
+            call s:intero_exe("InteroLoadCurrentFile")
     endif
     autocmd BufWritePost <buffer> call s:intero_exe("InteroReload")
 augroup END
