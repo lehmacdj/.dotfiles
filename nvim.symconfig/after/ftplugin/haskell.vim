@@ -1,6 +1,5 @@
 let g:necoghc_enable_detailed_browse = 1
 let g:haskell_indent_case_alternative = 1
-let g:intero_load_targets = ['lib', 'test']
 
 function! s:intero_exe(command) abort
     if !g:intero_started
@@ -26,5 +25,6 @@ nnoremap <LocalLeader>it :InteroTypeInsert<CR>
 " manage intero repl
 nnoremap <LocalLeader>o :InteroOpen<CR>
 nnoremap <LocalLeader>ir :InteroRestart<CR>
+nnoremap <LocalLeader>i3 :InteroSetTargets lib test<CR>
 
 nnoremap gd :InteroGoToDef<CR>
