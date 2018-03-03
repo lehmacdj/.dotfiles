@@ -8,10 +8,11 @@
 
 function usage_info () {
     echo "Usage: template [-da] <identifiers...>"
+    echo "    -h        -- list these options"
     echo "    -d        -- describe the template"
     echo "    -a <file> -- add file to the stored templates"
     echo "    -e        -- edit the template"
-    exit 1
+    exit "$1"
 }
 
 function assert_template_exists () {
@@ -23,13 +24,14 @@ function assert_template_exists () {
 }
 
 # invoke getopt
-args="$(getopt dea: $*)"
-[ $? != 0 ] && usage_info
+args="$(getopt hdea: "$@" || usage_info 1)"
 set -- $args
 
 # Process the command line arguments
 for i; do
     case "$i" in
+        -h)
+            usage_info 0;;
         -d)
             describe=1;
             shift;;
