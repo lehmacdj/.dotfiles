@@ -1,10 +1,5 @@
 let g:haskell_indent_case_alternative = 1
-
-let g:intero_backend = {
-        \ 'command': 'cabal new-repl',
-        \ 'options': '-Wall',
-        \ 'cwd': expand('%:p:h')
-        | }
+let g:haskell_enable_quantification = 1
 
 function! s:intero_exe(command) abort
     if !g:intero_started
