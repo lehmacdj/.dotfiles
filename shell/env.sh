@@ -72,6 +72,11 @@ if [ -d "$HOME/.fzf" ]; then
     MANPATH="$MANPATH:$HOME/.fzf/man"
 fi
 
+# Add python local --user bins to the path
+for p in ~/Library/Python/* ; do
+    PATH="$p/bin:$PATH"
+done
+
 # Remove inconsistent path entries and export
 if [ -f "$DOTFILES/bin/consolidate-path" ]; then
     PATH="$(consolidate-path "$PATH")"
