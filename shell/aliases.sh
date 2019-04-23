@@ -19,7 +19,10 @@ alias dspurge='find . -name .DS_Store -delete'
 alias bc='bc -l'
 
 # editing of things
-alias vial="\$EDITOR ~/.dotfiles/shell/aliases.sh"
+function vial {
+    "$EDITOR" ~/.dotfiles/shell/aliases.sh
+    source "$DOTFILES/shell/aliases.sh"
+}
 
 # latexmk default pdf mode
 alias latexmk='latexmk -pdf'
