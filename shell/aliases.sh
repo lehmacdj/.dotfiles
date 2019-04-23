@@ -167,3 +167,4 @@ if [ -n "$ZSH_VERSION" ]; then
 fi
 
 alias idris='idris --nobanner'
+alias swipl='rlwrap swipl'
