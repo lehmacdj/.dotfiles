@@ -17,6 +17,7 @@ source "$DOTFILES/shell/aliases.sh"
 source "$DOTFILES/bash/prompt.bash"
 source "$DOTFILES/bash/settings.bash"
 source "$DOTFILES/shell/fzf.sh"
+source "$DOTFILES/shell/completion.sh"
 source "$DOTFILES/shell/z.sh"
 
 # set up bash-completion
