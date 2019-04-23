@@ -54,11 +54,8 @@ if which brew >/dev/null 2>&1; then
     MANPATH="$BREW_PREFIX/share/man:$MANPATH"
 fi
 
-# OCaml/OPAM configuration
-if [ -f "$HOME/.opam/opam-init/init.sh" ]; then
-    source "$HOME/.opam/opam-init/init.sh" > /dev/null 2>&1 || true
-    eval "$(opam config env)"
-fi
+# OPAM configuration
+. /Users/devin/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 
 # Add Haskell bin to the path
 if [ -d "$HOME/Library/Haskell/" ]; then
