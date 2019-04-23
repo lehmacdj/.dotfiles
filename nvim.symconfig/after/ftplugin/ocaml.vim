@@ -7,6 +7,7 @@ setlocal iskeyword+='
 " Bindings for merlin
 nnoremap <LocalLeader>m :GotoDotMerlin<CR>
 nnoremap <LocalLeader>d :MerlinDocument<CR>
+nnoremap <LocalLeader>g :MerlinGrowEnclosing<CR>
 
 " enable merlin completion
 let b:deoplete_omni_input_patterns = ['[^. *\t]\.\w*','[A-Za-z_]\w*','#']
@@ -41,4 +42,4 @@ let g:neomake_ocaml_merlin_maker = {
     \ 'postprocess' : function('g:OCaml_Merlin_PutErrors')
     \ }
 
-let g:neomake_ocaml_enabled_makers = ['merlin']
+" let g:neomake_ocaml_enabled_makers = ['merlin']

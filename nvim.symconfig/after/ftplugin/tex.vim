@@ -7,13 +7,15 @@ let g:surround_{char2nr('c')} = "\\\1command\1{\r}"
 
 setlocal spell
 
-setlocal tw=80
+" soft wrap instead of hard wrapping in latex mode
+setlocal wrap linebreak
+nnoremap <buffer> j gj
+nnoremap <buffer> k gk
 
-nnoremap <LocalLeader>o :!open %:r.pdf<CR><CR>
-
-nnoremap <LocalLeader>m :make<CR>
-
-nnoremap <LocalLeader>s :VimtexCompile<CR>
+nnoremap <buffer> <LocalLeader>o :!open %:r.pdf<CR><CR>
+nnoremap <buffer> <LocalLeader>m :make<CR>
+nnoremap <buffer> <LocalLeader>s :VimtexCompile<CR>
+nnoremap <buffer> <LocalLeader>c :!md5 %:r.pdf<CR>
 
 " let b:deoplete_omni_input_patterns = '\\(?:'
 "     \ .  '\w*cite\w*(?:\s*\[[^]]*\]){0,2}\s*{[^}]*'

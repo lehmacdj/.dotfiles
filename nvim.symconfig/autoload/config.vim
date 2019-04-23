@@ -10,7 +10,15 @@ endfunction
 function! config#StripWhitespace()
     let l:pos = getpos('.')
     let l:_s = @/
-    silent! %substitute/\s\+$//
+    if exists('b:markdown_trailing_space_rules') && b:markdown_trailing_space_rules
+    " avoid matching exactly a sequence of two spaces as this indicates a
+    " newline in markdown
+        silent! %substitute/\v([^ ])\s$/\1/
+        silent! %substiute/\t$//
+        silent! %substitute/\s\s\s\+$//
+    else
+        silent! %substitute/\s\+$//
+    endif
     let @/ = l:_s
     call setpos('.', l:pos)
 endfunction
