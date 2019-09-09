@@ -1,4 +1,10 @@
+# vim files
 .*.sw?
+.*.un~
+
+# mac files
 .DS_Store
+
+# other
 tags
 .#*
