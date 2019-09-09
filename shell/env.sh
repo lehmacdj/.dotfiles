@@ -70,9 +70,11 @@ if [ -d "$HOME/.fzf" ]; then
 fi
 
 # Add python local --user bins to the path
-for p in ~/Library/Python/* ; do
-    PATH="$p/bin:$PATH"
-done
+if [ -d "$HOME"/Library/Python ]; then
+    for p in "$HOME"/Library/Python/* ; do
+        PATH="$p/bin:$PATH"
+    done
+fi
 
 # Remove inconsistent path entries and export
 if [ -f "$DOTFILES/bin/consolidate-path" ]; then
