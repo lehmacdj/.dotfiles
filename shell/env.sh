@@ -16,7 +16,7 @@ export VISUAL
 
 if test "$EDITOR" = 'vim' || test "$EDITOR" = 'nvim'; then
     # Use (n)vim for manpager if it is available
-    export MANPAGER="\$EDITOR -c 'set ft=man' -"
+    export MANPAGER="$EDITOR -c 'set ft=man' -"
 fi
 
 # System name
