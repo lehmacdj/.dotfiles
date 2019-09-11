@@ -12,6 +12,8 @@ zstyle ':vcs_info:git*' actionformats ' %b|%a' 'x%R'
 autoload colors && colors
 
 git_dirty() {
+    [ -n "$NO_GIT_PROMPT" ] && return
+
     # check if we're in a git repo
     command git rev-parse --is-inside-work-tree &>/dev/null || return
 
@@ -28,6 +30,8 @@ git_dirty() {
 # If there are changes upstream, display a ⇣
 # If there are changes that have been committed but not yet pushed, display a ⇡
 git_arrows() {
+    [ -n "$NO_GIT_PROMPT" ] && return
+
     # do nothing if there is no upstream configured
     command git rev-parse --abbrev-ref @'{u}' &>/dev/null || return
 
@@ -62,7 +66,11 @@ suspended_jobs() {
 }
 
 precmd() {
-    vcs_info
+    if [ -z "$NO_GIT_PROMPT" ]; then
+        vcs_info
+    else
+        vcs_info_msg_0_=""
+    fi
     print -P '\n%F{205}%~'
 }
 
