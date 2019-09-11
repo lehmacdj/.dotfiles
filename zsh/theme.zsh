@@ -121,7 +121,7 @@ build_prompt() {
   prompt_virtualenv
   prompt_context
   prompt_dir
-  [ -z "$NO_GIT_PROMPT" ] && timeout --kill-after 1s 0.2s "$DOTFILES/zsh/theme/prompt_git"
+  [ -z "$NO_GIT_PROMPT" ] && timeout --kill-after 1s 1s "$DOTFILES/zsh/theme/prompt_git"
   [ -z "$NO_HG_PROMPT" ] && prompt_hg
   prompt_end
 }
