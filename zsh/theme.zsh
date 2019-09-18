@@ -114,6 +114,11 @@ prompt_status() {
   [[ -n "$symbols" ]] && prompt_segment black default "$symbols"
 }
 
+long_running_prompt () {
+  echo "It looks like the prompt for $1 is taking a long time to run."
+  echo "Consider setting NO_${1}_PROMPT to disable it."
+}
+
 ## Main prompt
 build_prompt() {
   RETVAL=$?
@@ -121,7 +126,9 @@ build_prompt() {
   prompt_virtualenv
   prompt_context
   prompt_dir
-  [ -z "$NO_GIT_PROMPT" ] && timeout --kill-after 1s 1s "$DOTFILES/zsh/theme/prompt_git"
+  [ -z "$NO_GIT_PROMPT" ] \
+    && (timeout --kill-after 1s 1s "$DOTFILES/zsh/theme/prompt_git" \
+        || long_running_prompt GIT)
   [ -z "$NO_HG_PROMPT" ] && prompt_hg
   prompt_end
 }
