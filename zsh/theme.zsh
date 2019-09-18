@@ -115,8 +115,10 @@ prompt_status() {
 }
 
 long_running_prompt () {
+  echo "" # these are for padding the prompt to make it look "better"
   echo "It looks like the prompt for $1 is taking a long time to run."
   echo "Consider setting NO_${1}_PROMPT to disable it."
+  echo ""
 }
 
 ## Main prompt
