@@ -82,7 +82,7 @@ if [ -d "$HOME"/Library/Python ]; then
 fi
 
 # Windows (WSL) things
-export WINDIR=/mnt/c/Windows
+[ -d /mnt/c/Windows ] || export WINDIR=/mnt/c/Windows
 cond_path_add "/mnt/c/ProgramData/chocolatey/bin" # chocolatey installations
 cond_path_add "/mnt/c/Windows/System32" # cmd.exe
 cond_path_add "/mnt/c/Windows/System32/WindowsPowerShell/v1.0" # powershell.exe
