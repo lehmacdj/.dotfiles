@@ -16,7 +16,7 @@ export VISUAL
 
 if test "$EDITOR" = 'vim' || test "$EDITOR" = 'nvim'; then
     # Use (n)vim for manpager if it is available
-    export MANPAGER="\$EDITOR -c 'set ft=man' -"
+    export MANPAGER="$EDITOR -c 'set ft=man' -"
 fi
 
 # System name
@@ -24,19 +24,24 @@ fi
 [ "$(uname)" = "Linux" ] && export LINUX=1
 
 # Path configuration
+cond_path_add () {
+    [ -n "$1" ] || (echo "cond_path_add requires 1 argument"; exit 1)
+    [ -d "$1" ] && PATH="$1:$PATH"
+}
+
 # Private bin
-[ -d "$HOME/bin" ] && PATH="$HOME/bin:$PATH"
+cond_path_add "$HOME/bin"
 
 # Dotfiles bin
-[ -d "$DOTFILES/bin" ] && PATH="$DOTFILES/bin:$PATH"
+cond_path_add "$DOTFILES/bin"
 
 # Local bin
-[ -d "$HOME/.local/bin" ] && PATH="$HOME/.local/bin:$PATH"
+cond_path_add "$HOME/.local/bin"
 
 # Rust
 if [ -d "$HOME/.cargo" ]; then
     # Cargo bin
-    export PATH="$HOME/.cargo/bin:$PATH"
+    PATH="$HOME/.cargo/bin:$PATH"
     # PATH="$HOME/.cargo/bin:$PATH"
     # Rust src folder
     # toolchain="$(rustup toolchain list | awk '/\(default\)/{print $1}')"
@@ -70,9 +75,17 @@ if [ -d "$HOME/.fzf" ]; then
 fi
 
 # Add python local --user bins to the path
-for p in ~/Library/Python/* ; do
-    PATH="$p/bin:$PATH"
-done
+if [ -d "$HOME"/Library/Python ]; then
+    for p in "$HOME"/Library/Python/* ; do
+        PATH="$p/bin:$PATH"
+    done
+fi
+
+# Windows (WSL) things
+[ -d /mnt/c/Windows ] || export WINDIR=/mnt/c/Windows
+cond_path_add "/mnt/c/ProgramData/chocolatey/bin" # chocolatey installations
+cond_path_add "/mnt/c/Windows/System32" # cmd.exe
+cond_path_add "/mnt/c/Windows/System32/WindowsPowerShell/v1.0" # powershell.exe
 
 # Remove inconsistent path entries and export
 if [ -f "$DOTFILES/bin/consolidate-path" ]; then

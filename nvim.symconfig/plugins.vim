@@ -77,6 +77,8 @@ Plug 'vim-airline/vim-airline'
 Plug 'ryanoasis/vim-devicons'
 Plug 'altercation/vim-colors-solarized'
 
+" c#
+
 call plug#end()
 
 " opam plugins
