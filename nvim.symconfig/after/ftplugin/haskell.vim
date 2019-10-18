@@ -31,3 +31,4 @@ nnoremap <buffer> <LocalLeader>lf :InteroLoadCurrentFile<CR>
 nnoremap <buffer> <LocalLeader>r :InteroReload<CR>
 
 nnoremap <buffer> gd :InteroGoToDef<CR>
+nnoremap <buffer> <LocalLeader>d :InteroGoToDef<CR>
