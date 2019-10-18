@@ -9,6 +9,7 @@
 function usage_info () {
     echo "Usage: template [-da] <identifiers...>"
     echo "    -h        -- list these options"
+    echo "    -l        -- list templates (with a prefix)"
     echo "    -d        -- describe the template"
     echo "    -a <file> -- add file to the stored templates"
     echo "    -e        -- edit the template"
@@ -24,7 +25,7 @@ function assert_template_exists () {
 }
 
 # invoke getopt
-args="$(getopt hdea: "$@" || usage_info 1)"
+args="$(getopt hldea: "$@" || usage_info 1)"
 set -- $args
 
 # Process the command line arguments
@@ -32,22 +33,25 @@ for i; do
     case "$i" in
         -h)
             usage_info 0;;
+        -l)
+            list=1
+            shift;;
         -d)
-            describe=1;
+            [ "$list" ] || describe=1;
             shift;;
         -a)
-            [ "$describe" ] || add_file="$2";
+            [ "$list" ] || [ "$describe" ] || add_file="$2";
             shift;
             shift;;
         -e)
-            [ "$describe" ] || [ "$add_file" ] || edit=1;
+            [ "$list" ] || [ "$describe" ] || [ "$add_file" ] || edit=1;
             shift;;
         --)
             shift; break;;
     esac
 done
 
-[ $# -lt 1 ] && usage_info
+[ $# -lt 1 ] && [ -z "$list" ] && usage_info 1
 
 TEMPLATE_HOME="$DOTFILES"
 template="$TEMPLATE_HOME/templates"
@@ -68,6 +72,14 @@ if [ "$add_file" ]; then
         echo "\"$add_file\" does not exist"
         exit 1
     fi
+elif [ "$list" ]; then
+    function print_template_path () {
+        name="$(dirname "${2#$1/}")"
+        name="${name/\// }"
+        printf "%s\n" "$name"
+    }
+    export -f print_template_path
+    find "$template" -name .template -print0 | xargs -0 -n 1 sh -c 'print_template_path "$@"' _ "$template"
 elif [ "$describe" ]; then
     assert_template_exists
     read -r description <"$template/.template"
