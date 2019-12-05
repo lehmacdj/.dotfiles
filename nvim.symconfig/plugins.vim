@@ -23,6 +23,7 @@ end
 Plug 'tpope/vim-repeat'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-sleuth'
+Plug 'sheerun/vim-polyglot'
 
 " unix
 Plug 'tpope/vim-eunuch'
@@ -37,6 +38,9 @@ Plug 'airblade/vim-gitgutter'
 
 " syntax checking
 Plug 'neomake/neomake'
+
+" jsonnet
+Plug 'google/vim-jsonnet'
 
 " vim
 Plug 'tpope/vim-scriptease'
