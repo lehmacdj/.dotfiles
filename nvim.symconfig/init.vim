@@ -73,7 +73,7 @@ if has('nvim')
     " make backspace close the popup window
     inoremap <expr> <C-h> deoplete#smart_close_popup()."\<C-h>"
     inoremap <expr> <BS>  deoplete#smart_close_popup()."\<C-h>"
-    inoremap <expr> <C-Space> deoplete#mappings#manual_complete()
+    inoremap <expr> <C-Space> deoplete#manual_complete()
 else
     set omnifunc=syntaxcomplete#Complete
     " inoremap <NUL> <C-x><C-o>
