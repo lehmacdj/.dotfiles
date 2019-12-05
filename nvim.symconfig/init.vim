@@ -118,6 +118,10 @@ nnoremap <Leader>ev :split $MYVIMRC<CR>
 nnoremap <Leader>ep :split $VIMHOME/plugins.vim<CR>
 " Edit filetype file
 nnoremap <expr> <Leader>ef ':split '.$VIMHOME.'/after/ftplugin/'.&filetype.'.vim<CR>'
+" Edit syntax file
+nnoremap <expr> <Leader>es ':split '.$VIMHOME.'/syntax/'.&filetype.'.vim<CR>'
+" Edit detection file
+nnoremap <expr> <Leader>ed ':split '.$VIMHOME.'/after/ftdetect/'.&filetype.'.vim<CR>'
 " Edit config file
 nnoremap <Leader>ec :split $VIMHOME/autoload/config.vim<CR>
 " Source vimrc

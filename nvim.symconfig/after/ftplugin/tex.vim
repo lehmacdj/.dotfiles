@@ -15,6 +15,7 @@ nnoremap <buffer> k gk
 nnoremap <buffer> <LocalLeader>o :!open %:r.pdf<CR><CR>
 nnoremap <buffer> <LocalLeader>m :make<CR>
 nnoremap <buffer> <LocalLeader>s :VimtexCompile<CR>
+nnoremap <buffer> <LocalLeader>e :VimtexErrors<CR>
 nnoremap <buffer> <LocalLeader>c :!md5 %:r.pdf<CR>
 
 " let b:deoplete_omni_input_patterns = '\\(?:'
