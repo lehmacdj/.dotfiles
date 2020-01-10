@@ -142,6 +142,7 @@ alias al=alias_local
 # example usage: `mv file $(dir dir)`
 function dir () {
     if test $# -ne 1; then
+        echo '"Creates and returns a directory from the current directory"'
         echo 'usage: dir <dir-name>'
         return 1
     fi
