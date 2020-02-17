@@ -35,7 +35,8 @@ alias latexmk='latexmk -pdfdvi'
 alias gpg="gpg2"
 
 # Vimlike commandline bindings
-alias :q="exit"
+# alias :q="exit" # I have found this alias is bad because I close the shell
+                  # unexpectedly sometimes when I don't want to
 alias :e="\$EDITOR"
 alias vi="\$EDITOR"
 alias vim="\$EDITOR"
@@ -172,3 +173,10 @@ fi
 
 alias idris='idris --nobanner'
 alias swipl='rlwrap swipl'
+
+# extract a song from youtube with optimal quality settings + format
+# if this transcodes using ffmpeg, it might be best to not be setting
+# the audio-format to m4a
+function youtube-m4a () {
+    youtube-dl --audio-quality 0 --extract-audio --audio-format m4a "$@"
+}
