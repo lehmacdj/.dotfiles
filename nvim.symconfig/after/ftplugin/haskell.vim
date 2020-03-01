@@ -18,9 +18,6 @@ augroup devin-haskell
     autocmd BufWritePost <buffer> call s:intero_exe("InteroReload")
 augroup END
 
-" specific to mango1
-nnoremap <buffer> <LocalLeader>ep :vs /Users/devin/src/haskell/delude/src/Prelude.hs<CR>
-
 map <buffer> <LocalLeader>t <Plug>InteroGenericType
 map <buffer> <LocalLeader>T <Plug>InteroType
 nnoremap <buffer> <LocalLeader>it :InteroTypeInsert<CR>
