@@ -56,7 +56,8 @@ alias PlistBuddy='/usr/libexec/PlistBuddy'
 
 # Swaps the location of two files
 function swap () {
-    local TMPFILE=tmp.$$
+    # $$ is the current PID
+    local TMPFILE=tmp.swap.$$
     mv "$1" $TMPFILE
     mv "$2" "$1"
     mv $TMPFILE "$2"
