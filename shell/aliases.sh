@@ -56,6 +56,10 @@ alias PlistBuddy='/usr/libexec/PlistBuddy'
 
 # Swaps the location of two files
 function swap () {
+    if [ $# -ne 2 ]; then
+        echo "usage: swap <file1> <file2>"
+        return 1
+    fi
     # $$ is the current PID
     local TMPFILE=tmp.swap.$$
     mv "$1" $TMPFILE
