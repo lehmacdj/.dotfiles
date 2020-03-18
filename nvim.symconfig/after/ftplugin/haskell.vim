@@ -1,3 +1,7 @@
+" weird changes directly to plugins manifest:
+" - changed neomake linters to not use stack when finding executable
+"   because hlint didn't support the most recent version
+
 let g:haskell_indent_case_alternative = 1
 let g:haskell_enable_quantification = 1
 let g:haskell_enable_pattern_synonyms = 1
