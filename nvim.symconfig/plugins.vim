@@ -12,12 +12,18 @@ Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-unimpaired'
 
 " completion
-if has('nvim')
-    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-        \| Plug 'racer-rust/vim-racer'
-        \| Plug 'Shougo/neoinclude.vim'
-        \| Plug 'zchee/deoplete-jedi'
-end
+" deoplete
+" if has('nvim')
+"     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+"         \| Plug 'racer-rust/vim-racer'
+"         \| Plug 'Shougo/neoinclude.vim'
+"         \| Plug 'zchee/deoplete-jedi'
+" end
+" coc
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" mnemonic is comp L etion because c is already taken by config
+nnoremap <Leader>el :split $VIMHOME/coc-config.vim<CR>
+source $VIMHOME/coc-config.vim
 
 " utility
 Plug 'tpope/vim-repeat'

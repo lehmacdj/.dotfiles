@@ -5,7 +5,7 @@
 let g:haskell_indent_case_alternative = 1
 let g:haskell_enable_quantification = 1
 let g:haskell_enable_pattern_synonyms = 1
-let g:haskell_indent_disable = 1
+" let g:haskell_indent_disable = 1
 
 function! s:intero_exe(command) abort
     if !g:intero_started
