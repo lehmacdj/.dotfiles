@@ -180,3 +180,8 @@ alias swipl='rlwrap swipl'
 function youtube-m4a () {
     youtube-dl --audio-quality 0 --extract-audio --audio-format m4a "$@"
 }
+
+function trash () {
+    [ $# -le 0 ] && (echo "trash requires at least one argument."; exit 1)
+    mv "$*" "$HOME/.Trash"
+}
