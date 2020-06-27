@@ -67,13 +67,13 @@ set nojoinspaces
 
 " deoplete
 if has('nvim')
-    let g:deoplete#enable_at_startup = 1
-    let g:deoplete#enable_smart_case = 1
-    autocmd CmdwinEnter * let b:deoplete_sources = ['buffer']
-    " make backspace close the popup window
-    inoremap <expr> <C-h> deoplete#smart_close_popup()."\<C-h>"
-    inoremap <expr> <BS>  deoplete#smart_close_popup()."\<C-h>"
-    inoremap <expr> <C-Space> deoplete#manual_complete()
+    " let g:deoplete#enable_at_startup = 1
+    " let g:deoplete#enable_smart_case = 1
+    " autocmd CmdwinEnter * let b:deoplete_sources = ['buffer']
+    " " make backspace close the popup window
+    " inoremap <expr> <C-h> deoplete#smart_close_popup()."\<C-h>"
+    " inoremap <expr> <BS>  deoplete#smart_close_popup()."\<C-h>"
+    " inoremap <expr> <C-Space> deoplete#manual_complete()
 else
     set omnifunc=syntaxcomplete#Complete
     " inoremap <NUL> <C-x><C-o>

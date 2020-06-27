@@ -87,6 +87,11 @@ cond_path_add "/mnt/c/ProgramData/chocolatey/bin" # chocolatey installations
 cond_path_add "/mnt/c/Windows/System32" # cmd.exe
 cond_path_add "/mnt/c/Windows/System32/WindowsPowerShell/v1.0" # powershell.exe
 
+# Nix setup
+if [ -e /Users/devin/.nix-profile/etc/profile.d/nix.sh ]; then
+    . /Users/devin/.nix-profile/etc/profile.d/nix.sh
+fi
+
 # Remove inconsistent path entries and export
 if [ -f "$DOTFILES/bin/consolidate-path" ]; then
     PATH="$(consolidate-path "$PATH")"
