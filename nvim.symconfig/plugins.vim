@@ -73,7 +73,7 @@ Plug 'FrigoEU/psc-ide-vim'
 
 " haskell
 Plug 'neovimhaskell/haskell-vim'
-Plug 'parsonsmatt/intero-neovim'
+" Plug 'parsonsmatt/intero-neovim'
 Plug 'sdiehl/vim-ormolu'
 
 " rust
