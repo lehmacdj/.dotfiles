@@ -57,7 +57,12 @@ alias PlistBuddy='/usr/libexec/PlistBuddy'
 
 # Swaps the location of two files
 function swap () {
-    local TMPFILE=tmp.$$
+    if [ $# -ne 2 ]; then
+        echo "usage: swap <file1> <file2>"
+        return 1
+    fi
+    # $$ is the current PID
+    local TMPFILE=tmp.swap.$$
     mv "$1" $TMPFILE
     mv "$2" "$1"
     mv $TMPFILE "$2"
@@ -174,6 +179,25 @@ fi
 alias idris='idris --nobanner'
 alias swipl='rlwrap swipl'
 
+function find-above () {
+    if test $# -ne 1; then
+        echo '"Finds a certain filepath in any parent of the current directory"'
+        echo 'usage: find-above <path>'
+        return 1
+    fi
+    FILE=$1
+    DIR="$PWD"
+    while [[ "$DIR" != '/' ]]; do
+        if [[ -e "$DIR/$1" ]]; then
+            echo "$DIR/$1"
+            return 0
+        else
+            DIR="$(dirname "$DIR")"
+        fi
+    done
+    echo "Couldn't find: $1"
+}
+
 # extract a song from youtube with optimal quality settings + format
 # if this transcodes using ffmpeg, it might be best to not be setting
 # the audio-format to m4a
@@ -182,6 +206,12 @@ function youtube-m4a () {
 }
 
 function trash () {
-    [ $# -le 0 ] && (echo "trash requires at least one argument."; exit 1)
+    [ $# -le 0 ] && echo "trash requires at least one argument." && exit 1
     mv "$*" "$HOME/.Trash"
+}
+
+# converts a path like /mnt/c/... to C:\...
+function windows-path () {
+    [ $# -le 0 ] && echo "windows-path requires at least one argument." && exit 1
+    echo "$1" | sed 's|^/mnt/\(.\)|\1:|' | tr '/' '\\'
 }
