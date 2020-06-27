@@ -209,3 +209,9 @@ function trash () {
     [ $# -le 0 ] && (echo "trash requires at least one argument."; exit 1)
     mv "$*" "$HOME/.Trash"
 }
+
+# converts a path like /mnt/c/... to C:\...
+function windows-path () {
+    [ $# -le 0 ] && (echo "windows-path requires at least one argument."; exit 1)
+    echo "$1" | sed 's|^/mnt/\(.\)|\1:|' | tr '/' '\\'
+}
