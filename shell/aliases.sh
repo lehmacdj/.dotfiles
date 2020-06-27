@@ -177,3 +177,22 @@ fi
 
 alias idris='idris --nobanner'
 alias swipl='rlwrap swipl'
+
+function find-above () {
+    if test $# -ne 1; then
+        echo '"Finds a certain filepath in any parent of the current directory"'
+        echo 'usage: find-above <path>'
+        return 1
+    fi
+    FILE=$1
+    DIR="$PWD"
+    while [[ "$DIR" != '/' ]]; do
+        if [[ -e "$DIR/$1" ]]; then
+            echo "$DIR/$1"
+            return 0
+        else
+            DIR="$(dirname "$DIR")"
+        fi
+    done
+    echo "Couldn't find: $1"
+}
