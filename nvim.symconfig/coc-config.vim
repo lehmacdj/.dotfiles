@@ -50,13 +50,15 @@ nmap <silent> gr <Plug>(coc-references)
 
 " Use K to show documentation in preview window.
 " conflicts with K
-nnoremap <silent> <Space>K :call <SID>show_documentation()<CR>
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+let s:coc_documentation_filetypes = ['haskell', 'rust', 'python']
 
 function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
+  if (index(s:coc_documentation_filetypes, &filetype) >= 0)
     call CocAction('doHover')
+  else
+    execute 'h '.expand('<cword>')
   endif
 endfunction
 
