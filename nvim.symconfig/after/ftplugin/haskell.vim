@@ -17,6 +17,12 @@ function! s:open_interactive(height)
         let l:terminal_options = { 'cwd': fnamemodify(s:intero_stack_yaml, ':p:h') }
 
         let s:repl_buffer_id = s:start_buffer(l:terminal_command, l:terminal_options, a:height)
+
+        " setup a handler to delete the buffer id when the buffer is deleted
+        augroup start_buffer_Haskell
+            au!
+            au BufDelete <buffer> unlet s:repl_buffer_id
+        augroup END
     else
         exe 'below' . a:height . ' ' . 'split'
         exe s:repl_buffer_id . 'buffer'
@@ -39,6 +45,7 @@ function! s:start_buffer(command, options, height) abort
     set hidden
     let l:buffer_id = bufnr('%')
     let s:intero_job_id = b:terminal_job_id
+
     return l:buffer_id
 endfunction
 
