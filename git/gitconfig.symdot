@@ -16,7 +16,8 @@
     last = log -1 HEAD
     discard = checkout --
     precommit = diff --cached --diff-algorithm=minimal -w
-    nevermind = !get reset --hard HEAD && git clean -d -f
+    nevermind = !git reset --hard HEAD && git clean -d -f
+    update = !git fetch && git checkout master && git reset --hard origin/master && git checkout -
     # Shortcuts
     s = status -sb
     a = add
