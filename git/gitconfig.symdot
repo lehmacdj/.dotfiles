@@ -38,4 +38,4 @@
 [difftool "(n)vimdiff"]
     cmd = "\"$EDITOR\" -d \"$LOCAL\" \"$REMOTE\""
 [pull]
-	rebase = true
+    rebase = true
