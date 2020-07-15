@@ -213,5 +213,10 @@ function trash () {
 # converts a path like /mnt/c/... to C:\...
 function windows-path () {
     [ $# -le 0 ] && echo "windows-path requires at least one argument." && exit 1
-    echo "$1" | sed 's|^/mnt/\(.\)|\1:|' | tr '/' '\\'
+    echo -E "$1" | sed 's|^/mnt/\(.\)|\1:|' | tr '/' '\\'
+}
+
+function unix-path () {
+    [ $# -le 0 ] && echo "unix-path requires at least one argument." && exit 1
+    echo -E "$1" | sed 's|^\(.\):|/mnt/\L\1|' | tr '\\' '/'
 }
