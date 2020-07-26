@@ -12,6 +12,8 @@ nnoremap <buffer> <LocalLeader>o :call <SID>open_interactive(12)<CR>
 
 function! s:open_interactive(height)
     if (!exists('s:repl_buffer_id'))
+        " TODO: support projects without stack.yaml by just running ghci on
+        " the current file instead
         silent call s:ensure_has_stack_yaml()
         let l:terminal_command = 'stack ghci'
         let l:terminal_options = { 'cwd': fnamemodify(s:intero_stack_yaml, ':p:h') }
