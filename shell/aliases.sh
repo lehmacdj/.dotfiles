@@ -196,6 +196,7 @@ function find-above () {
         fi
     done
     echo "Couldn't find: $1"
+    return 1
 }
 
 # extract a song from youtube with optimal quality settings + format
