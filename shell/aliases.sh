@@ -16,6 +16,12 @@ alias la='ls -A'
 alias ll='ls -alFh'
 alias l.='ls -d .*'
 
+# this is to have a zero exit code so the terminal window closes when I
+# accidentally use :q to try to quit from the shell before using exit. I
+# decided that it wasn't worth mapping :q to exit because I sometimes quit
+# windows I intend to keep open on accident then
+alias ":q"='echo "Use '"'"'exit'"'"' to quit"'
+
 # delete .DS_Store files
 alias dspurge='find . -name .DS_Store -delete'
 
