@@ -20,8 +20,8 @@
     # remote/local branch management
     conflicts = diff --name-only --diff-filter=U
     update = !git fetch && git checkout master && git reset --hard origin/master && git checkout -
-    update-merge = !git stash && git fetch && git checkout master && git reset --hard origin/master && git checkout - && git merge master && git stash pop
-    update-rebase = !git stash && git fetch && git checkout master && git reset --hard origin/master && git checkout - && git rebase master && git stash pop
+    update-merge = !git stash && git fetch && git checkout master && git reset --hard origin/master && git checkout - && git merge master
+    update-rebase = !git stash && git fetch && git checkout master && git reset --hard origin/master && git checkout - && git rebase master
     # Shortcuts
     s = status -sb
     a = add
