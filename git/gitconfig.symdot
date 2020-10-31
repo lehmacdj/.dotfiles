@@ -17,11 +17,13 @@
     discard = checkout --
     precommit = diff --cached --diff-algorithm=minimal -w
     nevermind = !git reset --hard HEAD && git clean -d -f
+    # checkout fuzzy
+    cf = !git branch | fzf | xargs -n1 git checkout
+    # branch cleanup
+    bc = !git branch | fzf | xargs git branch -D
     # remote/local branch management
     conflicts = diff --name-only --diff-filter=U
     update = !git fetch && git checkout master && git reset --hard origin/master && git checkout -
-    update-merge = !git stash && git fetch && git checkout master && git reset --hard origin/master && git checkout - && git merge master
-    update-rebase = !git stash && git fetch && git checkout master && git reset --hard origin/master && git checkout - && git rebase master
     # Shortcuts
     s = status -sb
     a = add
