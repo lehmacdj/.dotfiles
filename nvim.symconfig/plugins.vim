@@ -87,7 +87,10 @@ Plug 'keith/swift.vim'
 Plug 'vim-airline/vim-airline'
     \| Plug 'vim-airline/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons'
-Plug 'altercation/vim-colors-solarized'
+Plug 'frankier/neovim-colors-solarized-truecolor-only'
+" Currently using this plugin because normal vim-colors-solarized doesn't
+" support termguicolors
+" Plug 'altercation/vim-colors-solarized'
 
 " c#
 

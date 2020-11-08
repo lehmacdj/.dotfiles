@@ -23,6 +23,8 @@ set smartindent
 set smarttab
 
 " ui
+set termguicolors
+set background=dark
 silent! colorscheme solarized
 set mouse=a
 set scrolloff=4
@@ -30,7 +32,6 @@ set showcmd
 set number
 set nohlsearch
 set laststatus=2
-set background=dark
 set belloff=all
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#whitespace#mixed_indent_algo = 2
