@@ -49,7 +49,7 @@ nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 
 " Use K to show documentation in preview window.
-" conflicts with K
+" conflicts with K - but this fails back pretty well to original behavior
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
 let s:coc_documentation_filetypes = ['haskell', 'rust', 'python']
