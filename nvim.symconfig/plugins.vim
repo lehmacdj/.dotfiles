@@ -53,6 +53,7 @@ Plug 'tpope/vim-scriptease'
 
 " latex
 Plug 'lervag/vimtex'
+let g:tex_flavor = 'latex'
 
 " tmux
 Plug 'keith/tmux.vim'
