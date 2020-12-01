@@ -62,11 +62,8 @@ fi
 # OPAM configuration
 . /Users/devin/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 
-# Add Haskell bin to the path
-if [ -d "$HOME/Library/Haskell/" ]; then
-    PATH="$PATH:$HOME/Library/Haskell/bin"
-    MANPATH="$MANPATH:$HOME/Library/Haskell/share/man"
-fi
+# Haskell/ghcup config
+[ -d "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env"
 
 # Add fzf to path
 if [ -d "$HOME/.fzf" ]; then
