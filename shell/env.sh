@@ -63,7 +63,7 @@ fi
 . /Users/devin/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 
 # Haskell/ghcup config
-[ -d "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env"
+[ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env"
 
 # Add fzf to path
 if [ -d "$HOME/.fzf" ]; then
