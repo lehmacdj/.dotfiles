@@ -2,7 +2,6 @@ call plug#begin($VIMHOME."/plugged")
 
 " motion + text objects
 Plug 'wellle/targets.vim'
-Plug 'justinmk/vim-sneak'
 
 " normal mode mappings
 Plug 'tpope/vim-surround'
