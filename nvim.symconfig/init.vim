@@ -125,6 +125,9 @@ nnoremap <expr> <Leader>es ':split '.$VIMHOME.'/syntax/'.&filetype.'.vim<CR>'
 nnoremap <expr> <Leader>ed ':split '.$VIMHOME.'/after/ftdetect/'.&filetype.'.vim<CR>'
 " Edit config file
 nnoremap <Leader>ec :split $VIMHOME/autoload/config.vim<CR>
+" Edit Coc config file
+" mnemonic is comp L etion because c is already taken by config
+nnoremap <Leader>el :split $VIMHOME/coc-config.vim<CR>
 " Source vimrc
 nnoremap <Leader>sv :source $MYVIMRC<CR>
 " Install plugins
