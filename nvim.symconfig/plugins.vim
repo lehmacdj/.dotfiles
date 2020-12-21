@@ -21,6 +21,9 @@ Plug 'tpope/vim-unimpaired'
 " coc
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 source $VIMHOME/coc-config.vim
+" Edit Coc config file
+" mnemonic is comp L etion because c is already taken by config
+nnoremap <Leader>el :split $VIMHOME/coc-config.vim<CR>
 
 " utility
 Plug 'tpope/vim-repeat'

@@ -1,6 +1,12 @@
 " initialize $VIMHOME to the configuration home
 let $VIMHOME=expand('<sfile>:p:h')
 
+" Leader mappings
+" leader needs to be set before loading plugins, otherwise mapping made by
+" plugins don't use the leader
+let mapleader=" "
+let maplocalleader = "\\"
+
 " load plugins
 if filereadable($VIMHOME."/plugins.vim")
     source $VIMHOME/plugins.vim
@@ -110,9 +116,6 @@ if has('nvim')
     tnoremap <C-\>h <C-\><C-n><C-w><C-h>
 end
 
-" Leader mappings
-let mapleader=" "
-let maplocalleader = "\\"
 " Edit vimrc
 nnoremap <Leader>ev :split $MYVIMRC<CR>
 " Edit plugins
@@ -125,9 +128,6 @@ nnoremap <expr> <Leader>es ':split '.$VIMHOME.'/syntax/'.&filetype.'.vim<CR>'
 nnoremap <expr> <Leader>ed ':split '.$VIMHOME.'/after/ftdetect/'.&filetype.'.vim<CR>'
 " Edit config file
 nnoremap <Leader>ec :split $VIMHOME/autoload/config.vim<CR>
-" Edit Coc config file
-" mnemonic is comp L etion because c is already taken by config
-nnoremap <Leader>el :split $VIMHOME/coc-config.vim<CR>
 " Source vimrc
 nnoremap <Leader>sv :source $MYVIMRC<CR>
 " Install plugins
