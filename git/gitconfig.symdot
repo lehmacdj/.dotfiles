@@ -7,6 +7,7 @@
 
 [core]
     excludesfile = ~/.gitignore_global
+    autocrlf = false
 
 [alias]
     # Convenient aliases
