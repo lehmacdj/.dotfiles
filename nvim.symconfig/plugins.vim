@@ -94,6 +94,9 @@ Plug 'frankier/neovim-colors-solarized-truecolor-only'
 
 " c#
 
+" neuron zettelkasten / note-taking
+Plug 'fiatjaf/neuron.vim'
+
 call plug#end()
 
 " opam plugins
