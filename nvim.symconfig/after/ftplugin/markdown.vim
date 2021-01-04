@@ -13,6 +13,8 @@ if filereadable('neuron.dhall')
     nmap <buffer> ]z :<C-U>call neuron#move_history(1)<CR>
     nmap <buffer> [z :<C-U>call neuron#move_history(-1)<CR>
 
+    nmap <buffer> <LocalLeader>o :!open http://localhost:8080/%:t:r.html<CR>
+
     nmap <buffer> <C-]> <Plug>EditZettelUnderCursor
     nmap <buffer> <Leader>o <Plug>EditZettelSelect
     nmap <buffer> <LocalLeader>b <Plug>EditZettelBacklink
