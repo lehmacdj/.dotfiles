@@ -23,15 +23,13 @@ if filereadable('neuron.dhall')
     nmap <buffer> <LocalLeader>n <Plug>EditZettelNew
     " these are <LocalLeader>d to mean define, which is kind of what it means to
     " create a new zettel for a word
-    nmap <buffer> <LocalLeader>d <Plug>EditZettelNewFromCword
-    xmap <buffer> <LocalLeader>d <esc><Plug>EditZettelNewFromVisual
+    nmap <buffer> <LocalLeader>d :<C-U>call neuron#edit_zettel_new_from_cword(0)<CR>
+    xmap <buffer> <LocalLeader>d <esc>:<C-U>call neuron#edit_zettel_new_from_visual(0)<CR>
 
     " two variants of each first [[ ]] links then [[[ ]]] links
     nmap <buffer> <LocalLeader>s <Plug>InsertZettelSelect
-    nmap <buffer> <LocalLeader>S :<C-U>call neuron#insert_zettel_select(1)<CR>
     " mnemonic append, also because it is a key right next to s
     nmap <buffer> <LocalLeader>a <Plug>InsertZettelLast
-    nmap <buffer> <LocalLeader>A :<C-U>call neuron#insert_zettel_last(1)<CR>
 
     nmap <buffer> <LocalLeader>r <Plug>NeuronRefreshCache
 
