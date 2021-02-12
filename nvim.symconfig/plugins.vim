@@ -65,6 +65,9 @@ Plug 'xu-cheng/brew.vim'
 " markdown
 Plug 'tpope/vim-markdown'
 
+" nix
+Plug 'LnL7/vim-nix'
+
 " idris
 Plug 'idris-hackers/idris-vim'
 
