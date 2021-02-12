@@ -208,8 +208,10 @@ function find-above () {
 # extract a song from youtube with optimal quality settings + format
 # if this transcodes using ffmpeg, it might be best to not be setting
 # the audio-format to m4a
+# keeps original file in case it seems like a better to use it instead of the
+# converted file
 function youtube-m4a () {
-    youtube-dl --audio-quality 0 --extract-audio --audio-format m4a "$@"
+    youtube-dl --audio-quality 0 --extract-audio -k --audio-format m4a "$@"
 }
 
 function trash () {
