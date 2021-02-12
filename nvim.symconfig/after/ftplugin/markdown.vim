@@ -7,7 +7,20 @@ let b:markdown_trailing_space_rules = 1
 nmap <buffer> <LocalLeader>pc :!pandoc --pdf-engine=xelatex % -o %:r.pdf<CR>
 nmap <buffer> <LocalLeader>po :!open %:r.pdf<CR>
 
+" Stuff for softwrapping
+setlocal wrap
+setlocal linebreak
+setlocal showbreak=
+nnoremap j gj
+nnoremap k gk
+nnoremap $ g$
+nnoremap 0 g0
+
 if filereadable('neuron.dhall')
+    " I don't want git gutter for my notes because it will make me think about
+    " commiting things too often
+    silent! GitGutterDisable
+
     " neuron folgezettel mappings
     " for some reason none of these mappings work when put as nnoremap's?
     nmap <buffer> ]z :<C-U>call neuron#move_history(1)<CR>
