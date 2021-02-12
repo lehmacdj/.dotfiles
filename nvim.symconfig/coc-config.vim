@@ -1,3 +1,4 @@
+" Note use CocCommand workspace.showOutput to debug language server
 " Some servers have issues with backup files, see #649.
 " set nobackup
 " set nowritebackup
