@@ -1,7 +1,7 @@
 setlocal spell
 setlocal tw=80
 
-let b:markdown_trailing_space_rules = 1
+" let b:markdown_trailing_space_rules = 0
 
 " utilities for compiling to pdf
 nmap <buffer> <LocalLeader>pc :!pandoc --pdf-engine=xelatex % -o %:r.pdf<CR>
