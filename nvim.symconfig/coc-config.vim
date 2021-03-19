@@ -7,7 +7,7 @@
 " set cmdheight=2
 
 " Restart Coc, very useful in case project settings change
-nnoremap <Leader>cr :CocRestart<CR><CR>
+nnoremap <Leader>lr :CocRestart<CR><CR>
 
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
