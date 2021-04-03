@@ -229,3 +229,8 @@ function unix-path () {
     [ $# -le 0 ] && echo "unix-path requires at least one argument." && return 1
     echo -E "$1" | sed 's|^\(.\):|/mnt/\L\1|' | tr '\\' '/'
 }
+
+# generate + return a 9 character random sequence of alphanumeric characters
+function random-id () {
+  LC_ALL=C </dev/urandom tr -dc 'a-z0-9' | head -c 9
+}
