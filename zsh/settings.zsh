@@ -14,8 +14,8 @@ unsetopt beep
 setopt extended_glob
 
 # HISTORY
-HISTSIZE=100000
-SAVEHIST=100000
+HISTSIZE=1000000
+SAVEHIST=1000000
 HISTFILE="$DOTFILES/zsh/.zhistory"
 HISTORY_IGNORE="(ls|ll|bg|fg|history)"
 # Add comamnds as they are typed, don't wait until shell exit
