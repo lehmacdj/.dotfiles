@@ -19,12 +19,11 @@
     precommit = diff --cached --diff-algorithm=minimal -w
     nevermind = !git reset --hard HEAD && git clean -d -f
     # checkout fuzzy
-    cf = !git branch | fzf | xargs -n1 git checkout
+    cf = !git branch | fzf --tac --no-sort | xargs -n1 git checkout
     # branch cleanup
-    bc = !git branch | fzf | xargs git branch -D
+    bc = !git branch | fzf --tac --no-sort | xargs git branch -D
     # remote/local branch management
     conflicts = diff --name-only --diff-filter=U
-    update = !git fetch && git checkout master && git reset --hard origin/master && git checkout -
     # Shortcuts
     s = status -sb
     a = add
