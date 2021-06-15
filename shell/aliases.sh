@@ -37,9 +37,6 @@ function vial {
 # latexmk default pdf mode
 alias latexmk='latexmk -pdfdvi'
 
-# gpg to make it have a easier alias
-alias gpg="gpg2"
-
 # Vimlike commandline bindings
 # alias :q="exit" # I have found this alias is bad because I close the shell
                   # unexpectedly sometimes when I don't want to

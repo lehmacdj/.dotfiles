@@ -14,6 +14,9 @@ fi
 export EDITOR
 export VISUAL
 
+# XDG config goes in default location
+export XDG_CONFIG_HOME="$HOME/.config"
+
 if test "$EDITOR" = 'vim' || test "$EDITOR" = 'nvim'; then
     # Use (n)vim for manpager if it is available
     export MANPAGER="$EDITOR -c 'set ft=man' -"
@@ -64,6 +67,11 @@ fi
 
 # Haskell/ghcup config
 [ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env"
+
+# nvm (node version manager) config
+export NVM_DIR="$HOME/.nvm"
+[ -f "/usr/local/opt/nvm/nvm.sh" ] && source "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+[ -f "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && source "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
 # Add fzf to path
 if [ -d "$HOME/.fzf" ]; then

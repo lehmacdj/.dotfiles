@@ -17,3 +17,6 @@ zsh/cache/
 
 # FZF
 fzf/
+
+# we want to ignore this because we only use this for fresh install
+Brewfile.lock.json
