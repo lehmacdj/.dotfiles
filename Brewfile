@@ -37,8 +37,6 @@ cask '1password'
 cask 'xquartz'
 
 # Quicklook -- make quicklook better / more useful
-cask 'qlstephen'
-cask 'qlcolorcode'
 cask 'qlmarkdown'
 cask 'quicklook-json'
 cask 'qlprettypatch'
