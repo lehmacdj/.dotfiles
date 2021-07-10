@@ -10,6 +10,8 @@ let g:ormolu_options=["-o -XTypeApplications"]
 let g:haskell_enable_quantification = 1
 let g:haskell_enable_pattern_synonyms = 1
 
+let b:neomake_haskell_enabled_makers = []
+
 nnoremap <buffer> <LocalLeader>o :call <SID>open_interactive(12)<CR>
 
 function! s:open_interactive(height)

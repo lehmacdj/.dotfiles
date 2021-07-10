@@ -44,6 +44,13 @@ Plug 'airblade/vim-gitgutter'
 
 " syntax checking
 Plug 'neomake/neomake'
+" I want ale for specific filetypes only (I should probably commit to
+" switching from neomake but I'm happy with how neomake works right now)
+" unfortunately it is necessary to manually disable it for all filetypes where
+" it is not desired.
+Plug 'dense-analysis/ale'
+let g:ale_linters = { 'haskell': [] }
+let g:ale_fixers = { 'haskell': [] }
 
 " jsonnet
 Plug 'google/vim-jsonnet'

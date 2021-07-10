@@ -7,7 +7,7 @@
 " set cmdheight=2
 
 " Restart Coc, very useful in case project settings change
-nnoremap <Leader>lr :CocRestart<CR><CR>
+nnoremap <Leader>lr :CocRestart<CR>
 
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
@@ -138,4 +138,4 @@ nnoremap <silent> <Leader>ls  :<C-u>CocList -I symbols<cr>
 " " Do default action for previous item.
 " nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
-nnoremap <silent> <space>lr  :<C-u>CocListResume<CR>
+" nnoremap <silent> <space>lr  :<C-u>CocListResume<CR>
