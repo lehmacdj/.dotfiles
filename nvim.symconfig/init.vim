@@ -163,5 +163,6 @@ end
 
 " finally load local vim configuration if it exists
 if filereadable($VIMHOME."/local.vim")
+    nnoremap <Leader>eL :split $VIMHOME/local.vim<CR>
     source $VIMHOME/local.vim
 endif
