@@ -6,10 +6,10 @@
 alias grep='grep --color=auto'
 
 # ls
-if [ -n "$DARWIN" ]; then
+if [ -n "$DARWIN" ] && gls >/dev/null 2>&1; then
     alias ls='gls --color=auto'
 else
-    alias ls='ls --color=auto'
+    'ls' --color=auto >/dev/null 2>&1 && alias ls='ls --color=auto'
 fi
 alias l='ls -CF'
 alias la='ls -A'
