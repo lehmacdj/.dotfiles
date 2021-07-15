@@ -40,10 +40,12 @@ alias latexmk='latexmk -pdfdvi'
 # Vimlike commandline bindings
 # alias :q="exit" # I have found this alias is bad because I close the shell
                   # unexpectedly sometimes when I don't want to
-alias :e="\$EDITOR"
-alias vi="\$EDITOR"
-alias vim="\$EDITOR"
-alias nvim="\$EDITOR"
+if "$EDITOR" -v >/dev/null 2>&1; then
+  alias :e="\$EDITOR"
+  alias vi="\$EDITOR"
+  alias vim="\$EDITOR"
+  alias nvim="\$EDITOR"
+fi
 
 # Ed prompt
 alias ed="ed -p:"
