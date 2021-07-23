@@ -148,6 +148,8 @@ nnoremap <Leader>b :Buffers<CR>
 " run the last normal mode command
 nnoremap <Leader>: :<Up><CR>
 xnoremap <Leader>: :<Up><CR>
+" run the last command in a terminal buffer
+nnoremap <Leader><C-k> i<C-k><Return><C-\><C-n>
 
 " toggle colorcolumn with <space>8
 set colorcolumn=81
