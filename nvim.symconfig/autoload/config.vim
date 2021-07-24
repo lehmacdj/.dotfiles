@@ -22,3 +22,9 @@ function! config#StripWhitespace()
     let @/ = l:_s
     call setpos('.', l:pos)
 endfunction
+
+function! config#CompileSpellFiles()
+  for d in globpath(&runtimepath, "spell/*.add", 0, 1)
+      execute "mkspell! " . fnameescape(d)
+  endfor
+endfunction

@@ -159,6 +159,8 @@ nnoremap <Leader>8 :call config#ToggleColorColumn()<CR>
 if &spell
     nnoremap <Leader>z 1z=
 
+    nnoremap <Leader>sc :call config#CompileSpellFiles()<CR>
+
     " Spelling corrections
     abbreviate teh the
 end
