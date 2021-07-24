@@ -1,6 +1,7 @@
 nvim.symconfig/spell/*.spl
 nvim.symconfig/.netrwhist
 nvim.symconfig/plugged/
+nvim.symconfig/local.vim
 
 # zsh
 zsh/.*
