@@ -1,12 +1,6 @@
-# the same for nvim
-nvim.symconfig/*
-!nvim.symconfig/autoload/
-!nvim.symconfig/ftplugin/
-!nvim.symconfig/ftdetect/
-!nvim.symconfig/plugins.vim
-!nvim.symconfig/init.vim
-!nvim.symconfig/vimrc
-!nvim.symconfig/coc-config.vim
+nvim.symconfig/spell/*.spl
+nvim.symconfig/.netrwhist
+nvim.symconfig/plugged/
 
 # zsh
 zsh/.*
