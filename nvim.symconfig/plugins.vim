@@ -19,7 +19,7 @@ Plug 'tpope/vim-unimpaired'
 "         \| Plug 'zchee/deoplete-jedi'
 " end
 " coc
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': 'yarn install'}
 source $VIMHOME/coc-config.vim
 " Edit Coc config file
 " mnemonic is language server because 'c' is already taken by 'config'
