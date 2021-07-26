@@ -13,11 +13,9 @@
     # Convenient aliases
     status = status -sb
     unstage = reset -q HEAD --
-    amend = commit --amend
     last = log -1 HEAD
     discard = checkout --
     precommit = diff --cached --diff-algorithm=minimal -w
-    nevermind = !git reset --hard HEAD && git clean -d -f
     # checkout fuzzy
     cf = !git branch | fzf --tac --no-sort | xargs -n1 git checkout
     # branch cleanup
