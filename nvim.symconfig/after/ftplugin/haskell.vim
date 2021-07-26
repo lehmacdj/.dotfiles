@@ -8,6 +8,9 @@ let g:ormolu_options=["-o -XTypeApplications"]
 let b:ormolu_disable=1
 xnoremap <buffer> <silent> = :<c-u>call OrmoluArg(visualmode(), 1)<CR>
 nnoremap <buffer> <silent> = :set opfunc=OrmoluArg<CR>g@
+" override to make the following line not get swallowed when formatting a
+" paragraph
+nmap <buffer> <silent> =ap =ip
 
 function! OrmoluArg(type, ...)
   let sel_save = &selection
