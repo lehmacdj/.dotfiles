@@ -42,6 +42,16 @@ set belloff=all
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#whitespace#mixed_indent_algo = 2
 let g:netrw_liststyle = 3
+if has('nvim')
+    augroup neovim_terminal
+        autocmd!
+
+        " terminal with scrolloff causes weird behavior with TUI programs or
+        " even just when using C-l to clear screen; line numbers seem
+        " redundant for terminals too
+        autocmd TermOpen * setlocal nonumber norelativenumber scrolloff=0
+    augroup END
+endif
 
 " fix delay when exiting insert mode
 if !has('nvim')
