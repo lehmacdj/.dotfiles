@@ -139,3 +139,5 @@ nnoremap <silent> <Leader>ls  :<C-u>CocList -I symbols<cr>
 " nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 " nnoremap <silent> <space>lr  :<C-u>CocListResume<CR>
+
+let g:coc_default_semantic_highlight_groups = 1
