@@ -67,6 +67,9 @@ if has('nvim')
         " don't set scrolloff because it doesn't have a local value scrolloff=0
     augroup END
 endif
+if has("nvim-0.5.0") || has("patch-8.1.1564")
+  set signcolumn=number
+endif
 
 " fix delay when exiting insert mode
 if !has('nvim')
