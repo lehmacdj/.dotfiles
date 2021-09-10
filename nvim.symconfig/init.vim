@@ -49,7 +49,8 @@ if has('nvim')
         " terminal with scrolloff causes weird behavior with TUI programs or
         " even just when using C-l to clear screen; line numbers seem
         " redundant for terminals too
-        autocmd TermOpen * setlocal nonumber norelativenumber scrolloff=0
+        autocmd TermOpen * setlocal nonumber norelativenumber
+        " don't set scrolloff because it doesn't have a local value scrolloff=0
     augroup END
 endif
 
@@ -174,6 +175,13 @@ if &spell
     " Spelling corrections
     abbreviate teh the
 end
+
+" indent text objects copied from here:
+" https://vim.fandom.com/wiki/Indent_text_object
+onoremap <silent>ai :<C-U>call config#IndentTextObject(0)<CR>
+onoremap <silent>ii :<C-U>call config#IndentTextObject(1)<CR>
+vnoremap <silent>ai :<C-U>call config#IndentTextObject(0)<CR><Esc>gv
+vnoremap <silent>ii :<C-U>call config#IndentTextObject(1)<CR><Esc>gv
 
 " finally load local vim configuration if it exists
 if filereadable($VIMHOME."/local.vim")
