@@ -11,14 +11,6 @@ Plug 'junegunn/vim-easy-align'
 Plug 'tpope/vim-unimpaired'
 
 " completion
-" deoplete
-" if has('nvim')
-"     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-"         \| Plug 'racer-rust/vim-racer'
-"         \| Plug 'Shougo/neoinclude.vim'
-"         \| Plug 'zchee/deoplete-jedi'
-" end
-" coc
 Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': 'yarn install'}
 source $VIMHOME/coc-config.vim
 " Edit Coc config file
