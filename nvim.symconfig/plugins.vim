@@ -96,6 +96,8 @@ Plug 'keith/swift.vim'
 " ui
 Plug 'vim-airline/vim-airline'
     \| Plug 'vim-airline/vim-airline-themes'
+let g:airline_section_b = '%{airline#util#wrap(airline#extensions#hunks#get_hunks(),100)}%{airline#util#wrap(airline#extensions#branch#get_head(),200)}'
+
 Plug 'ryanoasis/vim-devicons'
 Plug 'frankier/neovim-colors-solarized-truecolor-only'
 " Currently using this plugin because normal vim-colors-solarized doesn't
