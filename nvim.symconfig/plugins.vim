@@ -36,6 +36,8 @@ Plug 'airblade/vim-gitgutter'
 
 " syntax checking
 Plug 'neomake/neomake'
+autocmd BufWinEnter,BufWritePost * Neomake
+
 " I want ale for specific filetypes only (I should probably commit to
 " switching from neomake but I'm happy with how neomake works right now)
 " unfortunately it is necessary to manually disable it for all filetypes where

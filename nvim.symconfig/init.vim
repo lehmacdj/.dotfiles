@@ -84,9 +84,6 @@ end
 set formatoptions+=jn
 set nojoinspaces
 
-" neomake
-autocmd BufWinEnter,BufWritePost * Neomake
-
 " Make backspace behave the way I expect
 set backspace=indent,eol,start
 
