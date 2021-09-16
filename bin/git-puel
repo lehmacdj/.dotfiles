@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -e
+
+[ $# -ge 1 ] && commits_to_keep_secret=$1
+[ -z "$commits_to_keep_secret" ] && commits_to_keep_secret=0
+
+c=("git" "push" "--force-with-lease" "origin" "@~$commits_to_keep_secret:$(git branch --show-current)")
+echo "running: ${c[*]}"
+${c[*]}
