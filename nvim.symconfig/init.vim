@@ -84,26 +84,6 @@ end
 set formatoptions+=jn
 set nojoinspaces
 
-" deoplete
-if has('nvim')
-    " let g:deoplete#enable_at_startup = 1
-    " let g:deoplete#enable_smart_case = 1
-    " autocmd CmdwinEnter * let b:deoplete_sources = ['buffer']
-    " " make backspace close the popup window
-    " inoremap <expr> <C-h> deoplete#smart_close_popup()."\<C-h>"
-    " inoremap <expr> <BS>  deoplete#smart_close_popup()."\<C-h>"
-    " inoremap <expr> <C-Space> deoplete#manual_complete()
-else
-    set omnifunc=syntaxcomplete#Complete
-    " inoremap <NUL> <C-x><C-o>
-    set completeopt=longest,menuone
-    inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-    inoremap <expr> <C-n> pumvisible() ? '<C-n>' :
-      \ '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
-    inoremap <expr> <NUL> pumvisible() ? '<C-n>' :
-      \ '<C-x><C-o><C-n><C-p><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
-end
-
 " neomake
 autocmd BufWinEnter,BufWritePost * Neomake
 
