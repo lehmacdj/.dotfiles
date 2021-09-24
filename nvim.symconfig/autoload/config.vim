@@ -57,3 +57,28 @@ function! config#IndentTextObject(inner)
     normal! $
   endif
 endfunction
+
+" Displays buffer list, prompts for buffer numbers and ranges and deletes
+" associated buffers. Example input: 2 5,9 12
+" Hit Enter alone to exit.
+" Source:
+" https://vi.stackexchange.com/questions/14829/close-multiple-buffers-interactively
+function! config#InteractiveBufDelete()
+    let l:prompt = "Specify buffers to delete: "
+
+    ls | let bufnums = input(l:prompt)
+    while strlen(bufnums)
+        echo "\n"
+        let buflist = split(bufnums)
+        for bufitem in buflist
+            if match(bufitem, '^\d\+,\d\+$') >= 0
+                exec ':' . bufitem . 'bd'
+            elseif match(bufitem, '^\d\+$') >= 0
+                exec ':bd ' . bufitem
+            else
+                echohl ErrorMsg | echo 'Not a number or range: ' . bufitem | echohl None
+            endif
+        endfor
+        ls | let bufnums = input(l:prompt)
+    endwhile
+endfunction

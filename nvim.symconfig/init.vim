@@ -133,6 +133,8 @@ nnoremap <Leader>mt :!ctags -R .<CR><CR>
 nnoremap <Leader>th :set hlsearch!<CR>
 " Open buffer list
 nnoremap <Leader>b :Buffers<CR>
+" Delete buffers from buffer list interactively
+nnoremap <Leader>db :call config#InteractiveBufDelete()<CR>
 " run the last normal mode command
 nnoremap <Leader>: :<Up><CR>
 xnoremap <Leader>: :<Up><CR>
