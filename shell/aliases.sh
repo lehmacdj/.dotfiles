@@ -233,3 +233,14 @@ function unix-path () {
 function random-id () {
   LC_ALL=C </dev/urandom tr -dc 'a-z0-9' | head -c 9
 }
+
+function hs-replace {
+    [ $# -ge 2 ] || {
+        echo >&2 "usage: hs-replace <find-pattern> <replace-pattern>"
+        return 1
+    }
+    rg --glob '*.hs' "$1" --files-with-matches \
+        | tr '\n' '\0' \
+        | xargs -0 sed -i '.sed-backup~' -e "s/$1/$2/g"
+    find . -name '*.sed-backup~' -delete;
+}
