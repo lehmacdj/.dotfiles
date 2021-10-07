@@ -29,10 +29,14 @@ endfunction
 
 let g:haskell_enable_quantification = 1
 let g:haskell_enable_pattern_synonyms = 1
+let g:haskell_enable_typeroles = 1
 
+" we get errors from HLS instead of neomake
 let b:neomake_haskell_enabled_makers = []
 
 nnoremap <buffer> <LocalLeader>o :call <SID>open_interactive(12)<CR>
+
+nnoremap <buffer> <LocalLeader>d :CocCommand workspace.showOutput<CR>
 
 function! s:open_interactive(height)
   if (!exists('s:repl_buffer_id'))
