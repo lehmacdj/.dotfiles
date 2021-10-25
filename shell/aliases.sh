@@ -215,7 +215,7 @@ function youtube-m4a () {
 
 function trash () {
     [ $# -le 0 ] && echo "trash requires at least one argument." && return 1
-    mv "$*" "$HOME/.Trash"
+    command mv "$@" "$HOME/.Trash"
 }
 
 # converts a path like /mnt/c/... to C:\...
@@ -243,4 +243,8 @@ function hs-replace {
         | tr '\n' '\0' \
         | xargs -0 sed -i '.sed-backup~' -e "s/$1/$2/g"
     find . -name '*.sed-backup~' -delete;
+}
+
+function silently () {
+    >/dev/null 2>&1 "$@"
 }
