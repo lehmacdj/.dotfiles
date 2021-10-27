@@ -25,8 +25,6 @@ cask 'iterm2'
 # Linters and Languages
 brew 'shellcheck'
 brew 'python'
-brew 'opam'
-brew 'haskell-stack'
 brew 'node'
 
 # Completion
