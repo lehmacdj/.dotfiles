@@ -17,10 +17,16 @@ brew 'reattach-to-user-namespace'
 brew 'unar'
 brew 'p7zip'
 
-# Cask
+# Applications
 cask 'firefox'
 cask 'dropbox'
 cask 'iterm2'
+
+# Media
+cask 'vlc'
+tap 'gromgit/fuse'
+cask 'macfuse'
+brew 'gromgit/fuse/ifuse-mac'
 
 # Linters and Languages
 brew 'shellcheck'
