@@ -17,6 +17,11 @@ brew 'reattach-to-user-namespace'
 brew 'unar'
 brew 'p7zip'
 
+# Cask
+cask 'firefox'
+cask 'dropbox'
+cask 'iterm2'
+
 # Linters and Languages
 brew 'shellcheck'
 brew 'python'
@@ -27,14 +32,6 @@ brew 'node'
 # Completion
 brew 'bash-completion'
 brew 'zsh-completions'
-
-# Cask
-cask 'google-chrome'
-cask 'firefox'
-cask 'dropbox'
-cask 'iterm2'
-cask '1password'
-cask 'xquartz'
 
 # Quicklook -- make quicklook better / more useful
 cask 'qlmarkdown'

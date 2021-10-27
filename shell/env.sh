@@ -54,12 +54,8 @@ if [ -d "$HOME/.cargo" ]; then
 fi
 
 # Homebrew
-if which brew >/dev/null 2>&1; then
-    BREW_PREFIX="$(brew --prefix)"
-
-    PATH="$BREW_PREFIX/bin:$PATH"
-    PATH="$BREW_PREFIX/sbin:$PATH"
-    MANPATH="$BREW_PREFIX/share/man:$MANPATH"
+if [ -f /opt/homebrew/bin/brew ]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
 fi
 
 # OPAM configuration

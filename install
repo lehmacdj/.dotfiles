@@ -14,11 +14,12 @@ function usage_info () {
     echo "  --force         overwrite existing configuration when installing files"
     echo "  --uninstall     symlink configuration to its proper location"
     echo "  --help          show this help and then quit"
+    echo "  --verbose       show verbose level output"
 }
 
-# print data if verbose > level
+# print data if verbose >= level
 function log () {
-    [ "$verbose" -gt "$1" ] && shift && echo "$@"
+    [ "$verbose" -ge "$1" ] && shift && echo "$@"
 }
 
 # Set Operating System Variables
@@ -33,8 +34,8 @@ fi
 features=2
 
 # the verbosity of the program
-# 0 := none, 1 := default, 2 := verbose
-verbose=1
+# 0 := info/default, 1 := debug, 2 := verbose
+verbose=0
 
 for arg; do
     case "$arg" in
@@ -48,8 +49,14 @@ for arg; do
             force=1;;
         --uninstall)
             features=uninstall;;
-        --verbose)
-            verbose=2;;
+        --verbose|-v)
+            verbose=$((verbose + 1));;
+        -vv)
+            verbose=$((verbose + 2));;
+        -vvv)
+            verbose=$((verbose + 3));;
+        -vvvv)
+            verbose=$((verbose + 4));;
         --help)
             usage_info
             exit 0;;
@@ -98,13 +105,16 @@ if [ -n "$DARWIN" ] && [ "$features" -ge 3 ]; then
 
     # Install homebrew if nescessary
     brew help >/dev/null 2>&1 || \
-    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+    # make homebrew available now
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+
 
     log 1 ""
     log 0 "Brewing formulas..."
 
     # Use brew-bundle to install brewfiles in a good order
-    brew tap Homebrew/bundle 2>/dev/null
     brew bundle --file="$DOTFILES/Brewfile"
 fi
 
@@ -161,4 +171,21 @@ if [ "$features" -ge 2 ] && [ ! -d "$HOME/.fzf" ]; then
     log 0 "Installing fzf..."
     git clone https://github.com/junegunn/fzf.git --depth 1 "$HOME/.fzf" >/dev/null &&\
     "$HOME/.fzf/install" --bin || echo "Failed to install fzf!"
+fi
+
+# Fonts installation
+if [ "$features" -ge 3 ]; then
+    log 1 ""
+    log 0 "Installing Hack powerline font"
+    font_install_dir="$(mktemp -d)"
+    log 1 "in directory: $font_install_dir"
+    git clone https://github.com/powerline/fonts "$font_install_dir/powerline_fonts"
+    if [ -n "$DARWIN" ]; then
+        log 1 "opening fonts..."
+        log 2 running: open "$font_install_dir/powerline_fonts/Hack/"*.ttf
+        open "$font_install_dir/powerline_fonts/Hack/"*.ttf
+    else
+        log 0 "downloaded Hack in directory: $font_install_dir/powerline_fonts/Hack"
+        log 0 "open/install them as applicable"
+    fi
 fi
