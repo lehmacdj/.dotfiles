@@ -74,6 +74,16 @@ set hidden
 " history
 set undolevels=10000
 set undofile
+if !has('nvim')
+    " move history files to XDG_DATA_HOME
+    let s:data_dir = exists('$XDG_DATA_HOME') ? $XDG_DATA_HOME.'/vim' : $HOME.'/.local/share/vim'
+    let s:undo_dir = s:data_dir.'/undo'
+    let s:swap_dir = s:data_dir.'/swap'
+    call system('mkdir -p '.s:undo_dir)
+    call system('mkdir -p '.s:swap_dir)
+    let &directory = s:swap_dir
+    let &undodir = s:undo_dir
+end
 if has('nvim')
     " maximum terminal scrollback
     set scrollback=100000
