@@ -17,9 +17,12 @@ export VISUAL
 # XDG config goes in default location
 export XDG_CONFIG_HOME="$HOME/.config"
 
-if test "$EDITOR" = 'vim' || test "$EDITOR" = 'nvim'; then
-    # Use (n)vim for manpager if it is available
-    export MANPAGER="$EDITOR -c 'set ft=man' -"
+# Use (n)vim for manpager if it is available
+if test "$EDITOR" = 'nvim'; then
+    export MANWIDTH=1110
+    export MANPAGER="nvim +Man!"
+elif test "$EDITOR" = 'vim'; then
+    export MANPAGER="vim -M +MANPAGER -"
 fi
 
 # System name
