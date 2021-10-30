@@ -22,6 +22,10 @@ cask 'firefox'
 cask 'dropbox'
 cask 'iterm2'
 
+# Fonts
+tap 'homebrew/cask-fonts'
+cask 'font-hack-nerd-font'
+
 # Media
 cask 'vlc'
 tap 'gromgit/fuse'

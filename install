@@ -172,20 +172,3 @@ if [ "$features" -ge 2 ] && [ ! -d "$HOME/.fzf" ]; then
     git clone https://github.com/junegunn/fzf.git --depth 1 "$HOME/.fzf" >/dev/null &&\
     "$HOME/.fzf/install" --bin || echo "Failed to install fzf!"
 fi
-
-# Fonts installation
-if [ "$features" -ge 3 ]; then
-    log 1 ""
-    log 0 "Installing Hack powerline font"
-    font_install_dir="$(mktemp -d)"
-    log 1 "in directory: $font_install_dir"
-    git clone https://github.com/powerline/fonts "$font_install_dir/powerline_fonts"
-    if [ -n "$DARWIN" ]; then
-        log 1 "opening fonts..."
-        log 2 running: open "$font_install_dir/powerline_fonts/Hack/"*.ttf
-        open "$font_install_dir/powerline_fonts/Hack/"*.ttf
-    else
-        log 0 "downloaded Hack in directory: $font_install_dir/powerline_fonts/Hack"
-        log 0 "open/install them as applicable"
-    fi
-fi
