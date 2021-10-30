@@ -31,6 +31,20 @@ set smarttab
 " ui
 set termguicolors
 set background=dark
+augroup override_solarized_Pmenu
+  autocmd!
+  " for some reason coc.nvim doesn't do well with the default value for this
+  " which uses gui=reverse. This makes it so that we don't need to use
+  " gui=reverse but still get pretty much the same colorscheme
+  function s:FixPmenu()
+    if &background ==# 'dark'
+      silent! hi Pmenu ctermfg=13 ctermbg=0 gui=none guifg=#073642 guibg=#839496
+    else
+      silent! hi Pmenu ctermbg=0 ctermfg=225 gui=none guibg=#657b83 guifg=#eee8d5
+    endif
+  endfunction
+  autocmd ColorScheme * call <SID>FixPmenu()
+augroup END
 silent! colorscheme solarized
 set mouse=a
 set scrolloff=4

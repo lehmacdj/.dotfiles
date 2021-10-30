@@ -64,21 +64,32 @@ endfunction
 " Source:
 " https://vi.stackexchange.com/questions/14829/close-multiple-buffers-interactively
 function! config#InteractiveBufDelete()
-    let l:prompt = "Specify buffers to delete: "
+  let l:prompt = "Specify buffers to delete: "
 
+  ls | let bufnums = input(l:prompt)
+  while strlen(bufnums)
+    echo "\n"
+    let buflist = split(bufnums)
+    for bufitem in buflist
+      if match(bufitem, '^\d\+,\d\+$') >= 0
+        exec ':' . bufitem . 'bd'
+      elseif match(bufitem, '^\d\+$') >= 0
+        exec ':bd ' . bufitem
+      else
+        echohl ErrorMsg | echo 'Not a number or range: ' . bufitem | echohl None
+      endif
+    endfor
     ls | let bufnums = input(l:prompt)
-    while strlen(bufnums)
-        echo "\n"
-        let buflist = split(bufnums)
-        for bufitem in buflist
-            if match(bufitem, '^\d\+,\d\+$') >= 0
-                exec ':' . bufitem . 'bd'
-            elseif match(bufitem, '^\d\+$') >= 0
-                exec ':bd ' . bufitem
-            else
-                echohl ErrorMsg | echo 'Not a number or range: ' . bufitem | echohl None
-            endif
-        endfor
-        ls | let bufnums = input(l:prompt)
-    endwhile
+  endwhile
+endfunction
+
+" Displays syntax stack under the cursor. Goes ahead and resolves links.
+" https://stackoverflow.com/questions/9464844/how-to-get-group-name-of-highlighting-under-cursor-in-vim
+function! config#SynStack()
+  for i1 in synstack(line("."), col("."))
+    let i2 = synIDtrans(i1)
+    let n1 = synIDattr(i1, "name")
+    let n2 = synIDattr(i2, "name")
+    echo n1 "->" n2
+  endfor
 endfunction
