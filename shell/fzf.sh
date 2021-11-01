@@ -30,7 +30,7 @@ export FZF_DEFAULT_COMMAND='rg --files'
 function vf () {
   IFS='
 '
-  local files=($(fzf-tmux --query="$1" --select-1 --exit-0))
+  local files=($(fzf-tmux --query="$1" --select-1 --exit-0 --height='40%'))
   [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
   unset IFS
 }
@@ -38,5 +38,5 @@ function vf () {
 # cd to directory using fzf
 function cf () {
   local dir
-  dir=$(find "${1:-.}" -type d 2> /dev/null | fzf +m) && cd "$dir"
+  dir=$(find "${1:-.}" -type d 2> /dev/null | fzf +m --height='40%') && cd "$dir"
 }
