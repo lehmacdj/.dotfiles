@@ -248,3 +248,8 @@ function hs-replace {
 function silently () {
     >/dev/null 2>&1 "$@"
 }
+
+# print the cpu temperature every few seconds in the terminal
+function cpu-temp() {
+    sudo powermetrics --samplers smc | grep -i "CPU die temperature"
+}
