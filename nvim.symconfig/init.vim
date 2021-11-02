@@ -38,9 +38,9 @@ augroup override_solarized_Pmenu
   " gui=reverse but still get pretty much the same colorscheme
   function s:FixPmenu()
     if &background ==# 'dark'
-      silent! hi Pmenu ctermfg=13 ctermbg=0 gui=none guifg=#073642 guibg=#839496
+      silent! hi Pmenu ctermfg=13 ctermbg=0 gui=none guifg=#839496 guibg=#073642
     else
-      silent! hi Pmenu ctermbg=0 ctermfg=225 gui=none guibg=#657b83 guifg=#eee8d5
+      silent! hi Pmenu ctermbg=0 ctermfg=225 gui=none guibg=#eee8d5 guifg=#657b83
     endif
   endfunction
   autocmd ColorScheme * call <SID>FixPmenu()
@@ -147,8 +147,8 @@ nnoremap <Leader>sv :source $MYVIMRC<CR>
 nnoremap <Leader>ip :PlugInstall<CR>
 " Fuzzy file open
 nnoremap <Leader>o :FZF<CR>
-" Fuzzy ag
-nnoremap <Leader>/ :Ag<CR>
+" Fuzzy rg
+nnoremap <Leader>/ :Rg<CR>
 " Trim whitespace
 noremap <Leader>t<Space> :call config#StripWhitespace()<CR>
 " Generate ctags
