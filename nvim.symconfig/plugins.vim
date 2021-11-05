@@ -21,7 +21,6 @@ nnoremap <Leader>el :split $VIMHOME/coc-config.vim<CR>
 Plug 'tpope/vim-repeat'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-sleuth'
-Plug 'sheerun/vim-polyglot'
 
 " unix
 Plug 'tpope/vim-eunuch'
@@ -35,14 +34,8 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
 " syntax checking
-Plug 'neomake/neomake'
-autocmd BufWinEnter,BufWritePost * Neomake
-
-" I want ale for specific filetypes only (I should probably commit to
-" switching from neomake but I'm happy with how neomake works right now)
-" unfortunately it is necessary to manually disable it for all filetypes where
-" it is not desired.
 Plug 'dense-analysis/ale'
+" don't need ale linters for haskell because have HLS
 let g:ale_linters = { 'haskell': [] }
 let g:ale_fixers = { 'haskell': [] }
 
