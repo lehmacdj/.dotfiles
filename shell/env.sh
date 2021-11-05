@@ -1,29 +1,4 @@
 #!/bin/bash
-#
-# Editor variables
-if nvim --version >/dev/null 2>&1; then
-    EDITOR='nvim'
-    VISUAL='nvim'
-elif vim --version >/dev/null 2>&1; then
-    EDITOR='vim'
-    VISUAL='vim'
-else
-    EDITOR='vi'
-    VISUAL='vi'
-fi
-export EDITOR
-export VISUAL
-
-# XDG config goes in default location
-export XDG_CONFIG_HOME="$HOME/.config"
-
-# Use (n)vim for manpager if it is available
-if test "$EDITOR" = 'nvim'; then
-    export MANWIDTH=1110
-    export MANPAGER="nvim +Man!"
-elif test "$EDITOR" = 'vim'; then
-    export MANPAGER="vim -M +MANPAGER -"
-fi
 
 # System name
 [ "$(uname)" = "Darwin" ] && export DARWIN=1
@@ -103,3 +78,31 @@ if [ -f "$DOTFILES/bin/consolidate-path" ]; then
 fi
 export PATH
 export MANPATH
+
+# setting up editor has to happen after path setting up because otherwise
+# nvim isn't necessarily on the path yet
+
+# Editor variables
+if nvim --version >/dev/null 2>&1; then
+    EDITOR='nvim'
+    VISUAL='nvim'
+elif vim --version >/dev/null 2>&1; then
+    EDITOR='vim'
+    VISUAL='vim'
+else
+    EDITOR='vi'
+    VISUAL='vi'
+fi
+export EDITOR
+export VISUAL
+
+# XDG config goes in default location
+export XDG_CONFIG_HOME="$HOME/.config"
+
+# Use (n)vim for manpager if it is available
+if test "$EDITOR" = 'nvim'; then
+    export MANWIDTH=1110
+    export MANPAGER="nvim +Man!"
+elif test "$EDITOR" = 'vim'; then
+    export MANPAGER="vim -M +MANPAGER -"
+fi
