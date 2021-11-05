@@ -48,3 +48,4 @@ cask 'qlprettypatch'
 cask 'quicklook-csv'
 cask 'qlimagesize'
 cask 'webpquicklook'
+cask 'qlstephen' # arbitrary text file ql utility
