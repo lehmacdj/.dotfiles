@@ -1,27 +1,7 @@
-#!/usr/bin/env stack
-{- stack script
-    --resolver lts-15.14
-    --package classy-prelude
- -}
-
-{-# LANGUAGE NoImplicitPrelude #-}
-{-# LANGUAGE ViewPatterns #-}
-{-# LANGUAGE OverloadedStrings #-}
-
-module Main where
-
-import ClassyPrelude
-import System.Exit
-
--- TODO: this often outputs the error:
--- > drop: <stdout>: hPutChar: resource vanished (Broken pipe)
--- I need to figure out how to fix this if the idea of building a library of
--- such functions is a plan that I want to follow through with.
-main :: IO ()
-main = do
-    args <- getArgs
-    case args of
-      [readMay -> Just nlines] -> interact (unlines . drop nlines . lines)
-      _ -> do
-          sayErr "usage: drop <line-count>"
-          exitFailure
+#!/usr/bin/env bash
+[ $# -eq 1 ] || {
+  echo "you used this script incorrectly and its deprecated! needs 1 arg"
+  exit 1
+}
+echo "deprecated: use tail -n +$(($1 + 1)) instead"
+exit 1
