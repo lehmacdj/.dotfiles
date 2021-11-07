@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# TODO: migrate this into a beet plugin
+beet ls -f "\$mood" | tr ',' '\n' | sort | uniq | tail -n +2

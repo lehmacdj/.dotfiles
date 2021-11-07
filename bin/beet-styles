@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# TODO: migrate this into a beets plugin
+beet ls -f "\$style" | tr ',' '\n' | sort | uniq | tail -n +2

@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -e
+
+[ $# -ge 1 ] && [ "$1" == "skip-update" ] && skip_update=1
+[ -z "$skip_update" ] && beet splupdate
+MOUNT_POINT="$(mktemp -d)"
+echo "mounting at: $MOUNT_POINT"
+ifuse --documents org.videolan.vlc-ios "$MOUNT_POINT"
+# -r = recursive
+# -l = preserve symlinks
+# -u = skip updates to files that have newer mtimes
+# -t = preserve modification times
+rsync -rlut --info=progress2 "$HOME/Music/beets/library/" "$MOUNT_POINT/library" --delete
+# copy temporary songs directly to the root so they are separate from the library
+rsync -rlut --info=progress2 "$HOME/Music/beets/tmp-music/" "$MOUNT_POINT"
+umount "$MOUNT_POINT"

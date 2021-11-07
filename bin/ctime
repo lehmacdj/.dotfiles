@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# uses stat to copy the time a file was created to the clipboard
+# for use with neuron when ingesting files, to allow updating the time more
+# easily
+
+[ $# -eq 1 ] || { echo "usage: ctime <file>" && exit 1; }
+stat -f '%Sc' -t "%FT%T" "$1" | tr -d '\n' | pbcopy

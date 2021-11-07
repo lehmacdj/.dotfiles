@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -e
+
+function print_usage () {
+    echo "usage: overcast <url>"
+    echo "  <url> a url to download and upload to overcast file uploads"
+}
+
+[ $# -eq 1 ] || (print_usage && exit 1)
+
+# tmp="$(mktemp -d)"
+# pushd "$tmp"
+
+youtube-dl \
+    --extract-audio \
+    --audio-format mp3 \
+    --audio-quality 0 \
+    -- "$1"
+
+# curl request to upload files to overcast; obviously this is possible I just
+# haven't quite figured out how to do this yet
+
+# popd
