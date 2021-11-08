@@ -17,10 +17,10 @@ setopt extended_glob
 HISTSIZE=1000000
 SAVEHIST=1000000
 HISTFILE="$DOTFILES/zsh/.zhistory"
-HISTORY_IGNORE="(ls|ll|bg|fg|history)"
-# Add comamnds as they are typed, don't wait until shell exit
-setopt inc_append_history
+HISTORY_IGNORE="(ls|ll|bg|fg)"
 # Share history between zsh sessions (reading history file every time)
+# this implies inc_append_history and shouldn't be set together with it
+# apparently
 setopt share_history
 # Include more information about when the command was executed, etc
 setopt extended_history
