@@ -94,7 +94,7 @@ Plug 'frankier/neovim-colors-solarized-truecolor-only'
 " c#
 
 " neuron zettelkasten / note-taking
-Plug 'fiatjaf/neuron.vim'
+Plug 'lehmacdj/neuron.vim', { 'branch': 'patched-old-neuron' }
 
 call plug#end()
 
