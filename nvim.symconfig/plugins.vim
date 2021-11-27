@@ -56,9 +56,6 @@ Plug 'edkolev/tmuxline.vim'
 " Brewfile
 Plug 'xu-cheng/brew.vim'
 
-" markdown
-Plug 'tpope/vim-markdown'
-
 " nix
 Plug 'LnL7/vim-nix'
 
@@ -91,9 +88,9 @@ Plug 'frankier/neovim-colors-solarized-truecolor-only'
 " support termguicolors
 " Plug 'altercation/vim-colors-solarized'
 
-" c#
-
-" neuron zettelkasten / note-taking
+" markdown / neuron zettelkasten / note-taking
+Plug 'tpope/vim-markdown'
+let g:markdown_fenced_languages = ['haskell', 'rust', 'bash=sh']
 Plug 'lehmacdj/neuron.vim', { 'branch': 'patched-old-neuron' }
 
 call plug#end()
