@@ -60,3 +60,6 @@ toolchain
 salience
 Hackage
 discoverability
+intuitionistic
+comonad
+layerings
