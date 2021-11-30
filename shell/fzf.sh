@@ -27,6 +27,10 @@ fi
 export FZF_DEFAULT_COMMAND='rg --files'
 
 # open files selected using fzf
+# TODO: make this output vim $ARG when opening the file to the history, will
+# take some finagling to make this sufficiently cross-shell
+# bash: `history -s` https://superuser.com/questions/135651/how-can-i-add-a-command-to-the-bash-history-without-executing-it
+# zsh: `print -S` https://superuser.com/questions/561725/put-a-command-in-history-without-executing-it
 function vf () {
   IFS='
 '
