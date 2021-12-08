@@ -29,6 +29,13 @@
     pu = push
     co = checkout
     ci = commit
+    amend = "!do-amend(){ \
+    if [ \"$1\" == '' ]; then \
+        git commit --amend --no-edit; \
+    else \
+        git commit --amend \"$@\"; \
+    fi;\
+}; do-amend"
 
 [sendemail]
     smtpuser = lehmacdj@gmail.com
@@ -43,3 +50,5 @@
     cmd = "\"$EDITOR\" -d \"$LOCAL\" \"$REMOTE\""
 [pull]
     rebase = true
+[log]
+	follow = true
