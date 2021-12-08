@@ -70,6 +70,7 @@ Plug 'FrigoEU/psc-ide-vim'
 Plug 'neovimhaskell/haskell-vim'
 " Plug 'parsonsmatt/intero-neovim'
 Plug 'sdiehl/vim-ormolu'
+Plug 'sdiehl/vim-cabalfmt'
 
 " rust
 Plug 'rust-lang/rust.vim'
