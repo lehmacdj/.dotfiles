@@ -19,8 +19,8 @@ elif [ -n "$ZSH_VERSION" ]; then
     # Auto-completion
     [[ $- == *i* ]] && source "$HOME/.fzf/shell/completion.zsh" 2> /dev/null
 
-    # Key bindings
-    source "$HOME/.fzf/shell/key-bindings.zsh"
+    # Key bindings -- FIXME: Keybindings don't work correctly
+    # source "$HOME/.fzf/shell/key-bindings.zsh"
 fi
 
 # Set the default fzf command
