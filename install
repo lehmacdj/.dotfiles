@@ -114,8 +114,14 @@ if [ -n "$DARWIN" ] && [ "$features" -ge 3 ]; then
     log 1 ""
     log 0 "Brewing formulas..."
 
-    # Use brew-bundle to install brewfiles in a good order
+    # Use brew-bundle to install homebrew formulas in a good order
     brew bundle --file="$DOTFILES/Brewfile"
+
+    # allow unsigned qlgenerators to be used
+    # workaround documented/taken from here: https://github.com/whomwah/qlstephen#readme
+    xattr -cr ~/Library/QuickLook/*.qlgenerator
+    qlmanage -r
+    qlmanage -r cache
 fi
 
 # links files on $path with $suffix mapping them using $mapper where $suffix is
