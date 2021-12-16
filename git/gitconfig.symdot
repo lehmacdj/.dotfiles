@@ -29,13 +29,13 @@
     pu = push
     co = checkout
     ci = commit
-    amend = "!do-amend(){ \
+    amend = "!do_amend(){ \
     if [ \"$1\" == '' ]; then \
         git commit --amend --no-edit; \
     else \
         git commit --amend \"$@\"; \
     fi;\
-}; do-amend"
+}; do_amend"
 
 [sendemail]
     smtpuser = lehmacdj@gmail.com
