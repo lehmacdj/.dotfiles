@@ -91,7 +91,7 @@ Plug 'frankier/neovim-colors-solarized-truecolor-only'
 
 " markdown / neuron zettelkasten / note-taking
 Plug 'tpope/vim-markdown'
-let g:markdown_fenced_languages = ['haskell', 'rust', 'bash=sh']
+let g:markdown_fenced_languages = ['haskell', 'rust', 'bash=sh', 'python']
 Plug 'lehmacdj/neuron.vim', { 'branch': 'patched-old-neuron' }
 
 call plug#end()
