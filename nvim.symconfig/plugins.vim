@@ -49,10 +49,6 @@ Plug 'tpope/vim-scriptease'
 Plug 'lervag/vimtex'
 let g:tex_flavor = 'latex'
 
-" tmux
-Plug 'keith/tmux.vim'
-Plug 'edkolev/tmuxline.vim'
-
 " Brewfile
 Plug 'xu-cheng/brew.vim'
 
@@ -68,7 +64,6 @@ Plug 'FrigoEU/psc-ide-vim'
 
 " haskell
 Plug 'neovimhaskell/haskell-vim'
-" Plug 'parsonsmatt/intero-neovim'
 Plug 'sdiehl/vim-ormolu'
 Plug 'sdiehl/vim-cabalfmt'
 
@@ -82,12 +77,8 @@ Plug 'keith/swift.vim'
 Plug 'vim-airline/vim-airline'
     \| Plug 'vim-airline/vim-airline-themes'
 let g:airline_section_b = '%{airline#util#wrap(airline#extensions#hunks#get_hunks(),100)}%{airline#util#wrap(airline#extensions#branch#get_head(),200)}'
-
 Plug 'ryanoasis/vim-devicons'
 Plug 'frankier/neovim-colors-solarized-truecolor-only'
-" Currently using this plugin because normal vim-colors-solarized doesn't
-" support termguicolors
-" Plug 'altercation/vim-colors-solarized'
 
 " markdown / neuron zettelkasten / note-taking
 Plug 'tpope/vim-markdown'
