@@ -95,16 +95,3 @@ let g:markdown_fenced_languages = ['haskell', 'rust', 'bash=sh', 'python']
 Plug 'lehmacdj/neuron.vim', { 'branch': 'patched-old-neuron' }
 
 call plug#end()
-
-" opam plugins
-if executable('opam')
-    let g:opamshare = substitute(system('opam config var share'), '\n$', '', '''')
-
-    if executable('ocamlmerlin') && has('python')
-        execute "set rtp+=".g:opamshare . "/merlin/vim"
-    endif
-
-    if executable('ocp-indent')
-        execute "set rtp+=" . g:opamshare . "/ocp-indent/vim"
-    endif
-endif
