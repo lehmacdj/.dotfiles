@@ -146,20 +146,8 @@ nnoremap <expr> <Leader>ed ':split '.$VIMHOME.'/after/ftdetect/'.&filetype.'.vim
 nnoremap <Leader>ec :split $VIMHOME/autoload/config.vim<CR>
 " Source vimrc
 nnoremap <Leader>sv :source $MYVIMRC<CR>
-" Install plugins
-nnoremap <Leader>ip :PlugInstall<CR>
-" Fuzzy file open
-nnoremap <Leader>o :FZF<CR>
-" Fuzzy rg
-nnoremap <Leader>/ :Rg<CR>
 " Trim whitespace
 noremap <Leader>t<Space> :call config#StripWhitespace()<CR>
-" Generate ctags
-nnoremap <Leader>mt :!ctags -R .<CR><CR>
-" Toggle hlsearch
-nnoremap <Leader>th :set hlsearch!<CR>
-" Open buffer list
-nnoremap <Leader>b :Buffers<CR>
 " Delete buffers from buffer list interactively
 nnoremap <Leader>db :call config#InteractiveBufDelete()<CR>
 " run the last normal mode command
