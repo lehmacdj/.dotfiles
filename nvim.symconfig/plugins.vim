@@ -41,6 +41,17 @@ command -nargs=+ Defer call <SID>Defer(<args>)
 " Delete the :Defer command when we run the deferred things
 call s:Defer({-> execute('delcommand Defer')})
 
+augroup PluginAutoInstall
+  autocmd!
+  " Run PlugInstall if there are missing plugins automatically, profiling
+  " shows this takes about 0.0003 seconds which is probably a reasonable cost
+  " for the convenience. Performance probably slows more when there are more
+  " plugins though so its a thing to watch out for. @performance
+  autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+    \| PlugInstall --sync | source $MYVIMRC
+  \| endif
+augroup END
+
 call plug#begin($VIMHOME."/plugged")
 
 " general purpose vanilla-like behavior
