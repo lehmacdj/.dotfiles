@@ -93,3 +93,9 @@ function! config#SynStack()
     echo n1 "->" n2
   endfor
 endfunction
+
+function! config#err(msg)
+  echohl ErrorMsg
+  echom '[my config]'.a:msg
+  echohl None
+endfunction
