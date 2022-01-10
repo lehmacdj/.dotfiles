@@ -51,4 +51,4 @@
 [pull]
     rebase = true
 [log]
-	follow = true
+    follow = true
