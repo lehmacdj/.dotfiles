@@ -101,6 +101,7 @@ if has('nvim')
     nnoremap <Leader>/ :Telescope live_grep<CR>
     nnoremap <Leader>b :Telescope buffers<CR>
     nnoremap <Leader>] :Telescope grep_string<CR>
+    nnoremap <Leader>fr :Telescope resume<CR>
 
     " " lsp
     " Plug 'neovim/nvim-lspconfig' " TODO
