@@ -253,3 +253,8 @@ function silently () {
 function cpu-temp() {
     sudo powermetrics --samplers smc | grep -i "CPU die temperature"
 }
+
+# edit all files with a git conflict and populate them into the quickfix list
+# depends on 'git conflicts' alias defined in the global git config
+# possibly robust against file paths containing spaces
+alias viconflicts='vim $(git conflicts) +"vimgrep /<<<<<<</g ##"'
