@@ -150,7 +150,7 @@ Plug 'purescript-contrib/purescript-vim'
 Plug 'rust-lang/rust.vim'
 Plug 'keith/swift.vim'
 Plug 'tpope/vim-markdown'
-    \| let g:markdown_fenced_languages = ['haskell', 'rust', 'bash=sh', 'python']
+    \| let g:markdown_fenced_languages = ['haskell', 'rust', 'bash=sh', 'python', 'sql']
 Plug 'lehmacdj/neuron.vim', { 'branch': 'patched-old-neuron' } " zettelkasten support
 
 call plug#end()
