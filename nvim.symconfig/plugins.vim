@@ -84,6 +84,11 @@ Plug 'frankier/neovim-colors-solarized-truecolor-only'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 
+" we always need fzf even if using telescope.nvim because neuron.vim depends
+" on it currently
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
+    \| Plug 'junegunn/fzf.vim'
+
 " ide plugins
 if has('nvim')
     " nvim specific utils
@@ -115,9 +120,7 @@ if has('nvim')
     " Plug 'hrsh7th/cmp-cmdline'
     " Plug 'hrsh7th/nvim-cmp' " TODO
 else
-    " fuzzy finder
-    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
-        \| Plug 'junegunn/fzf.vim'
+    " fzf bindings for finders if applicable
     nnoremap <Leader>o :FZF<CR>
     nnoremap <Leader>/ :Rg<CR>
     nnoremap <Leader>b :Buffers<CR>
