@@ -75,9 +75,10 @@ let g:airline_section_b = '%{airline#util#wrap(airline#extensions#hunks#get_hunk
 if has('nvim')
     Plug 'kyazdani42/nvim-web-devicons'
     Defer 'require"nvim-web-devicons".setup { default = true }'
-else
-    Plug 'ryanoasis/vim-devicons'
 endif
+" we always use vim-devicons because some plugins don't work with
+" nvim-web-devicons (notably airline)
+Plug 'ryanoasis/vim-devicons'
 Plug 'frankier/neovim-colors-solarized-truecolor-only'
 
 " git
