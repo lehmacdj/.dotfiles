@@ -84,6 +84,7 @@ Plug 'frankier/neovim-colors-solarized-truecolor-only'
 " git
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
+Plug 'knsh14/vim-github-link'
 
 " we always need fzf even if using telescope.nvim because neuron.vim depends
 " on it currently
@@ -98,8 +99,18 @@ if has('nvim')
     " pickers / nvim specific ui
     Plug 'nvim-telescope/telescope.nvim'
     Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+    " todo figure out how to get smart_send_to_qflist working / not open
+    " qflist immediately
     let s:telescope_setup =<< trim EOF
-    require('telescope').setup()
+    require('telescope').setup{
+      defaults = {
+        mappings = {
+          i = {
+            ["C-Q"] = "smart_send_to_qflist"
+          }
+        }
+      }
+    }
     require('telescope').load_extension('fzf')
     EOF
     Defer s:telescope_setup
