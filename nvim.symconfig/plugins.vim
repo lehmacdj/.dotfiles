@@ -74,7 +74,7 @@ Plug 'vim-airline/vim-airline'
 let g:airline_section_b = '%{airline#util#wrap(airline#extensions#hunks#get_hunks(),100)}%{airline#util#wrap(airline#extensions#branch#get_head(),200)}'
 if has('nvim')
     Plug 'kyazdani42/nvim-web-devicons'
-    Defer 'require"nvim-web-devicons".setup { default = true }'
+    Defer 'require"nvim-web-devicons".setup{ default = true }'
 endif
 " we always use vim-devicons because some plugins don't work with
 " nvim-web-devicons (notably airline)
@@ -99,14 +99,12 @@ if has('nvim')
     " pickers / nvim specific ui
     Plug 'nvim-telescope/telescope.nvim'
     Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-    " todo figure out how to get smart_send_to_qflist working / not open
-    " qflist immediately
     let s:telescope_setup =<< trim EOF
     require('telescope').setup{
       defaults = {
         mappings = {
           i = {
-            ["C-Q"] = "smart_send_to_qflist"
+            ["<C-q>"] = "smart_send_to_qflist"
           }
         }
       }
