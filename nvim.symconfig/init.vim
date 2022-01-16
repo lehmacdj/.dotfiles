@@ -156,6 +156,11 @@ xnoremap <Leader>: :<Up><CR>
 " run the last command in a terminal buffer
 nnoremap <Leader><C-k> i<C-k><Return><C-\><C-n>
 
+" smarter tag following
+nnoremap <C-]> :call config#smart_goto()<CR>
+nnoremap g] :call config#smart_goto_select()<CR>
+nnoremap g<C-]> :call config#smart_goto_select()<CR>
+
 " toggle colorcolumn with <space>8
 set colorcolumn=81
 nnoremap <Leader>8 :call config#ToggleColorColumn()<CR>

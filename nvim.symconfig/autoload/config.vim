@@ -96,6 +96,56 @@ endfunction
 
 function! config#err(msg)
   echohl ErrorMsg
-  echom '[my config]'.a:msg
+  echom '[config] '.a:msg
   echohl None
+endfunction
+
+" Smart implementation of :tag that uses sources in this order:
+" 1. tags if available
+" 2. ripgrep search; at time of writing :Telescope grep_string. ripgrep
+"    functionality is also available via <Leader>] directly bypassing lsp/tags
+function! config#smart_goto()
+  try
+    normal! 
+  catch /E433: No tags file/
+    call config#err("no tag file found")
+    lua << EOF
+    require('telescope.builtin').grep_string({
+      prompt_title = 'no tag file; fell back to rg'
+    })
+EOF
+  catch /E426: tag not found/
+    " tag not found
+    " we don't want to default to grep because this might be a sign that the
+    " symbol actually doesn't exist; whereas if we dont' have a tag file we
+    " couldn't try at all
+    call config#err(
+      \ "tag not found: "
+      \ . expand('<cword>')
+      \ . " - consider using <Leader>] for a fuzzy search")
+  endtry
+endfunction
+
+" config#smart_goto_select is to config#smart_goto as <C-]> (:tag) is to g<C-]>
+" (:tselect)
+function! config#smart_goto_select()
+  try
+    normal! g
+  catch /E433: No tags file/
+    call config#err("no tag file found")
+    lua << EOF
+    require('telescope.builtin').grep_string({
+      prompt_title = 'no tag file; fell back to rg'
+    })
+EOF
+  catch /E426: tag not found/
+    " tag not found
+    " we don't want to default to grep because this might be a sign that the
+    " symbol actually doesn't exist; whereas if we dont' have a tag file we
+    " couldn't try at all
+    call config#err(
+      \ "tag not found: "
+      \ . expand('<cword>')
+      \ . " - consider using <Leader>] for a fuzzy search")
+  endtry
 endfunction
