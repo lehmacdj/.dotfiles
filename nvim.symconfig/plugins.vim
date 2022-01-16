@@ -104,7 +104,15 @@ if has('nvim')
       defaults = {
         mappings = {
           i = {
-            ["<C-q>"] = "smart_send_to_qflist"
+            ["<C-q>"] = function(prompt_bufnr)
+              require('telescope.actions').smart_send_to_qflist(prompt_bufnr)
+              vim.cmd("cc 1")
+            end,
+            ["<M-q>"] = false,
+            ["<C-n>"] = "cycle_history_next",
+            ["<C-p>"] = "cycle_history_prev",
+            ["<C-j>"] = "move_selection_next",
+            ["<C-k>"] = "move_selection_previous"
           }
         }
       }
