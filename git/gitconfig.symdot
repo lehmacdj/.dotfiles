@@ -27,6 +27,7 @@
     a = add
     pl = pull
     pu = push
+    pf = push --force-with-lease
     co = checkout
     ci = commit
     amend = "!do_amend(){ \
