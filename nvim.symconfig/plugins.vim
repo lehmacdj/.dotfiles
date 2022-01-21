@@ -151,11 +151,20 @@ if has('nvim')
       buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
       buf_set_keymap('n', '<Leader>al', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
       buf_set_keymap('n', '<Leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
-      buf_set_keymap('n', '[g', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
-      buf_set_keymap('n', ']g', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+      -- float is created by autocmd CursorHold and if it is opened twice it
+      -- enters the popup which is undesireable
+      buf_set_keymap('n', '[g', '<cmd>lua vim.diagnostic.goto_prev{float = false}<CR>', opts)
+      buf_set_keymap('n', ']g', '<cmd>lua vim.diagnostic.goto_next{float = false}<CR>', opts)
       buf_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setqflist()<CR>', opts)
       buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 
+      vim.cmd [[
+        augroup LspDiagnostics
+          autocmd!
+          autocmd CursorHold * lua vim.diagnostic.open_float { scope = "cursor" }
+          autocmd CursorHoldI * silent! lua vim.lsp.buf.signature_help()
+        augroup END
+      ]]
     end
 
     local servers = {}

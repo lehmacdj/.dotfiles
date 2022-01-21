@@ -53,6 +53,7 @@ set number
 set nohlsearch
 set laststatus=2
 set belloff=all
+set updatetime=300 " make popups appear quickly
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#whitespace#mixed_indent_algo = 2
 let g:netrw_liststyle = 3
