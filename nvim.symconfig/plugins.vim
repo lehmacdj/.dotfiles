@@ -207,6 +207,13 @@ if has('nvim')
           require('luasnip').lsp_expand(args.body)
         end,
       },
+      enabled = function()
+        -- disable completion in comments
+        local context = require 'cmp.config.context'
+        local ok, ts_in_comment = pcall(context.in_treesitter_capture, "comment")
+        return not (ok and ts_in_comment)
+          and not context.in_syntax_group("Comment")
+        end,
       mapping = {
         ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
         ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
