@@ -2,6 +2,8 @@
 # Install script to set up a general unix / linux capable computer as a
 # development machine
 
+set -eu -o pipefail
+
 function usage_info () {
     echo "Usage: $0 [options]"
     echo "Install dotfiles and do any other necessary configuration"
@@ -34,7 +36,7 @@ fi
 features=2
 
 # the verbosity of the program
-# 0 := info/default, 1 := debug, 2 := verbose
+# 0 := info/default, 1 := debug, 2 := verbose, 3 := trace (set -x)
 verbose=0
 
 for arg; do
@@ -66,6 +68,8 @@ for arg; do
             exit 1;;
     esac
 done
+
+[ "$verbose" -ge 3 ] && set -x
 
 if [ "$features" == "uninstall" ]; then
     # uninstall the dotfiles
@@ -145,7 +149,7 @@ function linkfiles () {
         log 1 "        target=$target"
         log 1 "        force=$force update=$update"
         if [ -n "$force" ] || [ ! -e "$target" ] ||\
-            ([ -n "$update" ] && [ -h "$target" ]); then
+            { [ -n "$update" ] && [ -h "$target" ]; }; then
             ln -f -s "$file" "$target"
             log 0 "Created symlink for $file"
         else
