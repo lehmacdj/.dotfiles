@@ -99,35 +99,6 @@ fi
 # Set XDG_CONFIG_HOME if unset
 [ -n "$XDG_CONFIG_HOME" ] || export XDG_CONFIG_HOME="$HOME/.config"
 
-if [ -n "$DARWIN" ] && [ "$features" -ge 3 ]; then
-    # Install homebrew and brew everything in Brewfile
-
-    log 1 ""
-    log 0 "Installing xcode commandline tools..."
-    xcode-select --install >/dev/null 2>&1 || true
-
-
-    # Install homebrew if nescessary
-    brew help >/dev/null 2>&1 || \
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-    # make homebrew available now
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-
-
-    log 1 ""
-    log 0 "Brewing formulas..."
-
-    # Use brew-bundle to install homebrew formulas in a good order
-    brew bundle --file="$DOTFILES/Brewfile"
-
-    # allow unsigned qlgenerators to be used
-    # workaround documented/taken from here: https://github.com/whomwah/qlstephen#readme
-    xattr -cr ~/Library/QuickLook/*.qlgenerator
-    qlmanage -r
-    qlmanage -r cache
-fi
-
 # links files on $path with $suffix mapping them using $mapper where $suffix is
 # implicitly removed with a maximum depth of $depth
 function linkfiles () {
@@ -173,6 +144,35 @@ if [ "$features" -ge 1 ]; then
     function config_mapper { echo "$HOME/.config/$1"; }
     # symlink files that should go in xdg_config_home
     linkfiles "" ".symconfig" 5 "config_mapper"
+fi
+
+if [ -n "$DARWIN" ] && [ "$features" -ge 3 ]; then
+    # Install homebrew and brew everything in Brewfile
+
+    log 1 ""
+    log 0 "Installing xcode commandline tools..."
+    xcode-select --install >/dev/null 2>&1 || true
+
+
+    # Install homebrew if nescessary
+    brew help >/dev/null 2>&1 || \
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+    # make homebrew available now
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+
+
+    log 1 ""
+    log 0 "Brewing formulas..."
+
+    # Use brew-bundle to install homebrew formulas in a good order
+    brew bundle --file="$DOTFILES/Brewfile"
+
+    # allow unsigned qlgenerators to be used
+    # workaround documented/taken from here: https://github.com/whomwah/qlstephen#readme
+    xattr -cr ~/Library/QuickLook/*.qlgenerator
+    qlmanage -r
+    qlmanage -r cache
 fi
 
 # Setup fzf
