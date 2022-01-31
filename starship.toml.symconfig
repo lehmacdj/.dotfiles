@@ -23,7 +23,6 @@ helm.disabled = true
 java.disabled = true
 julia.disabled = true
 kotlin.disabled = true
-kubernetes.disabled = false
 lua.disabled = true
 nim.disabled = true
 nodejs.disabled = true
