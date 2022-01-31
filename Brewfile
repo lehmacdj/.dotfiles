@@ -1,6 +1,7 @@
 # Utilities
 brew 'bash'
 brew 'zsh'
+brew 'starship' # prompt for bash/zsh
 brew 'git'
 brew 'rg'
 brew 'fd'
