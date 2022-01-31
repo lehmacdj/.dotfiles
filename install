@@ -2,7 +2,7 @@
 # Install script to set up a general unix / linux capable computer as a
 # development machine
 
-set -eu -o pipefail
+set -e -o pipefail
 
 function usage_info () {
     echo "Usage: $0 [options]"
