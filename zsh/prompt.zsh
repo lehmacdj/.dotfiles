@@ -1,2 +1,5 @@
-# this got very simple since using starship lol
-eval "$(starship init zsh)"
+if starship help >/dev/null 2>&1; then
+  eval "$(starship init zsh)"
+else
+  export PROMPT="%~> "
+fi
