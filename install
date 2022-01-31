@@ -104,7 +104,7 @@ if [ -n "$DARWIN" ] && [ "$features" -ge 3 ]; then
 
     log 1 ""
     log 0 "Installing xcode commandline tools..."
-    xcode-select --install >/dev/null 2>&1
+    xcode-select --install >/dev/null 2>&1 || true
 
 
     # Install homebrew if nescessary
