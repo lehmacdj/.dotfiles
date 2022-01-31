@@ -149,6 +149,14 @@ if [ "$features" -ge 1 ]; then
     linkfiles "" ".symconfig" 5 "config_mapper"
 fi
 
+# Setup fzf
+if [ "$features" -ge 2 ] && [ ! -d "$HOME/.fzf" ]; then
+    log 1 ""
+    log 0 "Installing fzf..."
+    git clone https://github.com/junegunn/fzf.git --depth 1 "$HOME/.fzf" >/dev/null &&\
+    "$HOME/.fzf/install" --bin || echo "Failed to install fzf!"
+fi
+
 if [ -n "$DARWIN" ] && [ "$features" -ge 3 ]; then
     # Install homebrew and brew everything in Brewfile
 
@@ -176,12 +184,4 @@ if [ -n "$DARWIN" ] && [ "$features" -ge 3 ]; then
     xattr -cr ~/Library/QuickLook/*.qlgenerator
     qlmanage -r
     qlmanage -r cache
-fi
-
-# Setup fzf
-if [ "$features" -ge 2 ] && [ ! -d "$HOME/.fzf" ]; then
-    log 1 ""
-    log 0 "Installing fzf..."
-    git clone https://github.com/junegunn/fzf.git --depth 1 "$HOME/.fzf" >/dev/null &&\
-    "$HOME/.fzf/install" --bin || echo "Failed to install fzf!"
 fi
