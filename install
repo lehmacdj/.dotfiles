@@ -1,8 +1,11 @@
 #!/bin/bash
 # Install script to set up a general unix / linux capable computer as a
 # development machine
-
-set -e -o pipefail
+#
+# We don't use set -eu -o pipfail here because the program abuses lenient
+# evaluation. Also failing here, is not so good because this is a script that
+# intends to install stuff, and installing as much as possible is better than
+# failing most likely.
 
 function usage_info () {
     echo "Usage: $0 [options]"
