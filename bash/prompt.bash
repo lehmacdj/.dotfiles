@@ -1,3 +1,2 @@
-#!/bin/bash
-
-export PS1="\w> "
+#!/usr/bin/env bash
+eval "$(starship init bash)"

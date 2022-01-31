@@ -1,0 +1,92 @@
+# left side only has prompt char; extra things go on right
+format = "$character"
+right_format = "$jobs$all"
+add_newline = false # with right prompt extra newline is especially redundant
+
+# disable a bunch of stuff that I don't care very much about
+# Rant: I don't really understand why it is popular to know what
+# compiler/language version is being used at all times, if you are in a context
+# where that is important you're doing something wrong because your package
+# isn't managing the version of your compiler for you.
+cmake.disabled = true
+cobol.disabled = true
+conda.disabled = true
+crystal.disabled = true
+dart.disabled = true
+deno.disabled = true
+dotnet.disabled = true
+elixir.disabled = true
+elm.disabled = true
+erlang.disabled = true
+golang.disabled = true
+helm.disabled = true
+java.disabled = true
+julia.disabled = true
+kotlin.disabled = true
+kubernetes.disabled = false
+lua.disabled = true
+nim.disabled = true
+nodejs.disabled = true
+ocaml.disabled = true
+openstack.disabled = true
+package.disabled = true
+perl.disabled = true
+php.disabled = true
+pulumi.disabled = true
+purescript.disabled = true
+python.disabled = true
+red.disabled = true
+rlang.disabled = true
+ruby.disabled = true
+rust.disabled = true
+scala.disabled = true
+singularity.disabled = true
+swift.disabled = true
+terraform.disabled = true
+vagrant.disabled = true
+vlang.disabled = true
+zig.disabled = true
+
+[directory]
+truncation_length = "4"
+truncation_symbol = "…/"
+
+[git_branch]
+only_attached = true
+
+[git_commit]
+style = "bold purple" # make color the same as git_branch
+tag_disabled = false
+
+[git_status]
+# Really, I want to be able to replicate something similar to the old behavior
+# where I just have a dirty/staged indicator.
+# contemplate going back to this symbol
+# modified = "●"
+
+
+# the defaults here are quite a bit too verbose IMO
+[git_state]
+rebase = "R"
+merge = "M"
+revert = "REV"
+cherry_pick = "CP"
+bisect = "B"
+am_or_rebase = "R/AM"
+
+[jobs]
+symbol = "⚙"
+
+[memory_usage]
+threshold = 90
+format = "[${ram}( | ${swap})]($style) "
+style = "bold dimmed magenta"
+disabled = false
+
+[shlvl]
+symbol = "nested"
+format = "[$symbol]($style)"
+disabled = false
+
+[time]
+disabled = false
