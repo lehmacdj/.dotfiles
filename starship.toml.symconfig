@@ -1,7 +1,8 @@
 # left side only has prompt char; extra things go on right
 format = "$character"
-right_format = "$jobs$all"
+right_format = "$jobs$shlvl $all"
 add_newline = false # with right prompt extra newline is especially redundant
+command_timeout = 20 # prompt must be very fast; git_status ruins this most often
 
 # disable a bunch of stuff that I don't care very much about
 # Rant: I don't really understand why it is popular to know what
@@ -58,6 +59,9 @@ style = "bold purple" # make color the same as git_branch
 tag_disabled = false
 
 [git_status]
+# disabled stashed; I don't care about knowing if I have a stash; either they're
+# old and stale or I get rid of them almost immediately
+stashed = ""
 # Really, I want to be able to replicate something similar to the old behavior
 # where I just have a dirty/staged indicator.
 # contemplate going back to this symbol
@@ -83,7 +87,7 @@ style = "bold dimmed magenta"
 disabled = false
 
 [shlvl]
-symbol = "nested"
+symbol = "🪺"
 format = "[$symbol]($style)"
 disabled = false
 
