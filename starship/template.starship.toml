@@ -62,8 +62,10 @@ vlang.disabled = true
 zig.disabled = true
 
 [directory]
-truncation_length = "4"
+truncation_length = 4
 truncation_symbol = "…/"
+truncate_to_repo = false
+repo_root_style = "bold purple"
 
 [git_branch]
 only_attached = true
