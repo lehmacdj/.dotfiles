@@ -1,8 +1,22 @@
+# This is the predecessor of starship.toml to be used with my config. When
+# making changes you should compile using ./build-starship.sh (located in the
+# same directory as this file.
+
+#IF SUPPORTS(RIGHT_PROMPT)
+
 # left side only has prompt char; extra things go on right
 format = "$character"
 right_format = "$jobs$shlvl $all"
-add_newline = false # with right prompt extra newline is especially redundant
+
+#ELSE - OTHER SHELLS
+
+# for shells where we don't have a right prompt use something pretty close to
+# starship default
+format = "$jobs$shlvl $all$line_break$character"
+
+#END IF
 command_timeout = 20 # prompt must be very fast; git_status ruins this most often
+add_newline = false
 
 # disable a bunch of stuff that I don't care very much about
 # Rant: I don't really understand why it is popular to know what
