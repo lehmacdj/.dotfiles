@@ -65,6 +65,7 @@ zig.disabled = true
 truncation_length = 4
 truncation_symbol = "…/"
 truncate_to_repo = false
+style = "bold blue"
 repo_root_style = "bold purple"
 
 [git_branch]
