@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# TODO: make it possible to specify default format for beet ls
+beet ls -f "\$loved \$mood \$style \$added \$track \$album \$title" "$@"
