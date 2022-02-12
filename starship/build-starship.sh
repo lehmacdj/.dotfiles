@@ -2,14 +2,19 @@
 set -eu -o pipefail
 
 if [ -z "$DOTFILES" ] && [ -d "$DOTFILES" ]; then
-  echo "error: DOTFILES must be defined and a valid directory to invoke $0"
+  >&2 echo "error: DOTFILES must be defined and a valid directory to invoke $0"
   exit 1
 fi
 
 template_file="$DOTFILES/starship/template.starship.toml"
 if ! [ -f "$template_file" ]; then
-  echo "error: $template_file must exist to invoke $0"
+  >&2 echo "error: $template_file must exist to invoke $0"
   exit 1
+fi
+
+if ! mkdir "$DOTFILES/.build-starship.sh-lock~" >/dev/null 2>&1; then
+  >&2 echo "warning: already running, not running again to avoid race conditions"
+  exit 0
 fi
 
 function make_header() {
@@ -37,3 +42,5 @@ make_header "$default_file"
 sed >>"$default_file" \
   -e "1,/^$else_marker$/d;/^$end_marker$/d" \
  "$template_file"
+
+rmdir "$DOTFILES/.build-starship.sh-lock~"
