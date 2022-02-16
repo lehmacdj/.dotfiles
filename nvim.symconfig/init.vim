@@ -124,8 +124,6 @@ nnoremap Y y$
 nnoremap gf :e <cfile><CR>
 nnoremap <C-w>f :split <cfile><CR>
 nnoremap <C-w><C-f> :split <cfile><CR>
-" toggle background color
-nnoremap <F3> :set background!<CR>
 if has('nvim')
     " navigation from terminal
     tnoremap <C-\>j <C-\><C-n><C-w><C-j>
