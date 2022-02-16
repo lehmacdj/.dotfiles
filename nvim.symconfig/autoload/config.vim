@@ -32,6 +32,9 @@ endfunction
 " indent text objects copied from here:
 " https://vim.fandom.com/wiki/Indent_text_object
 " Some corresponding config to call this in init.vim
+" consider replacing with the following for a more robust solution if having
+" trouble:
+" https://github.com/michaeljsmith/vim-indent-object
 function! config#IndentTextObject(inner)
   let curline = line(".")
   let lastline = line("$")
@@ -148,4 +151,22 @@ EOF
       \ . expand('<cword>')
       \ . " - consider using <Leader>] for a fuzzy search")
   endtry
+endfunction
+
+function! config#PrettySimple(type, ...)
+  let sel_save = &selection
+  let &selection = "inclusive"
+
+  if a:0  " Invoked from Visual mode, use gv command.
+    echom "a:type = visual"
+    silent exe "normal! gv!pretty-simple -c no-color"
+  elseif a:type == 'line'
+    echom "a:type = line"
+    silent exe "normal! '[V']!pretty-simple -c no-color"
+  else
+    echom "a:type = standard"
+    silent exe "normal! `[v`]!pretty-simple -c no-color"
+  endif
+
+  let &selection = sel_save
 endfunction

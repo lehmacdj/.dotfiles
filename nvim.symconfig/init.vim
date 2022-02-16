@@ -182,6 +182,17 @@ onoremap <silent>ii :<C-U>call config#IndentTextObject(1)<CR>
 vnoremap <silent>ai :<C-U>call config#IndentTextObject(0)<CR><Esc>gv
 vnoremap <silent>ii :<C-U>call config#IndentTextObject(1)<CR><Esc>gv
 
+" pretty-simple is a Haskell tool that formats Haskell show instances, but
+" handles generic stuff pretty well too.
+" See: https://hackage.haskell.org/package/pretty-simple
+" Install with:
+" cabal install pretty-simple --flag pretty-simple:buildexe
+if executable('pretty-simple')
+    nnoremap <silent> g== !!pretty-simple -c no-color<CR>
+    nnoremap <silent> g= :set opfunc=config#PrettySimple<CR>g@
+    xnoremap <silent> g= :<C-U>call config#PrettySimple(visualmode(), 1)<CR>
+endif
+
 " finally load local vim configuration if it exists
 if filereadable($VIMHOME."/local.vim")
     nnoremap <Leader>el :split $VIMHOME/local.vim<CR>
