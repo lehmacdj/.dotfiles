@@ -169,6 +169,7 @@ nnoremap <Leader>8 :call config#ToggleColorColumn()<CR>
 if &spell
     nnoremap <Leader>z 1z=
 
+    " TODO: asynchronously compile spell files on startup
     nnoremap <Leader>sc :call config#CompileSpellFiles()<CR>
 
     " Spelling corrections
