@@ -120,9 +120,6 @@ set backspace=indent,eol,start
 nnoremap Q @q
 " make Y more logical
 nnoremap Y y$
-" align lines
-nmap ga <Plug>(EasyAlign)
-xmap ga <Plug>(EasyAlign)
 " toggle background color
 nnoremap <F3> :set background!<CR>
 if has('nvim')

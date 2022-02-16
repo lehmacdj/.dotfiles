@@ -64,6 +64,8 @@ Plug 'wellle/targets.vim' " more text objects
 Plug 'tommcdo/vim-exchange' " swap text between different locations
 Plug 'tpope/vim-commentary' " comment / uncomment text
 Plug 'junegunn/vim-easy-align' " align stuff
+    \| nmap ga <Plug>(EasyAlign)
+    \| xmap ga <Plug>(EasyAlign)
 Plug 'tpope/vim-eunuch' " unix utilities
 
 " ui / colorschemes
