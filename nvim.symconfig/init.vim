@@ -120,10 +120,13 @@ set backspace=indent,eol,start
 nnoremap Q @q
 " make Y more logical
 nnoremap Y y$
-" make gf / <C-w><C-f> automatically create new files
-nnoremap gf :e <cfile><CR>
-nnoremap <C-w>f :split <cfile><CR>
-nnoremap <C-w><C-f> :split <cfile><CR>
+" TODO: would like to use these but they don't use the same relative directory
+" when opening the file. It should be relative to the file with the reference
+" not vim's current directory
+" " make gf / <C-w><C-f> automatically create new files
+" nnoremap gf :e <cfile><CR>
+" nnoremap <C-w>f :split <cfile><CR>
+" nnoremap <C-w><C-f> :split <cfile><CR>
 if has('nvim')
     " navigation from terminal
     tnoremap <C-\>j <C-\><C-n><C-w><C-j>

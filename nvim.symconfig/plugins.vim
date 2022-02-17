@@ -157,15 +157,15 @@ if has('nvim')
       buf_set_keymap('n', '<Leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
       -- float is created by autocmd CursorHold and if it is opened twice it
       -- enters the popup which is undesireable
-      buf_set_keymap('n', '[g', '<cmd>lua vim.diagnostic.goto_prev{float = false}<CR>', opts)
-      buf_set_keymap('n', ']g', '<cmd>lua vim.diagnostic.goto_next{float = false}<CR>', opts)
+      buf_set_keymap('n', '[g', '<cmd>lua vim.diagnostic.goto_prev{focus = false}<CR>', opts)
+      buf_set_keymap('n', ']g', '<cmd>lua vim.diagnostic.goto_next{focus = false}<CR>', opts)
       buf_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setqflist()<CR>', opts)
       buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 
       vim.cmd [[
         augroup LspDiagnostics
           autocmd!
-          autocmd CursorHold * lua vim.diagnostic.open_float { scope = "cursor" }
+          autocmd CursorHold * lua vim.diagnostic.open_float {scope = "cursor", focus = false}
           autocmd CursorHoldI * silent! lua vim.lsp.buf.signature_help()
         augroup END
       ]]
