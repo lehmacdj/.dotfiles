@@ -1,3 +1,10 @@
 #!/usr/bin/env bash
-# TODO: make it possible to specify default format for beet ls
-beet ls -f "\$loved \$mood \$style \$added \$track \$album \$title" "$@"
+# TODO: make it possible to specify default format for beet ls as replacement
+# for this command
+set -eu -o pipefail
+
+row_description="track	album	title	added	loved	mood	style"
+beet_output="$(beet ls -f "\$track	\$album	\$title	\$added	\$loved	\$mood	\$style" "$@")"
+echo "$row_description
+$beet_output" \
+  | column -t -s '	'
