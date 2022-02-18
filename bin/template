@@ -7,13 +7,14 @@
 # contained within that file.
 
 function usage_info () {
-    echo "Usage: template [-da] <identifiers...>"
-    echo "    -h        -- list these options"
-    echo "    -l        -- list templates (with a prefix)"
-    echo "    -d        -- describe the template"
-    echo "    -a <file> -- add file to the stored templates"
-    echo "    -e        -- edit the template"
-    exit "$1"
+    >&2 echo "Usage: template [-da] <identifiers...>"
+    >&2 echo "    -h        -- list these options"
+    >&2 echo "    -f        -- overwrite existing files if present"
+    >&2 echo "    -l        -- list templates (with a prefix)"
+    >&2 echo "    -d        -- describe the template"
+    >&2 echo "    -a <file> -- add file to the stored templates"
+    >&2 echo "    -e        -- edit the template"
+    >&2 exit "$1"
 }
 
 function assert_template_exists () {
@@ -25,7 +26,7 @@ function assert_template_exists () {
 }
 
 # invoke getopt
-args="$(getopt hldea: "$@" || usage_info 1)"
+args="$(getopt hfldea: "$@" || usage_info 1)"
 set -- $args
 
 # Process the command line arguments
@@ -33,6 +34,9 @@ for i; do
     case "$i" in
         -h)
             usage_info 0;;
+        -f)
+            force=1
+            shift;;
         -l)
             list=1
             shift;;
@@ -99,11 +103,11 @@ else
     for file in $files; do
         name="$(basename "$file")"
 
-        if [ -e "$name" ]; then
+        if [ -e "$name" ] && [ -z "$force" ]; then
             echo "\"$name\" exists"
         else
-            echo "Copied $name"
             cp -r "$file" .
+            echo "Copied $name"
         fi
     done
 fi
