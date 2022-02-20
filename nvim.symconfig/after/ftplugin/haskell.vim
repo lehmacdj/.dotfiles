@@ -36,8 +36,6 @@ let b:neomake_haskell_enabled_makers = []
 
 nnoremap <buffer> <LocalLeader>o :call <SID>open_interactive(12)<CR>
 
-nnoremap <buffer> <LocalLeader>d :CocCommand workspace.showOutput<CR>
-
 function! s:open_interactive(height)
   if (!exists('s:repl_buffer_id'))
     " TODO: support projects without stack.yaml by just running ghci on
