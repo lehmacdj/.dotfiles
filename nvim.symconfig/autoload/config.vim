@@ -170,3 +170,17 @@ function! config#PrettySimple(type, ...)
 
   let &selection = sel_save
 endfunction
+
+" Edit the primary syntax file if it exists, because we can assume that it is
+" for a syntax that doesn't have support in vim otherwise. Otherwise edit the
+" after syntax file, because that is what we want to edit to make
+" modifications to the existing syntax config.
+function! config#EditSyntaxFile()
+  let l:primary_syntax = $VIMHOME.'/syntax/'.&filetype.'.vim'
+  let l:after_syntax = $VIMHOME.'/after/syntax/'.&filetype.'.vim'
+  if filereadable(l:primary_syntax)
+    execute 'split '.l:primary_syntax
+  else
+    execute 'split '.l:after_syntax
+  endif
+endfunction
