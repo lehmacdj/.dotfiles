@@ -1,7 +1,7 @@
 function! CppGetCounterPart()
-    if expand('%:e') == 'cpp'
+    if expand('%:e') ==? 'cpp'
         let l:name = expand('%:r') . '.h'
-    elseif expand('%:e') == 'h'
+    elseif expand('%:e') ==? 'h'
         let l:name = expand('%:r') . '.cpp'
     endif
     return l:name

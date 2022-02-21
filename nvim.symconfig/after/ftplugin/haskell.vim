@@ -4,7 +4,7 @@ let g:haskell_enable_typeroles = 1
 
 " ormolu setup for block formatting only
 let b:ormolu_disable = 1
-let g:ormolu_options=["-o -XTypeApplications", "-o -XImportQualifiedPost"]
+let g:ormolu_options=['-o -XTypeApplications', '-o -XImportQualifiedPost']
 
 xnoremap <buffer> <silent> = :<c-u>call OrmoluArg(visualmode(), 1)<CR>
 nnoremap <buffer> <silent> = :set opfunc=OrmoluArg<CR>g@
@@ -14,14 +14,14 @@ nmap <buffer> <silent> =ap =ip
 
 function! OrmoluArg(type, ...)
   let sel_save = &selection
-  let &selection = "exclusive"
+  let &selection = 'exclusive'
 
   if a:0
-    silent exe "normal! gv:call OrmoluBlock()"
-  elseif a:type == 'line'
-    silent exe "normal! `[V`]:call OrmoluBlock()"
+    silent exe 'normal! gv:call OrmoluBlock()'
+  elseif a:type ==# 'line'
+    silent exe 'normal! `[V`]:call OrmoluBlock()'
   else
-    silent exe "normal! `[v`]:call OrmoluBlock()"
+    silent exe 'normal! `[v`]:call OrmoluBlock()'
   endif
 
   let &selection = sel_save
