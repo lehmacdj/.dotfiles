@@ -200,7 +200,7 @@ vnoremap <silent>ii :<C-U>call config#IndentTextObject(1)<CR><Esc>gv
 " handles generic stuff pretty well too.
 " See: https://hackage.haskell.org/package/pretty-simple
 " Install with:
-" cabal install pretty-simple --flag pretty-simple:buildexe
+" cabal install pretty-simple --flag buildexe
 if executable('pretty-simple')
     nnoremap <silent> g== !!pretty-simple -c no-color<CR>
     nnoremap <silent> g= :set opfunc=config#PrettySimple<CR>g@
