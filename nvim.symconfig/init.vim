@@ -147,6 +147,8 @@ nnoremap <Leader>es :call config#EditSyntaxFile()<CR>
 nnoremap <expr> <Leader>ed ':split '.$VIMHOME.'/after/ftdetect/'.&filetype.'.vim<CR>'
 " Edit config file
 nnoremap <Leader>ec :split $VIMHOME/autoload/config.vim<CR>
+" Edit lua config file; use functions defined therein like require('config')...
+nnoremap <Leader>el :split $VIMHOME/lua/config.lua<CR>
 " Source vimrc
 nnoremap <Leader>sv :source $MYVIMRC<CR>
 " Trim whitespace
@@ -167,6 +169,14 @@ nnoremap g<C-]> :call config#smart_goto_select()<CR>
 " toggle colorcolumn with <space>8
 set colorcolumn=81
 nnoremap <Leader>8 :call config#ToggleColorColumn()<CR>
+
+" toggle nvim lsp autoformatting on save in style of unimpaired.vim
+nnoremap [o= :lua require'config'.enable_autoformat()<CR>
+nnoremap ]o= :lua require'config'.disable_autoformat()<CR>
+nnoremap yo= :lua require'config'.toggle_autoformat()<CR>
+nnoremap <s= :lua require'config'.enable_autoformat()<CR>
+nnoremap >s= :lua require'config'.disable_autoformat()<CR>
+nnoremap =s= :lua require'config'.toggle_autoformat()<CR>
 
 " Spelling related things
 if &spell
@@ -199,6 +209,7 @@ endif
 
 " finally load local vim configuration if it exists
 if filereadable($VIMHOME."/local.vim")
-    nnoremap <Leader>el :split $VIMHOME/local.vim<CR>
+    " local here must be capital because lowercase l is already taken for lua
+    nnoremap <Leader>eL :split $VIMHOME/local.vim<CR>
     source $VIMHOME/local.vim
 endif

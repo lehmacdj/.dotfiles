@@ -134,64 +134,46 @@ if has('nvim')
     let s:lsp_setup =<< trim EOF
     local lsp = require('lspconfig')
 
-    -- Use an on_attach function to only map the following keys
-    -- after the language server attaches to the current buffer
-    local on_attach = function(client, bufnr)
-      local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-      local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
-      -- Mappings.
-      local opts = { noremap=true, silent=true }
-
-      buf_set_keymap('n', '<Leader>lr', '<cmd>LspRestart<CR>', opts)
-
-      -- See `:help vim.lsp.*` for documentation on any of the below functions
-      buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-      buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-      buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-      buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-      buf_set_keymap('n', 'gy', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-      buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-      buf_set_keymap('n', '<Leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-      buf_set_keymap('n', '<Leader>al', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-      buf_set_keymap('n', '<Leader>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
-      -- float is created by autocmd CursorHold and if it is opened twice it
-      -- enters the popup which is undesireable
-      buf_set_keymap('n', '[g', '<cmd>lua vim.diagnostic.goto_prev{focus = false}<CR>', opts)
-      buf_set_keymap('n', ']g', '<cmd>lua vim.diagnostic.goto_next{focus = false}<CR>', opts)
-      buf_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setqflist()<CR>', opts)
-      buf_set_keymap('n', '<space>f', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-
-      vim.cmd [[
-        augroup LspDiagnostics
-          autocmd!
-          autocmd CursorHold * lua vim.diagnostic.open_float {scope = "cursor", focus = false}
-          autocmd CursorHoldI * silent! lua vim.lsp.buf.signature_help()
-        augroup END
-      ]]
-    end
-
-    local servers = {}
     local capabilities = require('cmp_nvim_lsp')
       .update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-    lsp.hls.setup { capabilities = capabilities }
-    table.insert(servers, 'hls')
+    local server_opts = {
+      hls = {
+        no_formatting = true,
+      },
+    }
 
     -- Use a loop to conveniently call 'setup' on multiple servers and
     -- map buffer local keybindings when the language server attaches
-    for _, s in ipairs(servers) do
-      lsp[s].setup {
-        on_attach = on_attach,
+    for name, opts in ipairs(server_opts) do
+      lsp[name].setup {
+        on_attach = require('config').on_attach_with(opts),
         flags = {
           debounce_text_changes = 150,
-        }
+        },
+        capabilities = capabilities,
       }
     end
     EOF
     Defer s:lsp_setup
 
-    " Plug 'jose-elias-alvarez/null-ls.nvim' " TODO
+    Plug 'jose-elias-alvarez/null-ls.nvim'
+    let s:null_ls_setup =<< trim EOF
+    local null_ls = require('null-ls')
+    local formatting = null_ls.builtins.formatting
+    null_ls.setup {
+      on_attach = require('config').on_attach,
+      sources = {
+        formatting.fourmolu.with {
+          command = "ormolu",
+          extra_args = {"-o", "-XTypeApplications", "-o", "-XImportQualifiedPost"},
+        },
+        formatting.cabal_fmt,
+        formatting.stylua,
+      },
+    }
+    EOF
+    Defer s:null_ls_setup
 
     " completion
     Plug 'hrsh7th/nvim-cmp'
@@ -253,8 +235,8 @@ let g:ale_fixers = { 'haskell': [] }
 
 " language specific plugins
 Plug 'neovimhaskell/haskell-vim'
-Plug 'sdiehl/vim-ormolu' " haskell autoformatting
-Plug 'sdiehl/vim-cabalfmt' " cabal file autoformatting
+" haskell block formatting: additional config in haskell after/ftplugin file
+Plug 'sdiehl/vim-ormolu'
 Plug 'google/vim-jsonnet'
 Plug 'tpope/vim-scriptease' " vimscript
 Plug 'lervag/vimtex' | let g:tex_flavor = 'latex'

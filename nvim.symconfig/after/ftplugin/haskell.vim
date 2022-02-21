@@ -1,11 +1,11 @@
-" weird changes directly to plugins manifest:
-" - changed neomake linters to not use stack when finding executable
-"   because hlint didn't support the most recent version
+let g:haskell_enable_quantification = 1
+let g:haskell_enable_pattern_synonyms = 1
+let g:haskell_enable_typeroles = 1
 
-" let g:ormolu_command='/nix/store/q9gbpjx6mj43ramii1zl8s8jp5qirraw-ormolu-0.1.0.0/bin/ormolu'
+" ormolu setup for block formatting only
+let b:ormolu_disable = 1
 let g:ormolu_options=["-o -XTypeApplications", "-o -XImportQualifiedPost"]
-" To disable the formatting on a specific buffer use
-" let b:ormolu_disable=1
+
 xnoremap <buffer> <silent> = :<c-u>call OrmoluArg(visualmode(), 1)<CR>
 nnoremap <buffer> <silent> = :set opfunc=OrmoluArg<CR>g@
 " override to make the following line not get swallowed when formatting a
@@ -26,13 +26,6 @@ function! OrmoluArg(type, ...)
 
   let &selection = sel_save
 endfunction
-
-let g:haskell_enable_quantification = 1
-let g:haskell_enable_pattern_synonyms = 1
-let g:haskell_enable_typeroles = 1
-
-" we get errors from HLS instead of neomake
-let b:neomake_haskell_enabled_makers = []
 
 nnoremap <buffer> <LocalLeader>o :call <SID>open_interactive(12)<CR>
 
