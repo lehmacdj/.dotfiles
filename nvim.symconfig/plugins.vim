@@ -161,15 +161,20 @@ if has('nvim')
     let s:null_ls_setup =<< trim EOF
     local null_ls = require('null-ls')
     local formatting = null_ls.builtins.formatting
+    local diagnostics = null_ls.builtins.diagnostics
     null_ls.setup {
       on_attach = require('config').on_attach,
+      -- diagnostics_format = "#{c}: #{m}",
       sources = {
         formatting.fourmolu.with {
           command = "ormolu",
           extra_args = {"-o", "-XTypeApplications", "-o", "-XImportQualifiedPost"},
         },
         formatting.cabal_fmt,
-        formatting.stylua,
+        diagnostics.selene,
+        diagnostics.shellcheck.with {
+          diagnostics_format = "SC#{c}: #{m}",
+        },
       },
     }
     EOF

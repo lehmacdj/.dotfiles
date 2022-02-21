@@ -32,7 +32,6 @@ mod.on_attach_with = function(opts) return function(client, bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, mode, keys, map, {noremap=true, silent=true})
   end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-  local capabilities = client.resolved_capabilities
 
   -- always mappings (these make sense regardless of the capabilities of
   -- the server
@@ -52,40 +51,42 @@ mod.on_attach_with = function(opts) return function(client, bufnr)
     augroup END
   ]]
 
-  if capabilities.hover then
+  if client.supports_method("textDocument/hover") then
     buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>')
   end
-  if capabilities.declaration then
+  if client.supports_method("textDocument/declaration") then
     buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>')
   end
-  if capabilities.goto_definition then
+  if client.supports_method("textDocument/definition") then
     buf_set_keymap('n', '<C-]>', '<cmd>lua vim.lsp.buf.definition()<CR>')
     buf_set_keymap('n', 'g]', '<cmd>Telescope lsp_definitions<CR>')
   end
-  if capabilities.implementation then
+  if client.supports_method("textDocument/implementation") then
     buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>')
   end
-  if capabilities.type_definition then
+  if client.supports_method("textDocument/typeDefinition") then
     buf_set_keymap('n', 'gy', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
   end
-  if capabilities.find_references then
+  if client.supports_method("textDocument/references") then
     buf_set_keymap('n', 'gr', '<cmd>Telescope lsp_references<CR>')
   end
-  if capabilities.rename then
+  if client.supports_method("textDocument/rename") then
     buf_set_keymap('n', '<Leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
   end
-  if capabilities.code_action then
+  if client.supports_method("textDocument/codeAction") then
     buf_set_keymap('n', '<Leader>al', '<cmd>Telescope lsp_code_actions<CR>')
   end
-  if capabilities.document_formatting then
+  if client.supports_method("textDocument/formatting") then
     buf_set_keymap('n', '<space>=', '<cmd>lua vim.lsp.buf.formatting()<CR>')
-    buf_set_option('formatexpr', 'v:lua.vim.lsp.formatexpr()')
     vim.cmd [[
       augroup LspFormatting
         autocmd! * <buffer>
         autocmd BufWritePre <buffer> lua require('config').guarded_autoformat()
       augroup END
     ]]
+  end
+  if client.supports_method("textDocument/range_formatting") then
+    buf_set_option('formatexpr', 'v:lua.vim.lsp.formatexpr()')
   end
 end end
 
