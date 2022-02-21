@@ -14,7 +14,7 @@ function! config#StripWhitespace()
     " avoid matching exactly a sequence of two spaces as this indicates a
     " newline in markdown
         silent! %substitute/\v([^ ])\s$/\1/
-        silent! %substiute/\t$//
+        silent! %substitute/\t$//
         silent! %substitute/\s\s\s\+$//
     else
         silent! %substitute/\s\+$//
@@ -42,20 +42,20 @@ function! config#IndentTextObject(inner)
   let i = i < 0 ? 0 : i
   if getline(".") !~ "^\\s*$"
     let p = line(".") - 1
-    let nextblank = getline(p) =~ "^\\s*$"
+    let nextblank = getline(p) =~# "^\\s*$"
     while p > 0 && ((i == 0 && !nextblank) || (i > 0 && ((indent(p) >= i && !(nextblank && a:inner)) || (nextblank && !a:inner))))
       -
       let p = line(".") - 1
-      let nextblank = getline(p) =~ "^\\s*$"
+      let nextblank = getline(p) =~# "^\\s*$"
     endwhile
     normal! 0V
     call cursor(curline, 0)
     let p = line(".") + 1
-    let nextblank = getline(p) =~ "^\\s*$"
+    let nextblank = getline(p) =~# "^\\s*$"
     while p <= lastline && ((i == 0 && !nextblank) || (i > 0 && ((indent(p) >= i && !(nextblank && a:inner)) || (nextblank && !a:inner))))
       +
       let p = line(".") + 1
-      let nextblank = getline(p) =~ "^\\s*$"
+      let nextblank = getline(p) =~# "^\\s*$"
     endwhile
     normal! $
   endif
@@ -160,7 +160,7 @@ function! config#PrettySimple(type, ...)
   if a:0  " Invoked from Visual mode, use gv command.
     echom "a:type = visual"
     silent exe "normal! gv!pretty-simple -c no-color"
-  elseif a:type == 'line'
+  elseif a:type ==# 'line'
     echom "a:type = line"
     silent exe "normal! '[V']!pretty-simple -c no-color"
   else

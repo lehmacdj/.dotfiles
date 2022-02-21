@@ -175,6 +175,7 @@ if has('nvim')
         diagnostics.shellcheck.with {
           diagnostics_format = "SC#{c}: #{m}",
         },
+        diagnostics.vint,
       },
     }
     EOF
@@ -231,12 +232,6 @@ else
     nnoremap <Leader>/ :Rg<CR>
     nnoremap <Leader>b :Buffers<CR>
 endif
-
-" syntax checking
-Plug 'dense-analysis/ale'
-" don't need ale linters for haskell because have HLS
-let g:ale_linters = { 'haskell': [] }
-let g:ale_fixers = { 'haskell': [] }
 
 " language specific plugins
 Plug 'neovimhaskell/haskell-vim'
