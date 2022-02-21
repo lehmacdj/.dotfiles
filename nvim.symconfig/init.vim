@@ -33,9 +33,7 @@ set termguicolors
 set background=dark
 augroup override_solarized_Pmenu
   autocmd!
-  " for some reason coc.nvim doesn't do well with the default value for this
-  " which uses gui=reverse. This makes it so that we don't need to use
-  " gui=reverse but still get pretty much the same colorscheme
+  " solarzied color scheme looks ugly for floating menus without this change
   function s:FixPmenu()
     if &background ==# 'dark'
       silent! hi Pmenu ctermfg=13 ctermbg=0 gui=none guifg=#839496 guibg=#073642
