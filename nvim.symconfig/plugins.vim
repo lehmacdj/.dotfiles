@@ -145,7 +145,7 @@ if has('nvim')
 
     -- Use a loop to conveniently call 'setup' on multiple servers and
     -- map buffer local keybindings when the language server attaches
-    for name, opts in ipairs(server_opts) do
+    for name, opts in pairs(server_opts) do
       lsp[name].setup {
         on_attach = require('config').on_attach_with(opts),
         flags = {
