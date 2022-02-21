@@ -52,7 +52,7 @@ augroup PluginAutoInstall
   \| endif
 augroup END
 
-call plug#begin($VIMHOME."/plugged")
+call plug#begin($VIMHOME.'/plugged')
 
 " general purpose vanilla-like behavior
 Plug 'tpope/vim-unimpaired' " many useful shortcuts
@@ -106,15 +106,15 @@ if has('nvim')
       defaults = {
         mappings = {
           i = {
-            ["<C-q>"] = function(prompt_bufnr)
+            ['<C-q>'] = function(prompt_bufnr)
               require('telescope.actions').smart_send_to_qflist(prompt_bufnr)
-              vim.cmd("cc 1")
+              vim.cmd('cc 1')
             end,
-            ["<M-q>"] = false,
-            ["<C-j>"] = "move_selection_next",
-            ["<C-n>"] = "move_selection_next",
-            ["<C-k>"] = "move_selection_previous",
-            ["<C-p>"] = "move_selection_previous"
+            ['<M-q>'] = false,
+            ['<C-j>'] = 'move_selection_next',
+            ['<C-n>'] = 'move_selection_next',
+            ['<C-k>'] = 'move_selection_previous',
+            ['<C-p>'] = 'move_selection_previous'
           }
         }
       }
@@ -164,16 +164,16 @@ if has('nvim')
     local diagnostics = null_ls.builtins.diagnostics
     null_ls.setup {
       on_attach = require('config').on_attach,
-      -- diagnostics_format = "#{c}: #{m}",
+      -- diagnostics_format = '#{c}: #{m}",
       sources = {
         formatting.fourmolu.with {
-          command = "ormolu",
-          extra_args = {"-o", "-XTypeApplications", "-o", "-XImportQualifiedPost"},
+          command = 'ormolu',
+          extra_args = {'-o', '-XTypeApplications', '-o', '-XImportQualifiedPost'},
         },
         formatting.cabal_fmt,
         diagnostics.selene,
         diagnostics.shellcheck.with {
-          diagnostics_format = "SC#{c}: #{m}",
+          diagnostics_format = 'SC#{c}: #{m}',
         },
         diagnostics.vint,
       },
@@ -191,7 +191,7 @@ if has('nvim')
             \| Plug 'saadparwaiz1/cmp_luasnip'
             \| Plug 'rafamadriz/friendly-snippets'
     let s:cmp_setup =<< trim EOF
-    require("luasnip.loaders.from_vscode").load()
+    require('luasnip.loaders.from_vscode').load()
     local cmp = require('cmp')
     cmp.setup {
       snippet = {
@@ -202,9 +202,9 @@ if has('nvim')
       enabled = function()
         -- disable completion in comments
         local context = require 'cmp.config.context'
-        local ok, ts_in_comment = pcall(context.in_treesitter_capture, "comment")
+        local ok, ts_in_comment = pcall(context.in_treesitter_capture, 'comment')
         return not (ok and ts_in_comment)
-          and not context.in_syntax_group("Comment")
+          and not context.in_syntax_group('Comment')
         end,
       mapping = {
         ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),

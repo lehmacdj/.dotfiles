@@ -4,11 +4,11 @@ let $VIMHOME=expand('<sfile>:p:h')
 " Leader mappings
 " leader needs to be set before loading plugins, otherwise mapping made by
 " plugins don't use the leader
-let mapleader=" "
-let maplocalleader = "\\"
+let mapleader = ' '
+let maplocalleader = '\'
 
 " load plugins
-if filereadable($VIMHOME."/plugins.vim")
+if filereadable($VIMHOME.'/plugins.vim')
     source $VIMHOME/plugins.vim
 endif
 
@@ -66,7 +66,7 @@ if has('nvim')
         " don't set scrolloff because it doesn't have a local value scrolloff=0
     augroup END
 endif
-if has("nvim-0.5.0") || has("patch-8.1.1564")
+if has('nvim-0.5.0") || has("patch-8.1.1564')
   set signcolumn=number
 endif
 
@@ -206,7 +206,7 @@ if executable('pretty-simple')
 endif
 
 " finally load local vim configuration if it exists
-if filereadable($VIMHOME."/local.vim")
+if filereadable($VIMHOME.'/local.vim')
     " local here must be capital because lowercase l is already taken for lua
     nnoremap <Leader>eL :split $VIMHOME/local.vim<CR>
     source $VIMHOME/local.vim

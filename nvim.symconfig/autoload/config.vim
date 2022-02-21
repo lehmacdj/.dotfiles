@@ -24,8 +24,8 @@ function! config#StripWhitespace()
 endfunction
 
 function! config#CompileSpellFiles()
-  for d in globpath(&runtimepath, "spell/*.add", 0, 1)
-      execute "mkspell! " . fnameescape(d)
+  for d in globpath(&runtimepath, 'spell/*.add', 0, 1)
+      execute 'mkspell! ' . fnameescape(d)
   endfor
 endfunction
 
@@ -36,26 +36,26 @@ endfunction
 " trouble:
 " https://github.com/michaeljsmith/vim-indent-object
 function! config#IndentTextObject(inner)
-  let curline = line(".")
-  let lastline = line("$")
-  let i = indent(line(".")) - &shiftwidth * (v:count1 - 1)
+  let curline = line('.')
+  let lastline = line('$')
+  let i = indent(line('.')) - &shiftwidth * (v:count1 - 1)
   let i = i < 0 ? 0 : i
-  if getline(".") !~ "^\\s*$"
-    let p = line(".") - 1
-    let nextblank = getline(p) =~# "^\\s*$"
+  if getline('.') !~# '^\s*$'
+    let p = line('.') - 1
+    let nextblank = getline(p) =~# '^\s*$'
     while p > 0 && ((i == 0 && !nextblank) || (i > 0 && ((indent(p) >= i && !(nextblank && a:inner)) || (nextblank && !a:inner))))
       -
-      let p = line(".") - 1
-      let nextblank = getline(p) =~# "^\\s*$"
+      let p = line('.') - 1
+      let nextblank = getline(p) =~# '^\s*$'
     endwhile
     normal! 0V
     call cursor(curline, 0)
-    let p = line(".") + 1
-    let nextblank = getline(p) =~# "^\\s*$"
+    let p = line('.') + 1
+    let nextblank = getline(p) =~# '^\s*$'
     while p <= lastline && ((i == 0 && !nextblank) || (i > 0 && ((indent(p) >= i && !(nextblank && a:inner)) || (nextblank && !a:inner))))
       +
-      let p = line(".") + 1
-      let nextblank = getline(p) =~# "^\\s*$"
+      let p = line('.') + 1
+      let nextblank = getline(p) =~# '^\s*$'
     endwhile
     normal! $
   endif
@@ -67,7 +67,7 @@ endfunction
 " Source:
 " https://vi.stackexchange.com/questions/14829/close-multiple-buffers-interactively
 function! config#InteractiveBufDelete()
-  let l:prompt = "Specify buffers to delete: "
+  let l:prompt = 'Specify buffers to delete: '
 
   ls | let bufnums = input(l:prompt)
   while strlen(bufnums)
@@ -89,11 +89,11 @@ endfunction
 " Displays syntax stack under the cursor. Goes ahead and resolves links.
 " https://stackoverflow.com/questions/9464844/how-to-get-group-name-of-highlighting-under-cursor-in-vim
 function! config#SynStack()
-  for i1 in synstack(line("."), col("."))
+  for i1 in synstack(line('.'), col('.'))
     let i2 = synIDtrans(i1)
-    let n1 = synIDattr(i1, "name")
-    let n2 = synIDattr(i2, "name")
-    echo n1 "->" n2
+    let n1 = synIDattr(i1, 'name')
+    let n2 = synIDattr(i2, 'name')
+    echo n1 '->' n2
   endfor
 endfunction
 
@@ -111,7 +111,7 @@ function! config#smart_goto()
   try
     normal! 
   catch /E433: No tags file/
-    call config#err("no tag file found")
+    call config#err('no tag file found')
     lua << EOF
     require('telescope.builtin').grep_string({
       prompt_title = 'no tag file; fell back to rg'
@@ -123,9 +123,9 @@ EOF
     " symbol actually doesn't exist; whereas if we dont' have a tag file we
     " couldn't try at all
     call config#err(
-      \ "tag not found: "
+      \ 'tag not found: '
       \ . expand('<cword>')
-      \ . " - consider using <Leader>] for a fuzzy search")
+      \ . ' - consider using <Leader>] for a fuzzy search')
   endtry
 endfunction
 
@@ -135,7 +135,7 @@ function! config#smart_goto_select()
   try
     normal! g
   catch /E433: No tags file/
-    call config#err("no tag file found")
+    call config#err('no tag file found')
     lua << EOF
     require('telescope.builtin').grep_string({
       prompt_title = 'no tag file; fell back to rg'
@@ -147,25 +147,25 @@ EOF
     " symbol actually doesn't exist; whereas if we dont' have a tag file we
     " couldn't try at all
     call config#err(
-      \ "tag not found: "
+      \ 'tag not found: '
       \ . expand('<cword>')
-      \ . " - consider using <Leader>] for a fuzzy search")
+      \ . ' - consider using <Leader>] for a fuzzy search')
   endtry
 endfunction
 
 function! config#PrettySimple(type, ...)
   let sel_save = &selection
-  let &selection = "inclusive"
+  let &selection = 'inclusive'
 
   if a:0  " Invoked from Visual mode, use gv command.
-    echom "a:type = visual"
-    silent exe "normal! gv!pretty-simple -c no-color"
+    echom 'a:type = visual'
+    silent exe 'normal! gv!pretty-simple -c no-color'
   elseif a:type ==# 'line'
-    echom "a:type = line"
+    echom 'a:type = line'
     silent exe "normal! '[V']!pretty-simple -c no-color"
   else
-    echom "a:type = standard"
-    silent exe "normal! `[v`]!pretty-simple -c no-color"
+    echom 'a:type = standard'
+    silent exe 'normal! `[v`]!pretty-simple -c no-color'
   endif
 
   let &selection = sel_save
