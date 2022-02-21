@@ -1,7 +1,0 @@
-{
-    "languageServerHaskell": {
-        "hlintOn": true,
-        "maxNumberOfProblems": 999,
-        "diagnosticsDebounceDuration": 50
-    }
-}
