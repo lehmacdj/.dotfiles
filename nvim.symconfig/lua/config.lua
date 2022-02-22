@@ -85,9 +85,10 @@ mod.on_attach_with = function(opts) return function(client, bufnr)
       augroup END
     ]]
   end
-  if client.supports_method("textDocument/range_formatting") then
-    buf_set_option('formatexpr', 'v:lua.vim.lsp.formatexpr()')
-  end
+  -- Range formatting breaks gq for some reason
+  -- if client.supports_method("textDocument/range_formatting") then
+  --  buf_set_option('formatexpr', 'v:lua.vim.lsp.formatexpr()')
+  -- end
 end end
 
 mod.on_attach = mod.on_attach_with {}
