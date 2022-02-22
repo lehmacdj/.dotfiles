@@ -4,8 +4,8 @@
 # for this command
 set -eu -o pipefail
 
-row_description="track	album	title	added	loved	mood	style"
-beet_output="$(beet ls -f "\$track	\$album	\$title	\$added	\$loved	\$mood	\$style" "$@")"
+row_description="track	artist	title	added	loved	mood	style"
+beet_output="$(beet ls -f "\$track	\$artist	\$title	\$added	\$loved	\$mood	\$style" "$@")"
 echo "$row_description
 $beet_output" \
   | column -t -s '	'
