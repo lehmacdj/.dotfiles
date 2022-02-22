@@ -24,8 +24,8 @@ end
 -- defined globally so that we can use this for null_ls as well
 mod.on_attach_with = function(opts) return function(client, bufnr)
   if opts.no_formatting then
-    client.resolved_capabilities.formatting = false
-    client.resolved_capabilities.range_formatting = false
+    client.resolved_capabilities.document_formatting = false
+    client.resolved_capabilities.document_range_formatting = false
   end
 
   local function buf_set_keymap(mode, keys, map)
@@ -76,7 +76,7 @@ mod.on_attach_with = function(opts) return function(client, bufnr)
   if client.supports_method("textDocument/codeAction") then
     buf_set_keymap('n', '<Leader>al', '<cmd>Telescope lsp_code_actions<CR>')
   end
-  if client.supports_method("textDocument/formatting") then
+  if not opts.no_formatting and client.supports_method("textDocument/formatting") then
     buf_set_keymap('n', '<space>=', '<cmd>lua vim.lsp.buf.formatting()<CR>')
     vim.cmd [[
       augroup LspFormatting
