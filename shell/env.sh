@@ -62,11 +62,8 @@ if [ -e /Users/devin/.nix-profile/etc/profile.d/nix.sh ]; then
     . /Users/devin/.nix-profile/etc/profile.d/nix.sh
 fi
 
-# Remove inconsistent path entries and export
-if [ -f "$DOTFILES/bin/consolidate-path" ]; then
-    PATH="$(consolidate-path "$PATH")"
-    MANPATH="$(consolidate-path "$MANPATH")"
-fi
+PATH="$(consolidate-path "$PATH")"
+MANPATH="$(consolidate-path "$MANPATH")"
 export PATH
 export MANPATH
 
