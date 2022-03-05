@@ -9,3 +9,41 @@ beet_output="$(beet ls -f "\$track	\$artist	\$title	\$added	\$loved	\$mood	\$sty
 echo "$row_description
 $beet_output" \
   | column -t -s '	'
+#   | awk -F '	' '
+# BEGIN {
+#   # regex from this stackoverflow question claiming that it would solve my
+#   # woes but alas it doesn't; at least not completely:
+#   # https://stackoverflow.com/questions/61411478
+#   reUTF8="([\\000-\\177]|" \
+#          "[\\302-\\337][\\200-\\277]|" \
+#          "\\340[\\240-\\277][\\200-\\277]|" \
+#          "\\355[\\200-\\237][\\200-\\277]|" \
+#          "[\\341-\\354\\356-\\357][\\200-\\277]" \
+#          "[\\200-\\277]|\\360[\\220-\\277]" \
+#          "[\\200-\\277][\\200-\\277]|" \
+#          "[\\361-\\363][\\200-\\277][\\200-\\277]" \
+#          "[\\200-\\277]|\\364[\\200-\\217]" \
+#          "[\\200-\\277][\\200-\\277])"
+# }
+# {
+#   # number of field separators + length of each field
+#   field_cutoff = 50;
+#   start_of_rest = 6 \
+#     + length($1) + length(substr($2,0,field_cutoff)) + length($3) \
+#     + length($4) + length($5) + length($6);
+#   print sprintf("%s\t%s\t%s\t%s\t%s\t%s\t%s", \
+#     $1, \
+#     substr($2,0,field_cutoff), \
+#     $3, \
+#     $4, \
+#     $5, \
+#     $6, \
+#     substr($0, start_of_rest))
+# }
+# '
+# above: This awk snippet attempts to the limit lines to specific lengths,
+# however it doesn't work because awk doesn't seem to handle unicode well.
+# There might be away to around this by using LC_ALL=something but I was
+# working on this while on the airplane so didn't figure it out
+# TODO: sort + limit max columns
+# | sort -t '	' -k 1,2,3
