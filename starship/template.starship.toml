@@ -22,7 +22,7 @@ add_newline = false
 # Rant: I don't really understand why it is popular to know what
 # compiler/language version is being used at all times, if you are in a context
 # where that is important you're doing something wrong because your package
-# isn't managing the version of your compiler for you.
+# manager isn't managing the version of your compiler for you.
 cmake.disabled = true
 cobol.disabled = true
 conda.disabled = true
