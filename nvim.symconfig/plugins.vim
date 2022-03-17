@@ -243,6 +243,10 @@ Plug 'lervag/vimtex' | let g:tex_flavor = 'latex'
 Plug 'xu-cheng/brew.vim' " Brewfile
 Plug 'LnL7/vim-nix'
 Plug 'idris-hackers/idris-vim'
+Plug 'kana/vim-textobj-user'
+    \ | Plug 'neovimhaskell/nvim-hs.vim'
+    \ | Plug 'liuchengxu/vim-which-key'
+    \ | Plug 'isovector/cornelis', { 'do': 'stack build' }
 Plug 'purescript-contrib/purescript-vim'
 Plug 'rust-lang/rust.vim'
 Plug 'keith/swift.vim'
