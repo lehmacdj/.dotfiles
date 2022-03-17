@@ -1,5 +1,16 @@
-# add in zsh-completions
-fpath=("$HOME/.local/share/zsh-completions" /usr/local/share/zsh-completions/ $fpath)
+# fpath is a path for files containing function definitions; completion
+# functions are the most common functions included on this path so I configure
+# it here
+cond_fpath_add () {
+    [ -n "$1" ] || { echo "cond_fpath_add requires 1 argument"; exit 1; }
+    [ -d "$1" ] && FPATH="$1:$FPATH"
+}
+
+cond_fpath_add "$HOME/.local/share/zsh-completions"
+cond_fpath_add /usr/local/share/zsh-completions
+cond_fpath_add /opt/homebrew/share/zsh-completions
+FPATH="$(consolidate-path "$FPATH")"
+export FPATH
 
 autoload -U compinit && compinit -u -d ~/.zsh/.zcompdump
 zmodload -i zsh/complist
