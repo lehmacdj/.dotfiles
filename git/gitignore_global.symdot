@@ -5,6 +5,9 @@
 # mac files
 .DS_Store
 
+# haskell ide engine
+.hie
+
 # other
 tags
 .#*
