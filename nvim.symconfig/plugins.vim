@@ -63,9 +63,9 @@ Plug 'tpope/vim-surround' " actions to work on surrounding stuff
 Plug 'wellle/targets.vim' " more text objects
 Plug 'tommcdo/vim-exchange' " swap text between different locations
 Plug 'tpope/vim-commentary' " comment / uncomment text
-Plug 'junegunn/vim-easy-align' " align stuff
-    \| nmap ga <Plug>(EasyAlign)
-    \| xmap ga <Plug>(EasyAlign)
+Plug 'junegunn/vim-easy-align'
+nmap ga <Plug>(EasyAlign)
+xmap ga <Plug>(EasyAlign)
 Plug 'tpope/vim-eunuch' " unix utilities
 
 " ui / colorschemes
@@ -253,6 +253,7 @@ Plug 'keith/swift.vim'
 Plug 'tpope/vim-markdown'
     \| let g:markdown_fenced_languages = ['haskell', 'rust', 'bash=sh', 'python', 'sql']
 Plug 'lehmacdj/neuron.vim', { 'branch': 'patched-old-neuron' } " zettelkasten support
+Plug 'Simspace/avaleryar', { 'rtp': 'tools/vim' }
 
 call plug#end()
 
