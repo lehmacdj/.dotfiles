@@ -137,10 +137,25 @@ if has('nvim')
     local capabilities = require('cmp_nvim_lsp')
       .update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
+    -- configure my custom lsp for markdown (eventually when this is mature,
+    -- I think I should be able to get this into the proper repo)
+    local configs = require 'lspconfig.configs'
+    configs.wiki_language_server = {
+      default_config = {
+        cmd = {'wiki-language-server'};
+        filetypes = {'markdown'};
+        root_dir = function(fname)
+          return lsp.util.root_pattern('.git', 'test*')(fname);
+        end;
+        settings = {};
+      };
+    }
+
     local server_opts = {
       hls = {
         no_formatting = true,
       },
+      wiki_language_server = {},
     }
 
     -- Use a loop to conveniently call 'setup' on multiple servers and
