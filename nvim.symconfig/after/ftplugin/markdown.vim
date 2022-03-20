@@ -1,5 +1,5 @@
 setlocal spell
-setlocal tw=80
+setlocal textwidth=80
 
 " let b:markdown_trailing_space_rules = 0
 
@@ -28,7 +28,10 @@ if filereadable('neuron.dhall')
 
     nmap <buffer> <LocalLeader>o :!open http://localhost:8080/%:t:r.html<CR>
 
-    nmap <buffer> <C-]> <Plug>EditZettelUnderCursor
+    " This is probably subsumed by the LSP already, just keeping it commented
+    " out in case I end up wanting to re-enable it because I discover it's
+    " broken later.
+    " nmap <buffer> <C-]> <Plug>EditZettelUnderCursor
     nmap <buffer> <Leader>o <Plug>EditZettelSelect
     nmap <buffer> <LocalLeader>b <Plug>EditZettelBacklink
 
