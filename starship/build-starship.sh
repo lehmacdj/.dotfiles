@@ -13,7 +13,7 @@ if ! [ -f "$template_file" ]; then
 fi
 
 if ! mkdir "$DOTFILES/.build-starship.sh-lock~" >/dev/null 2>&1; then
-  >&2 echo "warning: already running, not running again to avoid race conditions"
+  >&2 echo "warning: already running build-starship.sh, aborting to avoid race condition"
   exit 0
 fi
 
