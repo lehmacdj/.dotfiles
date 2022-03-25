@@ -220,6 +220,7 @@ if has('nvim')
         local ok, ts_in_comment = pcall(context.in_treesitter_capture, 'comment')
         return not (ok and ts_in_comment)
           and not context.in_syntax_group('Comment')
+          and vim.opt.filetype:get() ~= 'TelescopePrompt'
         end,
       mapping = {
         ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
@@ -234,7 +235,14 @@ if has('nvim')
       },
       sources = cmp.config.sources({
         { name = 'nvim_lsp' },
-        { name = 'buffer' },
+        {
+          name = 'buffer',
+          option = {
+            get_bufnrs = function()
+              return vim.api.nvim_list_bufs()
+            end,
+          },
+        },
         { name = 'luasnip' },
         { name = 'path' },
       })
