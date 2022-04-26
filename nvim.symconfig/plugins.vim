@@ -186,6 +186,18 @@ if has('nvim')
           extra_args = {'-o', '-XTypeApplications', '-o', '-XImportQualifiedPost'},
         },
         formatting.cabal_fmt,
+        -- prettier is absurdly slow
+        -- installation: npm install -g @fsouza/prettierd
+        formatting.prettierd.with {
+          filetypes = {
+            'javascript', 'javascriptreact',
+            'typescript', 'typescriptreact',
+            'vue',
+            'css', 'scss', 'less',
+            'graphql',
+            'handlebars',
+          },
+        },
         diagnostics.selene,
         diagnostics.shellcheck.with {
           diagnostics_format = 'SC#{c}: #{m}',
