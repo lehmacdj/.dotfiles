@@ -156,6 +156,7 @@ if has('nvim')
         no_formatting = true,
       },
       wiki_language_server = {},
+      purescriptls = {},
     }
 
     -- Use a loop to conveniently call 'setup' on multiple servers and
