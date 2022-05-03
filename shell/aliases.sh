@@ -210,7 +210,7 @@ function find-above () {
 # keeps original file in case it seems like a better to use it instead of the
 # converted file
 function youtube-m4a () {
-    youtube-dl --audio-quality 0 --extract-audio -k --audio-format m4a "$@"
+    youtube-dl -f bestaudio --audio-quality 0 --extract-audio -k --audio-format m4a "$@"
 }
 
 function trash () {
