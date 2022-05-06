@@ -178,6 +178,7 @@ if has('nvim')
     local null_ls = require('null-ls')
     local formatting = null_ls.builtins.formatting
     local diagnostics = null_ls.builtins.diagnostics
+    local code_actions = null_ls.builtins.code_actions
     null_ls.setup {
       on_attach = require('config').on_attach,
       -- diagnostics_format = '#{c}: #{m}",
@@ -203,6 +204,7 @@ if has('nvim')
         diagnostics.shellcheck.with {
           diagnostics_format = 'SC#{c}: #{m}',
         },
+        code_actions.shellcheck,
         diagnostics.vint,
       },
     }
