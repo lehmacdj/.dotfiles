@@ -12,6 +12,9 @@ setopt prompt_subst
 unsetopt beep
 # extended globbing
 setopt extended_glob
+# magic stuff to make urls get quoted automatically and not trigger extended_glob
+autoload -U url-quote-magic
+zle -N self-insert url-quote-magic
 
 # HISTORY
 HISTSIZE=1000000
