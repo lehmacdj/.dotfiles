@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck disable=1003
 # Works for zsh and bash
 # Configure aliases and functions
 
@@ -53,9 +54,6 @@ alias ed="ed -p:"
 # Summon a random kitten
 alias kitten="curl -s https://placekitten.com/\$(shuf -i 300-1000 -n 1)/\
 \$(shuf -i 300-1000 -n 1) | imgcat"
-
-# make java_home accessible
-alias java_home='/usr/libexec/java_home'
 
 # work with plist files
 alias PlistBuddy='/usr/libexec/PlistBuddy'
@@ -141,6 +139,7 @@ function real () {
 # source the local aliases file (the file is "local_aliases.sh")
 function alias_local () {
     if [ -f "local_aliases.sh" ]; then
+        # shellcheck disable=1091
         source "local_aliases.sh"
     else
         echo "no local alias file available for sourcing!"
@@ -184,6 +183,10 @@ fi
 alias idris='idris --nobanner'
 alias swipl='rlwrap swipl'
 
+# The intended use case for this function is to find a package root identifying
+# file. e.g. `Cargo.toml` or `*.cabal` or something similar.
+# This functionality isn't finished being implemented though and I haven't
+# missed it so maybe I should just delete this. (2022-05-06)
 function find-above () {
     if test $# -ne 1; then
         echo '"Finds a certain filepath in any parent of the current directory"'
@@ -258,3 +261,12 @@ function cpu-temp() {
 # depends on 'git conflicts' alias defined in the global git config
 # possibly robust against file paths containing spaces
 alias viconflicts='vim $(git conflicts) +"vimgrep /<<<<<<</g ##"'
+
+function rgvi () {
+    [ $# -eq 1 ] || {
+        >&2 echo "usage: rgvi <search-pattern>"
+        return 1
+    }
+    # editor is most likely set to something that supports vimgrep
+    rg "$1" --files-with-matches --null | xargs -0 "$EDITOR" +"vimgrep /$1/ ##"
+}
