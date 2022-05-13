@@ -122,10 +122,13 @@ function linkfiles () {
         log 1 "    Processing file=$file"
         log 1 "        target=$target"
         log 1 "        force=$force update=$update"
-        if [ -n "$force" ] || [ ! -e "$target" ] ||\
-            { [ -n "$update" ] && [ -h "$target" ]; }; then
+        if [ ! -e "$target" ]; then
             ln -f -s "$file" "$target"
             log 0 "Created symlink for $file"
+        elif [ -n "$force" ] || { [ -n "$update" ] && [ -h "$target" ]; }; then
+            rm "$target"
+            ln -f -s "$file" "$target"
+            log 0 "Overwrote symlink for $file"
         else
             log 0 "$target exists... Skipping."
         fi
