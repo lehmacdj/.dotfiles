@@ -147,6 +147,10 @@ if [ "$features" -ge 1 ]; then
     function config_mapper { echo "$HOME/.config/$1"; }
     # symlink files that should go in xdg_config_home
     linkfiles "" ".symconfig" 5 "config_mapper"
+
+    # special purpose needed for .ghcup/config.yml file
+    function ghcup_mapper { echo "$HOME/.ghcup/$1"; }
+    linkfiles "" ".symghcup" 5 "ghcup_mapper"
 fi
 
 # Setup fzf
