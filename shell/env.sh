@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck disable=1091
 
 # System name
 [ "$(uname)" = "Darwin" ] && export DARWIN=1
