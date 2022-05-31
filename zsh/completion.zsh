@@ -12,7 +12,13 @@ cond_fpath_add /opt/homebrew/share/zsh-completions
 FPATH="$(consolidate-path "$FPATH")"
 export FPATH
 
-autoload -U compinit && compinit -u -d ~/.zsh/.zcompdump
+# +X causes autoload to immediately load the function. This causes the command
+# to only attempt to be executed if it actually exists (very unnecessary for
+# compinit and most likely unnecessary for bashcompinit, but better safe than
+# sorry)
+# -U ignores aliases
+autoload -U +X compinit && compinit -u -d ~/.zsh/.zcompdump
+autoload -U +X bashcompinit && bashcompinit
 zmodload -i zsh/complist
 
 # man zshcontrib
