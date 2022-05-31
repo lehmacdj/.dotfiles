@@ -1,2 +1,2 @@
-# added by travis gem
-[ -f /Users/devin/.travis/travis.sh ] && source /Users/devin/.travis/travis.sh
+#!/usr/bin/env bash
+# Place for adding shell agnostic / bash completion scripts (zsh can handle them)
