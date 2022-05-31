@@ -61,6 +61,9 @@ cond_path_add "/mnt/c/Windows/System32/WindowsPowerShell/v1.0" # powershell.exe
 # dotnet
 cond_path_add "$HOME/.dotnet/tools"
 
+# krew (kubectl plugin manager)
+cond_path_add "${KREW_ROOT:-$HOME/.krew}/bin"
+
 # Nix setup
 if [ -e /Users/devin/.nix-profile/etc/profile.d/nix.sh ]; then
     . /Users/devin/.nix-profile/etc/profile.d/nix.sh
