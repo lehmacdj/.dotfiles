@@ -6,6 +6,8 @@ nvim.symconfig/local.vim
 # zsh
 zsh/.*
 zsh/cache/
+# compiled zsh files
+*.zwc
 
 # Local files
 *.local*
