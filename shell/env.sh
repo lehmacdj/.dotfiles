@@ -101,3 +101,17 @@ if test "$EDITOR" = 'nvim'; then
 elif test "$EDITOR" = 'vim'; then
     export MANPAGER="vim -M +MANPAGER -"
 fi
+
+# fpath is a path for files containing function definitions; this includes
+# completion functions, and it must be set before compinit is called
+# (most likely by antigen)
+cond_fpath_add () {
+    [ -n "$1" ] || { echo "cond_fpath_add requires 1 argument"; exit 1; }
+    [ -d "$1" ] && FPATH="$1:$FPATH"
+}
+
+cond_fpath_add "$HOME/.local/share/zsh-completions"
+cond_fpath_add /usr/local/share/zsh-completions
+cond_fpath_add /opt/homebrew/share/zsh-completions
+FPATH="$(consolidate-path "$FPATH")"
+export FPATH

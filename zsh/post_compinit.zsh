@@ -1,24 +1,16 @@
-# fpath is a path for files containing function definitions; completion
-# functions are the most common functions included on this path so I configure
-# it here
-cond_fpath_add () {
-    [ -n "$1" ] || { echo "cond_fpath_add requires 1 argument"; exit 1; }
-    [ -d "$1" ] && FPATH="$1:$FPATH"
-}
-
-cond_fpath_add "$HOME/.local/share/zsh-completions"
-cond_fpath_add /usr/local/share/zsh-completions
-cond_fpath_add /opt/homebrew/share/zsh-completions
-FPATH="$(consolidate-path "$FPATH")"
-export FPATH
+# this file expects to be called after compinit has already been executed
+# (probably by antigen)
+# useful ref for completion configuration:
+# https://thevaluable.dev/zsh-completion-guide-examples/
 
 # +X causes autoload to immediately load the function. This causes the command
 # to only attempt to be executed if it actually exists (very unnecessary for
 # compinit and most likely unnecessary for bashcompinit, but better safe than
 # sorry)
 # -U ignores aliases
-autoload -U +X compinit && compinit -u -d ~/.zsh/.zcompdump
 autoload -U +X bashcompinit && bashcompinit
+
+# nicer colorful completion list items
 zmodload -i zsh/complist
 
 # man zshcontrib

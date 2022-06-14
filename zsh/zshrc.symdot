@@ -10,17 +10,18 @@ else
 fi
 export DOTFILES
 
+# needs to be loaded before antigen because sets up fpath completion dirs
 source "$DOTFILES/shell/env.sh"
 source "$DOTFILES/shell/fzf.sh"
 source "$DOTFILES/shell/aliases.sh"
 source "$DOTFILES/zsh/settings.zsh"
-source "$DOTFILES/zsh/completion.zsh"
-source "$DOTFILES/shell/completion.sh"
 source "$DOTFILES/zsh/prompt.zsh"
 source "$DOTFILES/zsh/hooks.zsh"
+source "$DOTFILES/zsh/antigen.zsh" # calls compinit, sets up zsh packages
+source "$DOTFILES/zsh/post_compinit.zsh"
+source "$DOTFILES/shell/bash_completion.sh"
+# needs to be loaded after antigen because sets keybindings for completion
 source "$DOTFILES/zsh/inputrc.zsh"
-source "$DOTFILES/zsh/antigen.zsh"
-source "$DOTFILES/zsh/plugins.zsh"
 source "$DOTFILES/shell/z.sh"
 
 # load a local zsh file if it exists
