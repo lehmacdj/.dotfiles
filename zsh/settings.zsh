@@ -23,6 +23,12 @@ HISTSIZE=1000000
 SAVEHIST=1000000
 HISTFILE="$DOTFILES/zsh/.zhistory"
 HISTORY_IGNORE="(ls|ll|bg|fg)"
+# https://unix.stackexchange.com/questions/562722/ignore-history-when-using-zsh
+function zshaddhistory {
+    emulate -L zsh
+    setopt extendedglob
+    [[ $1 != ${~HISTORY_IGNORE} ]]
+}
 # Share history between zsh sessions (reading history file every time)
 # this implies inc_append_history and shouldn't be set together with it
 # apparently
