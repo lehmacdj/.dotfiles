@@ -9,9 +9,11 @@ mod.guarded_autoformat = function(...)
     vim.lsp.buf.formatting_sync(...)
   end
 end
-mod.toggle_autoformat = function()
-  vim.g.do_lsp_autoformat = not vim.g.do_lsp_autoformat
-end
+-- looking for toggle autoformat? Either do:
+-- vim.g.do_lsp_autoformat = not vim.g.do_lsp_autoformat
+-- if feedback isn't important, or otherwise follow the guide of the yo= mapping
+-- which first checks and alternately executes disable / enable to give better
+-- feedback
 mod.disable_autoformat = function()
   vim.g.do_lsp_autoformat = false
 end

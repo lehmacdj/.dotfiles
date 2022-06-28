@@ -171,10 +171,9 @@ nnoremap <Leader>8 :call config#ToggleColorColumn()<CR>
 " toggle nvim lsp autoformatting on save in style of unimpaired.vim
 nnoremap [o= :lua require'config'.enable_autoformat()<CR>
 nnoremap ]o= :lua require'config'.disable_autoformat()<CR>
-nnoremap yo= :lua require'config'.toggle_autoformat()<CR>
-nnoremap <s= :lua require'config'.enable_autoformat()<CR>
-nnoremap >s= :lua require'config'.disable_autoformat()<CR>
-nnoremap =s= :lua require'config'.toggle_autoformat()<CR>
+nnoremap yo= :<C-U>lua <C-R>=g:do_lsp_autoformat
+    \ ? "require'config'.disable_autoformat()"
+    \ : "require'config'.enable_autoformat()"<CR><CR>
 
 " Spelling related things
 if &spell
