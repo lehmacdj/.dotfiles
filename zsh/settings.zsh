@@ -13,10 +13,8 @@ unsetopt beep
 # extended globbing
 setopt extended_glob
 # magic stuff to make urls get quoted automatically and not trigger extended_glob
-autoload -U url-quote-magic
-zle -N self-insert url-quote-magic
-autoload -Uz bracketed-paste-magic # necessary in zsh 5.1+ for pasting
-zle -N bracketed-paste bracketed-paste-magic
+autoload -Uz bracketed-paste-url-magic
+zle -N bracketed-paste bracketed-paste-url-magic
 
 # HISTORY
 HISTSIZE=1000000
