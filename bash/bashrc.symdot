@@ -1,4 +1,6 @@
 #!/bin/bash
+# Shellcheck is really bad at following references and spews of errors
+# shellcheck disable=1091
 
 # Set the location of the dotfiles to ~/.dotfiles or the path contained within
 # that file
@@ -27,4 +29,4 @@ elif [ -f "/etc/bash_completion" ]; then
     source "/etc/bash_completion"
 fi
 
-[ -f "$HOME/.local.bash" ] && source "$HOME/.local.bash" || true
+[ -f "$HOME/.local.bash" ] && { source "$HOME/.local.bash" || true; }
