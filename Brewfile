@@ -17,7 +17,6 @@ brew 'p7zip'
 
 # Applications
 cask 'firefox'
-cask 'dropbox'
 cask 'iterm2'
 
 # Fonts
