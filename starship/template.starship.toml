@@ -23,6 +23,7 @@ add_newline = false
 # compiler/language version is being used at all times, if you are in a context
 # where that is important you're doing something wrong because your package
 # manager isn't managing the version of your compiler for you.
+c.disabled = true
 cmake.disabled = true
 cobol.disabled = true
 conda.disabled = true
