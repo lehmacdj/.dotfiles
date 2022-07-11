@@ -1,53 +1,53 @@
 [user]
-    name = Devin Lehmacher
-    email = lehmacdj@gmail.com
+  name = Devin Lehmacher
+  email = lehmacdj@gmail.com
 
 [push]
-    default = simple
+  default = simple
 
 [core]
-    autocrlf = false
+  autocrlf = false
 
 [alias]
-    # Convenient aliases
-    status = status -sb
-    unstage = reset -q HEAD --
-    last = log -1 HEAD
-    discard = checkout --
-    precommit = diff --cached --diff-algorithm=minimal -w
-    # checkout fuzzy
-    cf = !git branch | fzf --tac --no-sort | xargs -n1 git checkout
-    # branch cleanup
-    bc = !git branch | fzf --tac --no-sort | xargs git branch -D
-    # remote/local branch management
-    conflicts = diff --name-only --diff-filter=U
-    # Shortcuts
-    s = status -sb
-    a = add
-    pl = pull
-    pu = push
-    pf = push --force-with-lease
-    co = checkout
-    ci = commit
-    amend = "!do_amend(){ \
-    if [ \"$1\" == '' ]; then \
-        git commit --amend --no-edit; \
-    else \
-        git commit --amend \"$@\"; \
-    fi;\
+  # Convenient aliases
+  status = status -sb
+  unstage = reset -q HEAD --
+  last = log -1 HEAD
+  discard = checkout --
+  precommit = diff --cached --diff-algorithm=minimal -w
+  # checkout fuzzy
+  cf = !git branch | fzf --tac --no-sort | xargs -n1 git checkout
+  # branch cleanup
+  bc = !git branch | fzf --tac --no-sort | xargs git branch -D
+  # remote/local branch management
+  conflicts = diff --name-only --diff-filter=U
+  # Shortcuts
+  s = status -sb
+  a = add
+  pl = pull
+  pu = push
+  pf = push --force-with-lease
+  co = checkout
+  ci = commit
+  amend = "!do_amend(){ \
+  if [ \"$1\" == '' ]; then \
+      git commit --amend --no-edit; \
+  else \
+      git commit --amend \"$@\"; \
+  fi;\
 }; do_amend"
 
 [sendemail]
-    smtpuser = lehmacdj@gmail.com
-    smtpserver = smtp.googlemail.com
-    smtpencryption = tls
-    smtpserverport = 587
-    suppresscc = self
+  smtpuser = lehmacdj@gmail.com
+  smtpserver = smtp.googlemail.com
+  smtpencryption = tls
+  smtpserverport = 587
+  suppresscc = self
 
 [pull]
-    rebase = true
+  rebase = true
 [log]
-    follow = true
+  follow = true
 
 [merge]
   tool = nvimdiff
@@ -62,10 +62,10 @@
 [difftool "nvimdiff"]
   cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c '$wincmd J'
 [init]
-	defaultBranch = main
+  defaultBranch = main
 [rebase]
-	autosquash = true
+  autosquash = true
 [fetch]
-	prune = true
+  prune = true
 [advice]
-	detachedHead = false
+  detachedHead = false
