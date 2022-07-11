@@ -12,3 +12,6 @@
 tags
 .#*
 TODO
+
+# python
+__pycache__
