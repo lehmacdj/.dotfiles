@@ -98,8 +98,6 @@ export XDG_CONFIG_HOME="$HOME/.config"
 if test "$EDITOR" = 'nvim'; then
     export MANWIDTH=1110
     export MANPAGER="nvim +Man!"
-elif test "$EDITOR" = 'vim'; then
-    export MANPAGER="vim -M +MANPAGER -"
 fi
 
 # fpath is a path for files containing function definitions; this includes
