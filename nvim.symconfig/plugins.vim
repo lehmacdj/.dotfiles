@@ -100,7 +100,7 @@ if has('nvim')
         cmd = {'wiki-language-server'};
         filetypes = {'markdown'};
         root_dir = function(fname)
-          return lsp.util.root_pattern('.git', 'test*')(fname);
+          return lsp.util.root_pattern('.git')(fname);
         end;
         settings = {};
       };
@@ -137,6 +137,9 @@ if has('nvim')
     local code_actions = null_ls.builtins.code_actions
     null_ls.setup {
       on_attach = require('config').on_attach,
+      root_dir = function(fname)
+        return require('lspconfig').util.root_pattern('.git')(fname);
+      end,
       -- diagnostics_format = '#{c}: #{m}",
       sources = {
         formatting.fourmolu.with {
