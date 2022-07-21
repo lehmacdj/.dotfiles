@@ -176,6 +176,7 @@ if has('nvim')
     let s:cmp_setup =<< trim EOF
     require('luasnip.loaders.from_vscode').load()
     local cmp = require('cmp')
+    local Behavior = require('cmp.types').cmp.SelectBehavior
     cmp.setup {
       snippet = {
         expand = function(args)
@@ -200,6 +201,18 @@ if has('nvim')
           c = cmp.mapping.close(),
         }),
         ['<CR>'] = cmp.mapping.confirm({ select = false }),
+        ['<Down>'] = {
+          i = cmp.mapping.select_next_item({ behavior = Behavior.Select }),
+        },
+        ['<Up>'] = {
+          i = cmp.mapping.select_prev_item({ behavior = Behavior.Select }),
+        },
+        ['<C-n>'] = {
+          i = cmp.mapping.select_next_item({ behavior = Behavior.Insert }),
+        },
+        ['<C-p>'] = {
+          i = cmp.mapping.select_prev_item({ behavior = Behavior.Insert }),
+        },
       },
       sources = cmp.config.sources({
         { name = 'nvim_lsp' },
