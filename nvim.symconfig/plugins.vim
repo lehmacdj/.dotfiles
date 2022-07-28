@@ -254,8 +254,10 @@ Plug 'kana/vim-textobj-user'
 Plug 'purescript-contrib/purescript-vim'
 Plug 'rust-lang/rust.vim'
 Plug 'keith/swift.vim'
+" the fenced markdown languages need to be defined here, because otherwise they
+" aren't set early enough for them to take effect
 Plug 'tpope/vim-markdown'
-    \| let g:markdown_fenced_languages = ['haskell', 'rust', 'bash=sh', 'python', 'sql']
+    \| let g:markdown_fenced_languages = ['haskell', 'rust', 'bash=sh', 'python', 'sql', 'json', 'javascript']
 Plug 'lehmacdj/neuron.vim', { 'branch': 'patched-old-neuron' } " zettelkasten support
 Plug 'Simspace/avaleryar', { 'rtp': 'tools/vim' }
 
