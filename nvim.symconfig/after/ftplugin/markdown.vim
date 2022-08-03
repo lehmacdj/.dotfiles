@@ -1,5 +1,4 @@
 setlocal spell
-setlocal textwidth=80
 setlocal nosmartindent " without this for/while/if etc. trigger new indent level
 
 " let b:markdown_trailing_space_rules = 0
