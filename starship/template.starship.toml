@@ -76,6 +76,7 @@ only_attached = true
 [git_commit]
 style = "bold purple" # make color the same as git_branch
 tag_disabled = false
+tag_symbol = " @ "
 
 [git_status]
 # disabled stashed; I don't care about knowing if I have a stash; either they're
