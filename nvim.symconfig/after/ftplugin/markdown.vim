@@ -4,8 +4,13 @@ setlocal nosmartindent " without this for/while/if etc. trigger new indent level
 " let b:markdown_trailing_space_rules = 0
 
 " utilities for compiling to pdf
-nmap <buffer> <LocalLeader>pc :!pandoc --pdf-engine=xelatex % -o %:r.pdf<CR>
-nmap <buffer> <LocalLeader>po :!open %:r.pdf<CR>
+nmap <buffer> <LocalLeader>c :!pandoc --pdf-engine=xelatex % -o %:r.pdf<CR>
+nmap <buffer> <LocalLeader>o :!open %:r.pdf<CR>
+
+" paste link around visually selected text, using <Leader>p instead of
+" <LocalLeader>p because it's easier to type and I don't currently have any
+" conflicts
+xmap <buffer> <Leader>p S]%a()<Esc>"+PF]%
 
 " Stuff for softwrapping
 setlocal wrap
