@@ -34,5 +34,5 @@ function! config#plugins#defer#RunDeferred()
             throw printf('invalid type: %d', type(s:action))
         endif
     endfor
-    unlet s:deferred
+    let s:deferred = []
 endfunction

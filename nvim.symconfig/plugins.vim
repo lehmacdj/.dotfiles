@@ -18,6 +18,8 @@ Plug 'junegunn/vim-easy-align'
 nmap ga <Plug>(EasyAlign)
 xmap ga <Plug>(EasyAlign)
 Plug 'tpope/vim-eunuch' " unix utilities
+Plug 'lambdalisue/suda.vim'
+let g:suda_smart_edit = 1
 
 " ui / colorschemes
 Plug 'vim-airline/vim-airline'
@@ -46,7 +48,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 
 " ide plugins
 if has('nvim')
-    Plug 'github/copilot.vim'
+    " Plug 'github/copilot.vim'
 
     " nvim specific utils
     Plug 'nvim-lua/plenary.nvim'
@@ -138,7 +140,7 @@ if has('nvim')
       sources = {
         formatting.fourmolu.with {
           command = 'ormolu',
-          extra_args = {'-o', '-XTypeApplications', '-o', '-XImportQualifiedPost'},
+          extra_args = {'-o', '-XTypeApplications'},
         },
         formatting.cabal_fmt,
         -- prettier is absurdly slow
