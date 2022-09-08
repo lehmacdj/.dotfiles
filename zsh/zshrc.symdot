@@ -14,6 +14,7 @@ export DOTFILES
 source "$DOTFILES/shell/env.sh"
 source "$DOTFILES/shell/fzf.sh"
 source "$DOTFILES/shell/aliases.sh"
+source "$DOTFILES/zsh/global_aliases.zsh"
 source "$DOTFILES/zsh/settings.zsh"
 source "$DOTFILES/zsh/prompt.zsh"
 source "$DOTFILES/zsh/hooks.zsh"
