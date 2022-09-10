@@ -179,6 +179,7 @@ if has('nvim')
         \| Plug 'L3MON4D3/LuaSnip'
             \| Plug 'saadparwaiz1/cmp_luasnip'
             \| Plug 'rafamadriz/friendly-snippets'
+        \| Plug 'jc-doyle/cmp-pandoc-references'
     let s:cmp_setup =<< trim EOF
     require('luasnip.loaders.from_vscode').load()
     local cmp = require('cmp')
@@ -232,6 +233,7 @@ if has('nvim')
         },
         { name = 'luasnip' },
         { name = 'path' },
+        { name = 'cmp-pandoc-references' },
       })
     }
     EOF
@@ -248,6 +250,7 @@ Plug 'neovimhaskell/haskell-vim'
 " haskell block formatting: additional config in haskell after/ftplugin file
 Plug 'sdiehl/vim-ormolu'
 Plug 'udalov/kotlin-vim'
+Plug 'tvaintrob/bicep.vim'
 Plug 'google/vim-jsonnet'
 Plug 'tpope/vim-scriptease' " vimscript
 Plug 'lervag/vimtex' | let g:tex_flavor = 'latex'
@@ -264,7 +267,18 @@ Plug 'keith/swift.vim'
 " the fenced markdown languages need to be defined here, because otherwise they
 " aren't set early enough for them to take effect
 Plug 'tpope/vim-markdown'
-    \| let g:markdown_fenced_languages = ['haskell', 'rust', 'bash=sh', 'python', 'sql', 'json', 'javascript']
+let g:markdown_fenced_languages = [
+    \ 'haskell',
+    \ 'rust',
+    \ 'bash=sh',
+    \ 'python',
+    \ 'sql',
+    \ 'json',
+    \ 'javascript',
+    \ 'kotlin',
+    \ 'java',
+    \ 'swift'
+\ ]
 Plug 'lehmacdj/neuron.vim', { 'branch': 'patched-old-neuron' } " zettelkasten support
 Plug 'Simspace/avaleryar', { 'rtp': 'tools/vim' }
 
