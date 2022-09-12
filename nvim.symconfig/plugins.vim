@@ -112,6 +112,7 @@ if has('nvim')
       },
       wiki_language_server = {},
       purescriptls = {},
+      kotlin_language_server = {},
     }
 
     -- Use a loop to conveniently call 'setup' on multiple servers and
@@ -243,6 +244,7 @@ endif
 Plug 'neovimhaskell/haskell-vim'
 " haskell block formatting: additional config in haskell after/ftplugin file
 Plug 'sdiehl/vim-ormolu'
+Plug 'udalov/kotlin-vim'
 Plug 'google/vim-jsonnet'
 Plug 'tpope/vim-scriptease' " vimscript
 Plug 'lervag/vimtex' | let g:tex_flavor = 'latex'
