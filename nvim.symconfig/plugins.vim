@@ -70,7 +70,10 @@ if has('nvim')
             ['<C-n>'] = 'move_selection_next',
             ['<C-k>'] = 'move_selection_previous',
             ['<C-p>'] = 'move_selection_previous'
-          }
+          },
+          n = {
+            ['<C-c>'] = 'close',
+          },
         }
       }
     }
@@ -113,18 +116,29 @@ if has('nvim')
       wiki_language_server = {},
       purescriptls = {},
       kotlin_language_server = {},
+      omnisharp = {
+        setup = {
+          cmd = {'dotnet', '/Users/devin/opt/omnisharp/OmniSharp.dll'},
+          enable_rosalyn_analyzers = true,
+          organize_imports_on_format = true,
+          enable_import_completion = true,
+        },
+      },
     }
 
     -- Use a loop to conveniently call 'setup' on multiple servers and
     -- map buffer local keybindings when the language server attaches
     for name, opts in pairs(server_opts) do
-      lsp[name].setup {
+      local setup_opts = {
         on_attach = require('config').on_attach_with(opts),
         flags = {
           debounce_text_changes = 150,
         },
         capabilities = capabilities,
       }
+      local setup_opt_overrides = opts.setup or {}
+      for k,v in pairs(setup_opt_overrides) do setup_opts[k] = v end
+      lsp[name].setup(setup_opts)
     end
     EOF
     Defer s:lsp_setup

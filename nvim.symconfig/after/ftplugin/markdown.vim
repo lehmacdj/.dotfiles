@@ -19,6 +19,8 @@ setlocal showbreak=
 nnoremap j gj
 nnoremap k gk
 nnoremap $ g$
+" leave a way to get true $
+nnoremap g$ $
 nnoremap 0 g0
 
 if filereadable('neuron.dhall')
