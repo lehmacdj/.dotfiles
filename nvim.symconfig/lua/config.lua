@@ -48,8 +48,7 @@ mod.on_attach_with = function(opts) return function(client, bufnr)
   vim.cmd [[
     augroup LspDiagnostics
       autocmd! * <buffer>
-      autocmd CursorHold * lua vim.diagnostic.open_float {scope = "cursor", focus = false}
-      autocmd CursorHoldI * silent! lua vim.lsp.buf.signature_help()
+      autocmd CursorHold * silent! lua vim.diagnostic.open_float {scope = "cursor", focus = false}
     augroup END
   ]]
 
@@ -76,7 +75,7 @@ mod.on_attach_with = function(opts) return function(client, bufnr)
     buf_set_keymap('n', '<Leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
   end
   if client.supports_method("textDocument/codeAction") then
-    buf_set_keymap('n', '<Leader>al', '<cmd>Telescope lsp_code_actions<CR>')
+    buf_set_keymap('n', '<Leader>al', '<cmd>lua vim.lsp.buf.code_action()<CR>')
   end
   if not opts.no_formatting and client.supports_method("textDocument/formatting") then
     buf_set_keymap('n', '<space>=', '<cmd>lua vim.lsp.buf.formatting()<CR>')
