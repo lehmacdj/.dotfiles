@@ -54,6 +54,7 @@ if has('nvim')
     Plug 'nvim-lua/plenary.nvim'
 
     " pickers / nvim specific ui
+    Plug 'stevearc/dressing.nvim'
     Plug 'nvim-telescope/telescope.nvim'
     Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
     let s:telescope_setup =<< trim EOF
@@ -115,7 +116,6 @@ if has('nvim')
       },
       wiki_language_server = {},
       purescriptls = {},
-      kotlin_language_server = {},
       omnisharp = {
         setup = {
           cmd = {'dotnet', '/Users/devin/opt/omnisharp/OmniSharp.dll'},
@@ -123,6 +123,9 @@ if has('nvim')
           organize_imports_on_format = true,
           enable_import_completion = true,
         },
+      },
+      kotlin_language_server = {
+        no_formatting = true, -- horrendously slow / broken
       },
     }
 
@@ -190,6 +193,7 @@ if has('nvim')
         \| Plug 'hrsh7th/cmp-buffer'
         \| Plug 'hrsh7th/cmp-path'
         \| Plug 'hrsh7th/cmp-cmdline'
+        \| Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
         \| Plug 'L3MON4D3/LuaSnip'
             \| Plug 'saadparwaiz1/cmp_luasnip'
             \| Plug 'rafamadriz/friendly-snippets'
@@ -236,6 +240,7 @@ if has('nvim')
         },
       },
       sources = cmp.config.sources({
+        { name = 'nvim_lsp_signature_help' },
         { name = 'nvim_lsp' },
         {
           name = 'buffer',

@@ -260,7 +260,13 @@ function cpu-temp() {
 # edit all files with a git conflict and populate them into the quickfix list
 # depends on 'git conflicts' alias defined in the global git config
 # possibly robust against file paths containing spaces
-alias viconflicts='vim $(git conflicts) +"vimgrep /<<<<<<</g ##"'
+function viconflicts () {
+    # want to expand to multiple args; this is broken for filenames with spaces
+    # though, so probably would be good to use xargs, though that would require
+    # rewriting `git conflicts` which is why I'm being lazy
+    # shellcheck disable=2046
+    vim $(git conflicts) +"vimgrep /<<<<<<</g ##" "$*"
+}
 
 function rgvi () {
     [ $# -eq 1 ] || {
