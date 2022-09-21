@@ -1,5 +1,7 @@
 " setup command to make stuff in config#plugins#defer# easier to use
-command -nargs=+ Defer call config#plugins#defer#Defer(<args>)
+" gets the source locatin where Defer was called and passes it to the
+" underlying function for better diagnostics
+command -nargs=+ Defer try | throw 'sourceloc' | catch | call config#plugins#defer#Defer(v:throwpoint, <args>) | endtry
 " Delete the :Defer command we just defined when we run the deferred things
 Defer {-> execute('delcommand Defer')}
 
@@ -99,17 +101,21 @@ if has('nvim')
 
     -- configure my custom lsp for markdown (eventually when this is mature,
     -- I think I should be able to get this into the proper repo)
+    -- the nvim-lspconfig does this with magic and overwriting the lsp again
+    -- breaks the magic so we need to be careful to only write it once
     local configs = require 'lspconfig.configs'
-    configs.wiki_language_server = {
-      default_config = {
-        cmd = {'wiki-language-server'};
-        filetypes = {'markdown'};
-        root_dir = function(fname)
-          return lsp.util.root_pattern('.git')(fname);
-        end;
-        settings = {};
-      };
-    }
+    if configs.wiki_language_server == null then
+      configs.wiki_language_server = {
+        default_config = {
+          cmd = {'wiki-language-server'};
+          filetypes = {'markdown'};
+          root_dir = function(fname)
+            return lsp.util.root_pattern('.git')(fname);
+          end;
+          settings = {};
+        };
+      }
+    end
 
     local server_opts = {
       hls = {
@@ -127,6 +133,10 @@ if has('nvim')
       },
       kotlin_language_server = {
         no_formatting = true, -- horrendously slow / broken
+      },
+      tsserver = {
+        -- preferring prettierd for now because it also covers other filetypes
+        no_formatting = true,
       },
     }
 
@@ -165,7 +175,7 @@ if has('nvim')
           extra_args = {'-o', '-XTypeApplications'},
         },
         formatting.cabal_fmt,
-        -- prettier is absurdly slow
+        -- prettier is absurdly slow;
         -- installation: npm install -g @fsouza/prettierd
         formatting.prettierd.with {
           filetypes = {
