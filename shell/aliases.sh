@@ -268,9 +268,9 @@ function viconflicts () {
     vim $(git conflicts) +"vimgrep /<<<<<<</g ##" "$*"
 }
 
-function rgvi () {
+function virg () {
     [ $# -eq 1 ] || {
-        >&2 echo "usage: rgvi <search-pattern>"
+        >&2 echo "usage: $0 <search-pattern>"
         return 1
     }
     # editor is most likely set to something that supports vimgrep
