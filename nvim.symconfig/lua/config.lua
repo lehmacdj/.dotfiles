@@ -6,7 +6,7 @@ if vim.g.do_lsp_autoformat == nil then
 end
 mod.guarded_autoformat = function(...)
   if vim.g.do_lsp_autoformat then
-    vim.lsp.buf.formatting_sync(...)
+    vim.lsp.buf.format(...)
   end
 end
 -- looking for toggle autoformat? Either do:
@@ -78,7 +78,7 @@ mod.on_attach_with = function(opts) return function(client, bufnr)
     buf_set_keymap('n', '<Leader>al', '<cmd>lua vim.lsp.buf.code_action()<CR>')
   end
   if not opts.no_formatting and client.supports_method("textDocument/formatting") then
-    buf_set_keymap('n', '<space>=', '<cmd>lua vim.lsp.buf.formatting()<CR>')
+    buf_set_keymap('n', '<space>=', [[<cmd>lua require('config').guarded_autoformat()<CR>]])
     vim.cmd [[
       augroup LspFormatting
         autocmd! * <buffer>
