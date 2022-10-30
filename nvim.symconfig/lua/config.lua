@@ -26,8 +26,8 @@ end
 -- defined globally so that we can use this for null_ls as well
 mod.on_attach_with = function(opts) return function(client, bufnr)
   if opts.no_formatting then
-    client.resolved_capabilities.document_formatting = false
-    client.resolved_capabilities.document_range_formatting = false
+    client.server_capabilities.documentFormattingProvider = false
+    client.server_capabilities.documentRangeFormattingProvider = false
   end
 
   local function buf_set_keymap(mode, keys, map)
