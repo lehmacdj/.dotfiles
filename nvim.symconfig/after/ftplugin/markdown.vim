@@ -7,9 +7,13 @@ setlocal nosmartindent " without this for/while/if etc. trigger new indent level
 nmap <buffer> <LocalLeader>c :!pandoc --pdf-engine=xelatex % -o %:r.pdf<CR>
 nmap <buffer> <LocalLeader>o :!open %:r.pdf<CR>
 
+xmap <buffer> <expr> p config#visual_magic_markdown_link_paste()
+
 " paste link around visually selected text, using <Leader>p instead of
 " <LocalLeader>p because it's easier to type and I don't currently have any
 " conflicts
+" Keeping this around because it's technically one keypress shorter and again
+" I don't have any conflicts yet.
 xmap <buffer> <Leader>p S]%a()<Esc>"+PF]%
 
 " Stuff for softwrapping

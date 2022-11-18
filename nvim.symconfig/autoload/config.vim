@@ -1,13 +1,13 @@
 " toggle the color column value
 let s:color_column_old = 0
-function! config#ToggleColorColumn()
+function! config#ToggleColorColumn() abort
     let l:tmp = &colorcolumn
     windo let &colorcolumn = s:color_column_old
     let s:color_column_old = l:tmp
 endfunction
 
 " strip all whitespace from a file
-function! config#StripWhitespace()
+function! config#StripWhitespace() abort
     let l:pos = getpos('.')
     let l:_s = @/
     if exists('b:markdown_trailing_space_rules') && b:markdown_trailing_space_rules
@@ -23,7 +23,7 @@ function! config#StripWhitespace()
     call setpos('.', l:pos)
 endfunction
 
-function! config#CompileSpellFiles()
+function! config#CompileSpellFiles() abort
   for d in globpath(&runtimepath, 'spell/*.add', 0, 1)
       execute 'mkspell! ' . fnameescape(d)
   endfor
@@ -35,7 +35,7 @@ endfunction
 " consider replacing with the following for a more robust solution if having
 " trouble:
 " https://github.com/michaeljsmith/vim-indent-object
-function! config#IndentTextObject(inner)
+function! config#IndentTextObject(inner) abort
   let curline = line('.')
   let lastline = line('$')
   let i = indent(line('.')) - &shiftwidth * (v:count1 - 1)
@@ -66,7 +66,7 @@ endfunction
 " Hit Enter alone to exit.
 " Source:
 " https://vi.stackexchange.com/questions/14829/close-multiple-buffers-interactively
-function! config#InteractiveBufDelete()
+function! config#InteractiveBufDelete() abort
   let l:prompt = 'Specify buffers to delete: '
 
   ls | let bufnums = input(l:prompt)
@@ -88,7 +88,7 @@ endfunction
 
 " Displays syntax stack under the cursor. Goes ahead and resolves links.
 " https://stackoverflow.com/questions/9464844/how-to-get-group-name-of-highlighting-under-cursor-in-vim
-function! config#SynStack()
+function! config#SynStack() abort
   for i1 in synstack(line('.'), col('.'))
     let i2 = synIDtrans(i1)
     let n1 = synIDattr(i1, 'name')
@@ -97,7 +97,7 @@ function! config#SynStack()
   endfor
 endfunction
 
-function! config#err(msg)
+function! config#err(msg) abort
   echohl ErrorMsg
   echom '[config] '.a:msg
   echohl None
@@ -107,7 +107,7 @@ endfunction
 " 1. tags if available
 " 2. ripgrep search; at time of writing :Telescope grep_string. ripgrep
 "    functionality is also available via <Leader>] directly bypassing lsp/tags
-function! config#smart_goto()
+function! config#smart_goto() abort
   try
     normal! 
   catch /E433: No tags file/
@@ -131,7 +131,7 @@ endfunction
 
 " config#smart_goto_select is to config#smart_goto as <C-]> (:tag) is to g<C-]>
 " (:tselect)
-function! config#smart_goto_select()
+function! config#smart_goto_select() abort
   try
     normal! g
   catch /E433: No tags file/
@@ -153,7 +153,7 @@ EOF
   endtry
 endfunction
 
-function! config#PrettySimple(type, ...)
+function! config#PrettySimple(type, ...) abort
   let sel_save = &selection
   let &selection = 'inclusive'
 
@@ -175,12 +175,25 @@ endfunction
 " for a syntax that doesn't have support in vim otherwise. Otherwise edit the
 " after syntax file, because that is what we want to edit to make
 " modifications to the existing syntax config.
-function! config#EditSyntaxFile()
+function! config#EditSyntaxFile() abort
   let l:primary_syntax = $VIMHOME.'/syntax/'.&filetype.'.vim'
   let l:after_syntax = $VIMHOME.'/after/syntax/'.&filetype.'.vim'
   if filereadable(l:primary_syntax)
     execute 'split '.l:primary_syntax
   else
     execute 'split '.l:after_syntax
+  endif
+endfunction
+
+" Intended to be mapped like so for filetypes that use markdown link syntax:
+" xmap <buffer> <expr> p config#magic_markdown_link_paste()
+" Emulates the behavior of apps like slack.
+function! config#visual_magic_markdown_link_paste() abort
+  let l:reg = get(v:, 'register', '"')
+  let l:to_paste = getreg(l:reg)
+  if l:to_paste =~# '^https\?:.*'
+    return "S]%a()\<Esc>\"" . l:reg . 'PF]%'
+  else
+    return 'p'
   endif
 endfunction

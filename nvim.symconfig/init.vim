@@ -116,8 +116,13 @@ set backspace=indent,eol,start
 " Global mappings
 " Easy macro-replay
 nnoremap Q @q
+xnoremap Q @q
 " make Y more logical
 nnoremap Y y$
+" make gq use gw which is pretty much just a better version of gq
+nnoremap gq gw
+nnoremap gqq gww
+xnoremap gq gw
 " TODO: would like to use these but they don't use the same relative directory
 " when opening the file. It should be relative to the file with the reference
 " not vim's current directory
@@ -133,6 +138,7 @@ if has('nvim')
     tnoremap <C-\>h <C-\><C-n><C-w><C-h>
 end
 
+" Editting / meta vim config
 " Edit vimrc
 nnoremap <Leader>ev :split $MYVIMRC<CR>
 " Edit plugins
@@ -149,6 +155,15 @@ nnoremap <Leader>ec :split $VIMHOME/autoload/config.vim<CR>
 nnoremap <Leader>el :split $VIMHOME/lua/config.lua<CR>
 " Source vimrc
 nnoremap <Leader>sv :source $MYVIMRC<CR>
+
+augroup autoload_autorefresh
+    autocmd!
+    " for any file prefixed by autoload/config reload it when saving
+    " in particular this includes $VIMHOME/autoload/config.vim which is my
+    " main config file for functions. Reloading it otherwise is tedious.
+    autocmd BufWritePost */autoload/config*.vim :source <afile>
+augroup END
+
 " Trim whitespace
 noremap <Leader>t<Space> :call config#StripWhitespace()<CR>
 " Delete buffers from buffer list interactively
