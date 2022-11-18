@@ -11,6 +11,4 @@ ifuse --documents org.videolan.vlc-ios "$MOUNT_POINT"
 # -u = skip updates to files that have newer mtimes
 # -t = preserve modification times
 rsync -rlut --info=progress2 "$HOME/Music/beets/library/" "$MOUNT_POINT/library" --delete
-# copy temporary songs directly to the root so they are separate from the library
-rsync -rlut --info=progress2 "$HOME/Music/beets/tmp-music/" "$MOUNT_POINT"
 umount "$MOUNT_POINT"
