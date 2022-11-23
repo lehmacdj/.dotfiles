@@ -9,6 +9,7 @@ call plug#begin($VIMHOME.'/plugged')
 
 " general purpose vanilla-like behavior
 Plug 'tpope/vim-unimpaired' " many useful shortcuts
+Plug 'tpope/vim-abolish' " find replace with variants + snake/camel/kebab case changing
 Plug 'tpope/vim-repeat' " '.' repeat for custom plugin actions
 Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-sleuth' " indent / shift-width config
