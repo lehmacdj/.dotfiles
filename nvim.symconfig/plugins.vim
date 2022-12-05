@@ -96,8 +96,7 @@ if has('nvim')
     let s:lsp_setup =<< trim EOF
     local lsp = require('lspconfig')
 
-    local capabilities = require('cmp_nvim_lsp')
-      .update_capabilities(vim.lsp.protocol.make_client_capabilities())
+    local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
     -- configure my custom lsp for markdown (eventually when this is mature,
     -- I think I should be able to get this into the proper repo)
