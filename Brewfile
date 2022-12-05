@@ -1,3 +1,11 @@
+# This file is prioritized to include stuff that is necessary for setting up
+# other stuff first and then less essential dependencies
+
+# Minimal Applications
+cask 'firefox'
+cask 'iterm2'
+cask '1Password'
+
 # Utilities
 brew 'bash'
 brew 'zsh'
@@ -15,15 +23,11 @@ brew 'ssh-copy-id'
 brew 'unar'
 brew 'p7zip'
 
-# Applications
-cask 'firefox'
-cask 'iterm2'
-
 # Fonts
 tap 'homebrew/cask-fonts'
 cask 'font-hack-nerd-font'
 
-# Media
+# Media & Extra Applications
 cask 'vlc'
 tap 'gromgit/fuse'
 cask 'macfuse'
