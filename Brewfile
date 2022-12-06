@@ -4,7 +4,7 @@
 # Minimal Applications
 cask 'firefox'
 cask 'iterm2'
-cask '1Password'
+cask '1password'
 
 # Utilities
 brew 'bash'
