@@ -22,6 +22,7 @@ brew 'neovim'
 brew 'ssh-copy-id'
 brew 'unar'
 brew 'p7zip'
+brew 'gh'
 
 # Fonts
 tap 'homebrew/cask-fonts'
