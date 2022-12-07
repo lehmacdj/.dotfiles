@@ -64,6 +64,7 @@
   cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c '$wincmd J'
 [init]
   defaultBranch = main
+	templateDir = ~/.config/git/template
 [rebase]
   autosquash = true
 [fetch]
