@@ -33,6 +33,7 @@ cask 'vlc'
 tap 'gromgit/fuse'
 cask 'macfuse'
 brew 'gromgit/fuse/ifuse-mac'
+cask 'mos'
 
 # Linters and Languages
 brew 'shellcheck'
