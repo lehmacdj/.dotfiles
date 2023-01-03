@@ -12,7 +12,8 @@ if ! [ -f "$template_file" ]; then
   exit 1
 fi
 
-if ! mkdir "$DOTFILES/.build-starship.sh-lock~" >/dev/null 2>&1; then
+lock="$(dir "$HOME"/.cache/dotfiles)/build-starship.sh.lock"
+if ! mkdir "$lock" >/dev/null 2>&1; then
   >&2 echo "warning: already running build-starship.sh, aborting to avoid race condition"
   exit 0
 fi
@@ -43,4 +44,4 @@ sed >>"$default_file" \
   -e "1,/^$else_marker$/d;/^$end_marker$/d" \
  "$template_file"
 
-rmdir "$DOTFILES/.build-starship.sh-lock~"
+rmdir "$lock"
