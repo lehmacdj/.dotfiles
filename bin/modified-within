@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+[ $# -eq 2 ] || {
+  echo "usage: $0 <days> <path>"
+  exit 1
+}
+interval=$(($1 * 24 * 60 * 60))
+file="$2"
+
+modified="$(date -r "$file" +%s)"
+now="$(date +%s)"
+[[ $modified -gt $((now - interval)) ]]

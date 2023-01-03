@@ -99,7 +99,7 @@ export XDG_CONFIG_HOME="$HOME/.config"
 
 # Use (n)vim for manpager if it is available
 if test "$EDITOR" = 'nvim'; then
-    export MANWIDTH=1110
+    export MANWIDTH=1000
     export MANPAGER="nvim +Man!"
 fi
 

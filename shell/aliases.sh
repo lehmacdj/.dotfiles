@@ -148,18 +148,6 @@ function alias_local () {
 }
 alias al=alias_local
 
-# create a directory then return a string equal to that directory name
-# example usage: `mv file $(dir dir)`
-function dir () {
-    if test $# -ne 1; then
-        echo '"Creates and returns a directory from the current directory"'
-        echo 'usage: dir <dir-name>'
-        return 1
-    fi
-    mkdir -p "$1"
-    echo "$1"
-}
-
 # Goes to a section of the man pages for zsh in vim
 # https://github.com/wellle/dotfiles/blob/master/zshrc
 if [ -n "$ZSH_VERSION" ]; then
