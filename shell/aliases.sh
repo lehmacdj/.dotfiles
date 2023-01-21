@@ -257,10 +257,11 @@ function viconflicts () {
 }
 
 function virg () {
-    [ $# -eq 1 ] || {
-        >&2 echo "usage: $0 <search-pattern>"
+    [ $# -ge 1 ] || {
+        >&2 echo "usage: $0 <search-pattern> [<vim-search-pattern>]"
         return 1
     }
+    [ $# -ge 2 ] || set -- "$1" "$1" # default to the same pattern for vim
     # editor is most likely set to something that supports vimgrep
-    rg "$1" --files-with-matches --null | xargs -0 "$EDITOR" +"vimgrep /$1/ ##"
+    rg "$1" --files-with-matches --null | xargs -0 "$EDITOR" +"vimgrep /$2/ ##"
 }
