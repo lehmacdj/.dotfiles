@@ -138,6 +138,7 @@ if has('nvim')
         -- preferring prettierd for now because it also covers other filetypes
         no_formatting = true,
       },
+      sourcekit = {},
     }
 
     -- Use a loop to conveniently call 'setup' on multiple servers and
