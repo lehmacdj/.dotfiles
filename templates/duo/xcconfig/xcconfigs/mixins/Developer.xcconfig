@@ -1,0 +1,29 @@
+// These values are mean to be filled in by each developer
+// They will be used in the BetaDebug configuration to build the app to your device.
+
+// This can be any value that:
+//   - Begins with a period
+//   - Is unique to you
+//   - Won't conflict with names we might want to use at Duolingo
+// An example may be your GitHub username:
+// BUNDLE_ID_SUFFIX = .cjwirth
+BUNDLE_ID_SUFFIX = .duo-lehmacdj
+
+// This will reference your personal Apple ID Development Team
+// The easiest way to get this is to open up Xcode and select your personal team,
+// and then get the ID from the Xcode project itself.
+//
+//   0. Make sure the BUNDLE_ID_SUFFIX above is set to something unique
+//   1. Open Xcode, and go to the Target settings for DuolingoMobile
+//   2. Under the Signing & Capabilities tab, Find the "Signing (BetaDebug)" section
+//   3. Make sure "Automatically Manage Signing" box is checked
+//   4. Set the Team dropdown to your personal team (e.g. "Caesar Wirth (Personal Team)")
+//   5. Let Xcode process for a bit if it needs to
+//   6. In the terminal, from the root of the repo, run: `grep DEVELOPMENT_TEAM DuolingoMobile.xcodeproj/project.pbxproj`
+//   7. It should output one or more lines that looks like: `DEVELOPMENT_TEAM = DH8S63F2W3;`
+//   8. Paste that ID, minus the semicolon in here
+//
+// For example:
+// DEVELOPMENT_TEAM = DH8S63F2W3
+
+DEVELOPMENT_TEAM = JMCP73J6PV
