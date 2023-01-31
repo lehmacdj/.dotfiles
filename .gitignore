@@ -18,5 +18,8 @@ fzf/
 # we want to ignore this because we only use this for fresh install
 Brewfile.lock.json
 
-# git template stuff is generally only going to be company specific
+# git template stuff is generally only going to be company/device specific
 git.symconfig/template
+
+# this seems to have some keys in it and probably doesn't want to be public
+git.symconfig/gh.symconfig/hosts.yml
