@@ -46,7 +46,6 @@ if filereadable('neuron.dhall')
     nmap <buffer> <Leader>o <Plug>EditZettelSelect
     nmap <buffer> <LocalLeader>b <Plug>EditZettelBacklink
 
-    nmap <buffer> <Leader>/ <Plug>EditZettelSearchContent
     nmap <buffer> <LocalLeader>g/ <Plug>EditZettelSearchContentUnderCursor
 
     nmap <buffer> <LocalLeader>n <Plug>EditZettelNew
