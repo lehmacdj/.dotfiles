@@ -2,8 +2,7 @@
 set -e
 
 [ $# -ge 1 ] && [ "$1" == "skip-update" ] && skip_update=1
-find "$HOME/Music/beets/library/Playlists/" -type f -delete
-[ -z "$skip_update" ] && regen-playlists && beet splupdate
+[ -z "$skip_update" ] && regen-playlists
 MOUNT_POINT="$(mktemp -d -t sync-music)"
 ifuse --documents org.videolan.vlc-ios "$MOUNT_POINT"
 # -r = recursive

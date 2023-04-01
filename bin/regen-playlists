@@ -31,3 +31,7 @@ sed -i "$suffix" \
   "$config_file"
 rm "${config_file}$suffix"
 >&2 echo "regenerated $count playlists"
+
+# actually do the regenerating of the playlists
+find "$HOME/Music/beets/library/Playlists/" -type f -name '*.m3u' -delete
+beet splupdate
