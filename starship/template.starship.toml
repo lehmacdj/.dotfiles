@@ -5,8 +5,8 @@
 #IF SUPPORTS(RIGHT_PROMPT)
 
 # left side only has prompt char; extra things go on right
-format = "$character"
-right_format = "$jobs$shlvl $all"
+format = "$jobs$character"
+right_format = "$shlvl $all"
 
 #ELSE - OTHER SHELLS
 
