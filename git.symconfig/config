@@ -30,6 +30,8 @@
   added-lines = !git add -N . && git diff --numstat | cut -f 1 -d '	' | awk 'BEGIN { sum = 0 } { sum = sum + $0 } END { print sum }'
   # push force (safer and shorter than `push --force`)
   pf = push --force-with-lease
+  # copy the current branch name
+  copy-branch = !git rev-parse --abbrev-ref HEAD | ghead -c -1 | pbcopy
 
   # Shorter versions of standard git commands
   s = status -sb
@@ -63,7 +65,7 @@
   cmd = nvim -d $LOCAL $REMOTE $MERGED -c '$wincmd w' -c '$wincmd J'
 [init]
   defaultBranch = main
-	templateDir = ~/.config/git/template
+  templateDir = ~/.config/git/template
 [rebase]
   autosquash = true
 [fetch]
