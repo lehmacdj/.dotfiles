@@ -28,13 +28,12 @@
   bc = !git branch | fzf --tac --no-sort | xargs git branch -D
   conflicts = diff --name-only --diff-filter=U
   added-lines = !git add -N . && git diff --numstat | cut -f 1 -d '	' | awk 'BEGIN { sum = 0 } { sum = sum + $0 } END { print sum }'
+  # push force (safer and shorter than `push --force`)
+  pf = push --force-with-lease
 
   # Shorter versions of standard git commands
   s = status -sb
   a = add
-  pl = pull
-  pu = push
-  pf = push --force-with-lease
   co = checkout
   ci = commit
 
