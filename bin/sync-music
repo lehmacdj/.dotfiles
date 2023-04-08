@@ -9,5 +9,14 @@ ifuse --documents org.videolan.vlc-ios "$MOUNT_POINT"
 # -l = preserve symlinks
 # -u = skip updates to files that have newer mtimes
 # -t = preserve modification times
-rsync -rlut --info=progress2 "$HOME/Music/beets/library/" "$MOUNT_POINT/library" --delete
+# the --filter rule makes it so that files listed .rsyncignore files aren't copied:
+#   * dir-merge, means use a per-directory ignore file
+#   * n means don't apply rule to subdirectories
+#   * and - means ignore
+rsync \
+  -rlut --info=progress2 \
+  --delete \
+  --filter='dir-merge,n- .rsyncignore' \
+  "$HOME/Music/beets/library/" \
+  "$MOUNT_POINT/library"
 umount "$MOUNT_POINT"

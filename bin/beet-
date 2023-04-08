@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# choose between beet mod and beet-ls depending on whether the query contains an
+# "="
+if [[ $* != *"="* ]]; then
+  beet-ls "$@"
+else
+  beet mod "$@"
+fi
