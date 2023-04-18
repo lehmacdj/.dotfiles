@@ -19,7 +19,10 @@ fzf/
 Brewfile.lock.json
 
 # git template stuff is generally only going to be company/device specific
-git.symconfig/template
+git.symconfig/template/*
+# but keep the directory itself to avoid warnings when cloning repos if I don't
+# have any templates in a specific repo
+!git.symconfig/template/.gitkeep
 
 # this seems to have some keys in it and probably doesn't want to be public
 git.symconfig/gh.symconfig/hosts.yml
