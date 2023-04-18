@@ -219,6 +219,9 @@ if executable('pretty-simple')
     xnoremap <silent> g= :<C-U>call config#PrettySimple(visualmode(), 1)<CR>
 endif
 
+command GetMasterBranchLink call config#get_optimistic_branch_link("master")
+command GetSheetsLink call config#get_filename_sheets_link()
+
 " finally load local vim configuration if it exists
 if filereadable($VIMHOME.'/local.vim')
     " local here must be capital because lowercase l is already taken for lua

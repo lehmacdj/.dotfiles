@@ -112,11 +112,7 @@ function! config#smart_goto() abort
     normal! 
   catch /E433: No tags file/
     call config#err('no tag file found')
-    lua << EOF
-    require('telescope.builtin').grep_string({
-      prompt_title = 'no tag file; fell back to rg'
-    })
-EOF
+    lua require('telescope.builtin').grep_string({ prompt_title = 'no tag file; fell back to rg' })
   catch /E426: tag not found/
     " tag not found
     " we don't want to default to grep because this might be a sign that the
@@ -136,11 +132,7 @@ function! config#smart_goto_select() abort
     normal! g
   catch /E433: No tags file/
     call config#err('no tag file found')
-    lua << EOF
-    require('telescope.builtin').grep_string({
-      prompt_title = 'no tag file; fell back to rg'
-    })
-EOF
+    lua require('telescope.builtin').grep_string({ prompt_title = 'no tag file; fell back to rg' })
   catch /E426: tag not found/
     " tag not found
     " we don't want to default to grep because this might be a sign that the
@@ -196,4 +188,19 @@ function! config#visual_magic_markdown_link_paste() abort
   else
     return 'p'
   endif
+endfunction
+
+" Get a link to the current line in the github repository optimistically
+" assuming it appears on the master branch
+function config#get_optimistic_branch_link(branch_name) abort
+  " TODO: allow passing in info about whether this was called with a prefix
+  GetCommitLink
+  let @+ = substitute(@+, '\v[0-9a-f]{40}', a:branch_name, '')
+endfunction
+
+" Get a =HYPERLINK formula that looks like the name of the file, and has a
+" link to the current line of code
+function config#get_filename_sheets_link() abort
+  GetCommitLink
+  let @+ = '=HYPERLINK("' . @+ . '", "' . expand('%:t:r') . '")'
 endfunction
