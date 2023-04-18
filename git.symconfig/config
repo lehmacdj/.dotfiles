@@ -59,6 +59,8 @@
   cmd = nvim -d $LOCAL $BASE $REMOTE $MERGED -c '$wincmd w' -c '$wincmd J'
 [diff]
   tool = nvimdiff
+  colorMoved = true
+  colorMovedWS = allow-indentation-change
 [difftool]
   prompt = true
 [difftool "nvimdiff"]
