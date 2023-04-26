@@ -17,21 +17,28 @@
   precommit = diff --cached --diff-algorithm=minimal -w
   amend = "!do_amend(){ \
   if [ \"$1\" == '' ]; then \
-      git commit --amend --no-edit; \
+    git commit --amend --no-edit; \
   else \
-      git commit --amend \"$@\"; \
+    git commit --amend \"$@\"; \
   fi;\
 }; do_amend"
   # checkout fuzzy
-  cf = !git branch | fzf --tac --no-sort | xargs -n1 git checkout
+  cf = !git for-each-ref --sort=committerdate --format=$'%(refname:short)\t%(committerdate:relative)' refs/heads | awk -F'\t' '{ printf \"%-50s %s\\n\", $1, $2 }' | fzf --tac --no-sort | cut -f 1 -d' ' | xargs -n1 git checkout
   # branch cleanup
-  bc = !git branch | fzf --tac --no-sort | xargs git branch -D
+  bc = !git for-each-ref --sort=-committerdate --format=$'%(refname:short)\t%(committerdate:relative)' refs/heads | awk -F'\t' '{ printf \"%-50s %s\\n\", $1, $2 }' | fzf --tac --no-sort | cut -f 1 -d' ' | xargs -n1 git branch -D
   conflicts = diff --name-only --diff-filter=U
   added-lines = !git add -N . && git diff --numstat | cut -f 1 -d '	' | awk 'BEGIN { sum = 0 } { sum = sum + $0 } END { print sum }'
   # push force (safer and shorter than `push --force`)
   pf = push --force-with-lease
   # copy the current branch name
   copy-branch = !git rev-parse --abbrev-ref HEAD | ghead -c -1 | pbcopy
+  bump-ci = "!do_bump_ci(){ \
+  if [ -z "$(git status --porcelain)" ]; then \
+    git commit --allow-empty -m \"force CI to retrigger\" && git push; \
+  else \
+    echo \"There are uncommitted changes\"; \
+  fi;\
+}; do_bump_ci"
 
   # Shorter versions of standard git commands
   s = status -sb
