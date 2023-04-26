@@ -31,6 +31,7 @@ conda.disabled = true
 crystal.disabled = true
 dart.disabled = true
 deno.disabled = true
+docker_context.disabled = true
 dotnet.disabled = true
 elixir.disabled = true
 elm.disabled = true
