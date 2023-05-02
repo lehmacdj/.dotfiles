@@ -258,7 +258,7 @@ function viconflicts () {
 function virg () {
     { [ $# -eq 0 ] || [ "$1" = "--help" ] || [ "$1" = "-h" ]; } && {
         [ $# -eq 0 ] && >&2 echo "error: $0 requires at least one argument"
-        >&2 echo "usage: $0 [-u|-uu|--pcre2] <search-pattern> [<vim-search-pattern>]"
+        >&2 echo "usage: $0 [-u|-uu|--pcre2|--glob] <search-pattern> [<vim-search-pattern>]"
         return 1
     }
     arguments=()
@@ -276,6 +276,11 @@ function virg () {
                 shift
                 arguments+=("-uu")
                 ;;
+            --glob)
+                shift
+                arguments+=("--glob" "$1")
+                shift
+                ;;
             --)
                 shift
                 break
@@ -286,7 +291,7 @@ function virg () {
         esac
     done
     [ $# -ge 1 ] || {
-        >&2 echo "usage: $0 [--pcre2] <search-pattern> [<vim-search-pattern>]"
+        >&2 echo "usage: $0 [--pcre2|--glob|-u] <search-pattern> [<vim-search-pattern>]"
         return 1
     }
     [ $# -ge 2 ] || set -- "$1" "$1" # default to the same pattern for vim
