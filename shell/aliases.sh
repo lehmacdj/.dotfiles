@@ -296,5 +296,5 @@ function virg () {
     }
     [ $# -ge 2 ] || set -- "$1" "$1" # default to the same pattern for vim
     # editor is most likely set to something that supports vimgrep
-    rg "${arguments[@]}" --files-with-matches --null -- "$1" | xargs -0 "$EDITOR" +"vimgrep /$2/ ##"
+    rg "${arguments[@]}" --files-with-matches --null -- "$1" | xargs -0 "$EDITOR" +"vimgrep /\v$2/ ##"
 }
