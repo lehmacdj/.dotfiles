@@ -298,3 +298,18 @@ function virg () {
     # editor is most likely set to something that supports vimgrep
     rg "${arguments[@]}" --files-with-matches --null -- "$1" | xargs -0 "$EDITOR" +"vimgrep /\v$2/ ##"
 }
+
+function imgdiff () {
+    [ $# -eq 2 ] || {
+        >&2 echo "usage: $0 <image1> <image2>"
+        return 1
+    }
+    if ! command -v magick >/dev/null 2>&1; then
+        >&2 echo "error: $0 requires imagemagick"
+        return 1
+    fi
+
+    tmpfile="$(mktemp -t imgdiff).png"
+    magick compare "$1" "$2" "$tmpfile"
+    open "$tmpfile"
+}
