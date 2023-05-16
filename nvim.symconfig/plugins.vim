@@ -27,6 +27,10 @@ let g:suda_smart_edit = 1
 " ui / colorschemes
 Plug 'vim-airline/vim-airline'
     \| Plug 'vim-airline/vim-airline-themes'
+" run all of the checks other than trailing whitespace, which I trim
+" automatically so it doesn't matter
+let g:airline#extensions#whitespace#checks =
+  \  [ 'indent', 'long', 'mixed-indent-file', 'conflicts' ]
 " the hunk / branchname display takes up too much space and obscures the
 " filename often; this makes it take less space / not appear a lot of the time
 let g:airline_section_b = '%{airline#util#wrap(airline#extensions#hunks#get_hunks(),100)}%{airline#util#wrap(airline#extensions#branch#get_head(),200)}'

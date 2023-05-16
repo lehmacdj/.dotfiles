@@ -165,7 +165,11 @@ augroup autoload_autorefresh
 augroup END
 
 " Trim whitespace
-noremap <Leader>t<Space> :call config#StripWhitespace()<CR>
+augroup trim_whitespace
+    autocmd!
+    autocmd BufWritePre * :call config#StripWhitespace()
+augroup END
+
 " Delete buffers from buffer list interactively
 nnoremap <Leader>db :call config#InteractiveBufDelete()<CR>
 " run the last normal mode command
