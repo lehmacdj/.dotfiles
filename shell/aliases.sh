@@ -204,6 +204,19 @@ function youtube-m4a () {
     yt-dlp -f bestaudio --audio-quality 0 --extract-audio -k --audio-format m4a "$@"
 }
 
+# download the highest resolution album art for a youtube video thumbnail and
+# convert it to a square image. Intended for use with songs whose image is square
+# to begin with.
+function youtube-album-art () {
+    if [ $# -ne 1 ]; then
+        echo "usage: $0 <youtube url>"
+        return 1
+    fi
+    thumbnail="$(mktemp -t thumbnail).webp"
+    curl -s "$(youtube-dl -f best --get-thumbnail "$1")" > "$thumbnail"
+    convert "$thumbnail" -gravity center -extent "$(identify -format "%h" "$thumbnail")x" "albumart.jpg"
+}
+
 function trash () {
     [ $# -le 0 ] && echo "trash requires at least one argument." && return 1
     command mv "$@" "$HOME/.Trash"
