@@ -14,13 +14,13 @@ if [ -n "$BASH_VERSION" ]; then
     # Auto-completion
     [[ $- == *i* ]] && source "$HOME/.fzf/shell/completion.bash" 2> /dev/null
 
-    # Key bindings -- FIXME: Keybindings don't work correctly
+    # Key bindings
     source "$HOME/.fzf/shell/key-bindings.bash"
 elif [ -n "$ZSH_VERSION" ]; then
     # Auto-completion
     [[ $- == *i* ]] && source "$HOME/.fzf/shell/completion.zsh" 2> /dev/null
 
-    # Key bindings -- FIXME: Keybindings don't work correctly
+    # Key bindings
     source "$HOME/.fzf/shell/key-bindings.zsh"
 fi
 
