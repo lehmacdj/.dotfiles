@@ -39,6 +39,8 @@
     echo \"There are uncommitted changes\"; \
   fi;\
 }; do_bump_ci"
+  # list TODOs in files changed by this PR
+  todos = !git diff --name-only origin/master | xargs grep -n "TODO"
 
   # Shorter versions of standard git commands
   s = status -sb
