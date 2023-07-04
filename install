@@ -164,6 +164,15 @@ if [ "$features" -ge 2 ] && [ ! -d "$HOME/.fzf" ]; then
     "$HOME/.fzf/install" --bin || echo "Failed to install fzf!"
 fi
 
+if [ -n "$DARWIN" ] && [ "$features" -ge 2 ]; then
+    log 1 ""
+    log 0 "Setting up macOS system keybindings"
+
+    source "$DOTFILES/install_keybindings.macos.sh"
+
+    log 2 "Finished setting up macOS system keybindings"
+fi
+
 if [ -n "$DARWIN" ] && [ "$features" -ge 3 ]; then
     # Install homebrew and brew everything in Brewfile
 
