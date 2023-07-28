@@ -19,3 +19,9 @@ defaults write com.tinyspeck.slackmacgap NSUserKeyEquivalents '
     Forward = "^i";
 }
 '
+
+defaults write com.apple.iphonesimulator NSUserKeyEquivalents '
+{
+    "Trigger Screenshot" = "@$s";
+}
+'
