@@ -326,3 +326,25 @@ function imgdiff () {
     magick compare "$1" "$2" "$tmpfile"
     open "$tmpfile"
 }
+
+# helper function for making stgit easier to use; `stg` is hard to type because
+# it's all in one hand and st series which I want to do fairly frequently is
+# even more annoying to type
+function st () {
+    if [ -z "$*" ]; then
+        stg series
+        git s
+    else
+        stg "$@"
+    fi
+}
+
+# Unfortunately this is relatively frequently necessary when Xcode ends up with
+# a broken cache and starts producing weird errors
+ddd () {
+  read -r "REPLY?Are you sure you want to delete all Xcode Derived Data? "
+  if [[ $REPLY =~ ^[Yy]$ ]]
+  then
+    rm -rf ~/Library/Developer/Xcode/DerivedData
+  fi
+}
