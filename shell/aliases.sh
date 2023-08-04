@@ -271,7 +271,7 @@ function viconflicts () {
 function virg () {
     { [ $# -eq 0 ] || [ "$1" = "--help" ] || [ "$1" = "-h" ]; } && {
         [ $# -eq 0 ] && >&2 echo "error: $0 requires at least one argument"
-        >&2 echo "usage: $0 [-u|-uu|--pcre2|--glob] <search-pattern> [<vim-search-pattern>]"
+        >&2 echo "usage: $0 [-u|-uu|--pcre2|--glob <glob>|--multiline] <search-pattern> [<vim-search-pattern>]"
         return 1
     }
     arguments=()
@@ -293,6 +293,10 @@ function virg () {
                 shift
                 arguments+=("--glob" "$1")
                 shift
+                ;;
+            --multiline)
+                shift
+                arguments+=("--multiline")
                 ;;
             --)
                 shift
