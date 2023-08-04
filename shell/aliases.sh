@@ -77,13 +77,13 @@ function mv_case_insensitive () {
         lower1="$(tr '[:lower:]' '[:upper:]' <<< "$1")"
         lower2="$(tr '[:lower:]' '[:upper:]' <<< "$2")"
         if [ "$lower1" = "$lower2" ] && ! [ -f "$1." ]; then
-            mv "$1" "$1."
-            mv "$1." "$2"
+            command mv "$1" "$1."
+            command mv "$1." "$2"
         else
-            mv "$@"
+            command mv "$@"
         fi
     else
-        mv "$@"
+        command mv "$@"
     fi
 }
 
