@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+#
+# this is the only pre-commit hook I can abide by using; if I have work
+# required/suggested pre-commit hooks, I will use them as pre-push instead to
+# avoid slowness every time I commit while still keeping my pushes/remote
+# branches clean
+set -euo pipefail
+
+# prevent committing when there are conflict markers in the code
+if rg -q '^(<<<<<<<|=======|>>>>>>>)$'; then
+  echo "pre-commit: conflict markers found; aborting commit"
+  echo "conflict markers in files:"
+  rg '^(<<<<<<<|=======|>>>>>>>)$'
+  exit 1
+fi
