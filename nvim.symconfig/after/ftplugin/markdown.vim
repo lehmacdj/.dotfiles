@@ -23,9 +23,14 @@ setlocal showbreak=
 nnoremap j gj
 nnoremap k gk
 nnoremap $ g$
+xnoremap j gj
+xnoremap k gk
+xnoremap $ g$
 " leave a way to get true $
 nnoremap g$ $
+xnoremap g$ $
 nnoremap 0 g0
+xnoremap 0 g0
 
 if filereadable('neuron.dhall')
     " I don't want git gutter for my notes because it will make me think about
