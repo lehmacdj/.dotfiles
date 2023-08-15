@@ -126,7 +126,7 @@ function linkfiles () {
             ln -f -s "$file" "$target"
             log 0 "Created symlink for $file"
         elif [ -n "$force" ] || { [ -n "$update" ] && [ -h "$target" ]; }; then
-            rm "$target"
+            rm -rf "$target"
             ln -f -s "$file" "$target"
             log 0 "Overwrote symlink for $file"
         else
@@ -155,10 +155,10 @@ if [ "$features" -ge 1 ]; then
     function ghcup_mapper { echo "$HOME/.ghcup/$1"; }
     linkfiles "" ".symghcup" 5 "ghcup_mapper"
 
-    # special purpose needed for Xcode keybindings
-    xcode_keybindings_path="$HOME/Library/Developer/Xcode/UserData/KeyBindings"
-    function xcode_keybindings_mapper { echo "$xcode_keybindings_path/$1"; }
-    [ -n "$DARWIN" ] && linkfiles "" ".sym-xcodekeybindings" 5 "xcode_keybindings_mapper"
+    # xcode configuration files are stored under this directory
+    xcode_userdata_path="$HOME/Library/Developer/Xcode/UserData"
+    function xcode_userdata_mapper { echo "$xcode_userdata_path/$1"; }
+    [ -n "$DARWIN" ] && linkfiles "" ".sym-xcodeuserdata" 5 "xcode_userdata_mapper"
 fi
 
 # Setup fzf
