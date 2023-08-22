@@ -1,3 +1,5 @@
+import UIKit
+
 /// These are some private UIKit methods that are available for debugging purposes
 @objc public protocol UIViewPrivate {
     func recursiveDescription() -> String
