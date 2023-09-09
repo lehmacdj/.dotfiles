@@ -88,6 +88,7 @@ function mv_case_insensitive () {
 }
 
 alias mv=mv_case_insensitive
+alias rn=mv_case_insensitive # rename to match ge's command
 
 # Recursively traverse directory tree for git repositories, run git command
 # e.g.
