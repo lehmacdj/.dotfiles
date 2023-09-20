@@ -28,18 +28,8 @@ fi
 export FZF_DEFAULT_COMMAND='rg --files'
 
 # open files selected using fzf
-# it might be nice to make this output vim $ARG when opening the file to the
-# history, will take some finagling to make this sufficiently cross-shell.
-# Though really the keybinding Control + T from keybindings is
-# bash: `history -s` https://superuser.com/questions/135651/how-can-i-add-a-command-to-the-bash-history-without-executing-it
-# zsh: `print -S` https://superuser.com/questions/561725/put-a-command-in-history-without-executing-it
 function vf () {
-  IFS='
-'
-  # shellcheck disable=2207
-  local files=($(fzf-tmux --query="$1" --select-1 --exit-0 --height='40%'))
-  [[ -n "${files[*]}" ]] && "$EDITOR" "${files[@]}"
-  unset IFS
+  >&2 echo "use ctrl-t to select file as an argument to vim instead"
 }
 
 # cd to directory using fzf
