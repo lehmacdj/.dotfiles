@@ -69,8 +69,10 @@ if [ -e /Users/devin/.nix-profile/etc/profile.d/nix.sh ]; then
     . /Users/devin/.nix-profile/etc/profile.d/nix.sh
 fi
 
-cond_path_add "$HOME/.rbenv/bin"
+# setup rbenv
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+# add executables on rbenv path to the bin
+cond_path_add "$HOME/.rbenv/bin"
 
 PATH="$(consolidate-path "$PATH")"
 MANPATH="$(consolidate-path "$MANPATH")"
