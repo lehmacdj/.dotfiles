@@ -31,8 +31,10 @@ fi
 # OPAM configuration
 . /Users/devin/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 
-# Haskell/ghcup config
-[ -f "$HOME/.ghcup/env" ] && source "$HOME/.ghcup/env"
+# Haskell
+cond_path_add "$HOME/.ghcup/bin"
+cond_path_add "$HOME/.cabal/bin"
+cond_path_add "$HOME/.stack/bin"
 
 # nvm (node version manager) config
 export NVM_DIR="$HOME/.nvm"
