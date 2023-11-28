@@ -316,7 +316,6 @@ let g:markdown_fenced_languages = [
     \ 'xml',
 \ ]
 Plug 'lehmacdj/neuron.vim', { 'branch': 'patched-old-neuron' } " zettelkasten support
-Plug 'Simspace/avaleryar', { 'rtp': 'tools/vim' }
 
 call plug#end()
 call config#plugins#defer#RunDeferred()
