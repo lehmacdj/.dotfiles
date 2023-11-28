@@ -303,16 +303,17 @@ Plug 'keith/swift.vim'
 " aren't set early enough for them to take effect
 Plug 'tpope/vim-markdown'
 let g:markdown_fenced_languages = [
-    \ 'haskell',
-    \ 'rust',
     \ 'bash=sh',
-    \ 'python',
-    \ 'sql',
-    \ 'json',
-    \ 'javascript',
-    \ 'kotlin',
+    \ 'haskell',
     \ 'java',
-    \ 'swift'
+    \ 'javascript',
+    \ 'json',
+    \ 'kotlin',
+    \ 'python',
+    \ 'rust',
+    \ 'sql',
+    \ 'swift',
+    \ 'xml',
 \ ]
 Plug 'lehmacdj/neuron.vim', { 'branch': 'patched-old-neuron' } " zettelkasten support
 Plug 'Simspace/avaleryar', { 'rtp': 'tools/vim' }
