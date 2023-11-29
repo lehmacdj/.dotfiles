@@ -26,6 +26,7 @@ fi
 
 # Set the default fzf command
 export FZF_DEFAULT_COMMAND='rg --files'
+export FZF_DEFAULT_OPTS='--multi --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-t:toggle-all'
 
 # open files selected using fzf
 function vf () {
