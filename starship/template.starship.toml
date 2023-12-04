@@ -119,3 +119,5 @@ disabled = false
 [status]
 disabled = false
 format = "[$status]($style)"
+pipestatus = true
+pipestatus_format = "[$pipestatus]($style)"
