@@ -5,7 +5,7 @@
 #IF SUPPORTS(RIGHT_PROMPT)
 
 # left side only has prompt char; extra things go on right
-format = "$jobs$character"
+format = "$jobs$status$character"
 right_format = "$shlvl $all"
 
 #ELSE - OTHER SHELLS
@@ -115,3 +115,7 @@ disabled = false
 
 [time]
 disabled = false
+
+[status]
+disabled = false
+format = "[$status]($style)"
