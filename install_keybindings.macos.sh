@@ -25,3 +25,12 @@ defaults write com.apple.iphonesimulator NSUserKeyEquivalents '
     "Trigger Screenshot" = "@$s";
 }
 '
+
+# strangely there isn't a default keybinding
+# command control l is unbound by default and matches the default commands for
+# loop / A-B loop
+defaults write org.videolan.vlc NSUserKeyEquivalents '
+{
+    "Repeat One" = "@^l";
+}
+'
