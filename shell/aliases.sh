@@ -322,7 +322,6 @@ function virg () {
         # no way to do this with just variable substitution
         # shellcheck disable=2001
         converted_word_boundaries="$(echo -n "$1" | sed -E 's/([^\\]|^)[<>]/\1\\b/g')"
-        >&2 echo "$converted_word_boundaries"
         # PCRE doesn't interpret <> specially so we should unescape <>
         converted_word_boundaries="${converted_word_boundaries//\\</<}"
         converted_word_boundaries="${converted_word_boundaries//\\>/>}"
