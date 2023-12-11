@@ -8,6 +8,8 @@ setopt complete_in_word
 setopt always_to_end
 # Enable expansion of lots of things at the prompt
 setopt prompt_subst
+# Don't confusingly interpret escape sequences in echo commands
+setopt BSD_ECHO
 # Get rid of beeping
 unsetopt beep
 # extended globbing
