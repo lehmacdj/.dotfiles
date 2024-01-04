@@ -192,7 +192,7 @@ endfunction
 
 " Get a link to the current line in the github repository optimistically
 " assuming it appears on the master branch
-function config#get_optimistic_branch_link(branch_name) abort
+function! config#get_optimistic_branch_link(branch_name) abort
   " TODO: allow passing in info about whether this was called with a prefix
   GetCommitLink
   let @+ = substitute(@+, '\v[0-9a-f]{40}', a:branch_name, '')
@@ -200,7 +200,16 @@ endfunction
 
 " Get a =HYPERLINK formula that looks like the name of the file, and has a
 " link to the current line of code
-function config#get_filename_sheets_link() abort
+function! config#get_filename_sheets_link() abort
   GetCommitLink
   let @+ = '=HYPERLINK("' . @+ . '", "' . expand('%:t:r') . '")'
+endfunction
+
+" for rebinding zg to; this adds the word to the dictionary and commits the
+" change so that I don't have to commit the change separately later
+function! config#commit_dictionary_word() abort
+  let l:word = expand('<cword>')
+  execute 'normal! zg'
+  call system(['git', '-C', $DOTFILES, 'add', 'nvim.symconfig/spell'])
+  call system(['git', '-C', $DOTFILES, 'commit', '-m', 'vim dictionary: add ' . l:word])
 endfunction

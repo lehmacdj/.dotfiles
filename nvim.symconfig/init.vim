@@ -198,6 +198,9 @@ nnoremap yo= :<C-U>lua <C-R>=g:do_lsp_autoformat
 if &spell
     nnoremap <Leader>z 1z=
 
+    " automatically commit spellfile changes
+    nnoremap zg :call config#commit_dictionary_word()<CR>
+
     " TODO: asynchronously compile spell files on startup
     nnoremap <Leader>sc :call config#CompileSpellFiles()<CR>
 
