@@ -236,7 +236,7 @@ function unix-path () {
 
 # generate + return a 9 character random sequence of alphanumeric characters
 function random-id () {
-  LC_ALL=C </dev/urandom tr -dc 'a-z0-9' | head -c 9
+  LC_ALL=C </dev/urandom tr -dc 'A-Za-z0-9' | head -c 10
 }
 
 function hs-replace {
