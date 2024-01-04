@@ -56,6 +56,8 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 " ide plugins
 if has('nvim')
     Plug 'github/copilot.vim'
+    inoremap <C-.> <Plug>(copilot-suggest)
+    inoremap <M-.> <Esc>:Copilot panel<CR>
 
     " nvim specific utils
     Plug 'nvim-lua/plenary.nvim'
