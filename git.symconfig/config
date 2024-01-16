@@ -80,6 +80,8 @@
   templateDir = ~/.config/git/template
 [rebase]
   autosquash = true
+  # don't flatten merges (i.e. makes --rebase-merges the default for git rebase)
+  rebaseMerges = true
 [fetch]
   prune = true
 [advice]
