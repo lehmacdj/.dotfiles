@@ -50,11 +50,11 @@ def remove_ass_annotations(lines):
     return cleaned_lines
 
 def main():
-    parser = argparse.ArgumentParser(description='Clean up SRT files.')
+    parser = argparse.ArgumentParser(description='Clean up SRT files that were converted from ASS files (i.e. with ffmpeg)')
     parser.add_argument('input_file', help='input file')
     parser.add_argument('output_file', help='output file')
-    parser.add_argument('--no-overlap', action='store_false', dest='remove_overlap', help='remove overlapping subtitles')
-    parser.add_argument('--no-html', action='store_false', dest='remove_html', help='remove HTML tags')
+    parser.add_argument('--no-overlap', action='store_false', dest='remove_overlap', help='don''t remove overlapping subtitles')
+    parser.add_argument('--no-html', action='store_false', dest='remove_html', help='don''t remove HTML tags')
     args = parser.parse_args()
 
     with open(args.input_file, 'r', encoding='utf-8') as file:
