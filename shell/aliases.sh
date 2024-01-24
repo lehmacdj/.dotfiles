@@ -239,6 +239,10 @@ function random-id () {
   LC_ALL=C </dev/urandom tr -dc 'A-Za-z0-9' | head -c 10
 }
 
+function date-timestamp () {
+    date +"%FT%H:%M-%Z"
+}
+
 function hs-replace {
     [ $# -ge 2 ] || {
         echo >&2 "usage: hs-replace <find-pattern> <replace-pattern>"
