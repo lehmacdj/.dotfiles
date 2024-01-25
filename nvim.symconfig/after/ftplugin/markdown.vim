@@ -1,6 +1,9 @@
 setlocal spell
 setlocal nosmartindent " without this for/while/if etc. trigger new indent level
 
+" make breakindent recognize markdown lists
+let &formatlistpat = '^\s*[-+*]\( \[ \]\)\?\s*\|\s*\d\+\.\s*'
+
 " let b:markdown_trailing_space_rules = 0
 
 " utilities for compiling to pdf

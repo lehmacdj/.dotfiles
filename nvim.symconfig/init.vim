@@ -28,6 +28,14 @@ set autoindent
 set smartindent
 set smarttab
 
+" make text wrapping smarter
+set breakindent
+set breakindentopt+=list:-1
+" set formatlistpat in filetype config files to define lists for that filetype
+" e.g. in markdown.vim we define something like:
+" let &formatlistpat = '^\s*[-+*]\( \[ \]\)\?\s*\|\s*\d\+\.\s*'
+set formatoptions+=m " make character wrapping with kanji work better
+
 " ui
 set termguicolors
 set background=dark
@@ -66,7 +74,7 @@ if has('nvim')
         " don't set scrolloff because it doesn't have a local value scrolloff=0
     augroup END
 endif
-if has('nvim-0.5.0") || has("patch-8.1.1564')
+if has('nvim-0.5.0') || has('patch-8.1.1564')
   set signcolumn=number
 endif
 
