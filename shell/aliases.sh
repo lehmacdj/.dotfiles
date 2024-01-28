@@ -220,6 +220,11 @@ function youtube-album-art () {
 
 function trash () {
     [ $# -le 0 ] && echo "trash requires at least one argument." && return 1
+    for arg in "$@"; do
+        if [ -e "$HOME/.Trash/$arg" ]; then
+            command mv "$HOME/.Trash/$arg" "$HOME/.Trash/prev-$arg"
+        fi
+    done
     command mv "$@" "$HOME/.Trash"
 }
 
