@@ -239,9 +239,10 @@ function unix-path () {
     echo -E "$1" | sed 's|^\(.\):|/mnt/\L\1|' | tr '\\' '/'
 }
 
-# generate + return a 9 character random sequence of alphanumeric characters
+# generate + return random sequence of alphanumeric characters
 function random-id () {
-  LC_ALL=C </dev/urandom tr -dc 'A-Za-z0-9' | head -c 10
+    character_count="${1:-10}"
+    LC_ALL=C </dev/urandom tr -dc 'A-Za-z0-9' | head -c "$character_count"
 }
 
 function date-timestamp () {
