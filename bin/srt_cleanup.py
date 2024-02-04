@@ -5,6 +5,7 @@ import os
 from datetime import datetime, timedelta
 import argparse
 from dataclasses import dataclass
+import sys
 
 @dataclass
 class Subtitle:
@@ -12,14 +13,17 @@ class Subtitle:
     end: datetime
     text_lines: list[str]
 
-def parse_srt(lines: list[str]) -> list[Subtitle | str]:
+def parse_srt(lines: list[str]):
     """Parse SRT file into list of Subtitle objects."""
     subs = []
     i = 0
+    first_index = None
     while i < len(lines):
         if lines[i].strip() == '':
             i += 1
         elif i + 1 < len(lines) and '-->' in lines[i + 1]:
+            if first_index == None:
+                first_index = int(lines[i])
             start_time, end_time = [parse_time(t.strip()) for t in lines[i + 1].split('-->')]
             k = 2
             text_lines = []
@@ -32,11 +36,11 @@ def parse_srt(lines: list[str]) -> list[Subtitle | str]:
         else:
             subs.append(lines[i])
             i += 1
-    return subs
+    return subs, first_index
 
-def format_srt(subtitles: list[Subtitle | str]) -> list[str]:
+def format_srt(subtitles: list[Subtitle | str], first_index: int) -> list[str]:
     """Format list of Subtitle objects into SRT file."""
-    subtitle_number = 1
+    subtitle_number = first_index
     lines = []
     for item in subtitles:
         if isinstance(item, Subtitle):
@@ -115,6 +119,13 @@ def remove_html(subtitles: list[Subtitle | str]) -> list[Subtitle | str]:
             item.text_lines = [re.sub(r'<[^>]+>', '', line) for line in item.text_lines]
     return subtitles
 
+def shift_seconds(subtitles: list[Subtitle | str], seconds: float) -> list[Subtitle | str]:
+    for item in subtitles:
+        if isinstance(item, Subtitle):
+            item.start += timedelta(seconds=seconds)
+            item.end += timedelta(seconds=seconds)
+    return subtitles
+
 def remove_ass_annotations(subtitles: list[Subtitle | str]) -> list[Subtitle | str]:
     for item in subtitles:
         if isinstance(item, Subtitle):
@@ -122,24 +133,27 @@ def remove_ass_annotations(subtitles: list[Subtitle | str]) -> list[Subtitle | s
     return subtitles
 
 def main():
-    parser = argparse.ArgumentParser(description='Clean up SRT files that were converted from ASS files (i.e. with ffmpeg)')
-    parser.add_argument('input_file', help='input file')
-    parser.add_argument('output_file', help='output file')
-    parser.add_argument('--no-overlap', action='store_false', dest='remove_overlap', help='don''t remove overlapping subtitles')
+    parser = argparse.ArgumentParser(description='Clean up utilities for SRT files especially one''s that were converted from ASS files (i.e. with ffmpeg)')
+    parser.add_argument('--input-file', '-i', help='input file (default is stdin)')
+    parser.add_argument('--output-file', '-o', help='output file (default is stdout)')
+    parser.add_argument('--no-overlap', action='store_false', dest='remove_overlap', help='don''t remove overlapping ass subtitles')
     parser.add_argument('--no-html', action='store_false', dest='remove_html', help='don''t remove HTML tags')
+    parser.add_argument('--shift-seconds', type=float, help='shift SRT file by the specified number of seconds (to shift only part of a file use as a vim filter)')
     args = parser.parse_args()
 
-    with open(args.input_file, 'r', encoding='utf-8') as file:
-        subtitles = parse_srt(file.readlines())
+    with open(input_file, 'r', encoding='utf-8') if args.input_file else sys.stdin as file:
+        subtitles, first_index = parse_srt(file.readlines())
 
     if args.remove_overlap:
         subtitles = remove_overlap(subtitles)
     if args.remove_html:
         subtitles = remove_html(subtitles)
+    if args.shift_seconds:
+        subtitles = shift_seconds(subtitles, args.shift_seconds)
     subtitles = remove_ass_annotations(subtitles)
 
-    with open(args.output_file, 'w', encoding='utf-8') as file:
-        file.writelines(format_srt(subtitles))
+    with open(args.output_file, 'w', encoding='utf-8') if args.output_file else sys.stdout as file:
+        file.writelines(format_srt(subtitles, first_index))
 
 if __name__ == "__main__":
     main()
