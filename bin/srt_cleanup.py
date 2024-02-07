@@ -77,7 +77,7 @@ def prev_subtitle(subtitles: list[Subtitle | str], i: int) -> Subtitle | None:
 
 def overlaps_by(first: Subtitle, second: Subtitle) -> timedelta:
     """Calculate overlap between subtitles"""
-    return max(first.end - second.start, timedelta(0))
+    return max(first.end - second.start, first.end - second.start, timedelta(0))
 
 @dataclass
 class Subtitle:
@@ -132,6 +132,32 @@ def remove_ass_annotations(subtitles: list[Subtitle | str]) -> list[Subtitle | s
             item.text_lines = [re.sub(r'{\\an\d}', '', line) for line in item.text_lines]
     return subtitles
 
+def merge_highly_overlapping_subtitles(subtitles: [Subtitle | str]) -> list[Subtitle | str]:
+    result = []
+    i = 0
+    while i + 1 < len(subtitles):
+        # it probably would be neater to not be this fancy lol:
+        first, second = subtitles[i:i + 2]
+        if not isinstance(first, Subtitle) or not isinstance(second, Subtitle):
+            result.append(first)
+            i = i + 1
+            continue
+        first_len = first.end - first.start
+        second_len = second.end - second.start
+        min_len = min(first_len, second_len)
+        overlap = overlaps_by(first, second)
+        if abs((overlap - min_len).seconds) < 0.5:
+            result.append(Subtitle(
+                start=min(first.start, second.start),
+                end=max(first.end, second.end),
+                text_lines=first.text_lines + second.text_lines
+            ))
+            i = i + 2
+        else:
+            result.append(first)
+            i = i + 1
+    return result
+
 def main():
     parser = argparse.ArgumentParser(description='Clean up utilities for SRT files especially one''s that were converted from ASS files (i.e. with ffmpeg)')
     parser.add_argument('--input-file', '-i', help='input file (default is stdin)')
@@ -139,6 +165,7 @@ def main():
     parser.add_argument('--no-overlap', action='store_false', dest='remove_overlap', help='don''t remove overlapping ass subtitles')
     parser.add_argument('--no-html', action='store_false', dest='remove_html', help='don''t remove HTML tags')
     parser.add_argument('--shift-seconds', type=float, help='shift SRT file by the specified number of seconds (to shift only part of a file use as a vim filter)')
+    parser.add_argument('--merge-overlap', action='store_true', help='merge subtitles that overlap by a substantial amount')
     args = parser.parse_args()
 
     with open(input_file, 'r', encoding='utf-8') if args.input_file else sys.stdin as file:
@@ -150,6 +177,8 @@ def main():
         subtitles = remove_html(subtitles)
     if args.shift_seconds:
         subtitles = shift_seconds(subtitles, args.shift_seconds)
+    if args.merge_overlap:
+        subtitles = merge_highly_overlapping_subtitles(subtitles)
     subtitles = remove_ass_annotations(subtitles)
 
     with open(args.output_file, 'w', encoding='utf-8') if args.output_file else sys.stdout as file:
