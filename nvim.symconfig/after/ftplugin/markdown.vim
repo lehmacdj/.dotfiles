@@ -17,6 +17,7 @@ xmap <buffer> <expr> p config#visual_magic_markdown_link_paste()
 setlocal wrap
 setlocal linebreak
 setlocal showbreak=
+setlocal colorcolumn=
 nnoremap j gj
 nnoremap k gk
 nnoremap $ g$
