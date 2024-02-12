@@ -43,6 +43,13 @@
   # list TODOs in files changed by this PR
   todos = !git diff --name-only origin/master | xargs grep -n "TODO"
 
+  # run comby on the repo, committing the changes in a commit labeled with the command used
+  comby = "!do_comby(){ \
+  [ -z \"$(git status --porcelain)\" ] || { echo \"There are uncommitted changes\"; return 1; }; \
+  comby "$@" -in-place; \
+  git commit -am \"comby $*\"; \
+}; do_comby"
+
   # Shorter versions of standard git commands
   s = status -sb
   a = add
