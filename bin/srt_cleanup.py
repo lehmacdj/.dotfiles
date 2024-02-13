@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 import argparse
 from dataclasses import dataclass
 import sys
+import copy
 
 @dataclass
 class Subtitle:
@@ -158,6 +159,49 @@ def merge_highly_overlapping_subtitles(subtitles: [Subtitle | str]) -> list[Subt
             i = i + 1
     return result
 
+# extends subtitles that are missing precise timing info by up to 1 second in
+# either direction
+def extend_subtitles(subtitles: [Subtitle | str]) -> list[Subtitle | str]:
+    result = copy.deepcopy(subtitles)
+    for i in range(len(result)):
+        if not isinstance(result[i], Subtitle):
+            result.append(result[i])
+            continue
+        start_delta = timedelta(seconds=0)
+        end_delta = timedelta(seconds=0)
+        if i - 1 < 0:
+            start_delta = timedelta(seconds=1)
+        elif isinstance(result[i - 1], Subtitle) and result[i - 1].end < result[i].start:
+            start_delta = min(result[i].start - result[i - 1].end, timedelta(seconds=1))
+        if i + 1 >= len(result):
+            end_delta = timedelta(seconds=1)
+        elif isinstance(result[i + 1], Subtitle) and result[i].end < result[i + 1].start:
+            # we need to leave half of the time for the subtitle afterwards to start at
+            end_delta = min((result[i + 1].start - result[i].end) / 2, timedelta(seconds=1))
+        result[i] = Subtitle(
+            start=result[i].start - start_delta,
+            end=result[i].end + end_delta,
+            text_lines=result[i].text_lines
+        )
+    return result
+
+# delay subtitles that start at the same time as the previous one finishes and
+# extend the end time of the previous subtitle slightly
+# this is desireable when times have all been rounded to the second & thus the
+# subtitles dissappear before the line has finished being read sometimes
+def delay_same_end_start(subtitles: [Subtitle | str]) -> list[Subtitle | str]:
+    result = copy.deepcopy(subtitles)
+    for i in range(len(result)):
+        if not isinstance(result[i], Subtitle):
+            result.append(result[i])
+            continue
+        prev = prev_subtitle(result, i)
+        if prev != None and prev.end == result[i].start:
+            delay_amount = timedelta(seconds=0.2)
+            prev.end += delay_amount
+            result[i].start += delay_amount
+    return result
+
 def main():
     parser = argparse.ArgumentParser(description='Clean up utilities for SRT files especially one''s that were converted from ASS files (i.e. with ffmpeg)')
     parser.add_argument('--input-file', '-i', help='input file (default is stdin)')
@@ -166,9 +210,11 @@ def main():
     parser.add_argument('--no-html', action='store_false', dest='remove_html', help='don''t remove HTML tags')
     parser.add_argument('--shift-seconds', type=float, help='shift SRT file by the specified number of seconds (to shift only part of a file use as a vim filter)')
     parser.add_argument('--merge-overlap', action='store_true', help='merge subtitles that overlap by a substantial amount')
+    parser.add_argument('--extend-subtitles', action='store_true', help='for subtitles that are missing precise timing info: extend every subtitle backwards and forwards somewhat if possible')
+    parser.add_argument('--delay-same-end-start', action='store_true', help='for subtitles that are missing precise timing info: delay subtitles that start and end at the same time')
     args = parser.parse_args()
 
-    with open(input_file, 'r', encoding='utf-8') if args.input_file else sys.stdin as file:
+    with open(args.input_file, 'r', encoding='utf-8') if args.input_file else sys.stdin as file:
         subtitles, first_index = parse_srt(file.readlines())
 
     if args.remove_overlap:
@@ -179,6 +225,10 @@ def main():
         subtitles = shift_seconds(subtitles, args.shift_seconds)
     if args.merge_overlap:
         subtitles = merge_highly_overlapping_subtitles(subtitles)
+    if args.extend_subtitles:
+        subtitles = extend_subtitles(subtitles)
+    if args.delay_same_end_start:
+        subtitles = delay_same_end_start(subtitles)
     subtitles = remove_ass_annotations(subtitles)
 
     with open(args.output_file, 'w', encoding='utf-8') if args.output_file else sys.stdout as file:
