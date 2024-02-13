@@ -11,6 +11,12 @@ let &formatlistpat = '^\s*[-+*]\( \[ \]\)\?\s*\|^\s*\d\+\.\s*'
 nmap <buffer> <LocalLeader>c :!pandoc --pdf-engine=xelatex % -o %:r.pdf<CR>
 nmap <buffer> <LocalLeader>o :!open %:r.pdf<CR>
 
+" convert a wiki style image like `![[file name.png]]` into a standard
+" markdown link like `![|](<images/file name.png>)` placing the cursor at the
+" pipe symbol and entering insert mode so that I can easily add alt text.
+" depends on: vim-surround
+nmap <buffer> <LocalLeader>ic F!llds]cs])aimages/<esc>ysi)>hi[]<esc>i
+
 xmap <buffer> <expr> p config#visual_magic_markdown_link_paste()
 
 " Stuff for softwrapping
@@ -67,4 +73,9 @@ if filereadable('neuron.dhall')
     nmap <buffer> <LocalLeader>ta <Plug>TagsAddNew
     nmap <buffer> <LocalLeader>ts <Plug>TagsAddSelect
     nmap <buffer> <LocalLeader>t/ <Plug>TagsZettelSearch
+
+    " janky macro that creates a new zettel based on a visual selection which
+    " becomes the body of the new zettel
+    " this macro lets me feel like an emacs user because it starts with mX, lol
+    xmap <buffer> <LocalLeader>n mX"zd<esc>\nkVG"zpO[[<C-r>=expand('%:t:r')<CR>]]<esc>dd'XP
 endif
