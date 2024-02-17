@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+[ -z "$(git status --porcelain)" ] || {
+  echo "There are uncommitted changes"
+  exit 1
+}
+
+comby -in-place "$@"
+
+git commit -am "Autorefactor: comby $(printf "'%s' " "$@" | sed 's/ $//')"
