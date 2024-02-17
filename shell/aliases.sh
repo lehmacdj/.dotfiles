@@ -131,6 +131,19 @@ function up () {
     done
 }
 
+# go up to the root of a project directory
+function root () {
+    root_markers=(.git .hg .svn)
+    while [ "$PWD" != "/" ] && [ "$PWD" != "$HOME" ]; do
+        for marker in "${root_markers[@]}"; do
+            if [ -d "$marker" ] || [ -f "$marker" ]; then
+                return
+            fi
+        done
+        cd ..
+    done
+}
+
 # cd to the realpath of the current path
 # Depends on gnu-realpath
 function real () {
