@@ -289,7 +289,10 @@ function cpu-temp() {
 function viconflicts () {
     # this is technically broken for filenames containing newlines but that
     # should be pretty rare right?
-    git conflicts | tr '\n' '\0' | xargs -0 "$EDITOR" +"vimgrep /<<<<<<</g ##" "$*"
+    files="$(echo -n "$(git conflicts | tr '\n' '\0')")"
+    # for some reason nvim fails to resume in specifically in zsh if the files
+    # are piped into xargs
+    xargs -0 "$EDITOR" +"vimgrep /<<<<<<</g ##" "$*" <<< "$files"
 }
 
 function virg () {
@@ -352,7 +355,10 @@ function virg () {
         set -- "$1" "$converted_word_boundaries"
     fi
     # editor is most likely set to something that supports vimgrep
-    rg "${arguments[@]}" --files-with-matches --null -- "$2" | xargs -0 "$EDITOR" +"vimgrep /\v$1/ ##"
+    files="$(echo -n "$(rg "${arguments[@]}" --files-with-matches -- "$2")")"
+    # for some reason nvim fails to resume in specifically in zsh if the files
+    # are piped into xargs
+    xargs "$EDITOR" +"vimgrep /\v$1/ ##" <<< "$files"
 }
 
 function imgdiff () {

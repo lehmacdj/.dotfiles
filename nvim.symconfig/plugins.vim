@@ -315,6 +315,7 @@ let g:markdown_fenced_languages = [
     \ 'rust',
     \ 'sql',
     \ 'swift',
+    \ 'vim',
     \ 'xml',
 \ ]
 Plug 'lehmacdj/neuron.vim', { 'branch': 'patched-old-neuron' } " zettelkasten support
