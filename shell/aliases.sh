@@ -355,10 +355,11 @@ function virg () {
         set -- "$1" "$converted_word_boundaries"
     fi
     # editor is most likely set to something that supports vimgrep
-    files="$(echo -n "$(rg "${arguments[@]}" --files-with-matches -- "$2")")"
+    files="$(echo -n "$(rg "${arguments[@]}" --files-with-matches --null -- "$2")")"
+    files="${files::-1}" # remove trailing null byte, which gets detected as an empty string arg
     # for some reason nvim fails to resume in specifically in zsh if the files
     # are piped into xargs
-    xargs "$EDITOR" +"vimgrep /\v$1/ ##" <<< "$files"
+    xargs -0 "$EDITOR" +"vimgrep /\v$1/ ##" <<< "$files"
 }
 
 function imgdiff () {
