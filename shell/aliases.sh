@@ -289,7 +289,7 @@ function cpu-temp() {
 function viconflicts () {
     # this is technically broken for filenames containing newlines but that
     # should be pretty rare right?
-    files="$(echo -n "$(git conflicts | tr '\n' '\0')")"
+    files="$(echo -n "$(git conflicts)" | tr '\n' '\0')"
     # for some reason nvim fails to resume in specifically in zsh if the files
     # are piped into xargs
     xargs -0 "$EDITOR" +"vimgrep /<<<<<<</g ##" "$*" <<< "$files"
