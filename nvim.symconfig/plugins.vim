@@ -288,6 +288,7 @@ Plug 'neovimhaskell/haskell-vim'
 Plug 'sdiehl/vim-ormolu'
 Plug 'udalov/kotlin-vim'
 Plug 'tvaintrob/bicep.vim'
+Plug 'vito-c/jq.vim'
 Plug 'google/vim-jsonnet'
 Plug 'tpope/vim-scriptease' " vimscript
 Plug 'lervag/vimtex' | let g:tex_flavor = 'latex'
