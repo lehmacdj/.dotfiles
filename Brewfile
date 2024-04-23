@@ -23,6 +23,9 @@ brew 'ssh-copy-id'
 brew 'unar'
 brew 'p7zip'
 brew 'gh'
+brew 'ffmpeg'
+brew 'librsvg' # needed for svg -> raster conversion with imagemagick
+brew 'imagemagick'
 
 # Fonts
 tap 'homebrew/cask-fonts'
