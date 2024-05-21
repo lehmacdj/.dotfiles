@@ -213,18 +213,13 @@ nnoremap yo= :<C-U>lua <C-R>=g:do_lsp_autoformat
     \ : "require'config'.enable_autoformat()"<CR><CR>
 
 " Spelling related things
-if &spell
-    nnoremap <Leader>z 1z=
-
-    " automatically commit spellfile changes
-    nnoremap zg :call config#commit_dictionary_word()<CR>
-
-    " TODO: asynchronously compile spell files on startup
-    nnoremap <Leader>sc :call config#CompileSpellFiles()<CR>
-
-    " Spelling corrections
-    abbreviate teh the
-end
+nnoremap <Leader>z 1z=
+" automatically commit spellfile changes
+nnoremap zg :call config#commit_dictionary_word()<CR>
+" TODO: asynchronously compile spell files on startup
+nnoremap <Leader>sc :call config#CompileSpellFiles()<CR>
+" Spelling corrections
+abbreviate teh the
 
 " indent text objects copied from here:
 " https://vim.fandom.com/wiki/Indent_text_object
