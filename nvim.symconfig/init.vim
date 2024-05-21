@@ -39,17 +39,27 @@ set formatoptions+=m " make character wrapping with kanji work better
 " ui
 set termguicolors
 set background=dark
-augroup override_solarized_Pmenu
+augroup override_solarized
   autocmd!
   " solarzied color scheme looks ugly for floating menus without this change
   function s:FixPmenu()
     if &background ==# 'dark'
       silent! hi Pmenu ctermfg=13 ctermbg=0 gui=none guifg=#839496 guibg=#073642
     else
-      silent! hi Pmenu ctermbg=0 ctermfg=225 gui=none guibg=#eee8d5 guifg=#657b83
+      silent! hi Pmenu ctermbg=0 ctermfg=225 gui=none guifg=#657b83 guibg=#eee8d5
     endif
   endfunction
   autocmd ColorScheme * call <SID>FixPmenu()
+  " SpellBad with gui colorscheme is too loud, this makes the squiggle the
+  " same color as primary text
+  function s:FixSpellBad()
+      if &background ==# 'dark'
+          silent! hi SpellBad guisp=#839496 " solarized base0
+      else
+          silent! hi SpellBad guisp=#657b83 " solarized base00
+      endif
+    endfunction
+  autocmd ColorScheme * call <SID>FixSpellBad()
 augroup END
 silent! colorscheme solarized
 set mouse=a
