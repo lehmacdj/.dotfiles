@@ -13,9 +13,10 @@ zle -N edit-command-line
 bindkey -M viins '^f' edit-command-line
 bindkey -M vicmd '^f' edit-command-line
 
-# incremental search
-bindkey -M viins '^r' history-incremental-search-backward
-bindkey -M vicmd '^r' history-incremental-search-backward
+# incremental search; instead we use fzf incremental search defined in:
+# "$DOTFILES"/shell/fzf.sh -> ~/.fzf/shell/key-bindings.zsh
+# bindkey -M viins '^r' history-incremental-search-backward
+# bindkey -M vicmd '^r' history-incremental-search-backward
 
 # search forward and backward
 bindkey -M viins '^k' history-search-backward
