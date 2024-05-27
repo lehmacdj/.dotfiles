@@ -1,26 +1,26 @@
 " toggle the color column value
 let s:color_column_old = 0
 function! config#ToggleColorColumn() abort
-    let l:tmp = &colorcolumn
-    windo let &colorcolumn = s:color_column_old
-    let s:color_column_old = l:tmp
+  let l:tmp = &colorcolumn
+  windo let &colorcolumn = s:color_column_old
+  let s:color_column_old = l:tmp
 endfunction
 
 " strip all whitespace from a file
 function! config#StripWhitespace() abort
-    let l:pos = getpos('.')
-    let l:_s = @/
-    if exists('b:markdown_trailing_space_rules') && b:markdown_trailing_space_rules
+  let l:pos = getpos('.')
+  let l:_s = @/
+  if exists('b:markdown_trailing_space_rules') && b:markdown_trailing_space_rules
     " avoid matching exactly a sequence of two spaces as this indicates a
     " newline in markdown
-        silent! %substitute/\v([^ ])\s$/\1/
-        silent! %substitute/\t$//
-        silent! %substitute/\s\s\s\+$//
-    else
-        silent! %substitute/\s\+$//
-    endif
-    let @/ = l:_s
-    call setpos('.', l:pos)
+    silent! %substitute/\v([^ ])\s$/\1/
+    silent! %substitute/\t$//
+    silent! %substitute/\s\s\s\+$//
+  else
+    silent! %substitute/\s\+$//
+  endif
+  let @/ = l:_s
+  call setpos('.', l:pos)
 endfunction
 
 function! config#CompileSpellFiles() abort
@@ -145,14 +145,14 @@ function! config#smart_goto_select() abort
   endtry
 endfunction
 
-function! config#PrettySimple(type, ...) abort
+function! config#PrettySimple(type, is_visual = v:false) abort
   let sel_save = &selection
   let &selection = 'inclusive'
 
-  if a:0  " Invoked from Visual mode, use gv command.
+  if v:is_visual
     echom 'a:type = visual'
     silent exe 'normal! gv!pretty-simple -c no-color'
-  elseif a:type ==# 'line'
+  elseif a:type ==# 'line' " otherwise we're in operator mode
     echom 'a:type = line'
     silent exe "normal! '[V']!pretty-simple -c no-color"
   else
@@ -205,11 +205,42 @@ function! config#get_filename_sheets_link() abort
   let @+ = '=HYPERLINK("' . @+ . '", "' . expand('%:t:r') . '")'
 endfunction
 
+" function that returns the visual selection as a string
+function! config#GetVisualSelection() abort
+  let [l:line_start, l:col_start] = [getpos("'<")[1], getpos("'<")[2]]
+  let [l:line_end, l:col_end] = [getpos("'>")[1], getpos("'>")[2]]
+
+  " Adjust for inclusive end position
+  if l:col_end < l:col_start || l:line_start != l:line_end
+    let l:col_end += 1
+  endif
+
+  " Get the lines in the visual selection
+  let lines = getline(l:line_start, l:line_end)
+
+  " If the selection is within a single line
+  if l:line_start == l:line_end
+    let lines = [strpart(lines[0], l:col_start - 1, l:col_end - l:col_start)]
+  else
+    " Adjust the first and last lines to the exact columns
+    let lines[0] = strpart(lines[0], l:col_start - 1)
+    let lines[-1] = strpart(lines[-1], 0, l:col_end - 1)
+  endif
+
+  return join(lines, "\n")
+endfunction
+
 " for rebinding zg to; this adds the word to the dictionary and commits the
 " change so that I don't have to commit the change separately later
-function! config#commit_dictionary_word() abort
-  let l:word = expand('<cword>')
-  execute 'normal! zg'
+function! config#commit_dictionary_word(visual_mode = 'not_visual') abort
+  let l:is_visual = a:visual_mode !=# 'not_visual'
+  if l:is_visual
+    let l:word = config#GetVisualSelection()
+    execute 'normal! gvzg'
+  else
+    let l:word = expand('<cword>')
+    execute 'normal! zg'
+  endif
   call system(['git', '-C', $DOTFILES, 'add', 'nvim.symconfig/spell'])
   call system(['git', '-C', $DOTFILES, 'commit', '-m', 'vim dictionary: add ' . l:word])
 endfunction

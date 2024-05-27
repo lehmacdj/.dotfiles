@@ -216,6 +216,7 @@ nnoremap yo= :<C-U>lua <C-R>=g:do_lsp_autoformat
 nnoremap <Leader>z 1z=
 " automatically commit spellfile changes
 nnoremap zg :call config#commit_dictionary_word()<CR>
+xnoremap zg :call config#commit_dictionary_word(visualmode())<CR>
 " TODO: asynchronously compile spell files on startup
 nnoremap <Leader>sc :call config#CompileSpellFiles()<CR>
 " Spelling corrections
