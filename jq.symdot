@@ -1,3 +1,16 @@
 # statistics functions
 def mean: add / length;
 def stddev: mean as $mean | (map(pow(. - $mean; 2)) | add) / length | sqrt;
+
+# percentile of an implicit array argument e.g. `[1, 2, 3] | percentile(50)`
+def percentile(p):
+  (p / 100) * (length - 1) as $index |
+  sort as $sorted |
+  $index | floor as $lower_index |
+  $index | ceil as $upper_index |
+  $sorted[$lower_index] as $lower_value |
+  $sorted[$upper_index] as $upper_value |
+  $lower_value + ($upper_value - $lower_value) * ($index - $lower_index);
+
+# min/max are built-in, median is a special case of percentile
+def median: percentile(50);
