@@ -1,5 +1,5 @@
 " setup command to make stuff in config#plugins#defer# easier to use
-" gets the source locatin where Defer was called and passes it to the
+" gets the source location where Defer was called and passes it to the
 " underlying function for better diagnostics
 command -nargs=+ Defer try | throw 'sourceloc' | catch | call config#plugins#defer#Defer(v:throwpoint, <args>) | endtry
 " Delete the :Defer command we just defined when we run the deferred things
