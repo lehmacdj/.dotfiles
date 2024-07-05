@@ -77,5 +77,5 @@ if filereadable('neuron.dhall')
     " janky macro that creates a new zettel based on a visual selection which
     " becomes the body of the new zettel
     " this macro lets me feel like an emacs user because it starts with mX, lol
-    xmap <buffer> <LocalLeader>n mX"zd<esc>\nkVG"zpO- [[<C-r>=expand('%:t:r')<CR>]]<esc>dd'XP
+    xmap <buffer> <LocalLeader>n mX"zd<esc>\nkVG"zpO- [[<C-r>=expand('%:t:r')<CR>]]<esc>dd:w<CR>'XP
 endif
