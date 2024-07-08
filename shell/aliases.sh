@@ -262,15 +262,29 @@ function date-timestamp () {
     date +"%FT%H:%M-%Z"
 }
 
-function hs-replace {
-    [ $# -ge 2 ] || {
-        echo >&2 "usage: hs-replace <find-pattern> <replace-pattern>"
+function replace {
+    [ $# -ge 1 ] || {
+        echo >&2 "usage: replace [--glob <glob> ...] <find-pattern> [<replace-pattern>]"
+        echo >&2 "usage: replace: find/replace all files under the current directory"
+        echo >&2 "usage: You can skip the replace pattern to preview what will be replaced."
         return 1
     }
-    rg --glob '*.hs' "$1" --files-with-matches \
-        | tr '\n' '\0' \
-        | xargs -0 sed -i '.sed-backup~' -e "s/$1/$2/g"
-    find . -name '*.sed-backup~' -delete;
+    local globs=()
+    while [ "$1" = "--glob" ]; do
+        shift
+        globs+=("$1")
+        shift
+    done
+    local target
+    target="$1"
+    local substitution
+    substitution="${2:-}"
+    if [ -z "$substitution" ]; then
+        rg "$target" --multiline --pcre2 "${globs[@]}"
+    else
+        rg "${globs[@]}" --multiline --pcre2 "$target" --files-with-matches --null \
+            | xargs -0n1 perl -p0i -e "s/$target/$substitution/smg"
+    fi
 }
 
 function silently () {
