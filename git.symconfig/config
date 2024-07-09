@@ -83,6 +83,8 @@
   autosquash = true
   # don't flatten merges (i.e. makes --rebase-merges the default for git rebase)
   rebaseMerges = true
+  # automatically update branches based on the current branch
+  updateRefs = true
 [fetch]
   prune = true
 [advice]
