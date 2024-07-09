@@ -134,6 +134,7 @@ function up () {
 # go up to the root of a project directory
 function root () {
     root_markers=(.git .hg .svn)
+    initial_dir="$PWD"
     while [ "$PWD" != "/" ] && [ "$PWD" != "$HOME" ]; do
         for marker in "${root_markers[@]}"; do
             if [ -d "$marker" ] || [ -f "$marker" ]; then
@@ -142,6 +143,10 @@ function root () {
         done
         cd ..
     done
+    final_dir="$PWD"
+    # preserve cd .. behavior by making the last cd a direct cd to the root
+    cd "$initial_dir" || return
+    cd "$final_dir" || return
 }
 
 # cd to the realpath of the current path
