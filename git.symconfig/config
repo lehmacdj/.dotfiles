@@ -25,8 +25,20 @@
 }; do_amend"
   # checkout fuzzy
   cf = !git for-each-ref --sort=committerdate --format=$'%(refname:short)\t%(committerdate:relative)' refs/heads | awk -F'\t' '{ printf \"%-50s %s\\n\", $1, $2 }' | fzf --tac --no-sort | cut -f 1 -d' ' | xargs -n1 git checkout
-  # branch cleanup
-  bc = !git for-each-ref --sort=-committerdate --format=$'%(refname:short)\t%(committerdate:relative)' refs/heads | grep -v '^saved/' | awk -F'\t' '{ printf \"%-50s %s\\n\", $1, $2 }' | fzf --tac --no-sort | cut -f 1 -d' ' | xargs -n1 git branch -D
+  bc = "!do_branch_cleanup() { \
+    while true; do \
+        branch=$(git for-each-ref --sort=-committerdate --format=$'%(refname:short)\t%(committerdate:relative)' refs/heads | \
+                 grep -v '^saved/' | \
+                 awk -F'\t' '{ printf \"%-50s %s\\n\", $1, $2 }' | \
+                 fzf --tac --no-sort --exit-0); \
+        if [ -z \"$branch\" ]; then \
+            echo \"No branch selected. Exiting.\"; \
+            break; \
+        fi; \
+        branch_name=$(echo \"$branch\" | cut -f 1 -d' '); \
+        git branch -D \"$branch_name\"; \
+    done; \
+}; do_branch_cleanup"
   conflicts = diff --name-only --diff-filter=U
   added-lines = !git add -N . && git diff --numstat | cut -f 1 -d '	' | awk 'BEGIN { sum = 0 } { sum = sum + $0 } END { print sum }'
   # push force (safer and shorter than `push --force`)
