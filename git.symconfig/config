@@ -61,6 +61,7 @@
 
   # Shorter versions of standard git commands
   s = status -sb
+  l = log --oneline -n 16
   a = add
   co = checkout
   ci = commit
