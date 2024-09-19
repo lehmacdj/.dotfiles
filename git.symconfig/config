@@ -56,9 +56,10 @@
 }; do_bump_ci"
   # list TODOs in files changed by this PR
   todos = !git diff --name-only origin/master | xargs grep -n "TODO"
+  # rebase --continue without editing the commit message
   rc = -c core.editor=: rebase --continue
-
-
+  # push and pull
+  pp = "!git pull --rebase && git push"
   # Shorter versions of standard git commands
   s = status -sb
   l = log --oneline -n 16
