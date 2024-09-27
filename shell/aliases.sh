@@ -277,6 +277,7 @@ function replace {
     local globs=()
     while [ "$1" = "--glob" ]; do
         shift
+        globs+=("--glob")
         globs+=("$1")
         shift
     done
