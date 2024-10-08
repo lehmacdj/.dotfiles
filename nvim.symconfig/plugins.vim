@@ -125,6 +125,7 @@ if has('nvim')
 
     local server_opts = {
       hls = {
+        -- use separate ormolu plugin for formatting
         no_formatting = true,
       },
       wiki_language_server = {},
@@ -144,7 +145,18 @@ if has('nvim')
         -- preferring prettierd for now because it also covers other filetypes
         no_formatting = true,
       },
-      sourcekit = {},
+      sourcekit = {
+        no_formatting = true,
+        setup = {
+          server_arguments = {
+            '-Xswiftc', '-sdk',
+            '-Xswiftc', '/Applications/Xcode-16.0.0.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk',
+            '-Xswiftc', '-target',
+            '-Xswiftc', 'arm64-apple-ios18.0-simulator',
+            '-Xcc', '-DSWIFT_PACKAGE=0', -- Build package as if it were Application?
+          },
+        },
+      },
     }
 
     -- Use a loop to conveniently call 'setup' on multiple servers and
