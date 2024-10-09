@@ -422,3 +422,36 @@ ddd () {
     rm -rf ~/Library/Developer/Xcode/DerivedData
   fi
 }
+
+# Move and simlink at the original location
+# if multiple files are moved to a single directory link all of them
+mvln() {
+    if [ "$#" -lt 2 ]; then
+        echo "mvln: missing file operand"
+        echo "Usage: mvln source... destination"
+        return 1
+    fi
+
+    local sources=()
+    while [ $# -gt 1 ]; do
+        sources+=("$1")
+        shift
+    done
+    local dest="$1"
+
+    if [ -d "$dest" ]; then
+        for src in "${sources[@]}"; do
+            mv "$src" "$dest"
+            ln -s "$dest/$(basename "$src")" "$src"
+        done
+    else
+        if [[ ${#sources[@]} -gt 1 ]]; then
+            echo "mvln: target '$dest' is not a directory"
+            return 1
+        else
+            src="${sources[0]}"
+            mv "$src" "$dest"
+            ln -s "$dest" "$src"
+        fi
+    fi
+}
