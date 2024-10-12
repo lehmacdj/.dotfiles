@@ -1,5 +1,44 @@
 local mod = {}
 
+-- configuration for the language servers we want to use
+-- the keys are the names of the language servers, we support two options:
+-- 1. no_formatting: boolean, if true, we disable formatting for this server
+-- 2. setup: table, additional setup for the server passed to the setup function
+mod.server_opts = {
+  hls = {
+    no_formatting = true,
+  },
+  wiki_language_server = {},
+  purescriptls = {},
+  omnisharp = {
+    setup = {
+      cmd = {'dotnet', '/Users/devin/opt/omnisharp/OmniSharp.dll'},
+      enable_rosalyn_analyzers = true,
+      organize_imports_on_format = true,
+      enable_import_completion = true,
+    },
+  },
+  kotlin_language_server = {
+    no_formatting = true, -- horrendously slow / broken
+  },
+  tsserver = {
+    -- preferring prettierd for now because it also covers other filetypes
+    no_formatting = true,
+  },
+  sourcekit =  {
+    no_formatting = true,
+    setup = {
+      server_arguments = {
+        '-Xswiftc', '-sdk',
+        '-Xswiftc', '/Applications/Xcode-16.0.0.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk',
+        '-Xswiftc', '-target',
+        '-Xswiftc', 'arm64-apple-ios18.0-simulator',
+        '-Xcc', '-DSWIFT_PACKAGE=0', -- Build package as if it were Application?
+      },
+    },
+  },
+}
+
 -- autoformatting utilities
 if vim.g.do_lsp_autoformat == nil then
   vim.g.do_lsp_autoformat = true
@@ -89,5 +128,26 @@ mod.on_attach_with = function(opts) return function(client, bufnr)
 end end
 
 mod.on_attach = mod.on_attach_with {}
+
+mod.setup_custom_lsps = function()
+  local lsp = require('lspconfig')
+  local configs = require('lspconfig.configs')
+  -- configure my custom lsp for markdown (eventually when this is mature,
+  -- I think I should be able to get this into the proper repo)
+  -- the nvim-lspconfig does this with magic and overwriting the lsp again
+  -- breaks the magic so we need to be careful to only write it once
+  if configs.wiki_language_server == nil then
+    configs.wiki_language_server = {
+      default_config = {
+        cmd = {'wiki-language-server'};
+        filetypes = {'markdown'};
+        root_dir = function(fname)
+          return lsp.util.root_pattern('.git')(fname);
+        end;
+        settings = {};
+      };
+    }
+  end
+end
 
 return mod

@@ -101,77 +101,21 @@ if has('nvim')
     Plug 'neovim/nvim-lspconfig'
     Plug 'folke/lsp-colors.nvim'
     let s:lsp_setup =<< trim EOF
-    local lsp = require('lspconfig')
-
-    local capabilities = require('cmp_nvim_lsp').default_capabilities()
-
-    -- configure my custom lsp for markdown (eventually when this is mature,
-    -- I think I should be able to get this into the proper repo)
-    -- the nvim-lspconfig does this with magic and overwriting the lsp again
-    -- breaks the magic so we need to be careful to only write it once
-    local configs = require 'lspconfig.configs'
-    if configs.wiki_language_server == null then
-      configs.wiki_language_server = {
-        default_config = {
-          cmd = {'wiki-language-server'};
-          filetypes = {'markdown'};
-          root_dir = function(fname)
-            return lsp.util.root_pattern('.git')(fname);
-          end;
-          settings = {};
-        };
-      }
-    end
-
-    local server_opts = {
-      hls = {
-        -- use separate ormolu plugin for formatting
-        no_formatting = true,
-      },
-      wiki_language_server = {},
-      purescriptls = {},
-      omnisharp = {
-        setup = {
-          cmd = {'dotnet', '/Users/devin/opt/omnisharp/OmniSharp.dll'},
-          enable_rosalyn_analyzers = true,
-          organize_imports_on_format = true,
-          enable_import_completion = true,
-        },
-      },
-      kotlin_language_server = {
-        no_formatting = true, -- horrendously slow / broken
-      },
-      tsserver = {
-        -- preferring prettierd for now because it also covers other filetypes
-        no_formatting = true,
-      },
-      sourcekit = {
-        no_formatting = true,
-        setup = {
-          server_arguments = {
-            '-Xswiftc', '-sdk',
-            '-Xswiftc', '/Applications/Xcode-16.0.0.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk',
-            '-Xswiftc', '-target',
-            '-Xswiftc', 'arm64-apple-ios18.0-simulator',
-            '-Xcc', '-DSWIFT_PACKAGE=0', -- Build package as if it were Application?
-          },
-        },
-      },
-    }
+    require('config').setup_custom_lsps()
 
     -- Use a loop to conveniently call 'setup' on multiple servers and
     -- map buffer local keybindings when the language server attaches
-    for name, opts in pairs(server_opts) do
+    for name, opts in pairs(require('config').server_opts) do
       local setup_opts = {
         on_attach = require('config').on_attach_with(opts),
         flags = {
           debounce_text_changes = 150,
         },
-        capabilities = capabilities,
+        capabilities = require('cmp_nvim_lsp').default_capabilities(),
       }
       local setup_opt_overrides = opts.setup or {}
       for k,v in pairs(setup_opt_overrides) do setup_opts[k] = v end
-      lsp[name].setup(setup_opts)
+      require('lspconfig')[name].setup(setup_opts)
     end
     EOF
     Defer s:lsp_setup
