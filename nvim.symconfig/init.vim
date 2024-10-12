@@ -28,6 +28,9 @@ set autoindent
 set smartindent
 set smarttab
 
+" ignore whitespace when diffing
+set diffopt+=iwhiteall
+
 " make text wrapping smarter
 set breakindent
 set breakindentopt+=list:-1
