@@ -2,6 +2,7 @@
 set -e
 
 [ $# -ge 1 ] && [ "$1" == "skip-update" ] && skip_update=1
+[ $# -ge 1 ] && [ "$1" != "skip-update" ] && echo "Usage: $0 [skip-update]" && exit 1
 [ -z "$skip_update" ] && regen-playlists
 MOUNT_POINT="$(mktemp -d -t sync-music)"
 ifuse --documents org.videolan.vlc-ios "$MOUNT_POINT"
