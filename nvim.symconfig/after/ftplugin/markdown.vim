@@ -68,11 +68,13 @@ if filereadable('neuron.dhall')
     " mnemonic append, also because it is a key right next to s
     nmap <buffer> <LocalLeader>a <Plug>InsertZettelLast
 
-    nmap <buffer> <LocalLeader>r <Plug>NeuronRefreshCache
+    " nmap <buffer> <LocalLeader>r <Plug>NeuronRefreshCache
 
     nmap <buffer> <LocalLeader>ta <Plug>TagsAddNew
     nmap <buffer> <LocalLeader>ts <Plug>TagsAddSelect
     nmap <buffer> <LocalLeader>t/ <Plug>TagsZettelSearch
+
+    nnoremap <buffer> <LocalLeader>r :w %~<CR>:e!<CR>:diffthis<CR>:vsp %~<CR>:diffthis<CR>
 
     " janky macro that creates a new zettel based on a visual selection which
     " becomes the body of the new zettel
