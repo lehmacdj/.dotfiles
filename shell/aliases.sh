@@ -376,6 +376,10 @@ function virg () {
     fi
     # editor is most likely set to something that supports vimgrep
     files="$(echo -n "$(rg "${arguments[@]}" --files-with-matches --null -- "$2")")"
+    if [ -z "$files" ]; then
+        echo "no matches of regex found"
+        return 1
+    fi
     files="${files::-1}" # remove trailing null byte, which gets detected as an empty string arg
     # for some reason nvim fails to resume in specifically in zsh if the files
     # are piped into xargs
