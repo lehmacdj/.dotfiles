@@ -1,12 +1,21 @@
 local mod = {}
 
--- configuration for the language servers we want to use
--- the keys are the names of the language servers, we support two options:
+-- Configuration for the language servers we want to use. This is called in
+-- `mod.setup_lsps`.
+--
+-- the keys are the names of the language servers, we support several options:
 -- 1. no_formatting: boolean, if true, we disable formatting for this server
 -- 2. setup: table, additional setup for the server passed to the setup function
-mod.server_opts = {
+-- 3. modify_capabilities: function, a function that takes the capabilities and
+--   returns the modified capabilities, useful for disabling capabilities that
+--   make certain servers misbehave (e.g. see hls)
+local server_opts = {
   hls = {
     no_formatting = true,
+    modify_capabilities = function(capabilities)
+      capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
+      return capabilities
+    end,
   },
   wiki_language_server = {},
   purescriptls = {},
@@ -129,7 +138,7 @@ end end
 
 mod.on_attach = mod.on_attach_with {}
 
-mod.setup_custom_lsps = function()
+mod.define_custom_lsps = function()
   local lsp = require('lspconfig')
   local configs = require('lspconfig.configs')
   -- configure my custom lsp for markdown (eventually when this is mature,
@@ -147,6 +156,32 @@ mod.setup_custom_lsps = function()
         settings = {};
       };
     }
+  end
+end
+
+-- To be called from plugins.vim to setup all the language servers defined in
+-- the server_opts table
+mod.setup_lsps = function()
+  local default_capabilities = vim.tbl_deep_extend(
+    'keep',
+    vim.lsp.protocol.make_client_capabilities(),
+    require('cmp_nvim_lsp').default_capabilities()
+  )
+
+  -- Use a loop to conveniently call 'setup' on multiple servers and
+  -- map buffer local keybindings when the language server attaches
+  for name, opts in pairs(server_opts) do
+    local modify_capabilities = opts.modify_capabilities or function(c) return c end
+    local setup_opts = {
+      on_attach = require('config').on_attach_with(opts),
+      flags = {
+        debounce_text_changes = 150,
+      },
+      capabilities = modify_capabilities(default_capabilities),
+    }
+    local setup_opt_overrides = opts.setup or {}
+    for k,v in pairs(setup_opt_overrides) do setup_opts[k] = v end
+    require('lspconfig')[name].setup(setup_opts)
   end
 end
 

@@ -101,22 +101,8 @@ if has('nvim')
     Plug 'neovim/nvim-lspconfig'
     Plug 'folke/lsp-colors.nvim'
     let s:lsp_setup =<< trim EOF
-    require('config').setup_custom_lsps()
-
-    -- Use a loop to conveniently call 'setup' on multiple servers and
-    -- map buffer local keybindings when the language server attaches
-    for name, opts in pairs(require('config').server_opts) do
-      local setup_opts = {
-        on_attach = require('config').on_attach_with(opts),
-        flags = {
-          debounce_text_changes = 150,
-        },
-        capabilities = require('cmp_nvim_lsp').default_capabilities(),
-      }
-      local setup_opt_overrides = opts.setup or {}
-      for k,v in pairs(setup_opt_overrides) do setup_opts[k] = v end
-      require('lspconfig')[name].setup(setup_opts)
-    end
+    require('config').define_custom_lsps()
+    require('config').setup_lsps()
     EOF
     Defer s:lsp_setup
 
