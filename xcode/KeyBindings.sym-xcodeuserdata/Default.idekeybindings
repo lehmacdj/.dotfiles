@@ -24,7 +24,7 @@
 				<key>Parent Title</key>
 				<string>Copilot</string>
 				<key>Title</key>
-				<string>Accept Modification</string>
+				<string>Accept Prompt to Code</string>
 			</dict>
 			<dict>
 				<key>Action</key>
@@ -192,7 +192,7 @@
 				<key>Parent Title</key>
 				<string>Copilot</string>
 				<key>Title</key>
-				<string>Write or Modify Code</string>
+				<string>Prompt to Code</string>
 			</dict>
 			<dict>
 				<key>Action</key>
