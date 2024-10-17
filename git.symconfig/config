@@ -41,6 +41,9 @@
         git branch -D \"$branch_name\"; \
     done; \
 }; do_branch_cleanup"
+  # coalesce changes to a file since a given commit
+  # this deletes all changes to the file in BASE_COMMIT..HEAD and applies them
+  # cumulatively in a single commit
   coalesce-file = "!f() { \
     if [ -z \"$1\" ] || [ -z \"$2\" ]; then \
       echo \"Usage: git coalesce-file <BASE_COMMIT> <FILE_PATH>\"; \
