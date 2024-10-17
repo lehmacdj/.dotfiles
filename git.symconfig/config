@@ -41,6 +41,44 @@
         git branch -D \"$branch_name\"; \
     done; \
 }; do_branch_cleanup"
+  coalesce-file = "!f() { \
+    if [ -z \"$1\" ] || [ -z \"$2\" ]; then \
+      echo \"Usage: git coalesce-file <BASE_COMMIT> <FILE_PATH>\"; \
+      exit 1; \
+    fi; \
+    BASE_COMMIT=\"$1\"; \
+    FILE_PATH=\"${GIT_PREFIX:-./}$2\"; \
+    if ! git rev-parse --verify \"$BASE_COMMIT\" >/dev/null 2>&1; then \
+      echo \"Error: Base commit '$BASE_COMMIT' does not exist.\"; \
+      exit 1; \
+    fi; \
+    if ! git ls-tree \"$BASE_COMMIT\" -- \"$FILE_PATH\" >/dev/null 2>&1; then \
+      echo \"Error: File '$FILE_PATH' does not exist at commit '$BASE_COMMIT'.\"; \
+      exit 1; \
+    fi; \
+    TEMP_PATCH=\"$(mktemp)\"; \
+    git diff --binary \"$BASE_COMMIT\" -- \"$FILE_PATH\" > \"$TEMP_PATCH\" || { echo \"Failed to generate diff.\"; rm \"$TEMP_PATCH\"; exit 1; }; \
+    if [ ! -s \"$TEMP_PATCH\" ]; then \
+      echo \"No changes to '$FILE_PATH' since '$BASE_COMMIT'. Skipping coalesce-file.\"; \
+      rm \"$TEMP_PATCH\"; \
+      exit 0; \
+    fi; \
+    MODE_SHA1=\"$(git ls-tree \"$BASE_COMMIT\" \"$FILE_PATH\" | awk '{print $1\",\"$3}')\"; \
+    if [ -z \"$MODE_SHA1\" ]; then \
+      echo \"Failed to get mode and SHA1 of file at base commit.\"; \
+      rm \"$TEMP_PATCH\"; \
+      exit 1; \
+    fi; \
+    FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch --prune-empty --index-filter \
+      \"git rm --cached --ignore-unmatch '$FILE_PATH'; git update-index --add --cacheinfo $MODE_SHA1,'$FILE_PATH'\" \
+      -- \"$BASE_COMMIT\"..HEAD \
+      || { echo \"Filter-branch failed.\"; rm \"$TEMP_PATCH\"; exit 1; }; \
+    git for-each-ref --format=\"%(refname)\" refs/original/ | xargs -n 1 git update-ref -d; \
+    git apply --binary \"$TEMP_PATCH\" || { echo \"Failed to apply cumulative changes.\"; rm \"$TEMP_PATCH\"; exit 1; }; \
+    git add \"$FILE_PATH\"; \
+    git commit -m \"Coalesced changes to $FILE_PATH\" || { echo \"Failed to commit changes.\"; rm \"$TEMP_PATCH\"; exit 1; }; \
+    rm \"$TEMP_PATCH\"; \
+  }; f"
   conflicts = diff --name-only --diff-filter=U
   added-lines = !git add -N . && git diff --numstat | cut -f 1 -d '	' | awk 'BEGIN { sum = 0 } { sum = sum + $0 } END { print sum }'
   # push force (safer and shorter than `push --force`)
