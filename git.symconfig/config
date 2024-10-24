@@ -41,63 +41,7 @@
         git branch -D \"$branch_name\"; \
     done; \
 }; do_branch_cleanup"
-  # coalesce changes to a file since a given commit
-  # this deletes all changes to the file in BASE_COMMIT..HEAD and applies them
-  # cumulatively in a single commit
-  coalesce = "!f() { \
-    if [ -z \"$1\" ] || [ -z \"$2\" ]; then \
-      echo \"Usage: git coalesce <BASE_COMMIT> <FILE_PATH>\"; \
-      exit 1; \
-    fi; \
-    BASE_COMMIT=\"$1\"; \
-    FILE_PATH=\"${GIT_PREFIX:-}$2\"; \
-    if ! git rev-parse --verify \"$BASE_COMMIT\" >/dev/null 2>&1; then \
-      echo \"Error: Base commit '$BASE_COMMIT' does not exist.\"; \
-      exit 1; \
-    fi; \
-    if ! git ls-tree \"$BASE_COMMIT\" -- \"$FILE_PATH\" >/dev/null 2>&1; then \
-      echo \"Error: '$FILE_PATH' does not exist at commit '$BASE_COMMIT'.\"; \
-      exit 1; \
-    fi; \
-    TEMP_PATCH=\"$(mktemp)\"; \
-    TEMP_VERBOSE_LOG=\"$(mktemp)\"; \
-    git diff --binary \"$BASE_COMMIT\" -- \"$FILE_PATH\" > \"$TEMP_PATCH\" || { echo \"Failed to generate diff.\"; rm \"$TEMP_PATCH\"; exit 1; }; \
-    LS_TREE_OUTPUT=\"$(git ls-tree \"$BASE_COMMIT\" \"$FILE_PATH\")\"; \
-    MODE_SHA1=\"$(echo \"$LS_TREE_OUTPUT\" | awk '{print $1\",\"$3}')\"; \
-    TYPE=\"$(echo \"$LS_TREE_OUTPUT\" | awk '{print $2}')\"; \
-    if [ -z \"$MODE_SHA1\" ] || [ -z \"$TYPE\" ]; then \
-      echo \"Failed to get mode, type, and/or SHA1 of file at base commit.\"; \
-      rm \"$TEMP_PATCH\"; \
-      exit 1; \
-    fi; \
-    if [ \"$TYPE\" = \"blob\" ]; then \
-      INDEX_FILTER=\"git rm -r --cached --ignore-unmatch '$FILE_PATH' >'$TEMP_VERBOSE_LOG' 2>&1; git update-index --add --cacheinfo $MODE_SHA1,'$FILE_PATH'\" >'$TEMP_VERBOSE_LOG' 2>&1; \
-    elif [ \"$TYPE\" = \"tree\" ]; then \
-      INDEX_FILTER=\"git rm -r --cached --ignore-unmatch '$FILE_PATH' >'$TEMP_VERBOSE_LOG' 2>&1; git read-tree --prefix='$FILE_PATH/' '$BASE_COMMIT':'$FILE_PATH' >'$TEMP_VERBOSE_LOG' 2>&1\"; \
-    else \
-      echo \"Unsupported type '$TYPE' for '$FILE_PATH'\"; \
-      rm \"$TEMP_PATCH\"; \
-      exit 1; \
-    fi; \
-    OLD_COMMITS=\"$(git rev-list \"$BASE_COMMIT\"..HEAD)\"; \
-    FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch --prune-empty --index-filter \"$INDEX_FILTER\" -- \"$BASE_COMMIT\"..HEAD || \
-      { echo \"Filter-branch failed.\"; rm \"$TEMP_PATCH\"; exit 1; }; \
-    NEW_COMMITS=\"$(git rev-list \"$BASE_COMMIT\"..HEAD)\"; \
-    git for-each-ref --format=\"%(refname)\" refs/original/ | xargs -n 1 git update-ref -d; \
-    if [ \"$OLD_COMMITS\" = \"$NEW_COMMITS\" ]; then \
-      echo \"git coalese: no changes to coalesce\"; \
-      exit 0; \
-    fi; \
-    if [ ! -s \"$TEMP_PATCH\" ]; then \
-      echo \"No net changes to '$FILE_PATH' since '$BASE_COMMIT'. Intermediate changes have been removed.\"; \
-      rm \"$TEMP_PATCH\"; \
-      exit 0; \
-    fi; \
-    git apply --binary \"$TEMP_PATCH\" || { echo \"Failed to apply cumulative changes.\"; rm \"$TEMP_PATCH\"; exit 1; }; \
-    git add \"$FILE_PATH\"; \
-    git commit -m \"Coalesced changes to $FILE_PATH\" || { echo \"Failed to commit changes.\"; rm \"$TEMP_PATCH\"; exit 1; }; \
-    rm \"$TEMP_PATCH\"; \
-  }; f"
+  coalesce = "!\"$DOTFILES\"/git.symconfig/bin/git-coalesce.sh"
   conflicts = diff --name-only --diff-filter=U
   added-lines = !git add -N . && git diff --numstat | cut -f 1 -d '	' | awk 'BEGIN { sum = 0 } { sum = sum + $0 } END { print sum }'
   # push force (safer and shorter than `push --force`)
