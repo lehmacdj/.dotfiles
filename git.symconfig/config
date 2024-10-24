@@ -44,9 +44,9 @@
   # coalesce changes to a file since a given commit
   # this deletes all changes to the file in BASE_COMMIT..HEAD and applies them
   # cumulatively in a single commit
-  coalesce-file = "!f() { \
+  coalesce = "!f() { \
     if [ -z \"$1\" ] || [ -z \"$2\" ]; then \
-      echo \"Usage: git coalesce-file <BASE_COMMIT> <FILE_PATH>\"; \
+      echo \"Usage: git coalesce <BASE_COMMIT> <FILE_PATH>\"; \
       exit 1; \
     fi; \
     BASE_COMMIT=\"$1\"; \
@@ -56,7 +56,7 @@
       exit 1; \
     fi; \
     if ! git ls-tree \"$BASE_COMMIT\" -- \"$FILE_PATH\" >/dev/null 2>&1; then \
-      echo \"Error: File '$FILE_PATH' does not exist at commit '$BASE_COMMIT'.\"; \
+      echo \"Error: '$FILE_PATH' does not exist at commit '$BASE_COMMIT'.\"; \
       exit 1; \
     fi; \
     TEMP_PATCH=\"$(mktemp)\"; \
