@@ -50,7 +50,7 @@
       exit 1; \
     fi; \
     BASE_COMMIT=\"$1\"; \
-    FILE_PATH=\"${GIT_PREFIX:-./}$2\"; \
+    FILE_PATH=\"${GIT_PREFIX:-}$2\"; \
     if ! git rev-parse --verify \"$BASE_COMMIT\" >/dev/null 2>&1; then \
       echo \"Error: Base commit '$BASE_COMMIT' does not exist.\"; \
       exit 1; \
@@ -60,18 +60,28 @@
       exit 1; \
     fi; \
     TEMP_PATCH=\"$(mktemp)\"; \
+    TEMP_VERBOSE_LOG=\"$(mktemp)\"; \
     git diff --binary \"$BASE_COMMIT\" -- \"$FILE_PATH\" > \"$TEMP_PATCH\" || { echo \"Failed to generate diff.\"; rm \"$TEMP_PATCH\"; exit 1; }; \
-    MODE_SHA1=\"$(git ls-tree \"$BASE_COMMIT\" \"$FILE_PATH\" | awk '{print $1\",\"$3}')\"; \
-    if [ -z \"$MODE_SHA1\" ]; then \
-      echo \"Failed to get mode and SHA1 of file at base commit.\"; \
+    LS_TREE_OUTPUT=\"$(git ls-tree \"$BASE_COMMIT\" \"$FILE_PATH\")\"; \
+    MODE_SHA1=\"$(echo \"$LS_TREE_OUTPUT\" | awk '{print $1\",\"$3}')\"; \
+    TYPE=\"$(echo \"$LS_TREE_OUTPUT\" | awk '{print $2}')\"; \
+    if [ -z \"$MODE_SHA1\" ] || [ -z \"$TYPE\" ]; then \
+      echo \"Failed to get mode, type, and/or SHA1 of file at base commit.\"; \
+      rm \"$TEMP_PATCH\"; \
+      exit 1; \
+    fi; \
+    if [ \"$TYPE\" = \"blob\" ]; then \
+      INDEX_FILTER=\"git rm -r --cached --ignore-unmatch '$FILE_PATH' >'$TEMP_VERBOSE_LOG' 2>&1; git update-index --add --cacheinfo $MODE_SHA1,'$FILE_PATH'\" >'$TEMP_VERBOSE_LOG' 2>&1; \
+    elif [ \"$TYPE\" = \"tree\" ]; then \
+      INDEX_FILTER=\"git rm -r --cached --ignore-unmatch '$FILE_PATH' >'$TEMP_VERBOSE_LOG' 2>&1; git read-tree --prefix='$FILE_PATH/' '$BASE_COMMIT':'$FILE_PATH' >'$TEMP_VERBOSE_LOG' 2>&1\"; \
+    else \
+      echo \"Unsupported type '$TYPE' for '$FILE_PATH'\"; \
       rm \"$TEMP_PATCH\"; \
       exit 1; \
     fi; \
     OLD_COMMITS=\"$(git rev-list \"$BASE_COMMIT\"..HEAD)\"; \
-    FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch --prune-empty --index-filter \
-      \"git rm --cached --ignore-unmatch '$FILE_PATH'; git update-index --add --cacheinfo $MODE_SHA1,'$FILE_PATH'\" \
-      -- \"$BASE_COMMIT\"..HEAD \
-      || { echo \"Filter-branch failed.\"; rm \"$TEMP_PATCH\"; exit 1; }; \
+    FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch --prune-empty --index-filter \"$INDEX_FILTER\" -- \"$BASE_COMMIT\"..HEAD || \
+      { echo \"Filter-branch failed.\"; rm \"$TEMP_PATCH\"; exit 1; }; \
     NEW_COMMITS=\"$(git rev-list \"$BASE_COMMIT\"..HEAD)\"; \
     git for-each-ref --format=\"%(refname)\" refs/original/ | xargs -n 1 git update-ref -d; \
     if [ \"$OLD_COMMITS\" = \"$NEW_COMMITS\" ]; then \
