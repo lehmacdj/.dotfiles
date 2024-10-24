@@ -61,22 +61,28 @@
     fi; \
     TEMP_PATCH=\"$(mktemp)\"; \
     git diff --binary \"$BASE_COMMIT\" -- \"$FILE_PATH\" > \"$TEMP_PATCH\" || { echo \"Failed to generate diff.\"; rm \"$TEMP_PATCH\"; exit 1; }; \
-    if [ ! -s \"$TEMP_PATCH\" ]; then \
-      echo \"No changes to '$FILE_PATH' since '$BASE_COMMIT'. Skipping coalesce-file.\"; \
-      rm \"$TEMP_PATCH\"; \
-      exit 0; \
-    fi; \
     MODE_SHA1=\"$(git ls-tree \"$BASE_COMMIT\" \"$FILE_PATH\" | awk '{print $1\",\"$3}')\"; \
     if [ -z \"$MODE_SHA1\" ]; then \
       echo \"Failed to get mode and SHA1 of file at base commit.\"; \
       rm \"$TEMP_PATCH\"; \
       exit 1; \
     fi; \
+    OLD_COMMITS=\"$(git rev-list \"$BASE_COMMIT\"..HEAD)\"; \
     FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch --prune-empty --index-filter \
       \"git rm --cached --ignore-unmatch '$FILE_PATH'; git update-index --add --cacheinfo $MODE_SHA1,'$FILE_PATH'\" \
       -- \"$BASE_COMMIT\"..HEAD \
       || { echo \"Filter-branch failed.\"; rm \"$TEMP_PATCH\"; exit 1; }; \
+    NEW_COMMITS=\"$(git rev-list \"$BASE_COMMIT\"..HEAD)\"; \
     git for-each-ref --format=\"%(refname)\" refs/original/ | xargs -n 1 git update-ref -d; \
+    if [ \"$OLD_COMMITS\" = \"$NEW_COMMITS\" ]; then \
+      echo \"git coalese: no changes to coalesce\"; \
+      exit 0; \
+    fi; \
+    if [ ! -s \"$TEMP_PATCH\" ]; then \
+      echo \"No net changes to '$FILE_PATH' since '$BASE_COMMIT'. Intermediate changes have been removed.\"; \
+      rm \"$TEMP_PATCH\"; \
+      exit 0; \
+    fi; \
     git apply --binary \"$TEMP_PATCH\" || { echo \"Failed to apply cumulative changes.\"; rm \"$TEMP_PATCH\"; exit 1; }; \
     git add \"$FILE_PATH\"; \
     git commit -m \"Coalesced changes to $FILE_PATH\" || { echo \"Failed to commit changes.\"; rm \"$TEMP_PATCH\"; exit 1; }; \
