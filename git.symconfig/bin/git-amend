@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -euo pipefail
 
 if [ "$1" == '' ] ; then
   git commit --amend --no-edit

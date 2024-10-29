@@ -9,23 +9,18 @@
   autocrlf = false
 
 [alias]
-  # Aliases
+  # Aliases: see also the scripts in "$DOTFILES/git.symconfig/bin"
   status = status -sb
   unstage = reset -q HEAD --
   last = log -1 HEAD
   discard = checkout --
   reset-skipped = !git update-index --no-skip-worktree "$@" && git checkout -- "$@"
   precommit = diff --cached --diff-algorithm=minimal -w
-  amend = "!\"$DOTFILES\"/git.symconfig/bin/git-amend.sh \"$@\""
-  cf = "!\"$DOTFILES\"/git.symconfig/bin/git-checkout-fuzzy.sh \"$@\""
-  bc = "!\"$DOTFILES\"/git.symconfig/bin/git-branch-cleanup.sh \"$@\""
-  coalesce = "!\"$DOTFILES\"/git.symconfig/bin/git-coalesce.sh \"$@\""
   conflicts = diff --name-only --diff-filter=U
   # push force (safer and shorter than `push --force`)
   pf = push --force-with-lease
   # copy the current branch name
   copy-branch = !git rev-parse --abbrev-ref HEAD | ghead -c -1 | pbcopy
-  bump-ci = "!\"$DOTFILES\"/git.symconfig/bin/git-bump-ci.sh \"$@\""
   # list TODOs in files changed by this PR
   todos = !git diff --name-only origin/master | xargs grep -n "TODO"
   # rebase --continue without editing the commit message

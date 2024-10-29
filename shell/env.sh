@@ -20,6 +20,9 @@ cond_path_add "$DOTFILES/bin"
 # Local bin
 cond_path_add "$HOME/.local/bin"
 
+# Git aliases bin
+cond_path_add "$DOTFILES/git.symconfig/bin"
+
 # Rust
 [ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
 
