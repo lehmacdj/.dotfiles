@@ -167,32 +167,33 @@ nnoremap <Leader>ep :split $VIMHOME/plugins.vim<CR>
 " Edit filetype file
 nnoremap <expr> <Leader>ef ':split '.$VIMHOME.'/after/ftplugin/'.&filetype.'.vim<CR>'
 " Edit syntax file
-nnoremap <Leader>es :call config#EditSyntaxFile()<CR>
+nnoremap <Leader>es :call my#misc#EditSyntaxFile()<CR>
 " Edit detection file
 nnoremap <expr> <Leader>ed ':split '.$VIMHOME.'/after/ftdetect/'.&filetype.'.vim<CR>'
-" Edit config file
-nnoremap <Leader>ec :split $VIMHOME/autoload/config.vim<CR>
-" Edit lua config file; use functions defined therein like require('config')...
-nnoremap <Leader>el :split $VIMHOME/lua/config.lua<CR>
+" Edit a lazy loaded viml/lua config file
+nnoremap <Leader>ec :lua require('my.telescope').find_vim_config_files()<CR>
 " Source vimrc
 nnoremap <Leader>sv :source $MYVIMRC<CR>
 
-augroup autoload_autorefresh
+augroup vim_config_autorefresh
     autocmd!
     " for any file prefixed by autoload/config reload it when saving
     " in particular this includes $VIMHOME/autoload/config.vim which is my
     " main config file for functions. Reloading it otherwise is tedious.
     autocmd BufWritePost */autoload/config*.vim :source <afile>
+
+    " for any lua file in $VIMHOME/autoload reload it when saving
+    autocmd BufWritePost $VIMHOME/autoload/*.lua :luafile <afile>
 augroup END
 
 " Trim whitespace
 augroup trim_whitespace
     autocmd!
-    autocmd BufWritePre * :call config#StripWhitespace()
+    autocmd BufWritePre * :call my#misc#StripWhitespace()
 augroup END
 
 " Delete buffers from buffer list interactively
-nnoremap <Leader>db :call config#InteractiveBufDelete()<CR>
+nnoremap <Leader>db :call my#misc#InteractiveBufDelete()<CR>
 " run the last normal mode command
 nnoremap <Leader>: :<Up><CR>
 xnoremap <Leader>: :<Up><CR>
@@ -200,13 +201,13 @@ xnoremap <Leader>: :<Up><CR>
 nnoremap <Leader><C-k> i<C-k><Return><C-\><C-n>
 
 " smarter tag following
-nnoremap <C-]> :call config#smart_goto()<CR>
-nnoremap g] :call config#smart_goto_select()<CR>
-nnoremap g<C-]> :call config#smart_goto_select()<CR>
+nnoremap <C-]> :call my#misc#smart_goto()<CR>
+nnoremap g] :call my#misc#smart_goto_select()<CR>
+nnoremap g<C-]> :call my#misc#smart_goto_select()<CR>
 
 " toggle colorcolumn with <space>8
 set colorcolumn=81
-nnoremap <Leader>8 :call config#ToggleColorColumn()<CR>
+nnoremap <Leader>8 :call my#misc#ToggleColorColumn()<CR>
 
 " toggle nvim lsp autoformatting on save in style of unimpaired.vim
 nnoremap [o= :lua require'config'.enable_autoformat()<CR>
@@ -218,19 +219,19 @@ nnoremap yo= :<C-U>lua <C-R>=g:do_lsp_autoformat
 " Spelling related things
 nnoremap <Leader>z 1z=
 " automatically commit spellfile changes
-nnoremap zg :call config#commit_dictionary_word()<CR>
-xnoremap zg :call config#commit_dictionary_word(visualmode())<CR>
+nnoremap zg :call my#misc#commit_dictionary_word()<CR>
+xnoremap zg :call my#misc#commit_dictionary_word(visualmode())<CR>
 " TODO: asynchronously compile spell files on startup
-nnoremap <Leader>sc :call config#CompileSpellFiles()<CR>
+nnoremap <Leader>sc :call my#misc#CompileSpellFiles()<CR>
 " Spelling corrections
 abbreviate teh the
 
 " indent text objects copied from here:
 " https://vim.fandom.com/wiki/Indent_text_object
-onoremap <silent>ai :<C-U>call config#IndentTextObject(0)<CR>
-onoremap <silent>ii :<C-U>call config#IndentTextObject(1)<CR>
-vnoremap <silent>ai :<C-U>call config#IndentTextObject(0)<CR><Esc>gv
-vnoremap <silent>ii :<C-U>call config#IndentTextObject(1)<CR><Esc>gv
+onoremap <silent>ai :<C-U>call my#misc#IndentTextObject(0)<CR>
+onoremap <silent>ii :<C-U>call my#misc#IndentTextObject(1)<CR>
+vnoremap <silent>ai :<C-U>call my#misc#IndentTextObject(0)<CR><Esc>gv
+vnoremap <silent>ii :<C-U>call my#misc#IndentTextObject(1)<CR><Esc>gv
 
 " pretty-simple is a Haskell tool that formats Haskell show instances, but
 " handles generic stuff pretty well too.
@@ -239,12 +240,12 @@ vnoremap <silent>ii :<C-U>call config#IndentTextObject(1)<CR><Esc>gv
 " cabal install pretty-simple --flag buildexe
 if executable('pretty-simple')
     nnoremap <silent> g== !!pretty-simple -c no-color<CR>
-    nnoremap <silent> g= :set opfunc=config#PrettySimple<CR>g@
-    xnoremap <silent> g= :<C-U>call config#PrettySimple(visualmode(), 1)<CR>
+    nnoremap <silent> g= :set opfunc=my#misc#PrettySimple<CR>g@
+    xnoremap <silent> g= :<C-U>call my#misc#PrettySimple(visualmode(), 1)<CR>
 endif
 
-command GetMasterBranchLink call config#get_optimistic_branch_link("master")
-command GetSheetsLink call config#get_filename_sheets_link()
+command GetMasterBranchLink call my#misc#get_optimistic_branch_link("master")
+command GetSheetsLink call my#misc#get_filename_sheets_link()
 
 " finally load local vim configuration if it exists
 if filereadable($VIMHOME.'/local.vim')

@@ -1,7 +1,7 @@
-" setup command to make stuff in config#plugins#defer# easier to use
+" setup command to make stuff in my#plugins#defer# easier to use
 " gets the source location where Defer was called and passes it to the
 " underlying function for better diagnostics
-command -nargs=+ Defer try | throw 'sourceloc' | catch | call config#plugins#defer#Defer(v:throwpoint, <args>) | endtry
+command -nargs=+ Defer try | throw 'sourceloc' | catch | call my#plugins#defer#Defer(v:throwpoint, <args>) | endtry
 " Delete the :Defer command we just defined when we run the deferred things
 Defer {-> execute('delcommand Defer')}
 
@@ -66,30 +66,7 @@ if has('nvim')
     Plug 'stevearc/dressing.nvim'
     Plug 'nvim-telescope/telescope.nvim'
     Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-    let s:telescope_setup =<< trim EOF
-    require('telescope').setup{
-      defaults = {
-        mappings = {
-          i = {
-            ['<C-q>'] = function(prompt_bufnr)
-              require('telescope.actions').smart_send_to_qflist(prompt_bufnr)
-              vim.cmd('cc 1')
-            end,
-            ['<M-q>'] = false,
-            ['<C-j>'] = 'move_selection_next',
-            ['<C-n>'] = 'move_selection_next',
-            ['<C-k>'] = 'move_selection_previous',
-            ['<C-p>'] = 'move_selection_previous'
-          },
-          n = {
-            ['<C-c>'] = 'close',
-          },
-        }
-      }
-    }
-    require('telescope').load_extension('fzf')
-    EOF
-    Defer s:telescope_setup
+    Defer 'require"my.telescope".custom_setup()'
     nnoremap <Leader>o :Telescope find_files<CR>
     nnoremap <Leader>/ :Telescope live_grep<CR>
     nnoremap <Leader>b :Telescope buffers<CR>
@@ -101,8 +78,8 @@ if has('nvim')
     Plug 'neovim/nvim-lspconfig'
     Plug 'folke/lsp-colors.nvim'
     let s:lsp_setup =<< trim EOF
-    require('config').define_custom_lsps()
-    require('config').setup_lsps()
+    require('my.lsp').define_custom_lsps()
+    require('my.lsp').setup_lsps()
     EOF
     Defer s:lsp_setup
 
@@ -113,7 +90,7 @@ if has('nvim')
     local diagnostics = null_ls.builtins.diagnostics
     local code_actions = null_ls.builtins.code_actions
     null_ls.setup {
-      on_attach = require('config').on_attach,
+      on_attach = require('my.lsp').on_attach,
       root_dir = function(fname)
         return require('lspconfig').util.root_pattern('.git')(fname);
       end,
@@ -154,12 +131,8 @@ if has('nvim')
         \| Plug 'hrsh7th/cmp-path'
         \| Plug 'hrsh7th/cmp-cmdline'
         \| Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
-        \| Plug 'L3MON4D3/LuaSnip'
-            \| Plug 'saadparwaiz1/cmp_luasnip'
-            \| Plug 'rafamadriz/friendly-snippets'
         \| Plug 'jc-doyle/cmp-pandoc-references'
     let s:cmp_setup =<< trim EOF
-    require('luasnip.loaders.from_vscode').load()
     local cmp = require('cmp')
     local Behavior = require('cmp.types').cmp.SelectBehavior
     cmp.setup {
@@ -217,6 +190,19 @@ if has('nvim')
     }
     EOF
     Defer s:cmp_setup
+
+    " Snippets
+    Plug 'L3MON4D3/LuaSnip'
+      \| Plug 'saadparwaiz1/cmp_luasnip'
+      \| Plug 'rafamadriz/friendly-snippets'
+    let s:luasnip_setup =<< trim EOF
+    require('luasnip').config.set_config {
+      enable_autosnippets = true,
+    }
+    require('luasnip.loaders.from_vscode').lazy_load()
+    require('my.luasnippets').load()
+    EOF
+    Defer s:luasnip_setup
 else
     " fzf bindings for finders if applicable
     nnoremap <Leader>o :FZF<CR>
@@ -264,7 +250,7 @@ let g:markdown_fenced_languages = [
 Plug 'lehmacdj/neuron.vim', { 'branch': 'patched-old-neuron' } " zettelkasten support
 
 call plug#end()
-call config#plugins#defer#RunDeferred()
+call my#plugins#defer#RunDeferred()
 
 augroup PluginAutoInstall
   autocmd!

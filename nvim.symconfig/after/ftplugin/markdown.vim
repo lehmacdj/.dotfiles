@@ -17,7 +17,7 @@ nmap <buffer> <LocalLeader>o :!open %:r.pdf<CR>
 " depends on: vim-surround
 nmap <buffer> <LocalLeader>ic F!llds]cs])aimages/<esc>ysi)>hi[]<esc>i
 
-xmap <buffer> <expr> p config#visual_magic_markdown_link_paste()
+xmap <buffer> <expr> p my#misc#visual_magic_markdown_link_paste()
 
 " Stuff for softwrapping
 setlocal wrap

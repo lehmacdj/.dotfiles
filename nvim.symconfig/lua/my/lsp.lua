@@ -126,11 +126,11 @@ mod.on_attach_with = function(opts) return function(client, bufnr)
     buf_set_keymap('n', '<Leader>al', '<cmd>lua vim.lsp.buf.code_action()<CR>')
   end
   if not opts.no_formatting and client.supports_method("textDocument/formatting") then
-    buf_set_keymap('n', '<space>=', [[<cmd>lua require('config').guarded_autoformat()<CR>]])
+    buf_set_keymap('n', '<space>=', [[<cmd>lua require('my.lsp').guarded_autoformat()<CR>]])
     vim.cmd [[
       augroup LspFormatting
         autocmd! * <buffer>
-        autocmd BufWritePre <buffer> lua require('config').guarded_autoformat()
+        autocmd BufWritePre <buffer> lua require('my.lsp').guarded_autoformat()
       augroup END
     ]]
   end
@@ -173,7 +173,7 @@ mod.setup_lsps = function()
   for name, opts in pairs(server_opts) do
     local modify_capabilities = opts.modify_capabilities or function(c) return c end
     local setup_opts = {
-      on_attach = require('config').on_attach_with(opts),
+      on_attach = mod.on_attach_with(opts),
       flags = {
         debounce_text_changes = 150,
       },

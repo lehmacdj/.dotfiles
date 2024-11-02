@@ -13,14 +13,14 @@ let s:deferreds = []
 " significant), so you could also just pass a dummy string, but then the error
 " reporting won't be as good.
 " Example of getting the v:throwpoint to pass:
-" > try | throw 'sourceloc' | catch | call config#plugins#defer#Defer(v:throwpoint, {-> echom 'Hello world'}) | endtry
+" > try | throw 'sourceloc' | catch | call my#plugins#defer#Defer(v:throwpoint, {-> echom 'Hello world'}) | endtry
 " Instead of inlining this every time, you it is better to define a command
 " that expands to the boilerplate in the file where you're going to use this.
 "
 " Action:
 " Either a lua string, list of lua strings (e.g. from let=<< with trim), or
 " a vimscript funcref.
-function! config#plugins#defer#Defer(caller, action) abort
+function! my#plugins#defer#Defer(caller, action) abort
     let l:t = type(a:action)
     if l:t == 1 || l:t == 2
         " strings and funcrefs can be immediately appended to s:deferreds: we
@@ -31,11 +31,11 @@ function! config#plugins#defer#Defer(caller, action) abort
         " first so they will be interpreted by lua when run
         let s:deferreds += [{'action': join(a:action, "\n") . "\n", 'source_loc': a:caller}]
     else
-        call config#err(printf('Invalid argument type for Defer: %s', l:t))
+        call my#misc#err(printf('Invalid argument type for Defer: %s', l:t))
     endif
 endfunction
 
-function! config#plugins#defer#RunDeferred() abort
+function! my#plugins#defer#RunDeferred() abort
     " we need to use s:deferred because local-variables can't store Funcrefs
     for s:deferred in s:deferreds
         if type(s:deferred.action) == 1
