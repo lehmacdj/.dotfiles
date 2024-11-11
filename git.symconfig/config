@@ -17,6 +17,8 @@
   reset-skipped = !git update-index --no-skip-worktree "$@" && git checkout -- "$@"
   precommit = diff --cached --diff-algorithm=minimal -w
   conflicts = diff --name-only --diff-filter=U
+  # force reset + fetch/reset (most often used as `git fr origin/master`)
+  fr = !git fetch && git reset --hard "$@"
   # push force (safer and shorter than `push --force`)
   pf = push --force-with-lease
   # copy the current branch name
