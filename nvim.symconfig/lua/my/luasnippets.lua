@@ -15,12 +15,21 @@ mod.load = function()
     }, {
       f(function() return os.date('%Y-%m-%d') end),
     }),
+
     s({
       trig = '@tomorrow',
       snippetType = 'autosnippet',
     }, {
       f(function() return os.date('%Y-%m-%d', os.time() + 86400) end),
     }),
+
+    s({
+      trig = '@yesterday',
+      snippetType = 'autosnippet',
+    }, {
+      f(function() return os.date('%Y-%m-%d', os.time() - 86400) end),
+    }),
+
     s({
       trig = '@now',
       snippetType = 'autosnippet',
