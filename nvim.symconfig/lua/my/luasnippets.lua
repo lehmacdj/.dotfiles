@@ -1,8 +1,11 @@
 local mod = {}
 
 local luasnip = require('luasnip')
-local s = luasnip.s
-local f = luasnip.f
+local s = luasnip.snippet
+local f = luasnip.function_node
+local t = luasnip.text_node
+local i = luasnip.insert_node
+local time = require('my.time')
 
 mod.load = function()
   -- if this gets significantly larger, we should move it to a separate file
@@ -13,29 +16,50 @@ mod.load = function()
       trig = '@today',
       snippetType = 'autosnippet',
     }, {
-      f(function() return os.date('%Y-%m-%d') end),
+      f(time.today_string),
     }),
 
     s({
       trig = '@tomorrow',
       snippetType = 'autosnippet',
     }, {
-      f(function() return os.date('%Y-%m-%d', os.time() + 86400) end),
+      f(time.tomorrow_string),
     }),
 
     s({
       trig = '@yesterday',
       snippetType = 'autosnippet',
     }, {
-      f(function() return os.date('%Y-%m-%d', os.time() - 86400) end),
+      f(time.yesterday_string),
     }),
 
     s({
       trig = '@now',
       snippetType = 'autosnippet',
     }, {
-      f(function() return os.date('%H:%M') end),
+      f(time.hourminute_string),
     }),
+  })
+
+  function journal_note_snippet(trigger, time_factory)
+    return
+      s(trigger, {
+        t('# '),
+        f(time_factory),
+        t({
+          '',
+          '',
+          '## Log',
+          '- ',
+        }),
+        i(1, 'details'),
+      })
+  end
+
+  luasnip.add_snippets('markdown', {
+    journal_note_snippet('#yesterday', time.yesterday_string),
+    journal_note_snippet('#today', time.today_string),
+    journal_note_snippet('#tomorrow', time.tomorrow_string),
   })
 end
 
