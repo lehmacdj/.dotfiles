@@ -172,6 +172,8 @@ nnoremap <Leader>es :call my#misc#EditSyntaxFile()<CR>
 nnoremap <expr> <Leader>ed ':split '.$VIMHOME.'/after/ftdetect/'.&filetype.'.vim<CR>'
 " Edit a lazy loaded viml/lua config file
 nnoremap <Leader>ec :lua require('my.telescope').find_vim_config_files()<CR>
+" Edit something in my dotfiles
+nnoremap <Leader>e. :lua require('my.telescope').find_dotfiles()<CR>
 " Source vimrc
 nnoremap <Leader>sv :source $MYVIMRC<CR>
 

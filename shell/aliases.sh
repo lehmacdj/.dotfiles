@@ -455,3 +455,12 @@ mvln() {
         fi
     fi
 }
+
+# start editing notes (with the right CWD) from anywhere
+vii() {
+  if ! [ -d "$HOME/wiki" ]; then
+    echo "error: $HOME/wiki does not exist"
+    return 1
+  fi
+  (cd "$HOME/wiki" && "$EDITOR" index.md)
+}

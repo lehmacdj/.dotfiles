@@ -42,11 +42,20 @@ mod.find_vim_config_files = function()
   require('telescope.builtin').find_files({
     prompt_title = 'nvim config files',
     hidden = true,
-    cwd = vim.fn.stdpath('config'),
+    cwd = vimhome,
     search_dirs = {
       vimhome .. '/lua/my',
       vimhome .. '/autoload/my'
     },
+  })
+end
+
+mod.find_dotfiles = function()
+  require('telescope.builtin').find_files({
+    prompt_title = 'dotfiles',
+    hidden = true,
+    cwd = os.getenv('DOTFILES'),
+    search_dirs = { os.getenv('DOTFILES') },
   })
 end
 

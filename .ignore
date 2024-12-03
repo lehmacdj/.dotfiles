@@ -1,0 +1,4 @@
+# don't want to get results from submodules typically
+antigen
+# for some reason using a .ignore file causes .git to not be ignored
+.git
