@@ -32,6 +32,24 @@ mod.custom_setup = function()
           },
         },
       },
+      find_files = {
+        mappings = {
+          i = { ['<CR>'] = require('telescope.actions').select_drop },
+          n = { ['<CR>'] = require('telescope.actions').select_drop },
+        },
+      },
+      live_grep = {
+        mappings = {
+          i = { ['<CR>'] = require('telescope.actions').select_drop },
+          n = { ['<CR>'] = require('telescope.actions').select_drop },
+        },
+      },
+      grep_string = {
+        mappings = {
+          i = { ['<CR>'] = require('telescope.actions').select_drop },
+          n = { ['<CR>'] = require('telescope.actions').select_drop },
+        },
+      },
     },
   }
   require('telescope').load_extension('fzf')
