@@ -93,7 +93,7 @@ function! my#misc#smart_goto() abort
   catch /E426: tag not found/
     " tag not found
     " we don't want to default to grep because this might be a sign that the
-    " symbol actually doesn't exist; whereas if we dont' have a tag file we
+    " symbol actually doesn't exist; whereas if we don't have a tag file we
     " couldn't try at all
     call my#misc#err(
       \ 'tag not found: '
