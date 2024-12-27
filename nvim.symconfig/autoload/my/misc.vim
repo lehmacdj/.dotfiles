@@ -10,15 +10,17 @@ endfunction
 function! my#misc#StripWhitespace() abort
   let l:pos = getpos('.')
   let l:_s = @/
+  " vint: -ProhibitCommandRelyOnUser -ProhibitCommandWithUnintendedSideEffect
   if exists('b:markdown_trailing_space_rules') && b:markdown_trailing_space_rules
     " avoid matching exactly a sequence of two spaces as this indicates a
     " newline in markdown
-    silent! %substitute/\v([^ ])\s$/\1/
+    silent! %substitute/\v([^ ])\s$/\1//
     silent! %substitute/\t$//
     silent! %substitute/\s\s\s\+$//
   else
     silent! %substitute/\s\+$//
   endif
+  " vint: +ProhibitCommandRelyOnUser +ProhibitCommandWithUnintendedSideEffect
   let @/ = l:_s
   call setpos('.', l:pos)
 endfunction
@@ -59,31 +61,6 @@ function! my#misc#IndentTextObject(inner) abort
     endwhile
     normal! $
   endif
-endfunction
-
-" Displays buffer list, prompts for buffer numbers and ranges and deletes
-" associated buffers. Example input: 2 5,9 12
-" Hit Enter alone to exit.
-" Source:
-" https://vi.stackexchange.com/questions/14829/close-multiple-buffers-interactively
-function! my#misc#InteractiveBufDelete() abort
-  let l:prompt = 'Specify buffers to delete: '
-
-  ls | let bufnums = input(l:prompt)
-  while strlen(bufnums)
-    echo "\n"
-    let buflist = split(bufnums)
-    for bufitem in buflist
-      if match(bufitem, '^\d\+,\d\+$') >= 0
-        exec ':' . bufitem . 'bd'
-      elseif match(bufitem, '^\d\+$') >= 0
-        exec ':bd ' . bufitem
-      else
-        echohl ErrorMsg | echo 'Not a number or range: ' . bufitem | echohl None
-      endif
-    endfor
-    ls | let bufnums = input(l:prompt)
-  endwhile
 endfunction
 
 " Displays syntax stack under the cursor. Goes ahead and resolves links.
