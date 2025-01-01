@@ -11,6 +11,10 @@ function! my#misc#StripWhitespace() abort
   let l:pos = getpos('.')
   let l:_s = @/
   " vint: -ProhibitCommandRelyOnUser -ProhibitCommandWithUnintendedSideEffect
+  " maktaba#buffer#Substitute is a portable substitute for substitute that is
+  " a little safer than what I do below and probably would be better to use in
+  " theory. I keep using this because it works:
+  " https://github.com/google/vim-maktaba/blob/master/autoload/maktaba/buffer.vim#L147
   if exists('b:markdown_trailing_space_rules') && b:markdown_trailing_space_rules
     " avoid matching exactly a sequence of two spaces as this indicates a
     " newline in markdown
