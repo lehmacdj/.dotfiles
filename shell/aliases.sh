@@ -131,22 +131,41 @@ function up () {
     done
 }
 
+# useful for preserving `cd -` behavior by making the last cd a direct cd
+# to a different directory for scripts that `cd` multiple times but want to
+# appear as though they are atomic
+# NOTE: zsh doesn't seem to respect `export OLDPWD=<something>` which
+# necessitates this more complex approach
+function setoldpwd () {
+    # shellcheck disable=2015
+    [ -d "$1" ] || {
+        echo "setoldpwd: must pass valid dir"; return 1
+    }
+    initial_dir="$PWD"
+    cd "$1" || return
+    cd "$initial_dir" || return
+}
+
 # go up to the root of a project directory
 function root () {
     root_markers=(.git .hg .svn)
+    root_subdir_target="$1"
+    initial_oldpwd="$OLDPWD"
     initial_dir="$PWD"
     while [ "$PWD" != "/" ] && [ "$PWD" != "$HOME" ]; do
         for marker in "${root_markers[@]}"; do
             if [ -d "$marker" ] || [ -f "$marker" ]; then
-                return
+                break 2
             fi
         done
         cd ..
     done
-    final_dir="$PWD"
-    # preserve cd .. behavior by making the last cd a direct cd to the root
-    cd "$initial_dir" || return
-    cd "$final_dir" || return
+    if [ -n "$root_subdir_target" ] && ! cd "$root_subdir_target"; then
+        2>&1 echo "cannot cd to subdirectory '$root_subdir_target' of the root"
+        cd "$initial_dir" || return
+        setoldpwd "$initial_oldpwd"
+    fi
+    setoldpwd "$initial_dir"
 }
 
 # cd to the realpath of the current path
