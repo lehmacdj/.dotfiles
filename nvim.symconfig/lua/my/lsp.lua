@@ -30,10 +30,6 @@ local server_opts = {
   kotlin_language_server = {
     no_formatting = true, -- horrendously slow / broken
   },
-  tsserver = {
-    -- preferring prettierd for now because it also covers other filetypes
-    no_formatting = true,
-  },
   sourcekit =  {
     no_formatting = true,
     setup = {
