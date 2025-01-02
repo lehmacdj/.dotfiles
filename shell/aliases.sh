@@ -31,7 +31,8 @@ alias bc='bc -l'
 
 # editing of things
 function vial {
-    "$EDITOR" ~/.dotfiles/shell/aliases.sh
+    search_string="$1"
+    "$EDITOR" ${search_string:++"/$search_string"} ~/.dotfiles/shell/aliases.sh
     source "$DOTFILES/shell/aliases.sh"
 }
 
@@ -328,10 +329,12 @@ function cpu-temp() {
 function viconflicts () {
     # this is technically broken for filenames containing newlines but that
     # should be pretty rare right?
-    files="$(echo -n "$(git conflicts)" | tr '\n' '\0')"
+    files="$(echo -n "$(git conflicts)")"
     # for some reason nvim fails to resume in specifically in zsh if the files
     # are piped into xargs
-    xargs -0 "$EDITOR" +"vimgrep /<<<<<<</g ##" "$*" <<< "$files"
+    # using <<< works, but appends an extra newline to the list of files so we
+    # have the remove the last argument from the list
+    xargs "$EDITOR" +"vimgrep /<<<<<<</g ##" <<<"$files"
 }
 
 function virg () {
@@ -394,15 +397,14 @@ function virg () {
         set -- "$1" "$converted_word_boundaries"
     fi
     # editor is most likely set to something that supports vimgrep
-    files="$(echo -n "$(rg "${arguments[@]}" --files-with-matches --null -- "$2")")"
+    files="$(echo -n "$(rg "${arguments[@]}" --files-with-matches -- "$2")")"
     if [ -z "$files" ]; then
         echo "no matches of regex found"
         return 1
     fi
-    files="${files::-1}" # remove trailing null byte, which gets detected as an empty string arg
     # for some reason nvim fails to resume in specifically in zsh if the files
     # are piped into xargs
-    xargs -0 "$EDITOR" +"vimgrep /\v$1/ ##" <<< "$files"
+    xargs "$EDITOR" +"vimgrep /\v$1/ ##" <<<"$files"
 }
 
 function imgdiff () {
