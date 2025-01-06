@@ -6,7 +6,9 @@
   default = simple
 
 [core]
-  autocrlf = false
+  # convert CRLF to LF on commit but don't convert when checking out
+  # (this is best practice for unix to avoid accidentally committing CRLF)
+  autocrlf = input
 
 [alias]
   # Aliases: see also the scripts in "$DOTFILES/git.symconfig/bin"
@@ -31,7 +33,7 @@
   pp = "!git pull --rebase && git push"
   # Shorter versions of standard git commands
   s = status -sb
-  l = log --oneline -n 16
+  l = log --oneline -n 16 --graph
   a = add
   co = checkout
   ci = commit
