@@ -64,6 +64,23 @@ mod.find_vim_config_files = function()
       vimhome .. '/lua/my',
       vimhome .. '/autoload/my'
     },
+    attach_mappings = function(prompt_bufnr, map)
+      local actions = require('telescope.actions')
+
+      local function custom_open(action_fn)
+        return function()
+          action_fn(prompt_bufnr)
+          vim.cmd('lcd ' .. vimhome)
+        end
+      end
+
+      map({'i', 'n'}, '<CR>', custom_open(actions.select_default))
+      map({'i', 'n'}, '<C-x>', custom_open(actions.select_horizontal))
+      map({'i', 'n'}, '<C-v>', custom_open(actions.select_vertical))
+      map({'i', 'n'}, '<C-t>', custom_open(actions.select_tab))
+
+      return true
+    end,
   })
 end
 
