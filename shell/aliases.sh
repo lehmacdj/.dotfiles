@@ -322,6 +322,19 @@ function cpu-temp() {
     sudo powermetrics --samplers smc | grep -i "CPU die temperature"
 }
 
+# for some reason nvim fails to resume in specifically in zsh if the files
+# are piped into xargs
+# using <<< works, but we need to use a while loop to read the files to
+# properly handle filenames that contain spaces
+function xargs_newlines_vim () {
+    local -a args=()
+    while IFS= read -r line || [ -n "$line" ]; do
+        [ -z "$line" ] && continue
+        args+=("$line")
+    done
+    "$EDITOR" "$@" "${files[@]}"
+}
+
 # edit all files with a git conflict and populate them into the quickfix list
 # depends on 'git conflicts' alias defined in the global git config
 # requires being in the root of the git repository because of the way git
@@ -334,7 +347,7 @@ function viconflicts () {
     # are piped into xargs
     # using <<< works, but appends an extra newline to the list of files so we
     # have the remove the last argument from the list
-    xargs "$EDITOR" +"vimgrep /<<<<<<</g ##" <<<"$files"
+    xargs_newlines_vim +"vimgrep /<<<<<<</g ##" <<<"$files"
 }
 
 # edit all files with a git conflict and populate them into the quickfix list
@@ -345,20 +358,7 @@ function vihunks () {
     # this is technically broken for filenames containing newlines but that
     # should be pretty rare right?
     files="$(echo -n "$(git diff --name-only)")"
-    # for some reason nvim fails to resume in specifically in zsh if the files
-    # are piped into xargs
-    # using <<< works, but appends an extra newline to the list of files so we
-    # have the remove the last argument from the list
-    xargs "$EDITOR" +":GitGutterQuickFix" +":cc 1" <<<"$files"
-}
-
-function xargs_newlines_vim () {
-    local -a args=()
-    while IFS= read -r line || [ -n "$line" ]; do
-        [ -z "$line" ] && continue
-        args+=("$line")
-    done
-    "$EDITOR" "$@" "${files[@]}"
+    xargs_newlines_vim +":GitGutterQuickFix" +":cc 1" <<<"$files"
 }
 
 function virg () {
