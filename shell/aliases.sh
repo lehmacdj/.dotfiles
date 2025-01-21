@@ -352,6 +352,15 @@ function vihunks () {
     xargs "$EDITOR" +":GitGutterQuickFix" +":cc 1" <<<"$files"
 }
 
+function xargs_newlines_vim () {
+    local -a args=()
+    while IFS= read -r line || [ -n "$line" ]; do
+        [ -z "$line" ] && continue
+        args+=("$line")
+    done
+    "$EDITOR" "$@" "${files[@]}"
+}
+
 function virg () {
     { [ $# -eq 0 ] || [ "$1" = "--help" ] || [ "$1" = "-h" ]; } && {
         [ $# -eq 0 ] && >&2 echo "error: $0 requires at least one argument"
@@ -419,7 +428,7 @@ function virg () {
     fi
     # for some reason nvim fails to resume in specifically in zsh if the files
     # are piped into xargs
-    xargs "$EDITOR" +"vimgrep /\v$1/ ##" <<<"$files"
+    xargs_newlines_vim +"vimgrep /\v$1/ ##" <<<"$files"
 }
 
 function imgdiff () {
