@@ -39,6 +39,13 @@ mod.load = function()
     }, {
       f(time.hourminute_string),
     }),
+
+    s({
+      trig = '@isots',
+      snippetType = 'autosnippet',
+    }, {
+      f(time.iso8601_timestamp_string),
+    }),
   })
 
   function journal_note_snippet(trigger, time_factory)

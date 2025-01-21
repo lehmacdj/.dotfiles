@@ -8,6 +8,9 @@ endfunction
 
 " strip all whitespace from a file
 function! my#misc#StripWhitespace() abort
+  if !g:do_autoformat
+    return
+  endif
   let l:pos = getpos('.')
   let l:_s = @/
   " vint: -ProhibitCommandRelyOnUser -ProhibitCommandWithUnintendedSideEffect

@@ -211,12 +211,13 @@ nnoremap g<C-]> :call my#misc#smart_goto_select()<CR>
 set colorcolumn=81
 nnoremap <Leader>8 :call my#misc#ToggleColorColumn()<CR>
 
-" toggle nvim lsp autoformatting on save in style of unimpaired.vim
-nnoremap [o= :lua require'config'.enable_autoformat()<CR>
-nnoremap ]o= :lua require'config'.disable_autoformat()<CR>
-nnoremap yo= :<C-U>lua <C-R>=g:do_lsp_autoformat
-    \ ? "require'config'.disable_autoformat()"
-    \ : "require'config'.enable_autoformat()"<CR><CR>
+" toggle autoformatting on save in style of unimpaired.vim
+let g:do_autoformat = 1
+nnoremap [o= :lua require'my.misc'.enable_autoformat()<CR>
+nnoremap ]o= :lua require'my.misc'.disable_autoformat()<CR>
+nnoremap yo= :<C-U>lua <C-R>=g:do_autoformat
+    \ ? "require'my.misc'.disable_autoformat()"
+    \ : "require'my.misc'.enable_autoformat()"<CR><CR>
 
 " Spelling related things
 nnoremap <Leader>z 1z=

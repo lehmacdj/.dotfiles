@@ -44,25 +44,10 @@ local server_opts = {
   },
 }
 
--- autoformatting utilities
-if vim.g.do_lsp_autoformat == nil then
-  vim.g.do_lsp_autoformat = true
-end
 mod.guarded_autoformat = function(...)
-  if vim.g.do_lsp_autoformat then
+  if vim.g.do_autoformat then
     vim.lsp.buf.format(...)
   end
-end
--- looking for toggle autoformat? Either do:
--- vim.g.do_lsp_autoformat = not vim.g.do_lsp_autoformat
--- if feedback isn't important, or otherwise follow the guide of the yo= mapping
--- which first checks and alternately executes disable / enable to give better
--- feedback
-mod.disable_autoformat = function()
-  vim.g.do_lsp_autoformat = false
-end
-mod.enable_autoformat = function()
-  vim.g.do_lsp_autoformat = true
 end
 
 -- Use an on_attach function to only map the following keys
