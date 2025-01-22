@@ -12,4 +12,14 @@ mod.enable_autoformat = function()
   vim.g.do_autoformat = true
 end
 
+mod.rerequire = function(filename)
+  local module_name = filename
+    :gsub('^.*lua/', '') -- get rid of leading prefix
+    :gsub('%.lua$', '') -- get rid of trailing .lua
+    :gsub('/init$', '') -- get rid of (optional) trailing init.lua module
+    :gsub('/', '.') -- replace / with . to make it a module name
+  require('plenary.reload').reload_module(module_name)
+  return require(module_name)
+end
+
 return mod

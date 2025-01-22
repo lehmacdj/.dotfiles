@@ -180,12 +180,12 @@ nnoremap <Leader>sv :source $MYVIMRC<CR>
 augroup vim_config_autorefresh
     autocmd!
     " for any file prefixed by autoload/config reload it when saving
-    " in particular this includes $VIMHOME/autoload/config.vim which is my
+    " in particular this includes $VIMHOME/autoload/my/misc.vim which is my
     " main config file for functions. Reloading it otherwise is tedious.
-    autocmd BufWritePost */autoload/config*.vim :source <afile>
+    autocmd BufWritePost $VIMHOME/autoload/**/*.vim :source <afile>
 
-    " for any lua file in $VIMHOME/autoload reload it when saving
-    autocmd BufWritePost $VIMHOME/autoload/*.lua :luafile <afile>
+    " for any lua file in $VIMHOME/lua reload it when saving
+    autocmd BufWritePost $VIMHOME/lua/**/*.lua call v:lua.require'my.misc'.rerequire(expand('<afile>'))
 augroup END
 
 " Trim whitespace
