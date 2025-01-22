@@ -86,9 +86,8 @@ if has('nvim')
         autocmd TermOpen * setlocal nonumber norelativenumber
         " don't set scrolloff because it doesn't have a local value scrolloff=0
     augroup END
-endif
-if has('nvim-0.5.0') || has('patch-8.1.1564')
-  set signcolumn=number
+
+    set signcolumn=number
 endif
 
 " fix delay when exiting insert mode
@@ -174,6 +173,8 @@ nnoremap <expr> <Leader>ed ':split '.$VIMHOME.'/after/ftdetect/'.&filetype.'.vim
 nnoremap <Leader>ec :lua require('my.telescope').find_vim_config_files()<CR>
 " Edit something in my dotfiles
 nnoremap <Leader>e. :lua require('my.telescope').find_dotfiles()<CR>
+" Edit the local vim config (which may or may not exist, sourced below)
+nnoremap <Leader>el :split $VIMHOME/local.vim<CR>
 " Source vimrc
 nnoremap <Leader>sv :source $MYVIMRC<CR>
 
@@ -186,12 +187,6 @@ augroup vim_config_autorefresh
 
     " for any lua file in $VIMHOME/lua reload it when saving
     autocmd BufWritePost $VIMHOME/lua/**/*.lua call v:lua.require'my.misc'.rerequire(expand('<afile>'))
-augroup END
-
-" Trim whitespace
-augroup trim_whitespace
-    autocmd!
-    autocmd BufWritePre * :call my#misc#StripWhitespace()
 augroup END
 
 " Delete buffers from buffer list interactively
@@ -210,6 +205,12 @@ nnoremap g<C-]> :call my#misc#smart_goto_select()<CR>
 " toggle colorcolumn with <space>8
 set colorcolumn=81
 nnoremap <Leader>8 :call my#misc#ToggleColorColumn()<CR>
+
+" Trim whitespace / this can be turned off by disabling auto-formatting
+augroup trim_whitespace
+    autocmd!
+    autocmd BufWritePre * :call my#misc#StripWhitespace()
+augroup END
 
 " toggle autoformatting on save in style of unimpaired.vim
 let g:do_autoformat = 1
@@ -252,7 +253,5 @@ command GetSheetsLink call my#misc#get_filename_sheets_link()
 
 " finally load local vim configuration if it exists
 if filereadable($VIMHOME.'/local.vim')
-    " local here must be capital because lowercase l is already taken for lua
-    nnoremap <Leader>eL :split $VIMHOME/local.vim<CR>
     source $VIMHOME/local.vim
 endif
