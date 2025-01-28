@@ -47,6 +47,11 @@ Plug 'frankier/neovim-colors-solarized-truecolor-only'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'knsh14/vim-github-link'
+" gs is pretty much useless and nicely can mean `git stage`
+nnoremap gs :GitGutterStageHunk<CR>
+xnoremap gs :GitGutterStageHunk<CR>
+" if you squint, gb is like gp for `git preview` but the p is upside down
+nnoremap gb :GitGutterPreviewHunk<CR>
 
 " we always need fzf even if using telescope.nvim because neuron.vim depends
 " on it currently
