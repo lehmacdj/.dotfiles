@@ -332,7 +332,7 @@ function xargs_newlines_vim () {
         [ -z "$line" ] && continue
         args+=("$line")
     done
-    "$EDITOR" "$@" "${files[@]}"
+    "$EDITOR" "$@" "${args[@]}"
 }
 
 # edit all files with a git conflict and populate them into the quickfix list
