@@ -137,8 +137,12 @@ set backspace=indent,eol,start
 " Easy macro-replay
 nnoremap Q @q
 xnoremap Q @q
-" make Y more logical
-nnoremap Y y$
+" always yank to system clipboard
+nnoremap y "+y
+" special cased to make Y more logical (matching C/D)
+nnoremap Y "+y$
+vnoremap y "+y
+nnoremap yy "+yy
 " make gq use gw which is pretty much just a better version of gq
 nnoremap gq gw
 nnoremap gqq gww
