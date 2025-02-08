@@ -1,10 +1,55 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+usage_info() {
+  >&2 echo "Usage: git bc [-h|--help] [-s|--save]"
+}
+
+help_info() {
+  >&2 echo "-h, --help: show help"
+  >&2 echo "-s, --save: save the branch instead of deleting it"
+  >&2 echo "--unsave: unmark the branch as saved"
+}
+
+save=
+unsave=
+while [ "$#" -gt 0 ]; do
+    case "$1" in
+        -h|--help)
+            usage_info
+            help_info
+            exit 0
+            ;;
+        -s|--save)
+            save=1
+            ;;
+        --unsave)
+            unsave=1
+            ;;
+        *)
+            echo "Unknown option: $1"
+            usage_info
+            exit 1
+            ;;
+    esac
+    shift
+done
+
+if [ -n "$save" ] && [ -n "$unsave" ]; then
+    usage_info
+    echo "Cannot save and unsave at the same time"
+    exit 1
+fi
+
 while true; do
+    grep_args=()
+    if [ -z "$unsave" ]; then
+        grep_args+=('-v')
+    fi
+    grep_args+=('^saved/')
     branch="$(\
       git for-each-ref --sort=-committerdate --format=$'%(refname:short)\t%(committerdate:relative)' refs/heads \
-        | grep -v '^saved/' \
+        | grep "${grep_args[@]}" \
         | awk -F'\t' '{ printf "%-50s %s\n", $1, $2 }' \
         | fzf --tac --no-sort --exit-0)"
     if [ -z "$branch" ]; then
@@ -12,5 +57,13 @@ while true; do
         break
     fi
     branch_name=$(echo "$branch" | cut -f 1 -d' ')
-    git branch -D "$branch_name"
+    if [ -n "$save" ]; then
+        git branch -m "$branch_name" "saved/$branch_name"
+        >&2 echo "Saved $branch_name"
+    elif [ -n "$unsave" ]; then
+        git branch -m "$branch_name" "${branch_name#saved/}"
+        >&2 echo "Unsaved $branch_name"
+    else
+      git branch -D "$branch_name"
+    fi
 done
