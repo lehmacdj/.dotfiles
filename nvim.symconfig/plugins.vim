@@ -104,7 +104,7 @@ if has('nvim')
       sources = {
         formatting.fourmolu.with {
           command = 'ormolu',
-          extra_args = {'-o', '-XTypeApplications'},
+          extra_args = { '--cabal-default-extensions', },
         },
         formatting.cabal_fmt,
         -- prettier is absurdly slow;
