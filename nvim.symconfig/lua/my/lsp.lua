@@ -71,9 +71,10 @@ mod.on_attach_with = function(opts) return function(client, bufnr)
   -- always attach diagnostics mappings because it doesn't look like there
   -- is a capability for it + it doesn't hurt because these mappings don't
   -- overwrite anything (important at least)
+  -- [d / ]d are the default mappings, but I prefer using my index finger
   buf_set_keymap('n', '[g', '<cmd>lua vim.diagnostic.goto_prev{focus = false}<CR>')
   buf_set_keymap('n', ']g', '<cmd>lua vim.diagnostic.goto_next{focus = false}<CR>')
-  buf_set_keymap('n', '<Leader>q', '<cmd>lua vim.diagnostic.setqflist()<CR>')
+  buf_set_keymap('n', '<Leader>q', '<cmd>lua vim.diagnostic.setqflist{open = false}<CR>:cc 1<CR>')
   vim.cmd [[
     augroup LspDiagnostics
       autocmd! * <buffer>
@@ -98,7 +99,9 @@ mod.on_attach_with = function(opts) return function(client, bufnr)
     buf_set_keymap('n', 'gy', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
   end
   if client.supports_method("textDocument/references") then
-    buf_set_keymap('n', 'gr', '<cmd>Telescope lsp_references<CR>')
+    -- this overwrites the grep_string mapping I have because in practice I
+    -- mostly use grep_string like "find references"
+    buf_set_keymap('n', '<Leader>]', '<cmd>Telescope lsp_references<CR>')
   end
   if client.supports_method("textDocument/rename") then
     buf_set_keymap('n', '<Leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
