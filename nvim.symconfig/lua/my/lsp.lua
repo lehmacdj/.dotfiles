@@ -16,6 +16,12 @@ local server_opts = {
       capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
       return capabilities
     end,
+    setup = {
+      -- HLS 1.9.0.0+ recommended that I explicitly enable cabal files
+      -- this will probably be unnecessary with some future version of nvim's
+      -- default lsp configs
+      filetypes = {'haskell', 'lhaskell', 'cabal'},
+    },
   },
   wiki_language_server = {},
   purescriptls = {},
@@ -43,6 +49,32 @@ local server_opts = {
     },
   },
 }
+
+-- To be called from plugins.vim to setup all the language servers defined in
+-- the server_opts table
+mod.setup_lsps = function()
+  local default_capabilities = vim.tbl_deep_extend(
+    'keep',
+    vim.lsp.protocol.make_client_capabilities(),
+    require('cmp_nvim_lsp').default_capabilities()
+  )
+
+  -- Use a loop to conveniently call 'setup' on multiple servers and
+  -- map buffer local keybindings when the language server attaches
+  for name, opts in pairs(server_opts) do
+    local modify_capabilities = opts.modify_capabilities or function(c) return c end
+    local setup_opts = {
+      on_attach = mod.on_attach_with(opts),
+      flags = {
+        debounce_text_changes = 150,
+      },
+      capabilities = modify_capabilities(default_capabilities),
+    }
+    local setup_opt_overrides = opts.setup or {}
+    for k,v in pairs(setup_opt_overrides) do setup_opts[k] = v end
+    require('lspconfig')[name].setup(setup_opts)
+  end
+end
 
 mod.guarded_autoformat = function(...)
   if vim.g.do_autoformat then
@@ -140,32 +172,6 @@ mod.define_custom_lsps = function()
         settings = {};
       };
     }
-  end
-end
-
--- To be called from plugins.vim to setup all the language servers defined in
--- the server_opts table
-mod.setup_lsps = function()
-  local default_capabilities = vim.tbl_deep_extend(
-    'keep',
-    vim.lsp.protocol.make_client_capabilities(),
-    require('cmp_nvim_lsp').default_capabilities()
-  )
-
-  -- Use a loop to conveniently call 'setup' on multiple servers and
-  -- map buffer local keybindings when the language server attaches
-  for name, opts in pairs(server_opts) do
-    local modify_capabilities = opts.modify_capabilities or function(c) return c end
-    local setup_opts = {
-      on_attach = mod.on_attach_with(opts),
-      flags = {
-        debounce_text_changes = 150,
-      },
-      capabilities = modify_capabilities(default_capabilities),
-    }
-    local setup_opt_overrides = opts.setup or {}
-    for k,v in pairs(setup_opt_overrides) do setup_opts[k] = v end
-    require('lspconfig')[name].setup(setup_opts)
   end
 end
 
