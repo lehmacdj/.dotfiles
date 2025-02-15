@@ -90,45 +90,7 @@ if has('nvim')
   Defer s:lsp_setup
 
   Plug 'jose-elias-alvarez/null-ls.nvim'
-  let s:null_ls_setup =<< trim EOF
-  local null_ls = require('null-ls')
-  local formatting = null_ls.builtins.formatting
-  local diagnostics = null_ls.builtins.diagnostics
-  local code_actions = null_ls.builtins.code_actions
-  null_ls.setup {
-    on_attach = require('my.lsp').on_attach,
-    root_dir = function(fname)
-      return require('lspconfig').util.root_pattern('.git')(fname);
-    end,
-    -- diagnostics_format = '#{c}: #{m}",
-    sources = {
-      formatting.fourmolu.with {
-        command = 'ormolu',
-        extra_args = { '--cabal-default-extensions', },
-      },
-      formatting.cabal_fmt,
-      -- prettier is absurdly slow;
-      -- installation: npm install -g @fsouza/prettierd
-      formatting.prettierd.with {
-        filetypes = {
-          'javascript', 'javascriptreact',
-          'typescript', 'typescriptreact',
-          'vue',
-          'css', 'scss', 'less',
-          'graphql',
-          'handlebars',
-        },
-      },
-      diagnostics.selene,
-      diagnostics.shellcheck.with {
-        diagnostics_format = 'SC#{c}: #{m}',
-      },
-      code_actions.shellcheck,
-      diagnostics.vint,
-    },
-  }
-  EOF
-  Defer s:null_ls_setup
+  Defer 'require"my.null-ls".setup()'
 
   " completion
   Plug 'hrsh7th/nvim-cmp'
@@ -138,64 +100,7 @@ if has('nvim')
     \| Plug 'hrsh7th/cmp-cmdline'
     \| Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
     \| Plug 'jc-doyle/cmp-pandoc-references'
-  let s:cmp_setup =<< trim EOF
-  local cmp = require('cmp')
-  local Behavior = require('cmp.types').cmp.SelectBehavior
-  cmp.setup {
-    snippet = {
-      expand = function(args)
-        require('luasnip').lsp_expand(args.body)
-      end,
-    },
-    enabled = function()
-      -- disable completion in comments
-      local context = require 'cmp.config.context'
-      local ok, ts_in_comment = pcall(context.in_treesitter_capture, 'comment')
-      return not (ok and ts_in_comment)
-        and not context.in_syntax_group('Comment')
-        and vim.opt.filetype:get() ~= 'TelescopePrompt'
-      end,
-    mapping = {
-      ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-      ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-      ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-      ['<C-y>'] = cmp.config.disable,
-      ['<C-e>'] = cmp.mapping({
-        i = cmp.mapping.abort(),
-        c = cmp.mapping.close(),
-      }),
-      ['<CR>'] = cmp.mapping.confirm({ select = false }),
-      ['<Down>'] = {
-        i = cmp.mapping.select_next_item({ behavior = Behavior.Select }),
-      },
-      ['<Up>'] = {
-        i = cmp.mapping.select_prev_item({ behavior = Behavior.Select }),
-      },
-      ['<C-n>'] = {
-        i = cmp.mapping.select_next_item({ behavior = Behavior.Insert }),
-      },
-      ['<C-p>'] = {
-        i = cmp.mapping.select_prev_item({ behavior = Behavior.Insert }),
-      },
-    },
-    sources = cmp.config.sources({
-      { name = 'nvim_lsp_signature_help' },
-      { name = 'nvim_lsp' },
-      {
-        name = 'buffer',
-        option = {
-          get_bufnrs = function()
-            return vim.api.nvim_list_bufs()
-          end,
-        },
-      },
-      { name = 'luasnip' },
-      { name = 'path' },
-      { name = 'cmp-pandoc-references' },
-    })
-  }
-  EOF
-  Defer s:cmp_setup
+  Defer 'require"my.cmp".setup()'
 
   " Snippets
   Plug 'L3MON4D3/LuaSnip'
@@ -210,10 +115,10 @@ if has('nvim')
   EOF
   Defer s:luasnip_setup
 else
-    " fzf bindings for finders if applicable
-    nnoremap <Leader>o :FZF<CR>
-    nnoremap <Leader>/ :Rg<CR>
-    nnoremap <Leader>b :Buffers<CR>
+  " fzf bindings for finders is my fallback for Telescope
+  nnoremap <Leader>o :FZF<CR>
+  nnoremap <Leader>/ :Rg<CR>
+  nnoremap <Leader>b :Buffers<CR>
 endif
 
 " language specific plugins
