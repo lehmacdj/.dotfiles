@@ -183,10 +183,15 @@ if has('nvim')
   " - [ ] ideally avoid having everything switch back to syntax whenever
   "   entering insert mode; ideally I want just the surrounding context to
   "   switch (e.g. a code block)
-  Plug 'OXY2DEV/markview.nvim'
-  let s:markview_setup =<< trim EOF
-  EOF
-  Defer s:markview_setup
+  " Plug 'OXY2DEV/markview.nvim'
+  " let s:markview_setup =<< trim EOF
+  " require('markview').setup {
+  "   preview = {
+  "     hybrid_modes = {'n'},
+  "   }
+  " }
+  " EOF
+  " Defer s:markview_setup
 end
 
 Plug 'lehmacdj/neuron.vim', { 'branch': 'patched-old-neuron' } " zettelkasten support
