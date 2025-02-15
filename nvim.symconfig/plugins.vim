@@ -68,6 +68,20 @@ if has('nvim')
   " nvim specific utils
   Plug 'nvim-lua/plenary.nvim'
 
+  " treesitter
+  Plug 'nvim-treesitter/nvim-treesitter'
+  let s:treesitter_setup =<< trim EOF
+    require'nvim-treesitter.configs'.setup {
+      ensure_installed = {'bash', 'haskell', 'java', 'json', 'kotlin', 'lua', 'python', 'rust', 'swift', 'yaml'},
+      highlight = {
+        enable = true,
+        disable = {}, -- language names to disable highlighting for
+      },
+      indent = { enable = true },
+    }
+  EOF
+  Defer s:treesitter_setup
+
   " pickers / nvim specific ui
   Plug 'stevearc/dressing.nvim'
   Plug 'nvim-telescope/telescope.nvim'
