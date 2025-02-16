@@ -173,27 +173,10 @@ let g:markdown_fenced_languages = [
   \ 'xml',
 \ ]
 if has('nvim')
-  " would like to get this working, it seems very cool; a few things to figure
-  " out though:
-  " - [ ] color scheme; probably need to add highlight groups for treesitter
-  "   to the solarized colorscheme I use, wasn't able to base16-nvim's
-  "   solarized color scheme was ugly (though it did support treesitter better)
-  " - [ ] figure out how to get comments hidden properly, the <!--wls-->
-  "   interferes with how this renders currently
-  " - [ ] ideally avoid having everything switch back to syntax whenever
-  "   entering insert mode; ideally I want just the surrounding context to
-  "   switch (e.g. a code block)
   " Plug 'OXY2DEV/markview.nvim'
-  " let s:markview_setup =<< trim EOF
-  " require('markview').setup {
-  "   preview = {
-  "     hybrid_modes = {'n'},
-  "   }
-  " }
-  " EOF
-  " Defer s:markview_setup
+  " see my/markview.lua for discussion on why I currently have this disabled
+  " Defer 'require"my.markview".setup()'
 end
-
 Plug 'lehmacdj/neuron.vim', { 'branch': 'patched-old-neuron' } " zettelkasten support
 
 call plug#end()
