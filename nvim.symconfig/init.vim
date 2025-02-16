@@ -252,6 +252,8 @@ if executable('pretty-simple')
     xnoremap <silent> g= :<C-U>call my#misc#PrettySimple(visualmode(), 1)<CR>
 endif
 
+lua require('my.diagnostics').configure()
+
 command GetMasterBranchLink call my#misc#get_optimistic_branch_link("master")
 command GetSheetsLink call my#misc#get_filename_sheets_link()
 
