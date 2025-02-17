@@ -259,69 +259,69 @@ function youtube-album-art () {
 }
 
 function trash () {
-    [ $# -le 0 ] && echo "trash requires at least one argument." && return 1
-    for arg in "$@"; do
-        if [ -e "$HOME/.Trash/$arg" ]; then
-            command mv "$HOME/.Trash/$arg" "$HOME/.Trash/prev-$arg"
-        fi
-    done
-    command mv "$@" "$HOME/.Trash"
+  [ $# -le 0 ] && echo "trash requires at least one argument." && return 1
+  for arg in "$@"; do
+    if [ -e "$HOME/.Trash/$arg" ]; then
+      command mv "$HOME/.Trash/$arg" "$HOME/.Trash/prev-$arg"
+    fi
+  done
+  command mv "$@" "$HOME/.Trash"
 }
 
 # converts a path like /mnt/c/... to C:\...
 function windows-path () {
-    [ $# -le 0 ] && echo "windows-path requires at least one argument." && return 1
-    echo -E "$1" | sed 's|^/mnt/\(.\)|\1:|' | tr '/' '\\'
+  [ $# -le 0 ] && echo "windows-path requires at least one argument." && return 1
+  echo -E "$1" | sed 's|^/mnt/\(.\)|\1:|' | tr '/' '\\'
 }
 
 function unix-path () {
-    [ $# -le 0 ] && echo "unix-path requires at least one argument." && return 1
-    echo -E "$1" | sed 's|^\(.\):|/mnt/\L\1|' | tr '\\' '/'
+  [ $# -le 0 ] && echo "unix-path requires at least one argument." && return 1
+  echo -E "$1" | sed 's|^\(.\):|/mnt/\L\1|' | tr '\\' '/'
 }
 
 # generate + return random sequence of alphanumeric characters
 function random-id () {
-    character_count="${1:-10}"
-    LC_ALL=C </dev/urandom tr -dc 'A-Za-z0-9' | head -c "$character_count"
+  character_count="${1:-10}"
+  LC_ALL=C </dev/urandom tr -dc 'A-Za-z0-9' | head -c "$character_count"
 }
 
 function date-timestamp () {
-    date +"%FT%H:%M-%Z"
+  date +"%FT%H:%M-%Z"
 }
 
 function replace {
-    [ $# -ge 1 ] || {
-        echo >&2 "usage: replace [--glob <glob> ...] <find-pattern> [<replace-pattern>]"
-        echo >&2 "usage: replace: find/replace all files under the current directory"
-        echo >&2 "usage: You can skip the replace pattern to preview what will be replaced."
-        return 1
-    }
-    local globs=()
-    while [ "$1" = "--glob" ]; do
-        shift
-        globs+=("--glob")
-        globs+=("$1")
-        shift
-    done
-    local target
-    target="$1"
+  [ $# -eq 1 ] || [ $# -eq 2 ] || {
+    echo >&2 "usage: replace [--glob <glob> ...] <find-pattern> [<replace-pattern>]"
+    echo >&2 "usage: replace: find/replace all files under the current directory"
+    echo >&2 "usage: You can skip the replace pattern to preview what will be replaced."
+    return 1
+  }
+  local globs=()
+  while [ "$1" = "--glob" ]; do
+    shift
+    globs+=("--glob")
+    globs+=("$1")
+    shift
+  done
+  local target
+  target="$1"
+  if [ $# -eq 1 ]; then
+    rg "$target" --multiline --pcre2 "${globs[@]}"
+  else
     local substitution
     substitution="${2:-}"
-    if [ -z "$substitution" ]; then
-        rg "$target" --multiline --pcre2 "${globs[@]}"
-    else
-        rg "${globs[@]}" --multiline --pcre2 "$target" --files-with-matches --null \
-            | xargs -0n1 perl -p0i -e "s/$target/$substitution/smg"
-    fi
+    rg "${globs[@]}" --multiline --pcre2 "$target" --files-with-matches --null \
+        | xargs -0n1 perl -p0i -e "s/$target/$substitution/smg"
+  fi
 }
 
 function silently () {
-    >/dev/null 2>&1 "$@"
+  >/dev/null 2>&1 "$@"
 }
 
 # print the cpu temperature every few seconds in the terminal
 function cpu-temp() {
-    sudo powermetrics --samplers smc | grep -i "CPU die temperature"
+  sudo powermetrics --samplers smc | grep -i "CPU die temperature"
 }
 
 # for some reason nvim fails to resume in specifically in zsh if the files
