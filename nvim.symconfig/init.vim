@@ -204,7 +204,7 @@ nnoremap <Leader><C-k> i<C-k><Return><C-\><C-n>
 " smarter tag following
 nnoremap <C-]> :call my#misc#smart_goto()<CR>
 nnoremap g] :call my#misc#smart_goto_select()<CR>
-nnoremap g<C-]> :call my#misc#smart_goto_select()<CR>
+nnoremap g<C-]> :call my#misc#smart_goto()<CR>
 
 " toggle colorcolumn with <space>8
 set colorcolumn=81

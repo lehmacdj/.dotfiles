@@ -91,6 +91,7 @@ if has('nvim')
   nnoremap <Leader>/ :Telescope live_grep<CR>
   nnoremap <Leader>b :Telescope buffers<CR>
   nnoremap <Leader>] :Telescope grep_string<CR>
+  nnoremap g<Leader>] :Telescope grep_string<CR>
   " finder resume
   nnoremap <Leader>fr :Telescope resume<CR>
 
