@@ -75,7 +75,7 @@ if has('nvim')
       ensure_installed = {'bash', 'haskell', 'java', 'json', 'kotlin', 'lua', 'python', 'rust', 'swift', 'yaml'},
       highlight = {
         enable = true,
-        disable = {}, -- language names to disable highlighting for
+        disable = {'haskell'}, -- language names to disable highlighting for
       },
       indent = { enable = true },
     }
