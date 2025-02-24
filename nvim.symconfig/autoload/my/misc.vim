@@ -133,7 +133,7 @@ function! my#misc#PrettySimple(type, is_visual = v:false) abort
   let sel_save = &selection
   let &selection = 'inclusive'
 
-  if v:is_visual
+  if a:is_visual
     echom 'a:type = visual'
     silent exe 'normal! gv!pretty-simple -c no-color'
   elseif a:type ==# 'line' " otherwise we're in operator mode
