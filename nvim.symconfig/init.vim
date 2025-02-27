@@ -203,7 +203,8 @@ nnoremap <Leader><C-k> i<C-k><Return><C-\><C-n>
 
 " smarter tag following
 nnoremap <C-]> :call my#misc#smart_goto()<CR>
-nnoremap g] :call my#misc#smart_goto_select()<CR>
+" testing out using this for goto references since I barely use :tselect
+" nnoremap g] :call my#misc#smart_goto_select()<CR>
 nnoremap g<C-]> :call my#misc#smart_goto()<CR>
 
 " toggle colorcolumn with <space>8

@@ -122,7 +122,6 @@ mod.on_attach_with = function(opts) return function(client, bufnr)
   end
   if client.supports_method("textDocument/definition") then
     buf_set_keymap('n', '<C-]>', '<cmd>lua vim.lsp.buf.definition()<CR>')
-    buf_set_keymap('n', 'g]', '<cmd>Telescope lsp_definitions<CR>')
   end
   if client.supports_method("textDocument/implementation") then
     buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>')
@@ -133,7 +132,7 @@ mod.on_attach_with = function(opts) return function(client, bufnr)
   if client.supports_method("textDocument/references") then
     -- this overwrites the grep_string mapping I have because in practice I
     -- mostly use grep_string like "find references"
-    buf_set_keymap('n', '<Leader>]', '<cmd>Telescope lsp_references<CR>')
+    buf_set_keymap('n', 'g]', '<cmd>Telescope lsp_references<CR>')
   end
   if client.supports_method("textDocument/rename") then
     buf_set_keymap('n', '<Leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
