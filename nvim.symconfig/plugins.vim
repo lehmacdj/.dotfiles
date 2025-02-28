@@ -86,7 +86,7 @@ if has('nvim')
   Plug 'stevearc/dressing.nvim'
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-  Defer 'require"my.telescope".custom_setup()'
+  Defer 'require("my.telescope")'
   nnoremap <Leader>o :Telescope find_files<CR>
   nnoremap <Leader>/ :Telescope live_grep<CR>
   nnoremap <Leader>b :Telescope buffers<CR>
