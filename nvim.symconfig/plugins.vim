@@ -76,6 +76,7 @@ if has('nvim')
       highlight = {
         enable = true,
         disable = {'haskell'}, -- language names to disable highlighting for
+        additional_vim_regex_highlighting = { 'markdown' },
       },
       indent = { enable = true },
     }

@@ -73,12 +73,10 @@ endfunction
 " Displays syntax stack under the cursor. Goes ahead and resolves links.
 " https://stackoverflow.com/questions/9464844/how-to-get-group-name-of-highlighting-under-cursor-in-vim
 function! my#misc#SynStack() abort
-  for i1 in synstack(line('.'), col('.'))
-    let i2 = synIDtrans(i1)
-    let n1 = synIDattr(i1, 'name')
-    let n2 = synIDattr(i2, 'name')
-    echo n1 '->' n2
-  endfor
+  let l:syns = synstack(line('.'), col('.'))
+  call map(l:syns, {_, id -> [synIDattr(id, 'name'), synIDattr(synIDtrans(id), 'name')]})
+  call map(l:syns, {_, pair -> pair[0] . (pair[0] != pair[1] ? '->' . pair[1] : '')})
+  echo join(l:syns, ', ')
 endfunction
 
 function! my#misc#err(msg) abort

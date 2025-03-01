@@ -1,5 +1,6 @@
 setlocal spell
 setlocal nosmartindent " without this for/while/if etc. trigger new indent level
+setlocal conceallevel=2 " hide links/html comments
 
 " make breakindent recognize markdown lists
 let &formatlistpat = '^\s*[-+*]\( \[[ x]\]\)\?\s*\|^\s*\d\+\.\s*'

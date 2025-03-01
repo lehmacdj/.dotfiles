@@ -253,6 +253,8 @@ if executable('pretty-simple')
     xnoremap <silent> g= :<C-U>call my#misc#PrettySimple(visualmode(), 1)<CR>
 endif
 
+
+nnoremap <Leader>ds :call my#misc#SynStack()<CR>
 lua require('my.diagnostics').configure()
 
 command GetMasterBranchLink call my#misc#get_optimistic_branch_link("master")
