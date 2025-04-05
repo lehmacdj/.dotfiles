@@ -1,5 +1,10 @@
 local mod = {}
 
+mod.smart_send_to_qflist = function(prompt_bufnr)
+  require('telescope.actions').smart_send_to_qflist(prompt_bufnr)
+  vim.cmd('cc 1')
+end
+
 require('telescope').setup {
   defaults = {
     mappings = {
@@ -46,11 +51,6 @@ require('telescope').setup {
   },
 }
 require('telescope').load_extension('fzf')
-
-mod.smart_send_to_qflist = function(prompt_bufnr)
-  require('telescope.actions').smart_send_to_qflist(prompt_bufnr)
-  vim.cmd('cc 1')
-end
 
 mod.find_vim_config_files = function()
   local vimhome = vim.fn.stdpath('config')
