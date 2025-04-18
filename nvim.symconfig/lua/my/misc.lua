@@ -32,7 +32,6 @@ mod.is_cursor_in_markdown_link_url = function()
     semantic_tokens = false
   })
 
-  vim.print(pos_info)
   for _, item in ipairs(pos_info.treesitter or {}) do
     if item.capture == 'markup.link.url' then
       return true

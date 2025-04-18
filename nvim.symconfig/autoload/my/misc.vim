@@ -83,7 +83,7 @@ endfunction
 " https://vi.stackexchange.com/questions/37660/how-can-i-echo-a-message-with-newlines-so-it-is-displayed-with-line-breaks-and-i
 function! my#misc#err(msg) abort
   echohl ErrorMsg
-  for line in a:msg->split('\n')
+  for line in split(a:msg, '\n')
     " for some reason tab characters don't render correctly with echom
     let l:cleaned_message = substitute(line, '	', '    ', '')
     echom l:cleaned_message
