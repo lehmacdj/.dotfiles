@@ -64,7 +64,7 @@ augroup override_solarized
     endfunction
   autocmd ColorScheme * call <SID>FixSpellBad()
 augroup END
-silent! colorscheme solarized
+silent! colorscheme NeoSolarized
 set mouse=a
 set scrolloff=4
 set showcmd
@@ -73,8 +73,6 @@ set nohlsearch
 set laststatus=2
 set belloff=all
 set updatetime=100 " make popups appear quickly
-let g:airline_powerline_fonts = 1
-let g:airline#extensions#whitespace#mixed_indent_algo = 2
 let g:netrw_liststyle = 3
 if has('nvim')
     augroup neovim_terminal

@@ -11,7 +11,6 @@ local mod = {}
 --   make certain servers misbehave (e.g. see hls)
 local server_opts = {
   hls = {
-    no_formatting = true,
     modify_capabilities = function(capabilities)
       capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
       return capabilities
@@ -21,6 +20,9 @@ local server_opts = {
       -- this will probably be unnecessary with some future version of nvim's
       -- default lsp configs
       filetypes = {'haskell', 'lhaskell', 'cabal'},
+      haskell = {
+        formattingProvider = 'ormolu',
+      },
     },
   },
   wiki_language_server = {},
@@ -114,33 +116,33 @@ mod.on_attach_with = function(opts) return function(client, bufnr)
     augroup END
   ]]
 
-  if client.supports_method("textDocument/hover") then
+  if client:supports_method("textDocument/hover") then
     buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>')
   end
-  if client.supports_method("textDocument/declaration") then
+  if client:supports_method("textDocument/declaration") then
     buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>')
   end
-  if client.supports_method("textDocument/definition") then
+  if client:supports_method("textDocument/definition") then
     buf_set_keymap('n', '<C-]>', '<cmd>lua vim.lsp.buf.definition()<CR>')
   end
-  if client.supports_method("textDocument/implementation") then
+  if client:supports_method("textDocument/implementation") then
     buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>')
   end
-  if client.supports_method("textDocument/typeDefinition") then
+  if client:supports_method("textDocument/typeDefinition") then
     buf_set_keymap('n', 'gy', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
   end
-  if client.supports_method("textDocument/references") then
+  if client:supports_method("textDocument/references") then
     -- this overwrites the grep_string mapping I have because in practice I
     -- mostly use grep_string like "find references"
     buf_set_keymap('n', 'g]', '<cmd>Telescope lsp_references<CR>')
   end
-  if client.supports_method("textDocument/rename") then
+  if client:supports_method("textDocument/rename") then
     buf_set_keymap('n', '<Leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
   end
-  if client.supports_method("textDocument/codeAction") then
+  if client:supports_method("textDocument/codeAction") then
     buf_set_keymap('n', '<Leader>al', '<cmd>lua vim.lsp.buf.code_action()<CR>')
   end
-  if not opts.no_formatting and client.supports_method("textDocument/formatting") then
+  if not opts.no_formatting and client:supports_method("textDocument/formatting") then
     buf_set_keymap('n', '<space>=', [[<cmd>lua require('my.lsp').guarded_autoformat()<CR>]])
     vim.cmd [[
       augroup LspFormatting

@@ -10,13 +10,7 @@ mod.setup = function()
     root_dir = function(fname)
       return require('lspconfig').util.root_pattern('.git')(fname);
     end,
-    -- diagnostics_format = '#{c}: #{m}",
     sources = {
-      formatting.fourmolu.with {
-        command = 'ormolu',
-        extra_args = { '--cabal-default-extensions', },
-      },
-      formatting.cabal_fmt,
       -- prettier is absurdly slow;
       -- installation: npm install -g @fsouza/prettierd
       formatting.prettierd.with {
@@ -30,10 +24,9 @@ mod.setup = function()
         },
       },
       diagnostics.selene,
-      diagnostics.shellcheck.with {
+      require("none-ls-shellcheck.diagnostics").with {
         diagnostics_format = 'SC#{c}: #{m}',
       },
-      code_actions.shellcheck,
       diagnostics.vint,
     },
   }

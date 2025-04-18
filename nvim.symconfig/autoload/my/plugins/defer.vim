@@ -38,25 +38,26 @@ endfunction
 function! my#plugins#defer#RunDeferred() abort
     " we need to use s:deferred because local-variables can't store Funcrefs
     for s:deferred in s:deferreds
-        if type(s:deferred.action) == 1
-            " s:action is a snippet of lua code; we call loadstring within
-            " luaeval to allow s:action to be a string with potentially
-            " several commands in it
-            try
+        try
+            if type(s:deferred.action) == 1
+                " s:action is a snippet of lua code; we call loadstring within
+                " luaeval to allow s:action to be a string with potentially
+                " several commands in it
                 call luaeval('loadstring(_A)()', s:deferred.action)
-            catch
-                throw printf('Rethrown from %s: %s', s:deferred.source_loc, v:exception)
-            endtry
-        elseif type(s:deferred.action) == 2
-            " s:action is a function reference / anonymous function
-            try
+            elseif type(s:deferred.action) == 2
+                " s:action is a function reference / anonymous function
                 call s:deferred.action()
-            catch
-                throw printf('Rethrown from %s: %s', s:deferred.source_loc, v:exception)
-            endtry
-        else
-            throw printf('invalid type: %d', type(s:deferred.action))
-        endif
+            else
+                call my#misc#err(printf(
+                \   'invalid type at %s:\n%d',
+                \   s:deferred.source_loc,
+                \   type(s:deferred.action)
+                \ ))
+            endif
+        catch
+            call my#misc#err(printf('Error from %s:', s:deferred.source_loc))
+            call my#misc#err(v:exception)
+        endtry
     endfor
     let s:deferreds = []
 endfunction

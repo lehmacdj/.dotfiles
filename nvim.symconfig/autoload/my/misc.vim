@@ -79,9 +79,15 @@ function! my#misc#SynStack() abort
   echo join(l:syns, ', ')
 endfunction
 
+" There isn't a better way to print messages that contain newlines, e.g. see:
+" https://vi.stackexchange.com/questions/37660/how-can-i-echo-a-message-with-newlines-so-it-is-displayed-with-line-breaks-and-i
 function! my#misc#err(msg) abort
   echohl ErrorMsg
-  echom '[config] '.a:msg
+  for line in a:msg->split('\n')
+    " for some reason tab characters don't render correctly with echom
+    let l:cleaned_message = substitute(line, '	', '    ', '')
+    echom l:cleaned_message
+  endfor
   echohl None
 endfunction
 

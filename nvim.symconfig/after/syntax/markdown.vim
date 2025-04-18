@@ -12,6 +12,16 @@ highlight link wikiLink Underlined
 highlight link wikiLinkID Underlined
 
 " conceal html comments
-syntax region htmlCommentConceal matchgroup=htmlCommentConcealDelimiters start="<!--" end="-->" conceal
+syntax region htmlComment matchgroup=htmlCommentConcealDelimiters start="<!--" end="-->" conceal
+
+" clear groups that interfere with my custom syntax rules
+" treesitter causes these to still syntax highlight properly regardless
+syntax clear markdownH1
+syntax clear markdownH2
+syntax clear markdownH3
+syntax clear markdownH4
+syntax clear markdownH5
+syntax clear markdownH6
+syntax clear markdownId
 
 let b:current_syntax = 'markdown'
