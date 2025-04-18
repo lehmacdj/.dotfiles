@@ -37,6 +37,7 @@ elixir.disabled = true
 elm.disabled = true
 erlang.disabled = true
 golang.disabled = true
+gradle.disabled = true
 haskell.disabled = true
 helm.disabled = true
 java.disabled = true
