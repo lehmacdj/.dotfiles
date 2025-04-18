@@ -74,6 +74,11 @@ if [ -e /Users/devin/.nix-profile/etc/profile.d/nix.sh ]; then
     . /Users/devin/.nix-profile/etc/profile.d/nix.sh
 fi
 
+# NVM
+export NVM_DIR="$HOME/.nvm"
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && source "/opt/homebrew/opt/nvm/nvm.sh"
+# [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && source "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
+
 # setup rbenv
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 # add executables on rbenv path to the bin
