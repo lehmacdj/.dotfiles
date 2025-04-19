@@ -12,7 +12,10 @@ highlight link wikiLink Underlined
 highlight link wikiLinkID Underlined
 
 " conceal html comments
-syntax region htmlComment matchgroup=htmlCommentConcealDelimiters start="<!--" end="-->" conceal
+syntax region htmlCommentConceal matchgroup=htmlCommentConcealDelimiters start="<!--" end="-->" conceal
+" god knows why but this highlight group messes up auto-completion?
+" highlight link htmlCommentConceal Comment
+" highlight link htmlCommentConcealDelimiters Comment
 
 " clear groups that interfere with my custom syntax rules
 " treesitter causes these to still syntax highlight properly regardless

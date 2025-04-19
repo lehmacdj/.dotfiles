@@ -55,6 +55,7 @@ local server_opts = {
 -- To be called from plugins.vim to setup all the language servers defined in
 -- the server_opts table
 mod.setup_lsps = function()
+  vim.lsp.log.set_level(vim.log.levels.INFO)
   local default_capabilities = vim.tbl_deep_extend(
     'keep',
     vim.lsp.protocol.make_client_capabilities(),
