@@ -9,6 +9,7 @@ cask '1password'
 # Utilities
 brew 'bash'
 brew 'zsh'
+brew 'fzf'
 brew 'starship' # prompt for bash/zsh
 brew 'git'
 brew 'rg'

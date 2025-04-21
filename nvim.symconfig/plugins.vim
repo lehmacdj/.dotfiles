@@ -43,11 +43,6 @@ xnoremap gs :GitGutterStageHunk<CR>
 " if you squint, gb is like gp for `git preview` but the p is upside down
 nnoremap gb :GitGutterPreviewHunk<CR>
 
-" we always need fzf even if using telescope.nvim because neuron.vim depends
-" on it currently
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
-    \| Plug 'junegunn/fzf.vim'
-
 " ide plugins
 if has('nvim')
   Plug 'github/copilot.vim'
