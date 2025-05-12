@@ -35,8 +35,10 @@
   s = status -sb
   l = log --oneline -n 16 --graph
   a = add
+  f = commit --fixup
   co = checkout
   ci = commit
+  rlm = fetch-reset-latest-trunk
 
 [sendemail]
   smtpuser = lehmacdj@gmail.com
