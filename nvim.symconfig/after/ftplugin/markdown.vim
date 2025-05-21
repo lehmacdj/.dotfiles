@@ -3,7 +3,7 @@ setlocal nosmartindent " without this for/while/if etc. trigger new indent level
 setlocal conceallevel=2 " hide links/html comments
 
 " make breakindent recognize markdown lists
-let &formatlistpat = '^\s*[-+*]\( \[[ x]\]\)\?\s*\|^\s*\d\+\.\s*'
+let &formatlistpat = '^\(>\)\?\s*[-+*]\( \[[ x]\]\)\?\s*\|^\s*\d\+\.\s*'
 
 " perhaps worth looking into https://github.com/dkarter/bullets.vim for
 " automatically making bullets work as I would desire
