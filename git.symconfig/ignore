@@ -19,3 +19,5 @@ __pycache__
 # aider uses this for caches + virtual environments
 .aider*
 .env
+
+**/.claude
