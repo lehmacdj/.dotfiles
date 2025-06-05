@@ -47,23 +47,27 @@ while true; do
         grep_args+=('-v')
     fi
     grep_args+=('^saved/')
-    branch="$(\
+    branches="$(\
       git for-each-ref --sort=-committerdate --format=$'%(refname:short)\t%(committerdate:relative)' refs/heads \
         | grep "${grep_args[@]}" \
         | awk -F'\t' '{ printf "%-50s %s\n", $1, $2 }' \
         | fzf --tac --no-sort --exit-0)"
-    if [ -z "$branch" ]; then
+    if [ -z "$branches" ]; then
         echo "No branch selected. Exiting."
         break
     fi
-    branch_name=$(echo "$branch" | cut -f 1 -d' ')
-    if [ -n "$save" ]; then
-        git branch -m "$branch_name" "saved/$branch_name"
-        >&2 echo "Saved $branch_name"
-    elif [ -n "$unsave" ]; then
-        git branch -m "$branch_name" "${branch_name#saved/}"
-        >&2 echo "Unsaved $branch_name"
-    else
-      git branch -D "$branch_name"
-    fi
+    
+    # Process each selected branch
+    while IFS= read -r branch; do
+        branch_name=$(echo "$branch" | cut -f 1 -d' ')
+        if [ -n "$save" ]; then
+            git branch -m "$branch_name" "saved/$branch_name"
+            >&2 echo "Saved $branch_name"
+        elif [ -n "$unsave" ]; then
+            git branch -m "$branch_name" "${branch_name#saved/}"
+            >&2 echo "Unsaved $branch_name"
+        else
+            git branch -D "$branch_name"
+        fi
+    done <<< "$branches"
 done
