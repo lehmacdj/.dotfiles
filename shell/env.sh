@@ -57,6 +57,10 @@ if [ -d "$HOME"/Library/Python ]; then
     done
 fi
 
+# Java
+cond_path_add "$HOME/.jenv/bin"
+eval "$(jenv init -)"
+
 # Windows (WSL) things
 [ -d /mnt/c/Windows ] || export WINDIR=/mnt/c/Windows
 cond_path_add "/mnt/c/ProgramData/chocolatey/bin" # chocolatey installations
