@@ -27,6 +27,7 @@ mod.setup = function()
       require("none-ls-shellcheck.diagnostics").with {
         diagnostics_format = 'SC#{c}: #{m}',
       },
+      require("none-ls-shellcheck.code_actions"),
       diagnostics.vint,
     },
   }
