@@ -130,5 +130,6 @@ cond_fpath_add () {
 cond_fpath_add "$HOME/.local/share/zsh-completions"
 cond_fpath_add /usr/local/share/zsh-completions
 cond_fpath_add "$(brew --prefix)/share/zsh-completions"
+cond_fpath_add "$HOME/src/beets/extra" # beets zsh completion script lives here
 FPATH="$(consolidate-path "$FPATH")"
 export FPATH
