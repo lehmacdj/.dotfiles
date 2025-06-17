@@ -1,0 +1,2 @@
+- Always use virtual environments (or uv) when using python dependencies that aren't included as part of the standard library.
+- Store all temporary files created for debugging/testing etc. in `./tmp~`
