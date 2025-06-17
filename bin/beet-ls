@@ -1,49 +1,163 @@
-#!/usr/bin/env bash
-# vim: list
-# TODO: make it possible to specify default format for beet ls as replacement
-# for this command
-set -eu -o pipefail
+#!/usr/bin/env python3
+import os
+import sys
+import subprocess
+import shutil
+import unicodedata
+from typing import List, Tuple
 
-row_description="track	artist	title	added	loved	mood	style"
-beet_output="$(beet ls -f "\$track	\$artist	\$title	\$added	\$loved	\$mood	\$style" "$@")"
-echo "$row_description
-$beet_output" \
-  | column -t -s '	'
-#   | awk -F '	' '
-# BEGIN {
-#   # regex from this stackoverflow question claiming that it would solve my
-#   # woes but alas it doesn't; at least not completely:
-#   # https://stackoverflow.com/questions/61411478
-#   reUTF8="([\\000-\\177]|" \
-#          "[\\302-\\337][\\200-\\277]|" \
-#          "\\340[\\240-\\277][\\200-\\277]|" \
-#          "\\355[\\200-\\237][\\200-\\277]|" \
-#          "[\\341-\\354\\356-\\357][\\200-\\277]" \
-#          "[\\200-\\277]|\\360[\\220-\\277]" \
-#          "[\\200-\\277][\\200-\\277]|" \
-#          "[\\361-\\363][\\200-\\277][\\200-\\277]" \
-#          "[\\200-\\277]|\\364[\\200-\\217]" \
-#          "[\\200-\\277][\\200-\\277])"
-# }
-# {
-#   # number of field separators + length of each field
-#   field_cutoff = 50;
-#   start_of_rest = 6 \
-#     + length($1) + length(substr($2,0,field_cutoff)) + length($3) \
-#     + length($4) + length($5) + length($6);
-#   print sprintf("%s\t%s\t%s\t%s\t%s\t%s\t%s", \
-#     $1, \
-#     substr($2,0,field_cutoff), \
-#     $3, \
-#     $4, \
-#     $5, \
-#     $6, \
-#     substr($0, start_of_rest))
-# }
-# '
-# above: This awk snippet attempts to the limit lines to specific lengths,
-# however it doesn't work because awk doesn't seem to handle unicode well.
-# There might be away to around this by using LC_ALL=something but I was
-# working on this while on the airplane so didn't figure it out
-# TODO: sort + limit max columns
-# | sort -t '	' -k 1,2,3
+# Column configuration
+COLUMNS = [
+    ('track', 8),
+    ('artist', 25),
+    ('title', 25),
+    ('added', 12),
+    ('loved', 6),
+    ('mood', 12),
+    ('style', 12),
+]
+
+# Extract column names and widths for easy access
+COLUMN_NAMES = [col[0] for col in COLUMNS]
+COLUMN_WIDTHS = [col[1] for col in COLUMNS]
+
+def get_display_width(text: str) -> int:
+    """Calculate display width with proper Unicode handling."""
+    try:
+        import wcwidth
+        width = wcwidth.wcswidth(text)
+        return width if width is not None else len(text)
+    except ImportError:
+        # Fallback using unicodedata East Asian Width property
+        width = 0
+        for char in text:
+            eaw = unicodedata.east_asian_width(char)
+            if eaw in ('F', 'W'):  # Fullwidth or Wide
+                width += 2
+            elif eaw in ('H', 'Na', 'N'):  # Halfwidth, Narrow, or Neutral
+                width += 1
+            else:  # Ambiguous - treat as single width
+                width += 1
+        return width
+
+def get_terminal_width() -> int:
+    """Get terminal width with fallbacks."""
+    # Try COLUMNS environment variable first
+    if 'COLUMNS' in os.environ:
+        try:
+            return int(os.environ['COLUMNS'])
+        except ValueError:
+            pass
+
+    # Try shutil.get_terminal_size
+    try:
+        return shutil.get_terminal_size().columns
+    except (AttributeError, OSError):
+        pass
+
+    # Final fallback
+    return 80
+
+def truncate_text(text: str, max_width: int) -> str:
+    """Truncate text to fit within max_width display columns."""
+    display_width = get_display_width(text)
+
+    if display_width <= max_width:
+        # Pad with spaces to fill the column
+        padding = max_width - display_width
+        return text + ' ' * padding
+    else:
+        # Need to truncate - find the right character position
+        truncated = text
+        while len(truncated) > 0 and get_display_width(truncated) > max_width - 1:
+            truncated = truncated[:-1]
+
+        final_width = get_display_width(truncated)
+        padding = max_width - final_width - 1
+        return truncated + '…' + ' ' * padding
+
+def format_columns(lines: List[List[str]]) -> None:
+    """Format output with dynamic column sizing."""
+    if not lines:
+        return
+
+    term_width = get_terminal_width()
+
+    # Find maximum display width for each column
+    max_widths = [0] * len(COLUMNS)
+
+    for line in lines:
+        for i, field in enumerate(line):
+            if i < len(max_widths):
+                width = get_display_width(field)
+                max_widths[i] = max(max_widths[i], width)
+
+    # Calculate percentage-based maximums
+    percentage_widths = [
+        term_width * width_pct // 100
+        for width_pct in COLUMN_WIDTHS
+    ]
+
+    # Use smaller of max content width or percentage allocation
+    column_widths = [
+        min(max_widths[i], percentage_widths[i])
+        for i in range(len(COLUMNS))
+    ]
+
+    # Output formatted rows
+    for line in lines:
+        row_parts = []
+        for i, field in enumerate(line):
+            if i < len(column_widths):
+                truncated = truncate_text(field, column_widths[i])
+                row_parts.append(truncated)
+
+        # Join with 2 spaces between columns and strip trailing whitespace
+        print('  '.join(row_parts).rstrip())
+
+def main():
+    """Main function to run beet command and format output."""
+    # Build beet command using configured columns
+    format_string = '\t'.join(f'${name}' for name in COLUMN_NAMES)
+    beet_args = ['beet', 'ls', '-f', format_string]
+    beet_args.extend(sys.argv[1:])  # Pass through command line arguments
+
+    try:
+        # Run beet command
+        result = subprocess.run(beet_args, capture_output=True, text=True, check=True)
+        beet_output = result.stdout.strip()
+    except subprocess.CalledProcessError as e:
+        print(f"Error running beet: {e}", file=sys.stderr)
+        sys.exit(1)
+    except FileNotFoundError:
+        print("Error: 'beet' command not found", file=sys.stderr)
+        sys.exit(1)
+
+    # Parse output into lines
+    lines = []
+
+    # Add header row
+    lines.append(COLUMN_NAMES[:])
+
+    # Add data rows
+    if beet_output:
+        for line in beet_output.split('\n'):
+            if line.strip():
+                fields = line.split('\t')
+                # Pad with empty strings if needed
+                while len(fields) < len(COLUMNS):
+                    fields.append('')
+
+                # Special case: if field value equals column name, treat as empty
+                beet_column_names = [f'${name}' for name in COLUMN_NAMES]
+                for i, field in enumerate(fields[:len(COLUMNS)]):
+                    if i < len(beet_column_names) and field == beet_column_names[i]:
+                        fields[i] = ''
+
+                lines.append(fields[:len(COLUMNS)])  # Take only configured columns
+
+    # Format and output
+    format_columns(lines)
+
+if __name__ == '__main__':
+    main()
