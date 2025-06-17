@@ -20,4 +20,8 @@ __pycache__
 .aider*
 .env
 
+# claude code
 **/.claude
+**/CLAUDE.local.md
+
+**/tmp~
