@@ -59,7 +59,7 @@ fi
 
 # Java
 cond_path_add "$HOME/.jenv/bin"
-eval "$(jenv init -)"
+[ -d "$HOME/.jenv" ] && eval "$(jenv init -)"
 
 # Windows (WSL) things
 [ -d /mnt/c/Windows ] || export WINDIR=/mnt/c/Windows
