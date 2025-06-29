@@ -8,13 +8,13 @@ from typing import List, Tuple
 
 # Column configuration
 COLUMNS = [
-    ('track', 8),
-    ('artist', 25),
-    ('title', 25),
-    ('added', 12),
-    ('loved', 6),
-    ('mood', 12),
-    ('style', 12),
+    ('track', 5),
+    ('artist', 15),
+    ('title', 20),
+    ('added', 10),
+    ('loved', 5),
+    ('mood', 20),
+    ('style', 25),
 ]
 
 # Extract column names and widths for easy access
