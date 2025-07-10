@@ -143,7 +143,6 @@ Plug 'kana/vim-textobj-user'
   \ | Plug 'isovector/cornelis', { 'do': 'stack build' }
 Plug 'purescript-contrib/purescript-vim'
 Plug 'rust-lang/rust.vim'
-Plug 'keith/swift.vim'
 " the fenced markdown languages need to be defined here, because otherwise they
 " aren't set early enough for them to take effect
 Plug 'tpope/vim-markdown'
@@ -165,6 +164,9 @@ if has('nvim')
   " Plug 'OXY2DEV/markview.nvim'
   " see my/markview.lua for discussion on why I currently have this disabled
   " Defer 'require"my.markview".setup()'
+  Plug 'wojciech-kulik/xcodebuild.nvim'
+    \ | Plug 'MunifTanjim/nui.nvim'
+  Defer 'require"xcodebuild".setup { xcodebuild_offline = { enabled = true } }'
 end
 Plug 'lehmacdj/neuron.vim', { 'branch': 'patched-old-neuron' } " zettelkasten support
 

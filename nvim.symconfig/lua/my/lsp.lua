@@ -41,13 +41,7 @@ local server_opts = {
   sourcekit =  {
     no_formatting = true,
     setup = {
-      server_arguments = {
-        '-Xswiftc', '-sdk',
-        '-Xswiftc', '/Applications/Xcode-16.0.0.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator.sdk',
-        '-Xswiftc', '-target',
-        '-Xswiftc', 'arm64-apple-ios18.0-simulator',
-        '-Xcc', '-DSWIFT_PACKAGE=0', -- Build package as if it were Application?
-      },
+      cmd = { vim.trim(vim.fn.system('xcrun --find sourcekit-lsp')) },
     },
   },
 }
