@@ -16,7 +16,7 @@ Options:
   -m, --message <msg>  Use custom commit message instead of auto-generated one
   -n, --no-verify      Pass --no-verify to git commit (skip pre-commit hooks)
   -h, --help           Show this help message
-  --                   Stop parsing options (treat remaining args as files)
+  --                   Stop parsing options (treat remaining args as ref/files)
 
 Arguments:
   BASE_COMMIT          The base commit to coalesce changes from
@@ -28,11 +28,6 @@ Examples:
   git coalesce -n @~1 -- -file-starting-with-dash.txt
 EOF
 }
-
-if [ $# -eq 0 ]; then
-  show_usage
-  exit 1
-fi
 
 # Parse arguments
 NO_VERIFY=""
