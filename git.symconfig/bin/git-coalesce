@@ -6,17 +6,26 @@ set -euo pipefail
 # cumulatively in a single commit.
 
 if [ $# -lt 2 ]; then
-  echo "Usage: git coalesce [--no-verify|-n] [--] <BASE_COMMIT> <FILE_PATH>..."
+  echo "Usage: git coalesce [--no-verify|-n] [--message|-m <msg>] [--] <BASE_COMMIT> <FILE_PATH>..."
   exit 1
 fi
 
 # Parse arguments
 NO_VERIFY=""
+COMMIT_MSG=""
 while [[ $# -gt 0 ]]; do
   case $1 in
     --no-verify|-n)
       NO_VERIFY="$1"
       shift
+      ;;
+    --message|-m)
+      if [ $# -lt 2 ]; then
+        echo "Error: --message/-m requires an argument"
+        exit 1
+      fi
+      COMMIT_MSG="$2"
+      shift 2
       ;;
     --)
       shift
@@ -29,7 +38,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [ $# -lt 2 ]; then
-  echo "Usage: git coalesce [--no-verify|-n] [--] <BASE_COMMIT> <FILE_PATH>..."
+  echo "Usage: git coalesce [--no-verify|-n] [--message|-m <msg>] [--] <BASE_COMMIT> <FILE_PATH>..."
   exit 1
 fi
 
@@ -132,7 +141,9 @@ git add "${FILE_PATHS[@]}"
 
 # Generate commit message
 NUM_FILES=${#FILE_PATHS[@]}
-if [ "$NUM_FILES" -eq 1 ]; then
+if [ -n "$COMMIT_MSG" ]; then
+  : # nothing to do; already have a custom commit message
+elif [ "$NUM_FILES" -eq 1 ]; then
   COMMIT_MSG="Coalesced changes to ${FILE_PATHS[0]}"
 else
   COMMIT_MSG="Coalesced changes to $NUM_FILES files"$'\n\n'"Files modified:"
