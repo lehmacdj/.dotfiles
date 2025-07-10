@@ -1,16 +1,44 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Coalesce changes to a file since a given commit.
-# This deletes all changes to the file in BASE_COMMIT..HEAD and applies them
+# Coalesce changes to files since a given commit.
+# This deletes all changes to the files in BASE_COMMIT..HEAD and applies them
 # cumulatively in a single commit.
 
 if [ $# -lt 2 ]; then
-  echo "Usage: git coalesce <BASE_COMMIT> <FILE_PATH>"
+  echo "Usage: git coalesce [--no-verify|-n] [--] <BASE_COMMIT> <FILE_PATH>..."
   exit 1
 fi
+
+# Parse arguments
+NO_VERIFY=""
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    --no-verify|-n)
+      NO_VERIFY="$1"
+      shift
+      ;;
+    --)
+      shift
+      break
+      ;;
+    *)
+      break
+      ;;
+  esac
+done
+
+if [ $# -lt 2 ]; then
+  echo "Usage: git coalesce [--no-verify|-n] [--] <BASE_COMMIT> <FILE_PATH>..."
+  exit 1
+fi
+
 BASE_COMMIT="$1"
-FILE_PATH="${GIT_PREFIX:-}$2"
+shift
+FILE_PATHS=()
+for arg in "$@"; do
+  FILE_PATHS+=("${GIT_PREFIX:-}$arg")
+done
 
 # Verify base commit exists
 if ! git rev-parse --verify "$BASE_COMMIT" >/dev/null 2>&1; then
@@ -18,41 +46,56 @@ if ! git rev-parse --verify "$BASE_COMMIT" >/dev/null 2>&1; then
   exit 1
 fi
 
+# Validate all file paths and collect their info
+declare -a FILE_TYPES
+declare -a FILE_MODE_SHA1S
+for FILE_PATH in "${FILE_PATHS[@]}"; do
+  # Inspect the file at BASE_COMMIT (if it exists)
+  LS_TREE_OUTPUT="$(git ls-tree "$BASE_COMMIT" -- "$FILE_PATH" || true)"
+  if [ -z "$LS_TREE_OUTPUT" ]; then
+    echo "Note: '$FILE_PATH' did not exist at commit '$BASE_COMMIT'."
+    FILE_TYPES+=("none")
+    FILE_MODE_SHA1S+=("")
+  else
+    MODE_SHA1="$(echo "$LS_TREE_OUTPUT" | awk '{print $1","$3}')"
+    TYPE="$(echo "$LS_TREE_OUTPUT" | awk '{print $2}')"
+    if [ "$TYPE" != "blob" ] && [ "$TYPE" != "tree" ]; then
+      echo "Unsupported type '$TYPE' for '$FILE_PATH'"
+      exit 1
+    fi
+    FILE_TYPES+=("$TYPE")
+    FILE_MODE_SHA1S+=("$MODE_SHA1")
+  fi
+done
+
 # Create a temporary patch of changes since BASE_COMMIT
 TEMP_PATCH="$(mktemp)"
-if ! git diff --binary "$BASE_COMMIT" -- "$FILE_PATH" > "$TEMP_PATCH"; then
+if ! git diff --binary "$BASE_COMMIT" -- "${FILE_PATHS[@]}" > "$TEMP_PATCH"; then
   echo "Failed to generate diff."
   rm "$TEMP_PATCH"
   exit 1
 fi
 
-# Inspect the file at BASE_COMMIT (if it exists)
-LS_TREE_OUTPUT="$(git ls-tree "$BASE_COMMIT" -- "$FILE_PATH" || true)"
-if [ -z "$LS_TREE_OUTPUT" ]; then
-  echo "Note: '$FILE_PATH' did not exist at commit '$BASE_COMMIT'."
-  TYPE="none"
-  MODE_SHA1=""
-else
-  MODE_SHA1="$(echo "$LS_TREE_OUTPUT" | awk '{print $1","$3}')"
-  TYPE="$(echo "$LS_TREE_OUTPUT" | awk '{print $2}')"
-fi
+# Build index filter for all files
 TEMP_VERBOSE_LOG="$(mktemp)"
+INDEX_FILTER=""
+for i in "${!FILE_PATHS[@]}"; do
+  FILE_PATH="${FILE_PATHS[$i]}"
+  TYPE="${FILE_TYPES[$i]}"
+  MODE_SHA1="${FILE_MODE_SHA1S[$i]}"
 
-# Construct our index-filter depending on the file’s type at BASE_COMMIT
-if [ "$TYPE" = "blob" ]; then
-  INDEX_FILTER="git rm -r --cached --ignore-unmatch '$FILE_PATH' >'$TEMP_VERBOSE_LOG' 2>&1;
-    git update-index --add --cacheinfo $MODE_SHA1,'$FILE_PATH' >'$TEMP_VERBOSE_LOG' 2>&1"
-elif [ "$TYPE" = "tree" ]; then
-  INDEX_FILTER="git rm -r --cached --ignore-unmatch '$FILE_PATH' >'$TEMP_VERBOSE_LOG' 2>&1;
-    git read-tree --prefix='$FILE_PATH/' '$BASE_COMMIT':'$FILE_PATH' >'$TEMP_VERBOSE_LOG' 2>&1"
-elif [ "$TYPE" = "none" ]; then
-  # The file did not exist in BASE_COMMIT; remove it from all intermediate commits
-  INDEX_FILTER="git rm -r --cached --ignore-unmatch '$FILE_PATH' >'$TEMP_VERBOSE_LOG' 2>&1"
-else
-  echo "Unsupported type '$TYPE' for '$FILE_PATH'"
-  rm "$TEMP_PATCH"
-  exit 1
-fi
+  # Construct our index-filter depending on the file's type at BASE_COMMIT
+  if [ "$TYPE" = "blob" ]; then
+    INDEX_FILTER="$INDEX_FILTER git rm -r --cached --ignore-unmatch '$FILE_PATH' >'$TEMP_VERBOSE_LOG' 2>&1;
+      git update-index --add --cacheinfo $MODE_SHA1,'$FILE_PATH' >'$TEMP_VERBOSE_LOG' 2>&1;"
+  elif [ "$TYPE" = "tree" ]; then
+    INDEX_FILTER="$INDEX_FILTER git rm -r --cached --ignore-unmatch '$FILE_PATH' >'$TEMP_VERBOSE_LOG' 2>&1;
+      git read-tree --prefix='$FILE_PATH/' '$BASE_COMMIT':'$FILE_PATH' >'$TEMP_VERBOSE_LOG' 2>&1;"
+  elif [ "$TYPE" = "none" ]; then
+    # The file did not exist in BASE_COMMIT; remove it from all intermediate commits
+    INDEX_FILTER="$INDEX_FILTER git rm -r --cached --ignore-unmatch '$FILE_PATH' >'$TEMP_VERBOSE_LOG' 2>&1;"
+  fi
+done
 
 # Call filter-branch to remove or revert changes to the file in all commits from BASE_COMMIT..HEAD
 OLD_COMMITS="$(git rev-list "$BASE_COMMIT"..HEAD)"
@@ -76,7 +119,7 @@ fi
 
 # Apply the patch and commit
 if [ ! -s "$TEMP_PATCH" ]; then
-  echo "No net changes to '$FILE_PATH' since '$BASE_COMMIT'. Intermediate changes have been removed."
+  echo "No net changes to files since '$BASE_COMMIT'. Intermediate changes have been removed."
   rm "$TEMP_PATCH"
   exit 0
 fi
@@ -85,8 +128,21 @@ if ! git apply --binary "$TEMP_PATCH"; then
   rm "$TEMP_PATCH"
   exit 1
 fi
-git add "$FILE_PATH"
-if ! git commit -m "Coalesced changes to $FILE_PATH"; then
+git add "${FILE_PATHS[@]}"
+
+# Generate commit message
+NUM_FILES=${#FILE_PATHS[@]}
+if [ "$NUM_FILES" -eq 1 ]; then
+  COMMIT_MSG="Coalesced changes to ${FILE_PATHS[0]}"
+else
+  COMMIT_MSG="Coalesced changes to $NUM_FILES files"$'\n\n'"Files modified:"
+  for FILE_PATH in "${FILE_PATHS[@]}"; do
+    COMMIT_MSG="$COMMIT_MSG"$'\n'"- $FILE_PATH"
+  done
+fi
+
+# shellcheck disable=2086
+if ! git commit $NO_VERIFY -m "$COMMIT_MSG"; then
   echo "Failed to commit changes."
   rm "$TEMP_PATCH"
   exit 1
