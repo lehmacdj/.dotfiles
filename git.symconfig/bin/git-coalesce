@@ -175,6 +175,8 @@ else
   done
 fi
 
+# $NO_VERIFY needs to be passed unquoted to allow it to be empty, otherwise
+# git interprets it as a ref/file with the empty string as its filename.
 # shellcheck disable=2086
 if ! git commit $NO_VERIFY -m "$COMMIT_MSG"; then
   echo "Failed to commit changes."
