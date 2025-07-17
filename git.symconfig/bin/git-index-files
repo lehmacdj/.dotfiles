@@ -1,0 +1,80 @@
+#!/usr/bin/env python3
+"""
+List files and directories with multiple children from git status
+
+Useful for defining fzf widgets etc. that want to operate on files in the git
+index.
+"""
+
+import subprocess
+import sys
+from collections import defaultdict
+
+
+def main():
+    try:
+        # Run git status --porcelain and capture output
+        result = subprocess.run(
+            ['git', 'status', '--porcelain'],
+            capture_output=True,
+            text=True,
+            check=True
+        )
+
+        files = []
+        # Map from directory -> set of immediate children
+        dir_children = defaultdict(set)
+
+        # Process each line from git status
+        for line in result.stdout.splitlines():
+            # there are 4 characters of porcelain showing the status of the file
+            # at the start of the line
+            if len(line) < 4:
+                continue
+
+            # Extract filename (skip first 3 characters)
+            filename = line[3:]
+            if not filename:
+                continue
+
+            # Add the file itself
+            files.append(filename)
+
+            # Build parent-child relationships for all levels
+            current_path = filename
+            while True:
+                pos = current_path.rfind('/')
+                if pos == -1:
+                    break
+
+                parent_dir = current_path[:pos + 1]
+                child_name = current_path[pos + 1:]
+                dir_children[parent_dir].add(child_name)
+
+                # Move up one level (remove the child part)
+                current_path = current_path[:pos]
+
+        # Collect results
+        results = []
+
+        # Add files (always included)
+        results.extend(files)
+
+        # Add directories with more than 1 child
+        multi_child_dirs = [directory for directory, children in dir_children.items()
+                           if len(children) > 1]
+        results.extend(multi_child_dirs)
+
+        # Sort and output in one go
+        print('\n'.join(sorted(results)))
+
+    except subprocess.CalledProcessError as e:
+        print(f"Error running git command: {e}", file=sys.stderr)
+        sys.exit(1)
+    except FileNotFoundError:
+        print("Error: git command not found", file=sys.stderr)
+        sys.exit(1)
+
+
+if __name__ == '__main__':
+    main()
