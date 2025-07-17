@@ -4,6 +4,7 @@
 if command -v fzf >/dev/null 2>&1; then
   # Set the default fzf command
   export FZF_DEFAULT_COMMAND='rg --files'
+  export FZF_CTRL_T_COMMAND='rg --files'
   export FZF_DEFAULT_OPTS='--multi --bind ctrl-a:select-all,ctrl-d:deselect-all,ctrl-t:toggle-all'
 
   # setup completion + key bindings
