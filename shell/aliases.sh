@@ -342,14 +342,11 @@ function xargs_newlines_vim () {
 # requires being in the root of the git repository because of the way git
 # conflicts works
 function viconflicts () {
-    # this is technically broken for filenames containing newlines but that
-    # should be pretty rare right?
-    files="$(echo -n "$(git conflicts)")"
     # for some reason nvim fails to resume in specifically in zsh if the files
     # are piped into xargs
     # using <<< works, but appends an extra newline to the list of files so we
     # have the remove the last argument from the list
-    xargs_newlines_vim +"vimgrep /<<<<<<</g ##" <<<"$files"
+    xargs_newlines_vim +"vimgrep /<<<<<<</g ##" <<<"$(git conflicts)"
 }
 
 # edit all files with a git conflict and populate them into the quickfix list
@@ -357,10 +354,7 @@ function viconflicts () {
 # requires being in the root of the git repository because of the way git
 # conflicts works
 function vihunks () {
-    # this is technically broken for filenames containing newlines but that
-    # should be pretty rare right?
-    files="$(echo -n "$(git diff --name-only)")"
-    xargs_newlines_vim +":GitGutterQuickFix" +":cc 1" <<<"$files"
+    xargs_newlines_vim +":GitGutterQuickFix" +":cc 1" <<<"$(git diff --name-only)"
 }
 
 function virg () {
