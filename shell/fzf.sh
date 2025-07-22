@@ -16,7 +16,7 @@ if command -v fzf >/dev/null 2>&1; then
 fi
 
 __fzf_select_git__() {
-  FZF_DEFAULT_COMMAND='git index-files' \
+  FZF_DEFAULT_COMMAND='git index-files --expand-parents' \
   FZF_DEFAULT_OPTS=$(__fzf_defaults "--reverse --scheme=path" "--tiebreak=index -m") \
   FZF_DEFAULT_OPTS_FILE='' $(__fzfcmd) "$@" < /dev/tty | while read -r item; do
     echo -n "${item} "
