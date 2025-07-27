@@ -88,6 +88,9 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 # add executables on rbenv path to the bin
 cond_path_add "$HOME/.rbenv/bin"
 
+# claude code
+cond_path_add "$HOME/.claude/local"
+
 PATH="$(consolidate-path "$PATH")"
 MANPATH="$(consolidate-path "$MANPATH")"
 export PATH
