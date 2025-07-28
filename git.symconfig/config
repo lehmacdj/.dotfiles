@@ -79,3 +79,5 @@
   prune = true
 [advice]
   detachedHead = false
+[rerere]
+  enabled = true
