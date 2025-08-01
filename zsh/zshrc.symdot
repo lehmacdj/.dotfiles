@@ -20,7 +20,6 @@ source "$DOTFILES/zsh/prompt.zsh"
 source "$DOTFILES/zsh/hooks.zsh"
 source "$DOTFILES/zsh/antigen.zsh" # calls compinit, sets up zsh packages
 source "$DOTFILES/zsh/post_compinit.zsh"
-source "$DOTFILES/shell/bash_completion.sh"
 # needs to be loaded after antigen because sets keybindings for completion
 source "$DOTFILES/zsh/inputrc.zsh"
 

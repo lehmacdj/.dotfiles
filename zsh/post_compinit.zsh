@@ -1,7 +1,9 @@
 # this file expects to be called after compinit has already been executed
 # (probably by antigen)
-# useful ref for completion configuration:
-# https://thevaluable.dev/zsh-completion-guide-examples/
+# This file does 2 main things:
+# 1. configures the style of the completion prompts
+#   - reference: https://thevaluable.dev/zsh-completion-guide-examples/
+# 2. loads completions that are not loaded via the fpath (i.e. bash completions)
 
 # +X causes autoload to immediately load the function. This causes the command
 # to only attempt to be executed if it actually exists (very unnecessary for
@@ -9,6 +11,9 @@
 # sorry)
 # -U ignores aliases
 autoload -U +X bashcompinit && bashcompinit
+
+# https://jj-vcs.github.io/jj/latest/install-and-setup/#dynamic
+source <(COMPLETE=zsh jj)
 
 # nicer colorful completion list items
 zmodload -i zsh/complist
