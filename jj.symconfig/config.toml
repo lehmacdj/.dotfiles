@@ -1,0 +1,11 @@
+"$schema" = "https://jj-vcs.github.io/jj/latest/config-schema.json"
+
+[user]
+name = "Devin Lehmacher"
+email = "lehmacdj@gmail.com"
+
+[git]
+private-commits = "description(glob:'wip:*') | description(glob:'private:*')"
+
+[ui]
+default-command = "log"
