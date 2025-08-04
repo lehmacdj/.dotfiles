@@ -989,11 +989,11 @@
 				<real>0.99697142839431763</real>
 			</dict>
 			<key>Minimum Contrast</key>
-			<real>0.14999999999999999</real>
+			<real>0.12</real>
 			<key>Minimum Contrast (Dark)</key>
-			<real>0.15394345238095239</real>
+			<real>0.12</real>
 			<key>Minimum Contrast (Light)</key>
-			<real>0.1513392857142857</real>
+			<real>0.12</real>
 			<key>Mouse Reporting</key>
 			<true/>
 			<key>Name</key>
@@ -1017,7 +1017,7 @@
 			<key>Screen</key>
 			<integer>-1</integer>
 			<key>Scrollback Lines</key>
-			<integer>1000</integer>
+			<integer>0</integer>
 			<key>Selected Text Color</key>
 			<dict>
 				<key>Blue Component</key>
@@ -2119,9 +2119,9 @@
 			<key>Minimum Contrast</key>
 			<real>0.14772135416666668</real>
 			<key>Minimum Contrast (Dark)</key>
-			<real>0.14966517857142858</real>
+			<real>0.12</real>
 			<key>Minimum Contrast (Light)</key>
-			<real>0.14999999999999999</real>
+			<real>0.12</real>
 			<key>Mouse Reporting</key>
 			<true/>
 			<key>Name</key>
@@ -3258,11 +3258,11 @@
 				<real>0.99697142839431763</real>
 			</dict>
 			<key>Minimum Contrast</key>
-			<real>0.14999999999999999</real>
+			<real>0.12</real>
 			<key>Minimum Contrast (Dark)</key>
-			<real>0.14999999999999999</real>
+			<real>0.12</real>
 			<key>Minimum Contrast (Light)</key>
-			<real>0.14999999999999999</real>
+			<real>0.12</real>
 			<key>Mouse Reporting</key>
 			<true/>
 			<key>Name</key>
