@@ -205,6 +205,10 @@ if [ -n "$DARWIN" ] && [ "$features" -ge 3 ]; then
     # Use brew-bundle to install homebrew formulas in a good order
     brew bundle --file="$DOTFILES/Brewfile"
 
+    # load iTerm2 preferences from file stored in dotfiles
+    defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$DOTFILES/iTerm2"
+    defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true
+
     # allow unsigned qlgenerators to be used
     # workaround documented/taken from here: https://github.com/whomwah/qlstephen#readme
     xattr -cr ~/Library/QuickLook/*.qlgenerator
