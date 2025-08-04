@@ -5,7 +5,7 @@ name = "Devin Lehmacher"
 email = "lehmacdj@gmail.com"
 
 [git]
-private-commits = "description(glob:'wip:*') | description(glob:'private:*')"
+private-commits = "description(glob:'private:*') | description(glob:'priv:*') | description(glob:'wip:*')"
 
 [ui]
 default-command = "log"
