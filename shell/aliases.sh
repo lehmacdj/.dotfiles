@@ -34,6 +34,7 @@ alias bc='bc -l'
 # editing of things
 function vial {
     search_string="$1"
+    set_term_titles "ν aliases 🐚"
     "$EDITOR" ${search_string:++"/$search_string"} ~/.dotfiles/shell/aliases.sh
     source "$DOTFILES/shell/aliases.sh"
 }
@@ -497,11 +498,27 @@ mvln() {
     fi
 }
 
+set_window_title() {
+  [ -z "$1" ] && { echo "Usage: set_window_title <title>"; return 1; }
+  echo -ne "\e]2;$1\a"
+}
+
+set_tab_title() {
+  [ -z "$1" ] && { echo "Usage: set_tab_title <title>"; return 1; }
+  echo -ne "\e]1;$1\a"
+}
+
+set_term_titles() {
+  [ -z "$1" ] && { echo "Usage: set_term_titles <title>"; return 1; }
+  set_window_title "$1"
+  set_tab_title "$1"
+}
+
 # start editing notes (with the right CWD) from anywhere
 vii() {
   if ! [ -d "$HOME/wiki" ]; then
     echo "error: $HOME/wiki does not exist"
     return 1
   fi
-  (cd "$HOME/wiki" && "$EDITOR" index.md)
+  (cd "$HOME/wiki" && set_term_titles "📝 wiki ✨" && "$EDITOR" index.md)
 }

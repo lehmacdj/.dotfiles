@@ -16,7 +16,7 @@ export DOTFILES
 
 source "$DOTFILES/shell/env.sh"
 source "$DOTFILES/shell/aliases.sh"
-source "$DOTFILES/bash/prompt.bash"
+source "$DOTFILES/bash/ui.bash"
 source "$DOTFILES/bash/settings.bash"
 source "$DOTFILES/shell/fzf.sh"
 
