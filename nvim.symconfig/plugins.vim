@@ -117,11 +117,6 @@ if has('nvim')
   require('my.luasnippets').load()
   EOF
   Defer s:luasnip_setup
-else
-  " fzf bindings for finders is my fallback for Telescope
-  nnoremap <Leader>o :FZF<CR>
-  nnoremap <Leader>/ :Rg<CR>
-  nnoremap <Leader>b :Buffers<CR>
 endif
 
 " language specific plugins
