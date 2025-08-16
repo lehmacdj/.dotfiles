@@ -9,6 +9,7 @@ private-commits = "description(regex:'(priv(|ate)|wip):*')"
 
 [ui]
 default-command = "log"
+diff-editor = ":builtin"
 
 [aliases]
 rebase-all = ["rebase", "-s", "all:roots(trunk()..mutable())", "-d", "trunk()"]

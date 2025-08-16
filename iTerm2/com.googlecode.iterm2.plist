@@ -2107,7 +2107,7 @@
 				<real>0.73725490196078436</real>
 			</dict>
 			<key>Minimum Contrast</key>
-			<real>0.14999999999999999</real>
+			<real>0.14772135416666668</real>
 			<key>Minimum Contrast (Dark)</key>
 			<real>0.12</real>
 			<key>Minimum Contrast (Light)</key>
@@ -2284,7 +2284,7 @@
 			<key>Use Selected Text Color (Light)</key>
 			<true/>
 			<key>Use Separate Colors for Light and Dark Mode</key>
-			<false/>
+			<true/>
 			<key>Use Tab Color (Dark)</key>
 			<true/>
 			<key>Use Tab Color (Light)</key>
