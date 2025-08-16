@@ -15,12 +15,13 @@ unsetopt beep
 # extended globbing
 setopt extended_glob
 # magic stuff to make urls get quoted automatically and not trigger extended_glob
+# recommendation from PL/prolog Alex from Simspacers discord
 autoload -Uz bracketed-paste-url-magic
 zle -N bracketed-paste bracketed-paste-url-magic
 
 # HISTORY
-HISTSIZE=1000000
-SAVEHIST=1000000
+HISTSIZE=10000000
+SAVEHIST=10000000
 HISTFILE="$DOTFILES/zsh/.zhistory"
 HISTORY_IGNORE="(ls|ll|bg|fg)"
 # https://unix.stackexchange.com/questions/562722/ignore-history-when-using-zsh
