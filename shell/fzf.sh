@@ -26,7 +26,7 @@ __fzf_select_git__() {
   return $ret
 }
 
-if [ -n "$BASH_VERSION" ]; then
+if [ -n "$BASH_VERSION" ] && [[ $- =~ i ]]; then
   fzf-git-widget() {
     local selected
     selected="$(__fzf_select_git__ "$@")"
@@ -37,7 +37,7 @@ if [ -n "$BASH_VERSION" ]; then
   bind -m emacs-standard -x '"\C-g": fzf-git-widget'
   bind -m vi-command -x '"\C-g": fzf-git-widget'
   bind -m vi-insert -x '"\C-g": fzf-git-widget'
-elif [ -n "$ZSH_VERSION" ]; then
+elif [ -n "$ZSH_VERSION" ] && [[ -o interactive ]]; then
   fzf-git-widget() {
      LBUFFER="${LBUFFER}$(__fzf_select_git__)"
      local ret=$?
