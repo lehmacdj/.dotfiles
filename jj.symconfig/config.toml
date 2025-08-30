@@ -5,14 +5,18 @@ name = "Devin Lehmacher"
 email = "lehmacdj@gmail.com"
 
 [git]
-private-commits = "description(regex:'(priv(|ate)|wip):*')"
+private-commits = "description(regex:'(priv(|ate)|wip):.*')"
 
 [ui]
 default-command = "log"
 diff-editor = ":builtin"
 
 [aliases]
-rebase-all = ["rebase", "-s", "all:roots(trunk()..mutable())", "-d", "trunk()"]
+rebase-all = ["rebase", "-s", "all:heads() & ~saved()", "-d", "trunk()"]
 pull = ["util", "exec", "--", "bash", "-c", "jj git fetch && jj rebase-all"]
 sq = ["squash"]
 submit = ["util", "exec", "--", "jjsubmit", ""]
+
+[revset-aliases]
+'saved()' = "description(regex:'saved:.*')"
+'heads()' = 'roots(trunk()..mutable())'
