@@ -17,6 +17,7 @@ pull = ["util", "exec", "--", "bash", "-c", "jj git fetch && jj rebase-all"]
 sq = ["squash"]
 submit = ["util", "exec", "--", "jjsubmit", ""]
 tug = ["bookmark", "move", "--from", "heads(::push_point() & bookmarks())", "--to", "push_point()"]
+ca = ["util", "exec", "--", "jj-commit-after"]
 
 [revset-aliases]
 # we consider some changes saved to avoid rebasing them
