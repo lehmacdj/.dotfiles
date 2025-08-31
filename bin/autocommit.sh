@@ -48,12 +48,13 @@ if [ -n "$pre_command" ]; then
 fi
 
 # check that there are changes and that the message is non-empty
-if [ "$(jj diff --name-only | wc -l)" -eq 0 ]; then
-    >&2 echo "Current change is empty; skipping"
+if [ "$(jj show --template 'description' --no-patch | wc -c)" -ne 0 ]; then
+    >&2 echo "Current description isn't empty; skipping + creating new change"
+    jj new
     exit 0
 fi
-if [ "$(jj show --template 'description' --no-patch | wc -c)" -ne 0 ]; then
-    >&2 echo "Current description isn't empty; skipping"
+if [ "$(jj diff --name-only | wc -l)" -eq 0 ]; then
+    >&2 echo "Current change is empty; skipping"
     exit 0
 fi
 
