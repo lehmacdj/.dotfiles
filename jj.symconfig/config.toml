@@ -12,11 +12,16 @@ default-command = "log"
 diff-editor = ":builtin"
 
 [aliases]
-rebase-all = ["rebase", "-s", "all:heads() & ~saved()", "-d", "trunk()"]
+rebase-all = ["rebase", "-s", "all:roots(trunk()..mutable()) & ~saved()", "-d", "trunk()"]
 pull = ["util", "exec", "--", "bash", "-c", "jj git fetch && jj rebase-all"]
 sq = ["squash"]
 submit = ["util", "exec", "--", "jjsubmit", ""]
+tug = ["bookmark", "move", "--from", "heads(::push_point() & bookmarks())", "--to", "push_point()"]
 
 [revset-aliases]
+# we consider some changes saved to avoid rebasing them
 'saved()' = "description(regex:'saved:.*')"
-'heads()' = 'roots(trunk()..mutable())'
+# the place from below which we push changes to the remote from
+# if we have a meta merge we push from below it, otherwise we assume we push
+# from the current head
+'push_point()' = "coalesce(description(glob:'*meta merge*')- & ::@, @)"
