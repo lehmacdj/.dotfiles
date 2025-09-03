@@ -522,3 +522,11 @@ vii() {
   fi
   (cd "$HOME/wiki" && set_term_titles "📝 wiki ✨" && "$EDITOR" index.md)
 }
+
+mkdir_zmv() {
+    zmv -n "$@" | while read -r _ _ src dest; do
+        mkdir -p "$(dirname "$dest")"
+        mv "$src" "$dest"
+    done
+}
+
