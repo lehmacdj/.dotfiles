@@ -172,10 +172,11 @@ function! my#misc#visual_magic_markdown_link_paste() abort
   let l:reg = get(v:, 'register', '"')
   let l:to_paste = getreg(l:reg)
   let l:pasting_link = l:to_paste =~# '^https\?:.*'
+  let l:pasting_bracketed_link = l:to_paste =~# '^<https\?:.*>'
   let l:cursor_in_link = has('nvim')
         \ && v:lua.require'my.misc'.is_cursor_in_markdown_link_url()
 
-  if l:pasting_link && !l:cursor_in_link
+  if (l:pasting_link || l:pasting_bracketed_link) && !l:cursor_in_link
     return "S]%a()\<Esc>\"" . l:reg . 'PF]%'
   else
     return 'p'
