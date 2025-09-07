@@ -18,6 +18,8 @@ sq = ["squash"]
 submit = ["util", "exec", "--", "jjsubmit"]
 ca = ["util", "exec", "--", "jj-commit-after"]
 c = ["util", "exec", "--", "jj-commit-after", "heads(::push_point() & bookmarks())"]
+pp = ["util", "exec", "--", "bash", "-c", "jj pull && jj git push"]
+tug = ["bookmark", "move", "--from", "heads(::push_point() & bookmarks())", "--to", "coalesce(push_point() & ~empty(), push_point()-)"]
 
 [revset-aliases]
 # we consider some changes saved to avoid rebasing them
