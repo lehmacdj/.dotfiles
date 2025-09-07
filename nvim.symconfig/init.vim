@@ -256,6 +256,7 @@ nnoremap <Leader>ds :call my#misc#SynStack()<CR>
 lua require('my.diagnostics').configure()
 
 command GetMasterBranchLink call my#misc#get_optimistic_branch_link("master")
+command GetMainBranchLink call my#misc#get_optimistic_branch_link("main")
 command GetSheetsLink call my#misc#get_filename_sheets_link()
 
 " finally load local vim configuration if it exists
