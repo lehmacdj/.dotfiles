@@ -4,6 +4,10 @@ setlocal conceallevel=2 " hide links/html comments
 
 " make breakindent recognize markdown lists
 let &formatlistpat = '^\(>\)\?\s*[-+*]\( \[[ x]\]\)\?\s*\|^\s*\d\+\.\s*'
+set comments=b:*,b:-,b:+,bn:> " allow nesting > (compared w/ markdown.vim)
+" insert/join "comment" (i.e. list) leaders automatically
+" return, o (o/O in normal mode), and when joining lines
+setlocal formatoptions+=roj
 
 " perhaps worth looking into https://github.com/dkarter/bullets.vim for
 " automatically making bullets work as I would desire
@@ -26,16 +30,22 @@ setlocal linebreak
 setlocal showbreak=
 setlocal colorcolumn=
 nnoremap j gj
-nnoremap k gk
-nnoremap $ g$
 xnoremap j gj
+nnoremap k gk
 xnoremap k gk
+nnoremap $ g$
 xnoremap $ g$
-" leave a way to get true $
-nnoremap g$ $
-xnoremap g$ $
 nnoremap 0 g0
 xnoremap 0 g0
+" leave a way to get the original mappings
+nnoremap gj j
+xnoremap gj j
+nnoremap gk k
+xnoremap gk k
+nnoremap g$ $
+xnoremap g$ $
+nnoremap g0 0
+xnoremap g0 0
 
 if filereadable('neuron.dhall')
     " I don't want git gutter for my notes because it will make me think about
