@@ -165,24 +165,6 @@ function! my#misc#EditSyntaxFile() abort
   endif
 endfunction
 
-" Intended to be mapped like so for filetypes that use markdown link syntax:
-" xmap <buffer> <expr> p my#misc#magic_markdown_link_paste()
-" Emulates the behavior of apps like slack.
-function! my#misc#visual_magic_markdown_link_paste() abort
-  let l:reg = get(v:, 'register', '"')
-  let l:to_paste = getreg(l:reg)
-  let l:pasting_link = l:to_paste =~# '^https\?:.*'
-  let l:pasting_bracketed_link = l:to_paste =~# '^<https\?:.*>'
-  let l:cursor_in_link = has('nvim')
-        \ && v:lua.require'my.misc'.is_cursor_in_markdown_link_url()
-
-  if (l:pasting_link || l:pasting_bracketed_link) && !l:cursor_in_link
-    return "S]%a()\<Esc>\"" . l:reg . 'PF]%'
-  else
-    return 'p'
-  endif
-endfunction
-
 " Get a link to the current line in the github repository optimistically
 " assuming it appears on the master branch
 function! my#misc#get_optimistic_branch_link(branch_name) abort

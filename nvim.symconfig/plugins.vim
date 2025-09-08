@@ -7,6 +7,9 @@ Defer {-> execute('delcommand Defer')}
 
 call plug#begin($VIMHOME.'/plugged')
 
+" my plugins
+Plug 'lehmacdj/vim-magic-link-paste'
+
 " general purpose vanilla-like behavior
 Plug 'tpope/vim-unimpaired' " many useful shortcuts
 Plug 'tpope/vim-abolish' " find replace with variants + snake/camel/kebab case changing
