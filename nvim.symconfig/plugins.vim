@@ -152,7 +152,6 @@ Plug 'tpope/vim-markdown'
 let g:markdown_fenced_languages = [
   \ 'bash=sh',
   \ 'haskell',
-  \ 'java',
   \ 'javascript',
   \ 'json',
   \ 'kotlin',

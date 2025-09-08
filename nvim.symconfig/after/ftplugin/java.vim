@@ -6,3 +6,5 @@ nnoremap <Leader>N :lNe<CR>
 
 " Abbreviations
 abbreviate sysout System.out.println
+
+let g:java_ignore_html = 1

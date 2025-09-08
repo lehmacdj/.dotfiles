@@ -1,8 +1,13 @@
 " syntax highlight yaml frontmatter using hack from this thread:
 " https://github.com/tpope/vim-markdown/issues/71
-unlet b:current_syntax " b:current_syntax must be unset for loading syntax/yaml.vim
-syntax include @Yaml syntax/yaml.vim
-syntax region yamlFrontmatter start=/\%^---$/ end=/\v^%(\.{3}|\-{3})$/ keepend contains=@Yaml
+try
+  " b:current_syntax must be unset for loading syntax/yaml.vim
+  unlet b:current_syntax
+  syntax include @Yaml syntax/yaml.vim
+  syntax region yamlFrontmatter start=/\%^---$/ end=/\v^%(\.{3}|\-{3})$/ keepend contains=@Yaml
+finally
+  let b:current_syntax = 'markdown'
+endtry
 
 " conceal wikilinks
 syntax region wikiLink matchgroup=wikiLinkDelimiters start="\[\[" end="\]\]" contains=wikiLinkID oneline concealends
@@ -26,5 +31,3 @@ syntax clear markdownH4
 syntax clear markdownH5
 syntax clear markdownH6
 syntax clear markdownId
-
-let b:current_syntax = 'markdown'
