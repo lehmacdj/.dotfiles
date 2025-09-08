@@ -19,6 +19,6 @@ if [ -n "$keep_message" ]; then
 else
   jj commit "$@"
 fi
-jj rebase -r @- -A "$change_name" -B "$change_name+"
+jj rebase -r @- -A "$change_name" -B "$change_name+ & mutable()"
 # $change_name+ now refers to the new commit
-jj bookmark move --from "$change_name" --to "$change_name+"
+jj bookmark move --from "$change_name" --to "$change_name+ & mutable()"
