@@ -8,7 +8,11 @@ Defer {-> execute('delcommand Defer')}
 call plug#begin($VIMHOME.'/plugged')
 
 " my plugins
-Plug 'lehmacdj/vim-magic-link-paste'
+if isdirectory($HOME.'/src/vim-magic-link-paste')
+  Plug $HOME.'/src/vim-magic-link-paste'
+else
+  Plug 'lehmacdj/vim-magic-link-paste'
+endif
 
 " general purpose vanilla-like behavior
 Plug 'tpope/vim-unimpaired' " many useful shortcuts
@@ -34,6 +38,7 @@ if has('nvim')
   Defer 'require"lualine".setup()'
   Plug 'nvim-tree/nvim-web-devicons'
   Defer 'require"nvim-web-devicons".setup{ default = true }'
+  Plug '3rd/image.nvim'
 endif
 
 " git

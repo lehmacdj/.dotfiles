@@ -4,9 +4,13 @@ setlocal conceallevel=2 " hide links/html comments
 
 " make breakindent recognize markdown lists
 let &formatlistpat = '^\(>\)\?\s*[-+*]\( \[[ x]\]\)\?\s*\|^\s*\d\+\.\s*'
+
 set comments=b:*,b:-,b:+,bn:> " allow nesting > (compared w/ markdown.vim)
 " insert/join "comment" (i.e. list) leaders automatically
 " return, o (o/O in normal mode), and when joining lines
+" I find this mildly annoying for lists, but it's really nice for > quotes
+" I wish there were a way to still keep `j` for any kind of comment, but only
+" ro for `>`
 setlocal formatoptions+=roj
 
 " perhaps worth looking into https://github.com/dkarter/bullets.vim for
@@ -21,8 +25,6 @@ nmap <buffer> <LocalLeader>o :!open %:r.pdf<CR>
 " pipe symbol and entering insert mode so that I can easily add alt text.
 " depends on: vim-surround
 nmap <buffer> <LocalLeader>ic F!llds]cs])aimages/<esc>ysi)>hi[]<esc>i
-
-xmap <buffer> <expr> p my#misc#visual_magic_markdown_link_paste()
 
 " Stuff for softwrapping
 setlocal wrap
