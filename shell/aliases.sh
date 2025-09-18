@@ -56,7 +56,7 @@ fi
 alias ed="ed -p:"
 
 # Summon a random kitten
-alias kitten="curl -s https://placekitten.com/\$(shuf -i 300-1000 -n 1)/\
+alias summon-kitten="curl -s https://placekitten.com/\$(shuf -i 300-1000 -n 1)/\
 \$(shuf -i 300-1000 -n 1) | imgcat"
 
 # work with plist files
