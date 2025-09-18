@@ -201,6 +201,9 @@ if [ -n "$DARWIN" ] && [ "$features" -ge 3 ]; then
     defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$DOTFILES/iTerm2"
     defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true
 
+    # load hammerspoon config from dotfiles
+    defaults write org.hammerspoon.Hammerspoon MJConfigFile -string "$DOTFILES/hammerspoon/init.lua"
+
     # allow unsigned qlgenerators to be used
     # workaround documented/taken from here: https://github.com/whomwah/qlstephen#readme
     xattr -cr ~/Library/QuickLook/*.qlgenerator
