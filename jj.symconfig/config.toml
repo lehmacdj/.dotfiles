@@ -31,6 +31,7 @@ pre-commit = ["util", "exec", "--", "jj-pre-commit"]
 # I used "meta merge" originally because I misremembered the commonly used
 # terminology, for backwards compatibility with my old repos I allow both
 'mega_merge()' = "description(regex:'^priv: (mega|meta) merge')"
+'m()' = "mega_merge()" # short form
 # the place from below which we push changes to the remote from
 # if we have a meta merge we push from below it, otherwise we assume we push
 # from the current head
