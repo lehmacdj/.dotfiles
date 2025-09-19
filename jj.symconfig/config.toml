@@ -5,7 +5,7 @@ name = "Devin Lehmacher"
 email = "lehmacdj@gmail.com"
 
 [git]
-private-commits = "description(regex:'(priv(|ate)|wip):.*')"
+private-commits = "private()"
 
 [ui]
 default-command = "log"
@@ -18,7 +18,7 @@ sq = ["squash"]
 ca = ["util", "exec", "--", "jj-commit-after"]
 c = ["util", "exec", "--", "jj-commit-after", "heads(::push_point() & bookmarks())"]
 pp = ["util", "exec", "--", "bash", "-c", "jj pull && jj git push"]
-tug = ["bookmark", "move", "--from", "heads(::push_point() & bookmarks())", "--to", "coalesce(push_point() & ~empty(), push_point()-)"]
+tug = ["bookmark", "move", "--from", "heads(::push_point() & bookmarks())", "--to", "coalesce(push_point() & ~unfinished() & ~private(), push_point()- & ~private() & bookmarks()::)"]
 
 # work things
 submit = ["util", "exec", "--", "jj-submit"]
@@ -27,9 +27,15 @@ pre-commit = ["util", "exec", "--", "jj-pre-commit"]
 [revset-aliases]
 # we consider some changes saved to avoid rebasing them
 'saved()' = "description(regex:'saved:.*')"
+# a "mega merge" on top of which we base private development efforts
+# I used "meta merge" originally because I misremembered the commonly used
+# terminology, for backwards compatibility with my old repos I allow both
+'mega_merge()' = "description(regex:'^priv: (mega|meta) merge')"
 # the place from below which we push changes to the remote from
 # if we have a meta merge we push from below it, otherwise we assume we push
 # from the current head
-'push_point()' = "coalesce(description(glob:'*meta merge*')- & ::@, @)"
+'push_point()' = "coalesce(mega_merge() & ::@, @)"
 # commits that would be removed if we left them to edit something else
 'ephemeral()' = "description(regex:'^$') & empty()"
+'unfinished()' = "empty() | mega_merge() | description(regex:'^$|^wip:.*')"
+'private()' = "description(regex:'(priv(|ate)|wip):.*')"
