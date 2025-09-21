@@ -18,7 +18,13 @@ sq = ["squash"]
 ca = ["util", "exec", "--", "jj-commit-after"]
 c = ["util", "exec", "--", "jj-commit-after", "heads(::push_point() & bookmarks())"]
 pp = ["util", "exec", "--", "bash", "-c", "jj pull && jj git push"]
-tug = ["bookmark", "move", "--from", "heads(::push_point() & bookmarks())", "--to", "coalesce(push_point() & ~unfinished() & ~private(), push_point()- & ~private() & bookmarks()::)"]
+tug = [
+  "bookmark", "move",
+  "--from",
+  "heads(::push_point() & bookmarks())",
+  "--to",
+  "coalesce(push_point() & ~unfinished() & ~private(), push_point()- & ~private() & bookmarks()::)"
+]
 convert-to-colocated = ["util", "exec", "--", "jj-convert-to-colocated"]
 
 # work things
