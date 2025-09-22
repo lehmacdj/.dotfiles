@@ -6,12 +6,14 @@
 # use color for grep
 alias grep='grep --color=auto'
 
-# ls
-if [ -n "$DARWIN" ] && gls >/dev/null 2>&1; then
-    alias ls='gls --color=auto'
-else
-    'ls' --color=auto >/dev/null 2>&1 && alias ls='ls --color=auto'
+declare _ls_executable_name=ls
+if [ -n "$DARWIN" ]; then
+    _ls_executable_name='gls'
 fi
+# shellcheck disable=2139
+command "$_ls_executable_name" --color=auto --hyperlink=auto >/dev/null 2>&1 \
+    && alias ls="$_ls_executable_name --color=auto --hyperlink=auto"
+
 alias l='ls -CF'
 alias la='ls -A'
 alias ll='ls -alFh'
