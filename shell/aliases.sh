@@ -3,8 +3,8 @@
 # Works for zsh and bash
 # Configure aliases and functions
 
-# use color for grep
 alias grep='grep --color=auto'
+alias rg='rg --hyperlink-format=kitty'
 
 declare _ls_executable_name=ls
 if [ -n "$DARWIN" ]; then
