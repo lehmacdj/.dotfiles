@@ -171,10 +171,6 @@ if [ -n "$DARWIN" ] && [ "$features" -ge 2 ]; then
 
     source "$DOTFILES/install_keybindings.macos.sh"
 
-    # load iTerm2 preferences from file stored in dotfiles
-    defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$DOTFILES/iTerm2"
-    defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true
-
     # load hammerspoon config from dotfiles
     defaults write org.hammerspoon.Hammerspoon MJConfigFile -string "$DOTFILES/hammerspoon/init.lua"
 
