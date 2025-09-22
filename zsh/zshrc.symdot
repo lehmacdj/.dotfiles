@@ -1,5 +1,4 @@
-# Set the location of the dotfiles to ~/.dotfiles or the path contained within
-# that file
+# Set the location of the dotfiles to ~/.dotfiles if it exists
 [ -d "$HOME/.dotfiles" ] && DOTFILES="$HOME/.dotfiles"
 [ -n "$DOTFILES" ] || { echo "Could not determine path for \$DOTFILES"; exit 1; }
 export DOTFILES
