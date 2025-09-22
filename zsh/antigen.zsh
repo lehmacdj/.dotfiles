@@ -14,10 +14,15 @@ fi
 antigen bundle gitfast
 antigen bundle brew
 antigen bundle brew-cask
+# maybe man is worth keeping too?
 antigen bundle man
 antigen bundle vagrant
 
 # Syntax
+# this is pretty much the only thing I actually use from here:
+# https://github.com/zsh-users/zsh-syntax-highlighting
+# maybe we can get rid of antigen and just install this manually via a
+# submodule?
 antigen bundle zsh-users/zsh-syntax-highlighting
 
 # Apply settings

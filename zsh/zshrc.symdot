@@ -1,14 +1,10 @@
 # Set the location of the dotfiles to ~/.dotfiles or the path contained within
 # that file
-if [ -d "$HOME/.dotfiles" ]; then
-    DOTFILES="$HOME/.dotfiles"
-elif [ -f "$HOME/.dotfiles" ]; then
-    read -r DOTFILES < "$HOME/.dotfiles"
-else
-    echo "Could not determine path for \$DOTFILES"
-    exit 1
-fi
+[ -d "$HOME/.dotfiles" ] && DOTFILES="$HOME/.dotfiles"
+[ -n "$DOTFILES" ] || { echo "Could not determine path for \$DOTFILES"; exit 1; }
 export DOTFILES
+
+[ -n "$PROFILE_ZSH" ] && source "$DOTFILES/zsh/start-profiling.zsh" || true
 
 # env needs to be loaded before compinit; sets up fpath completion dirs
 source "$DOTFILES/shell/env.sh"
@@ -24,3 +20,5 @@ source "$DOTFILES/zsh/inputrc.zsh"
 
 # load a local zsh file if it exists
 [ -f "$HOME/.local.zsh" ] && source "$HOME/.local.zsh" || true
+
+[ -n "$PROFILE_ZSH" ] && source "$DOTFILES/zsh/stop-profiling.zsh" || true

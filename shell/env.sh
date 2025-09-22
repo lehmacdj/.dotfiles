@@ -59,6 +59,7 @@ fi
 
 # Java
 cond_path_add "$HOME/.jenv/bin"
+# PROFILE_ZSH=1 showed this is particularly slow, try to lazy load? #performance
 [ -d "$HOME/.jenv" ] && eval "$(jenv init -)"
 
 # Windows (WSL) things
@@ -79,6 +80,7 @@ if [ -e /Users/devin/.nix-profile/etc/profile.d/nix.sh ]; then
 fi
 
 # setup rbenv
+# PROFILE_ZSH=1 showed this is particularly slow, try to lazy load? #performance
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 # add executables on rbenv path to the bin
 cond_path_add "$HOME/.rbenv/bin"
@@ -86,6 +88,9 @@ cond_path_add "$HOME/.rbenv/bin"
 # claude code
 cond_path_add "$HOME/.claude/local"
 
+# PROFILE_ZSH=1 shows that consolidate path is fairly slow, maybe we can just
+# reorganize to avoid adding dups; maybe a file with paths we want in env + a
+# single script that iterates through them and then adds them #performance
 PATH="$(consolidate-path "$PATH")"
 MANPATH="$(consolidate-path "$MANPATH")"
 export PATH
@@ -127,7 +132,7 @@ cond_fpath_add () {
 
 cond_fpath_add "$HOME/.local/share/zsh-completions"
 cond_fpath_add /usr/local/share/zsh-completions
-cond_fpath_add "$(brew --prefix)/share/zsh-completions"
+cond_fpath_add "$HOMEBREW_PREFIX/share/zsh-completions"
 cond_fpath_add "$HOME/src/beets/extra" # beets zsh completion script lives here
 FPATH="$(consolidate-path "$FPATH")"
 export FPATH
