@@ -21,18 +21,45 @@ class ProfileLine:
     command: str
 
     @classmethod
-    def parse(cls, line: str) -> Optional['ProfileLine']:
-        """Parse a zsh profiler line into components."""
-        # Pattern: +timestamp location> command
-        match = re.match(r'\+(\d+\.\d+)\s+([^>]+)>\s*(.*)', line.strip())
-        if not match:
-            return None
+    def parse(cls, line: str) -> List['ProfileLine']:
+        """Parse a zsh profiler line into components. Returns list to handle multiple commands per line."""
+        lines = []
+        line_text = line.strip()
 
-        timestamp = float(match.group(1))
-        location = match.group(2).strip()
-        command = match.group(3).strip()
+        # Handle multiple timestamp/command pairs on same line
+        # Pattern: +timestamp location> command [+timestamp location> command]
+        pattern = r'\+(\d+\.\d+)\s+([^>]+)>\s*'
+        timestamp_matches = list(re.finditer(pattern, line_text))
 
-        return cls(timestamp, location, command)
+        if not timestamp_matches:
+            return []
+
+        for i, match in enumerate(timestamp_matches):
+            timestamp = float(match.group(1))
+            location = match.group(2).strip()
+
+            # Extract command from current match end to next match start (or end of line)
+            command_start = match.end()
+            if i + 1 < len(timestamp_matches):
+                command_end = timestamp_matches[i + 1].start()
+                raw_command = line_text[command_start:command_end].strip()
+
+                if i == 0:
+                    # First command: show the assignment with command substitution
+                    # e.g., "PATH=" becomes "PATH=$(consolidate-path '...')"
+                    next_command_start = timestamp_matches[i + 1].end()
+                    next_command = line_text[next_command_start:].strip()
+                    command = f"{raw_command}$({next_command})"
+                else:
+                    # Second command: just the substituted command
+                    command = raw_command
+            else:
+                command = line_text[command_start:].strip()
+
+            if command:  # Only add if there's actually a command
+                lines.append(cls(timestamp, location, command))
+
+        return lines
 
 
 @dataclass
@@ -122,10 +149,24 @@ class ZshProfiler:
         lines = []
 
         with open(filepath, 'r') as f:
-            for line_text in f:
-                line = ProfileLine.parse(line_text)
-                if line:
-                    lines.append(line)
+            file_lines = f.readlines()
+
+        skip_next = False
+        for i, line_text in enumerate(file_lines):
+            if skip_next:
+                skip_next = False
+                continue
+
+            parsed_lines = ProfileLine.parse(line_text)
+            lines.extend(parsed_lines)
+
+            # Handle multi-timestamp lines: when a line contains multiple timestamps like:
+            # +1758600829.2021009922 /path/file:92> PATH=+1758600829.2039840221 /path/file:92> consolidate-path '...'
+            # The next line is always a duplicate with the same timestamp showing the substituted result:
+            # +1758600829.2021009922 /path/file:92> PATH='/substituted/path/value'
+            # We skip this duplicate line since it's redundant and has the same timing
+            if len(parsed_lines) > 1:
+                skip_next = True
 
         if not lines:
             return []
@@ -136,7 +177,7 @@ class ZshProfiler:
             current_line = lines[i]
             current_context, current_line_num = self.parse_location(current_line.location)
 
-            # Calculate duration to next line
+            # Calculate duration - time until next command starts (when current command finishes)
             if i + 1 < len(lines):
                 next_line = lines[i + 1]
                 duration_ms = int((next_line.timestamp - current_line.timestamp) * 1000000)
@@ -196,10 +237,15 @@ class ZshProfiler:
                     stack_parts.append(formatted)
 
             # Add the command as the final stack frame with line number and full command
-            command_word = current_line.command.strip().split()[0] if current_line.command.strip() else '(empty)'
-            full_command = current_line.command.strip() if current_line.command.strip() else '(empty)'
+            cmd = current_line.command.strip() if current_line.command.strip() else '(empty)'
+            if cmd != '(empty)':
+                # Split by space first, then by = for variable assignments
+                command_word = cmd.split()[0].split('=')[0]
+            else:
+                command_word = '(empty)'
+
             stack_parts.append(command_word)
-            final_frame = f"{current_line_num}:{full_command}"
+            final_frame = f"{current_line_num}:{cmd}"
             stack_parts.append(final_frame)
 
             stack_string = ';'.join(stack_parts)
