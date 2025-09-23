@@ -11,8 +11,7 @@ if [ -n "$DARWIN" ]; then
     _ls_executable_name='gls'
 fi
 # shellcheck disable=2139
-command "$_ls_executable_name" --color=auto --hyperlink=auto >/dev/null 2>&1 \
-    && alias ls="$_ls_executable_name --color=auto --hyperlink=auto"
+alias ls="$_ls_executable_name --color=auto --hyperlink=auto"
 
 alias l='ls -CF'
 alias la='ls -A'
@@ -47,7 +46,7 @@ alias latexmk='latexmk -pdfdvi'
 # Vimlike commandline bindings
 # alias :q="exit" # I have found this alias is bad because I close the shell
                   # unexpectedly sometimes when I don't want to
-if "$EDITOR" --version >/dev/null 2>&1; then
+if command -v "$EDITOR" >/dev/null 2>&1; then
   alias :e="\$EDITOR"
   alias vi="\$EDITOR"
   alias vim="\$EDITOR"

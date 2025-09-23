@@ -98,10 +98,10 @@ export MANPATH
 # nvim isn't necessarily on the path yet
 
 # Editor variables
-if nvim --version >/dev/null 2>&1; then
+if command -v nvim >/dev/null 2>&1; then
     EDITOR='nvim'
     VISUAL='nvim'
-elif vim --version >/dev/null 2>&1; then
+elif command -v vim >/dev/null 2>&1; then
     EDITOR='vim'
     VISUAL='vim'
 else
