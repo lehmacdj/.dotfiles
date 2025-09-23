@@ -1,5 +1,5 @@
 # prompt
-if starship help >/dev/null 2>&1; then
+if command -v starship >/dev/null 2>&1; then
   ss_dir="$DOTFILES/starship"
   [[ "$ss_dir/template.starship.toml" -nt "$ss_dir/right_prompt.starship.toml" ]] \
     || [[ "$ss_dir/build-starship.sh" -nt "$ss_dir/right_prompt.starship.toml" ]] \
