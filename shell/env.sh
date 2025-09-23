@@ -36,7 +36,7 @@ if [ -f /opt/homebrew/bin/brew ]; then
 fi
 
 # OPAM configuration
-. /Users/devin/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+source /Users/devin/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
 
 # Haskell
 cond_path_add "$HOME/.ghcup/bin"
@@ -74,7 +74,7 @@ cond_path_add "${KREW_ROOT:-$HOME/.krew}/bin"
 
 # Nix setup
 if [ -e /Users/devin/.nix-profile/etc/profile.d/nix.sh ]; then
-    . /Users/devin/.nix-profile/etc/profile.d/nix.sh
+    source /Users/devin/.nix-profile/etc/profile.d/nix.sh
 fi
 
 # setup rbenv
