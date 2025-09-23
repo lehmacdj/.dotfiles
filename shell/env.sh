@@ -48,12 +48,6 @@ export NVM_DIR="$HOME/.nvm"
 [ -f "/usr/local/opt/nvm/nvm.sh" ] && source "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
 [ -f "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && source "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
-# Add fzf to path
-if [ -d "$HOME/.fzf" ]; then
-    PATH="$PATH:$HOME/.fzf/bin"
-    MANPATH="$MANPATH:$HOME/.fzf/man"
-fi
-
 # Add python local --user bins to the path
 if [ -d "$HOME"/Library/Python ]; then
     for p in "$HOME"/Library/Python/* ; do
