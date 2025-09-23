@@ -4,8 +4,8 @@ set -euo pipefail
 [ $# -eq 1 ] || { echo "Usage: $0 <revision>" >&2; exit 1; }
 change="$1"
 
-original_change="$(jj show '@' --template change_id 2>/dev/null)"
-empty_change_parent="$(jj show '(@ & ephemeral())+' --template change_id 2>/dev/null || true)"
+original_change="$(jj show '@' --template change_id --no-patch 2>/dev/null)"
+empty_change_parent="$(jj show '(@ & ephemeral())-' --template change_id --no-patch 2>/dev/null || true)"
 jj edit "$change"
 git add . && SKIP='' pre-commit run --hook-stage pre-commit
 if [ -n "$(git diff)" ] ; then

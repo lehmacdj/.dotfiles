@@ -1,24 +1,17 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [ $# -ne 2 ]; then
-  echo "Usage: $0 <bookmark-name> <change>"
+if [ $# -ne 1 ]; then
+  echo "Usage: $0 <change>"
   exit 1
 fi
 
-bookmark_name="$1"
-if [ "$2" = "--resubmit" ]; then
-  change="$1"
-else
-  change="$2"
-fi
+change="$1"
+bookmark_name="devin/$(jj show "$1" --template 'stringify(change_id).substr(0, 8)' --no-patch 2>&1)"
 
 bookmark_exists=""
-if { jj bookmark list || true; } | grep -q "$1"; then
-  [ -z "$change" ] && change="$1"
+if { jj bookmark list || true; } | grep -q "$bookmark_name"; then
   bookmark_exists=1
-else
-  [ -z "$change" ] && change="@"
 fi
 
 if [ -z "$bookmark_exists" ]; then
