@@ -5,6 +5,9 @@
 [ "$(uname)" = "Darwin" ] && export DARWIN=1
 [ "$(uname)" = "Linux" ] && export LINUX=1
 
+export DOTFILES_CACHE="$HOME/.cache/dotfiles"
+mkdir -p "$DOTFILES_CACHE"
+
 # Path configuration
 cond_path_add () {
     [ -n "$1" ] || (echo "cond_path_add requires 1 argument"; exit 1)
@@ -28,7 +31,8 @@ cond_path_add "$DOTFILES/git.symconfig/bin"
 
 # Homebrew
 if [ -f /opt/homebrew/bin/brew ]; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
+    # shellcheck disable=1090
+    source <(/opt/homebrew/bin/brew shellenv)
 fi
 
 # OPAM configuration
@@ -59,8 +63,8 @@ fi
 
 # Java
 cond_path_add "$HOME/.jenv/bin"
-# PROFILE_ZSH=1 showed this is particularly slow, try to lazy load? #performance
-[ -d "$HOME/.jenv" ] && eval "$(jenv init -)"
+# shellcheck disable=1090
+[ -d "$HOME/.jenv" ] && source <(jenv init -)
 
 # Windows (WSL) things
 [ -d /mnt/c/Windows ] || export WINDIR=/mnt/c/Windows
@@ -80,8 +84,8 @@ if [ -e /Users/devin/.nix-profile/etc/profile.d/nix.sh ]; then
 fi
 
 # setup rbenv
-# PROFILE_ZSH=1 showed this is particularly slow, try to lazy load? #performance
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+# shellcheck disable=1090
+if which rbenv > /dev/null; then source <(rbenv init -); fi
 # add executables on rbenv path to the bin
 cond_path_add "$HOME/.rbenv/bin"
 

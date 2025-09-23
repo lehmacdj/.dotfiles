@@ -1,10 +1,11 @@
 # prompt
 if starship help >/dev/null 2>&1; then
-  # this is all fairly slow from profiling, maybe worth caching build-starship
-  # or just building our own prompt that doesn't depend on starship #performance
-  "$DOTFILES/starship/build-starship.sh"
-  export STARSHIP_CONFIG="$DOTFILES/starship/right_prompt.starship.toml"
-  eval "$(starship init zsh)"
+  ss_dir="$DOTFILES/starship"
+  [[ "$ss_dir/template.starship.toml" -nt "$ss_dir/right_prompt.starship.toml" ]] \
+    || [[ "$ss_dir/build-starship.sh" -nt "$ss_dir/right_prompt.starship.toml" ]] \
+    && "$ss_dir/build-starship.sh"
+  export STARSHIP_CONFIG="$ss_dir/right_prompt.starship.toml"
+  source <(starship init zsh)
 else
   export PROMPT="%~> "
 fi

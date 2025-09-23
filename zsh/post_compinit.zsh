@@ -12,8 +12,6 @@
 # -U ignores aliases
 autoload -U +X bashcompinit && bashcompinit
 
-# https://jj-vcs.github.io/jj/latest/install-and-setup/#dynamic
-# PROFILE_ZSH=1 showed this is particularly slow, try to lazy load? #performance
 source <(COMPLETE=zsh jj)
 
 # nicer colorful completion list items

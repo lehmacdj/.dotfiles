@@ -9,11 +9,9 @@ if command -v fzf >/dev/null 2>&1; then
 
   # setup completion + key bindings
   if [ -n "$BASH_VERSION" ]; then
-    eval "$(fzf --bash)"
+    source <(fzf --bash)
   elif [ -n "$ZSH_VERSION" ]; then
-    # fairly slow, maybe worth having some machinery to generate once and then
-    # load from the file instead of rerunning fzf at startup #performance
-    eval "$(fzf --zsh)"
+    source <(fzf --zsh)
   fi
 fi
 
