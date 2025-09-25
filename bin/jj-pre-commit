@@ -7,9 +7,9 @@ change="$1"
 original_change="$(jj show '@' --template change_id --no-patch 2>/dev/null)"
 empty_change_parent="$(jj show '(@ & ephemeral())-' --template change_id --no-patch 2>/dev/null || true)"
 jj edit "$change"
-git add . && SKIP='' pre-commit run --hook-stage pre-commit
+{ git add . && SKIP='' pre-commit run --hook-stage pre-commit; } || true
 if [ -n "$(git diff)" ] ; then
-  git add . && SKIP='' pre-commit run --hook-stage pre-commit
+  { git add . && SKIP='' pre-commit run --hook-stage pre-commit; } || true
 fi
 if [ -n "$empty_change_parent" ] ; then
   jj new "$empty_change_parent"
