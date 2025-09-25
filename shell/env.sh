@@ -78,10 +78,16 @@ if [ -e /Users/devin/.nix-profile/etc/profile.d/nix.sh ]; then
 fi
 
 # setup rbenv
-# shellcheck disable=1090
-if which rbenv > /dev/null; then source <(rbenv init -); fi
 # add executables on rbenv path to the bin
 cond_path_add "$HOME/.rbenv/bin"
+# shellcheck disable=1090
+if command -v rbenv >/dev/null 2>&1; then
+    if [ -n "$BASH_VERSION" ]; then
+        source <(rbenv init - --no-rehash)
+    elif [ -n "$ZSH_VERSION" ]; then
+        source <(rbenv init - --no-rehash zsh)
+    fi
+fi
 
 # claude code
 cond_path_add "$HOME/.claude/local"
