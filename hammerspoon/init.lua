@@ -18,7 +18,7 @@ local start_kitty_quick_access_terminal = function()
     table.insert(options, "output_name="..hs.mouse.getCurrentScreen():name())
   end
   local task = hs.task.new(
-    "/opt/homebrew/bin/kitten",
+    "/Applications/kitty.app/Contents/MacOS/kitten",
     nil,
     options
   )
