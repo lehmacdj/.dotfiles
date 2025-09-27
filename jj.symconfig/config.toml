@@ -14,6 +14,7 @@ diff-editor = ":builtin"
 [aliases]
 rebase-all = ["rebase", "-s", "all:roots(trunk()..mutable()) & ~saved()", "-d", "trunk()"]
 pull = ["util", "exec", "--", "bash", "-c", "jj git fetch && jj rebase-all"]
+push = ["git", "push", "--all"]
 sq = ["squash"]
 ca = ["util", "exec", "--", "jj-commit-after"]
 c = ["util", "exec", "--", "jj-commit-after", "heads(::push_point() & bookmarks())"]
