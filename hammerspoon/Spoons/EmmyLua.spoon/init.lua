@@ -1,3 +1,4 @@
+---@diagnostic disable: param-type-mismatch, need-check-nil
 --- === EmmyLua ===
 ---
 --- Thie plugin generates EmmyLua annotations for Hammerspoon and any installed Spoons
@@ -139,7 +140,7 @@ end
 
 function M.processModule(module)
   io.write("--# selene: allow(unused_variable)\n")
-  io.write("---@diagnostic disable: unused-local\n\n")
+  io.write("---@diagnostic disable: unused-local, inject-field, lowercase-global, undefined-doc-name, missing-return\n\n")
 
   if module.name == "hs" then
     io.write("--- global variable containing loaded spoons\n")
@@ -162,6 +163,10 @@ function M.processModule(module)
     if def.args then
       if def.type then
         io.write("---@return " .. def.type .. "\n")
+      elseif name == "M.getCurrentScreen" then
+        -- manual override because this fails to parse, and I want this
+        -- warning to go away in my config
+        io.write("---@return hs.screen\n")
       end
       io.write("function " .. name .. "(" .. table.concat(def.args, ", ") .. ") end\n")
     else
@@ -218,7 +223,7 @@ function M.createWhenChanged(jsonDocs, prefix)
 end
 
 function M.readTimestamps()
-  timestamps = hs.json.read(options.timestampsFilename)
+  local timestamps = hs.json.read(options.timestampsFilename)
 
   if timestamps then
     options.timestamps = timestamps
