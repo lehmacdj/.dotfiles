@@ -1,0 +1,6 @@
+[selene]
+base = "lua54"
+name = "hammerspoon"
+
+[hs]
+any = true

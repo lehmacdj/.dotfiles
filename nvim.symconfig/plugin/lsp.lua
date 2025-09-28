@@ -41,4 +41,5 @@ lsp.enable('hls', {
 
 lsp.enable('lua_ls', {
   on_attach = lsp.on_attach_opts { no_formatting = true },
+  root_dir = {'selene.toml'},
 })
