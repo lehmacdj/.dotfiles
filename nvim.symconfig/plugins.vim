@@ -38,6 +38,8 @@ if has('nvim')
   Defer 'require"lualine".setup()'
   Plug 'nvim-tree/nvim-web-devicons'
   Defer 'require"nvim-web-devicons".setup{ default = true }'
+  Plug 'folke/lazydev.nvim'
+  Defer 'require"lazydev".setup{}'
   Plug '3rd/image.nvim'
 endif
 
@@ -93,11 +95,6 @@ if has('nvim')
   " lsp
   Plug 'neovim/nvim-lspconfig'
   Plug 'folke/lsp-colors.nvim'
-  let s:lsp_setup =<< trim EOF
-  require('my.lsp').define_custom_lsps()
-  require('my.lsp').setup_lsps()
-  EOF
-  Defer s:lsp_setup
 
   Plug 'nvimtools/none-ls.nvim'
     \| Plug 'gbprod/none-ls-shellcheck.nvim'

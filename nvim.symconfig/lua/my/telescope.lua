@@ -60,7 +60,8 @@ mod.find_vim_config_files = function()
     cwd = vimhome,
     search_dirs = {
       vimhome .. '/lua/my',
-      vimhome .. '/autoload/my'
+      vimhome .. '/autoload/my',
+      vimhome .. '/plugin',
     },
     attach_mappings = function(prompt_bufnr, map)
       local actions = require('telescope.actions')

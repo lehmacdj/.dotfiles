@@ -23,7 +23,7 @@ mod.setup = function()
           'handlebars',
         },
       },
-      diagnostics.selene,
+      -- diagnostics.selene,
       require("none-ls-shellcheck.diagnostics").with {
         diagnostics_format = 'SC#{c}: #{m}',
       },
