@@ -39,7 +39,6 @@ if has('nvim')
   Plug 'nvim-tree/nvim-web-devicons'
   Defer 'require"nvim-web-devicons".setup{ default = true }'
   Plug 'folke/lazydev.nvim'
-  Defer 'require"lazydev".setup{}'
   Plug '3rd/image.nvim'
 endif
 

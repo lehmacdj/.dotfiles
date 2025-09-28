@@ -1,3 +1,4 @@
+hs.loadSpoon("EmmyLua")
 hs.loadSpoon("ReloadConfiguration")
 spoon.ReloadConfiguration:start()
 

@@ -41,5 +41,12 @@ lsp.enable('hls', {
 
 lsp.enable('lua_ls', {
   on_attach = lsp.on_attach_opts { no_formatting = true },
-  root_dir = {'selene.toml'},
+  root_markers = {'selene.toml'},
 })
+require('lazydev').setup {
+  -- this essentially configures the lua_ls equivalently to setting
+  -- settings.Lua.workspace.library.path, but works with lazydev.nvim
+  library = {
+    path = os.getenv('DOTFILES') .. '/hammerspoon/Spoons/EmmyLua.spoon/annotations'
+  },
+}
