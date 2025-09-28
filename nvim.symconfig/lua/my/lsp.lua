@@ -27,8 +27,8 @@ mod.on_attach_opts = function(opts) return function(client, bufnr)
   -- is a capability for it + it doesn't hurt because these mappings don't
   -- overwrite anything (important at least)
   -- [d / ]d are the default mappings, but I prefer using my index finger
-  buf_set_keymap('n', '[g', '<cmd>lua vim.diagnostic.jump{count=1}<CR>')
-  buf_set_keymap('n', ']g', '<cmd>lua vim.diagnostic.jump{count=-1}<CR>')
+  buf_set_keymap('n', '[g', '<cmd>lua vim.diagnostic.jump{count=-1}<CR>')
+  buf_set_keymap('n', ']g', '<cmd>lua vim.diagnostic.jump{count=1}<CR>')
   buf_set_keymap('n', '<Leader>q', '<cmd>lua vim.diagnostic.setqflist{open = false}<CR>:cc 1<CR>')
   vim.cmd [[
     augroup LspDiagnostics
