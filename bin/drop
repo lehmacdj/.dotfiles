@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-[ $# -eq 1 ] || {
-  echo "you used this script incorrectly and its deprecated! needs 1 arg"
-  exit 1
-}
-echo "deprecated: use tail -n +$(($1 + 1)) instead"
-exit 1

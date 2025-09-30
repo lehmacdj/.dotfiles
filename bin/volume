@@ -1,20 +1,18 @@
-#!/bin/bash
-#
-# A hacky script to use apple script to change the volume on OS X computers
+#!/usr/bin/env bash
+set -euo pipefail
+# use apple script to change the volume on Apple computers
 
 if [ "$1" == "mute" ] || [ "$1" == "m" ]; then
-    osascript -e "set volume with output muted"
-elif [ "$1" == "unmute" ] || [ "$1" == "nomute" ] ||\
-    [ "$1" == "um" ] || [ "$1" == "nm" ]; then
-    osascript -e "set volume without output muted"
+  osascript -e "set volume with output muted"
+elif [ "$1" == "unmute" ] || [ "$1" == "u" ]; then
+  osascript -e "set volume without output muted"
 elif [[ "$1" =~ ^[+-][0-9]+$ ]]; then # increment volume
-    osascript -e "set volume output volume (output volume of (get volume settings) + $1) --100%"
+  osascript -e "set volume output volume (output volume of (get volume settings) + $1) --100%"
 elif [[ "$1" =~ ^[0-9]+$ ]]; then # set volume
-    osascript -e "set volume output volume $1 --100%"
+  osascript -e "set volume output volume $1 --100%"
 else
-   echo "Illegal argument: usage:"
-    echo "volume mute/m|unmute/nomute/um/nm"
-    echo "or"
-    echo "volume [+|-]<amount>"
+  2>&1 echo "usage: $0 [<amount>|+<amount>|-<amount>] [mute|m|unmute|u]"
 fi
-osascript -e "output volume of (get volume settings) & output muted of (get volume settings)"
+# this gets a string formatted like "17, false"
+osascript -e "output volume of (get volume settings) & output muted of (get volume settings)" \
+  | awk -F', ' '{printf "Volume: %d%% %s\n", $1, ($2 == "true" ? "(muted)" : "(unmuted)")}'
