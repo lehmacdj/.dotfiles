@@ -5,7 +5,7 @@ setlocal conceallevel=2 " hide links/html comments
 " make breakindent recognize markdown lists
 let &formatlistpat = '^\(>\)\?\s*[-+*]\( \[[ x]\]\)\?\s*\|^\s*\d\+\.\s*'
 
-set comments=b:*,b:-,b:+,bn:> " allow nesting > (compared w/ markdown.vim)
+setlocal comments=b:*,b:-,b:+,bn:> " allow nesting > (compared w/ markdown.vim)
 " insert/join "comment" (i.e. list) leaders automatically
 " return, o (o/O in normal mode), and when joining lines
 " I find this mildly annoying for lists, but it's really nice for > quotes
