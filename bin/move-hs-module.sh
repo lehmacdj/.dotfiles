@@ -39,7 +39,7 @@ fi
 
 # Extract module names
 old_module=$(grep -E "^module" "$source_file" | awk '{print $2}')
-new_module=$(echo "$destination_file" | sed 's/\.hs$//' | sed 's/\//./g')
+new_module=$(echo "$destination_file" | sed 's/\.hs$//' | sed 's|^src/||' | sed 's|/|.|g')
 
 # if $source_candidate is set args 1/2 should match old_module/new_module
 if [ -n "$source_candidate" ]; then
