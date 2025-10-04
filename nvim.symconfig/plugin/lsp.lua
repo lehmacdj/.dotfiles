@@ -50,3 +50,8 @@ require('lazydev').setup {
     path = os.getenv('DOTFILES') .. '/hammerspoon/Spoons/EmmyLua.spoon/annotations'
   },
 }
+
+-- toml, brew install taplo
+lsp.enable('taplo', {
+  on_attach = lsp.on_attach_opts { no_formatting = true },
+})

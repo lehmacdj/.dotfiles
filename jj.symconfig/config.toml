@@ -8,7 +8,7 @@ email = "lehmacdj@gmail.com"
 private-commits = "private()"
 
 [ui]
-default-command = ["log", "-r", "default_log()"]
+default-command = ["log", "-r", "default_command_log()"]
 diff-editor = ":builtin"
 
 [revsets]
@@ -38,14 +38,21 @@ pre-commit = ["util", "exec", "--", "jj-pre-commit"]
 
 [revset-aliases]
 'local_trunk()' = 'coalesce(bookmarks("main"), bookmarks("master"))'
-'default_log()' = 'present(@) | ancestors(local_trunk().., 2) | present(trunk())'
+# generalized version of the default for `jj log` which at time of writing was:
+# 'present(@) | ancestors(immutable_heads().., 2) | present(trunk())'
+'summary(exclude)' = 'present(@) | ancestors(exclude.., 2) | present(trunk())'
+# the log set I use for the ui.default-command, `jj log` gives me the original
+# default and I use it a decent amount too
+'default_command_log()' = 'summary(saved() | immutable_heads() | local_trunk())'
 # we consider some changes saved to avoid rebasing them
 'saved()' = "description(regex:'saved:.*')"
 # a "mega merge" on top of which we base private development efforts
 # I used "meta merge" originally because I misremembered the commonly used
 # terminology, for backwards compatibility with my old repos I allow both
 'mega_merge()' = "description(regex:'^priv: (mega|meta) merge')"
-'m()' = "mega_merge()" # short form
+# short form, this can technically be just `m`, but I'm being cautious because
+# that can conflict with change ids potentially
+'m()' = "mega_merge()" 
 # the place from below which we push changes to the remote from
 # if we have a meta merge we push from below it, otherwise we assume we push
 # from the current head
