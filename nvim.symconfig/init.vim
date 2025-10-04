@@ -215,6 +215,13 @@ augroup trim_whitespace
     autocmd BufWritePre * :call my#misc#StripWhitespace()
 augroup END
 
+augroup write_create_dir
+    autocmd!
+    " Auto-create parent directories (except for URIs "://").
+    autocmd BufWritePre,FileWritePre * if @% !~# '\(://\)'
+                \ | call mkdir(expand('<afile>:p:h'), 'p') | endif
+augroup END
+
 " toggle autoformatting on save in style of unimpaired.vim
 let g:do_autoformat = 1
 nnoremap [o= :lua require'my.misc'.enable_autoformat()<CR>
