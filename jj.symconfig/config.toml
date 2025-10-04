@@ -8,11 +8,12 @@ email = "lehmacdj@gmail.com"
 private-commits = "private()"
 
 [ui]
-default-command = "log"
+default-command = ["log", "-r", "default_log()"]
 diff-editor = ":builtin"
 
 [revsets]
 simplify-parents = 'mutable()'
+log-graph-prioritize = 'coalesce(mega_merge(), @)'
 
 [aliases]
 rebase-all = ["rebase", "-s", "all:roots(trunk()..mutable()) & ~saved()", "-d", "trunk()"]
@@ -36,6 +37,8 @@ submit = ["util", "exec", "--", "jj-submit"]
 pre-commit = ["util", "exec", "--", "jj-pre-commit"]
 
 [revset-aliases]
+'local_trunk()' = 'coalesce(bookmarks("main"), bookmarks("master"))'
+'default_log()' = 'present(@) | ancestors(local_trunk().., 2) | present(trunk())'
 # we consider some changes saved to avoid rebasing them
 'saved()' = "description(regex:'saved:.*')"
 # a "mega merge" on top of which we base private development efforts
