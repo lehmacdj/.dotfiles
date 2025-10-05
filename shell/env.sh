@@ -29,6 +29,8 @@ cond_path_add "$DOTFILES/git.symconfig/bin"
 # Rust
 [ -f "$HOME/.cargo/env" ] && source "$HOME/.cargo/env"
 
+cond_path_add "$HOME/go/bin"
+
 # Homebrew
 if [ -f /opt/homebrew/bin/brew ]; then
     # shellcheck disable=1090
