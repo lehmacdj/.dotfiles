@@ -3,6 +3,12 @@ local lsp = require('my.lsp')
 -- vim.lsp.log.set_level(vim.log.levels.INFO)
 
 vim.lsp.config('*', {
+  cmd_env = {
+    -- HLS needs this env var set to not fail with inline-c. See these issues:
+    -- - https://github.com/fpco/inline-c/pull/128
+    -- - https://github.com/haskell/haskell-language-server/issues/3742
+    __GHCIDE__ = 1
+  },
   on_attach = lsp.on_attach,
   capabilities = require('cmp_nvim_lsp').default_capabilities(),
   flags = {
