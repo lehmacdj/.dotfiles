@@ -4,7 +4,6 @@ mod.setup = function()
   local null_ls = require('null-ls')
   local formatting = null_ls.builtins.formatting
   local diagnostics = null_ls.builtins.diagnostics
-  local code_actions = null_ls.builtins.code_actions
   null_ls.setup {
     on_attach = require('my.lsp').on_attach,
     root_dir = function(fname)
@@ -23,6 +22,8 @@ mod.setup = function()
           'handlebars',
         },
       },
+
+
       -- diagnostics.selene,
       require("none-ls-shellcheck.diagnostics").with {
         diagnostics_format = 'SC#{c}: #{m}',

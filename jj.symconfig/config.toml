@@ -52,7 +52,7 @@ pre-commit = ["util", "exec", "--", "jj-pre-commit"]
 'mega_merge()' = "description(regex:'^priv: (mega|meta) merge')"
 # short form, this can technically be just `m`, but I'm being cautious because
 # that can conflict with change ids potentially
-'m()' = "mega_merge()" 
+'m()' = "mega_merge()"
 # the place from below which we push changes to the remote from
 # if we have a meta merge we push from below it, otherwise we assume we push
 # from the current head
@@ -61,3 +61,8 @@ pre-commit = ["util", "exec", "--", "jj-pre-commit"]
 'ephemeral()' = "description(regex:'^$') & empty()"
 'unfinished()' = "empty() | mega_merge() | description(regex:'^$|^wip:.*')"
 'private()' = "description(regex:'(priv(|ate)|wip):.*')"
+
+[fix.tools.ormolu]
+command = ["ormolu", "--stdin-input-file", "$path"]
+patterns = ["glob:'**/*.hs'"]
+enabled = false
