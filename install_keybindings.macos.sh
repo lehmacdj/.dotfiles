@@ -23,3 +23,16 @@ defaults write org.videolan.vlc NSUserKeyEquivalents '
     "Repeat One" = "@^l";
 }
 '
+
+# I found this doesn't work very well, and takes a while to start working for
+# new apps
+# also conflicts with a default keybinding:
+# https://support.mozilla.org/en-US/questions/1466675
+# System Settings > Keyboard > Keyboard Shortcuts > Keyboard > Show Contextual Menu
+# pbs is the service that runs services; this adds a keybinding to kitty quick access to all apps
+# defaults write pbs NSServicesStatus \
+#     -dict-add "net.kovidgoyal.kitty-quick-access - Quick access to kitty - quickAccessTerminal" \
+#     '{
+#         "key_equivalent" = "^\n";
+#         NSRequiredContext = {};
+#     }'
