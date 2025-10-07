@@ -29,11 +29,11 @@ mod.on_attach_opts = function(opts) return function(client, bufnr)
   -- [d / ]d are the default mappings, but I prefer using my index finger
   buf_set_keymap('n', '[g', '<cmd>lua vim.diagnostic.jump{count=-1}<CR>')
   buf_set_keymap('n', ']g', '<cmd>lua vim.diagnostic.jump{count=1}<CR>')
-  buf_set_keymap('n', '<Leader>q', '<cmd>lua vim.diagnostic.setqflist{open = false}<CR>:cc 1<CR>')
+  buf_set_keymap('n', '<Leader>q', '<cmd>lua require"my.diagnostics".setqflist()<CR>:cc 1<CR>')
   vim.cmd [[
     augroup LspDiagnostics
       autocmd! * <buffer>
-      autocmd CursorHold * silent! lua vim.diagnostic.open_float {scope = "cursor", focus = false}
+      autocmd CursorHold * silent! lua vim.diagnostic.open_float { scope = "cursor", focus = false }
     augroup END
   ]]
 
