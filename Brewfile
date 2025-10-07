@@ -3,7 +3,7 @@
 
 # Minimal Applications
 cask 'firefox'
-cask 'iterm2'
+brew 'kitty' # terminal
 cask '1password'
 
 # Utilities
