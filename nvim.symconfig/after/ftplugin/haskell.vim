@@ -29,6 +29,75 @@ endfunction
 
 nnoremap <buffer> <LocalLeader>o :call <SID>open_interactive(12)<CR>
 
+" Find and open GHC simplifier output in vertical split
+nnoremap <LocalLeader>vs :call OpenDumpSimpl('dump-simpl')<CR>
+nnoremap <LocalLeader>vd :call OpenDumpSimpl('p.dump-simpl')<CR>
+
+function! OpenDumpSimpl(dump_type)
+    " Get the module name from the current file
+    let l:module_name = s:GetModuleName()
+
+    if l:module_name == ''
+        echo 'Could not find module declaration in current file'
+        return
+    endif
+
+    " Convert module name to file path pattern (e.g., Foo.Bar.Baz -> Foo/Bar/Baz)
+    let l:module_path = substitute(l:module_name, '\.', '/', 'g')
+
+    " Search for the dump file in .stack-work
+    let l:dump_files = systemlist('find .stack-work -path "*/' . l:module_path . '.' . a:dump_type . '" 2>/dev/null')
+
+    if len(l:dump_files) == 0
+        echo 'No .' . a:dump_type . ' file found for module ' . l:module_name
+        return
+    endif
+
+    " If multiple files found, use the most recent one
+    if len(l:dump_files) > 1
+        let l:dump_file = l:dump_files[0]
+        for file in l:dump_files
+            if getftime(file) > getftime(l:dump_file)
+                let l:dump_file = file
+            endif
+        endfor
+    else
+        let l:dump_file = l:dump_files[0]
+    endif
+
+    " Open in vertical split
+    execute 'vsplit ' . l:dump_file
+endfunction
+
+function! s:GetModuleName()
+    " Save current position
+    let l:save_pos = getpos('.')
+
+    " Search for module declaration from the beginning of the file
+    call cursor(1, 1)
+
+    " Pattern matches: module ModuleName or module ModuleName (
+    let l:pattern = '^\s*module\s\+\(\S\+\)'
+    let l:line_num = search(l:pattern, 'n')
+
+    if l:line_num == 0
+        " Restore position and return empty
+        call setpos('.', l:save_pos)
+        return ''
+    endif
+
+    let l:line = getline(l:line_num)
+    let l:matches = matchlist(l:line, l:pattern)
+
+    " Restore position
+    call setpos('.', l:save_pos)
+
+    if len(l:matches) >= 2
+        return l:matches[1]
+    else
+        return ''
+    endif
+endfunction
 function! s:open_interactive(height)
   if (!exists('s:repl_buffer_id'))
     " TODO: support projects without stack.yaml by just running ghci on
