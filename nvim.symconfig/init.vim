@@ -259,8 +259,9 @@ if executable('pretty-simple')
 endif
 
 
-nnoremap <Leader>ds :call my#misc#SynStack()<CR>
+nnoremap <Leader>ss :call my#misc#SynStack()<CR>
 lua require('my.diagnostics').configure()
+nnoremap <Leader>Ds :lua vim.uv.fs_unlink(vim.fn.swapfile('%'))<CR>
 
 command GetMasterBranchLink call my#misc#get_optimistic_branch_link("master")
 command GetMainBranchLink call my#misc#get_optimistic_branch_link("main")
