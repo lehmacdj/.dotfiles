@@ -56,10 +56,8 @@ mod.load = function()
         t({
           '',
           '',
-          '## Log',
-          '- ',
+          'What is something that brought you joy?',
         }),
-        i(1, 'details'),
       })
   end
 

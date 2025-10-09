@@ -30,6 +30,7 @@ xmap ga <Plug>(EasyAlign)
 Plug 'tpope/vim-eunuch' " unix utilities
 Plug 'lambdalisue/suda.vim'
 let g:suda_smart_edit = 1
+Plug 'chrisbra/NrrwRgn'
 
 " ui / colorschemes
 Plug 'overcache/NeoSolarized'
