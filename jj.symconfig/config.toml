@@ -13,7 +13,7 @@ diff-editor = ":builtin"
 
 [revsets]
 simplify-parents = 'mutable()'
-log-graph-prioritize = 'coalesce(mega_merge(), @)'
+log-graph-prioritize = 'coalesce(::@ & mega_merge(), @)'
 
 [aliases]
 rebase-all = ["rebase", "-s", "all:roots(trunk()..mutable()) & ~saved()", "-d", "trunk()"]
