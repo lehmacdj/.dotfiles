@@ -87,6 +87,8 @@ if has('nvim')
 
     set signcolumn=number
 endif
+set title
+set titlestring=%{%v:lua.require'my.title'.format_title()%}
 
 " fix delay when exiting insert mode
 if !has('nvim')

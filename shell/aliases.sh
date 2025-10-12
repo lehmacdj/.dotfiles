@@ -35,7 +35,6 @@ alias bc='bc -l'
 # editing of things
 function vial {
     search_string="$1"
-    set_term_titles "ν aliases 🐚"
     "$EDITOR" ${search_string:++"/$search_string"} ~/.dotfiles/shell/aliases.sh
     source "$DOTFILES/shell/aliases.sh"
 }
@@ -521,7 +520,7 @@ vii() {
     echo "error: $HOME/wiki does not exist"
     return 1
   fi
-  (cd "$HOME/wiki" && set_term_titles "📝 wiki ✨" && "$EDITOR" index.md)
+  (cd "$HOME/wiki" && "$EDITOR" index.md)
 }
 
 mkdir_zmv() {
