@@ -1,6 +1,8 @@
 # Set the location of the dotfiles to ~/.dotfiles if it exists
 [ -d "$HOME/.dotfiles" ] && DOTFILES="$HOME/.dotfiles"
 [ -n "$DOTFILES" ] || { echo "Could not determine path for \$DOTFILES"; exit 1; }
+source "$DOTFILES/zsh/instant-zsh.zsh"
+instant-zsh-pre $'\e[6 q\e[32m❯ \e[0m' # set line cursor, then green basic prompt
 export DOTFILES
 
 [ -n "$PROFILE_ZSH" ] && source "$DOTFILES/zsh/start-profiling.zsh" || true
@@ -21,3 +23,4 @@ source "$DOTFILES/zsh/inputrc.zsh"
 [ -f "$HOME/.local.zsh" ] && source "$HOME/.local.zsh" || true
 
 [ -n "$PROFILE_ZSH" ] && source "$DOTFILES/zsh/stop-profiling.zsh" || true
+instant-zsh-post
