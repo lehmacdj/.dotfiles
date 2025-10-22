@@ -56,8 +56,9 @@ pre-commit = ["util", "exec", "--", "jj-pre-commit"]
 # if we have a meta merge we push from below it, otherwise we assume we push
 # from the current head
 'push_point()' = "coalesce(mega_merge() & ::@, @)"
+'no_description()' = "description(regex:'^$')"
 # commits that would be removed if we left them to edit something else
-'ephemeral()' = "description(regex:'^$') & empty()"
+'ephemeral()' = "no_description() & empty()"
 'unfinished()' = "empty() | mega_merge() | description(regex:'^$|^wip:.*')"
 'private()' = "description(regex:'(priv(|ate)|wip):.*')"
 
