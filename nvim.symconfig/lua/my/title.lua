@@ -9,7 +9,7 @@ local function segmentize(path)
 end
 
 -- Build context table from current buffer
-local function build_context()
+M.build_context = function()
   local filepath = vim.fn.expand('%:p')
   if filepath == '' then
     return { fallback_title_string = '%t' }
@@ -89,7 +89,7 @@ end
 
 -- Main title formatting function
 M.format_title = function()
-  local context = build_context()
+  local context = M.build_context()
   if context.fallback_title_string then
     return context.fallback_title_string
   end

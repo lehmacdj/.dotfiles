@@ -36,7 +36,6 @@ Plug 'chrisbra/NrrwRgn'
 Plug 'overcache/NeoSolarized'
 if has('nvim')
   Plug 'nvim-lualine/lualine.nvim'
-  Defer 'require"lualine".setup()'
   Plug 'nvim-tree/nvim-web-devicons'
   Defer 'require"nvim-web-devicons".setup{ default = true }'
   Plug 'folke/lazydev.nvim'
