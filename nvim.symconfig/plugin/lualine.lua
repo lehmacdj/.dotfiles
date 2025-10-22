@@ -5,7 +5,7 @@ require('lualine').setup {
         function()
           local repo_dir = require('my.title').build_context().repo_dir
           if repo_dir then
-            return '' .. repo_dir
+            return ' ' .. repo_dir
           else
             return ''
           end
