@@ -75,11 +75,13 @@ repo_root_style = "bold purple"
 
 [git_branch]
 only_attached = true
+disabled = true
 
 [git_commit]
 style = "bold purple" # make color the same as git_branch
 tag_disabled = false
 tag_symbol = " @ "
+disabled = true
 
 [git_status]
 # disabled stashed; I don't care about knowing if I have a stash; either they're
@@ -89,7 +91,7 @@ stashed = ""
 # where I just have a dirty/staged indicator.
 # contemplate going back to this symbol
 # modified = "●"
-
+disabled = true
 
 # the defaults here are quite a bit too verbose IMO
 [git_state]
@@ -99,6 +101,7 @@ revert = "REV"
 cherry_pick = "CP"
 bisect = "B"
 am_or_rebase = "R/AM"
+disabled = true
 
 [jobs]
 symbol = "⚙"
