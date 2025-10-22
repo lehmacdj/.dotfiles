@@ -152,7 +152,7 @@ function setoldpwd () {
 
 # go up to the root of a project directory
 function root () {
-    root_markers=(.git .hg .svn)
+    root_markers=(.git .hg .svn .jj)
     root_subdir_target="$1"
     initial_oldpwd="$OLDPWD"
     initial_dir="$PWD"
