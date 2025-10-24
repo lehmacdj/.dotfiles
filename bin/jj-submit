@@ -7,7 +7,13 @@ if [ $# -ne 1 ]; then
 fi
 
 change="$1"
-bookmark_name="devin/$(jj show "$1" --template 'stringify(change_id).substr(0, 8)' --no-patch 2>&1)"
+# produce a string like "devin/factor-listeningchallengeprom/wswz"
+bookmark_name="devin/$(\
+  jj show "$change" --no-patch 2>&1 \
+    --template 'description.substr(0,29) ++ "\0" ++ stringify(change_id).substr(0, 4)' \
+    | tr ' /\0' '--/' \
+    | tr '[:upper:]' '[:lower:]' \
+)"
 
 bookmark_exists=""
 if { jj bookmark list || true; } | grep -q "$bookmark_name"; then
