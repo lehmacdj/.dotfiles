@@ -888,7 +888,7 @@
 				<key>Navigation</key>
 				<string>YES</string>
 				<key>Title</key>
-				<string>Go Back</string>
+				<string>Show Previous Location in History</string>
 			</dict>
 			<dict>
 				<key>Action</key>
@@ -910,7 +910,7 @@
 				<key>Navigation</key>
 				<string>YES</string>
 				<key>Title</key>
-				<string>Go Back (option)</string>
+				<string>Show Previous Location in History (option)</string>
 			</dict>
 			<dict>
 				<key>Action</key>
@@ -932,7 +932,7 @@
 				<key>Navigation</key>
 				<string>YES</string>
 				<key>Title</key>
-				<string>Go Back (shift+option)</string>
+				<string>Show Previous Location in History (shift+option)</string>
 			</dict>
 			<dict>
 				<key>Action</key>
@@ -954,7 +954,7 @@
 				<key>Navigation</key>
 				<string>YES</string>
 				<key>Title</key>
-				<string>Go Forward</string>
+				<string>Show Next Location in History</string>
 			</dict>
 			<dict>
 				<key>Action</key>
@@ -976,7 +976,7 @@
 				<key>Navigation</key>
 				<string>YES</string>
 				<key>Title</key>
-				<string>Go Forward (option)</string>
+				<string>Show Next Location in History (option)</string>
 			</dict>
 			<dict>
 				<key>Action</key>
@@ -998,7 +998,7 @@
 				<key>Navigation</key>
 				<string>YES</string>
 				<key>Title</key>
-				<string>Go Forward (shift+option)</string>
+				<string>Show Next Location in History (shift+option)</string>
 			</dict>
 			<dict>
 				<key>Action</key>
@@ -1086,7 +1086,7 @@
 				<key>Navigation</key>
 				<string>NO</string>
 				<key>Title</key>
-				<string>Move Focus to Next Editor</string>
+				<string>Move Focus to Next Editor Pane</string>
 			</dict>
 			<dict>
 				<key>Action</key>
@@ -1108,7 +1108,7 @@
 				<key>Navigation</key>
 				<string>NO</string>
 				<key>Title</key>
-				<string>Move Focus to Previous Editor</string>
+				<string>Move Focus to Previous Editor Pane</string>
 			</dict>
 			<dict>
 				<key>Action</key>
