@@ -12,8 +12,13 @@ function bin2hex () {
 }
 
 mkdir_zmv() {
-    zmv -n "$@" | while read -r _ _ src dest; do
-        mkdir -p "$(dirname "$dest")"
-        mv "$src" "$dest"
-    done
+  _zmv_mkdir_helper() {
+      local src="$1"
+      local dest="$2"
+      mkdir -p "$(dirname "$dest")"
+      mv "$src" "$dest"
+  }
+
+  # -P specifies a program/function to use for moving without passing --
+  zmv -P _zmv_mkdir_helper "$@"
 }
