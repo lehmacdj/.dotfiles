@@ -1,3 +1,17 @@
-- Always use virtual environments (or uv) when using python dependencies that aren't included as part of the standard library.
+## General
+- Before creating new documentation, check if it is better to update existing documentation
 - Store temporary files that we won't eventually want to commit to the project in a subdirectory `tmp~` of the project root. This directory is ignored by default.
-- Use `jj` instead of `git`
+- Prefer 2 space indentation unless otherwise specified; match existing indentation if it is not 2 spaces
+- Try to keep lines to 80 characters or fewer, it's okay for the occasional line to exceed this limit if it improves readability
+
+## Tools
+- Prefer using `jj` over `git`
+
+## Shell Scripting
+- Prefer writing scripts that are compatible with both bash and zsh
+- Prefer using `#!/usr/bin/env bash` as the shebang for bash scripts
+- Use `set -euo pipefail` in scripts
+
+## Python
+- Use 4 spaces for indentation
+- Always use virtual environments or uv when using python dependencies that aren't included as part of the standard library.
