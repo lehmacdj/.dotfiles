@@ -1,3 +1,3 @@
 - Always use virtual environments (or uv) when using python dependencies that aren't included as part of the standard library.
-- Store all temporary files created for debugging/testing etc. in `./tmp~`
+- Store temporary files that we won't eventually want to commit to the project in a subdirectory `tmp~` of the project root. This directory is ignored by default.
 - Use `jj` instead of `git`
