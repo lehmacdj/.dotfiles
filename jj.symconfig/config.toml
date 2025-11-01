@@ -39,7 +39,7 @@ pre-commit = ["util", "exec", "--", "jj-pre-commit"]
 'local_trunk()' = 'coalesce(bookmarks("main"), bookmarks("master"))'
 # generalized version of the default for `jj log` which at time of writing was:
 # 'present(@) | ancestors(immutable_heads().., 2) | present(trunk())'
-'summary(exclude)' = 'present(@) | ancestors(exclude.., 2) | present(trunk())'
+'summary(exclude)' = 'present(@) | ancestors(exclude.., 2) | conflicts() | present(trunk())'
 # the log set I use for the ui.default-command, `jj log` gives me the original
 # default and I use it a decent amount too
 'default_command_log()' = 'summary(saved() | immutable_heads() | local_trunk())'
