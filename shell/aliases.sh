@@ -190,52 +190,13 @@ function alias_local () {
 }
 alias al=alias_local
 
-# Goes to a section of the man pages for zsh in vim
-# https://github.com/wellle/dotfiles/blob/master/zshrc
-if [ -n "$ZSH_VERSION" ]; then
-    function zman () {
-        PAGER="less -g -s '+/^       $1'" man zshall
-    }
-fi
-
 # launch eclim
 if [ -f "/Applications/Eclipse.app/Contents/Eclipse/eclimd" ]; then
     alias eclimd='/Applications/Eclipse.app/Contents/Eclipse/eclimd'
 fi
 
-# convert a binary string to a hexadecimal string
-if [ -n "$ZSH_VERSION" ]; then
-    function bin2hex () {
-        typeset -i16 a="2#$1"; echo "${a#16\#}"
-    }
-fi
-
 alias idris='idris --nobanner'
 alias swipl='rlwrap swipl'
-
-# The intended use case for this function is to find a package root identifying
-# file. e.g. `Cargo.toml` or `*.cabal` or something similar.
-# This functionality isn't finished being implemented though and I haven't
-# missed it so maybe I should just delete this. (2022-05-06)
-function find-above () {
-    if test $# -ne 1; then
-        echo '"Finds a certain filepath in any parent of the current directory"'
-        echo 'usage: find-above <path>'
-        return 1
-    fi
-    FILE=$1
-    DIR="$PWD"
-    while [[ "$DIR" != '/' ]]; do
-        if [[ -e "$DIR/$1" ]]; then
-            echo "$DIR/$1"
-            return 0
-        else
-            DIR="$(dirname "$DIR")"
-        fi
-    done
-    echo "Couldn't find: $1"
-    return 1
-}
 
 # extract a song from youtube with optimal quality settings + format
 # if this transcodes using ffmpeg, it might be best to not be setting
@@ -523,10 +484,5 @@ vii() {
   (cd "$HOME/wiki" && "$EDITOR" index.md)
 }
 
-mkdir_zmv() {
-    zmv -n "$@" | while read -r _ _ src dest; do
-        mkdir -p "$(dirname "$dest")"
-        mv "$src" "$dest"
-    done
-}
-
+alias isodate='date -u +"%Y-%m-%d"'
+alias isots='date -u +"%Y-%m-%dT%H:%M:%SZ"'

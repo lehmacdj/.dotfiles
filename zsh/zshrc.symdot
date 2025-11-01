@@ -12,7 +12,7 @@ source "$DOTFILES/shell/env.sh"
 source "$DOTFILES/zsh/antigen.zsh" # calls compinit, sets up zsh packages
 source "$DOTFILES/zsh/post_compinit.zsh"
 source "$DOTFILES/shell/aliases.sh"
-source "$DOTFILES/zsh/global_aliases.zsh"
+source "$DOTFILES/zsh/aliases.zsh"
 source "$DOTFILES/shell/fzf.sh"
 source "$DOTFILES/zsh/ui.zsh"
 source "$DOTFILES/zsh/settings.zsh"
