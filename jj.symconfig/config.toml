@@ -15,7 +15,12 @@ diff-editor = ":builtin"
 simplify-parents = 'mutable()'
 
 [aliases]
-rebase-all = ["rebase", "--skip-emptied", "-s", "roots(trunk()..) & mutable() & ~saved()", "-d", "trunk()"]
+rebase-all = [
+  "rebase",
+  "--skip-emptied",
+  "-s", "roots(trunk()..) & mutable() & ~saved()",
+  "-d", "trunk()"
+]
 pull = ["util", "exec", "--", "bash", "-c", "jj git fetch && jj rebase-all && jj simplify-parents"]
 push = ["git", "push", "--revisions", "bookmarks() & mutable() ~ conflicts()"]
 sq = ["squash"]
