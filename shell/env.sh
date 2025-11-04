@@ -1,9 +1,20 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# We use nonconstant sources intentionally in this file
+# shellcheck disable=1090
+# Some source files might not exist if their respective tools aren't installed
 # shellcheck disable=1091
 
 # System name
 [ "$(uname)" = "Darwin" ] && export DARWIN=1
 [ "$(uname)" = "Linux" ] && export LINUX=1
+
+if [ -n "$ZSH_VERSION" ]; then
+    shell_string="zsh"
+elif [ -n "$BASH_VERSION" ]; then
+    shell_string="bash"
+else
+    shell_string="unknown"
+fi
 
 export DOTFILES_CACHE="$HOME/.cache/dotfiles"
 mkdir -p "$DOTFILES_CACHE"
@@ -13,6 +24,12 @@ cond_path_add () {
     [ -n "$1" ] || (echo "cond_path_add requires 1 argument"; exit 1)
     [ -d "$1" ] && PATH="$1:$PATH"
 }
+
+# Homebrew
+if [ -f /opt/homebrew/bin/brew ]; then
+    # shellcheck disable=1090
+    source <(/opt/homebrew/bin/brew shellenv "$shell_string")
+fi
 
 # Private bin
 cond_path_add "$HOME/bin"
@@ -31,24 +48,13 @@ cond_path_add "$DOTFILES/git.symconfig/bin"
 
 cond_path_add "$HOME/go/bin"
 
-# Homebrew
-if [ -f /opt/homebrew/bin/brew ]; then
-    # shellcheck disable=1090
-    source <(/opt/homebrew/bin/brew shellenv)
-fi
-
 # OPAM configuration
-source /Users/devin/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+source "/Users/devin/.opam/opam-init/init.$shell_string" >/dev/null 2>&1 || true
 
 # Haskell
 cond_path_add "$HOME/.ghcup/bin"
 cond_path_add "$HOME/.cabal/bin"
 cond_path_add "$HOME/.stack/bin"
-
-# nvm (node version manager) config
-export NVM_DIR="$HOME/.nvm"
-[ -f "/usr/local/opt/nvm/nvm.sh" ] && source "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-[ -f "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && source "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
 # Add python local --user bins to the path
 if [ -d "$HOME"/Library/Python ]; then
@@ -56,11 +62,6 @@ if [ -d "$HOME"/Library/Python ]; then
         PATH="$p/bin:$PATH"
     done
 fi
-
-# Java
-cond_path_add "$HOME/.jenv/bin"
-# shellcheck disable=1090
-[ -d "$HOME/.jenv" ] && source <(jenv init -)
 
 # Windows (WSL) things
 [ -d /mnt/c/Windows ] || export WINDIR=/mnt/c/Windows
@@ -70,9 +71,6 @@ cond_path_add "/mnt/c/Windows/System32/WindowsPowerShell/v1.0" # powershell.exe
 
 # dotnet
 cond_path_add "$HOME/.dotnet/tools"
-
-# krew (kubectl plugin manager)
-cond_path_add "${KREW_ROOT:-$HOME/.krew}/bin"
 
 # Nix setup
 if [ -e /Users/devin/.nix-profile/etc/profile.d/nix.sh ]; then
@@ -84,11 +82,7 @@ fi
 cond_path_add "$HOME/.rbenv/bin"
 # shellcheck disable=1090
 if command -v rbenv >/dev/null 2>&1; then
-    if [ -n "$BASH_VERSION" ]; then
-        source <(rbenv init - --no-rehash)
-    elif [ -n "$ZSH_VERSION" ]; then
-        source <(rbenv init - --no-rehash zsh)
-    fi
+    source <(rbenv init - --no-rehash "$shell_string")
 fi
 
 # claude code
