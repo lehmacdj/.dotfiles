@@ -15,6 +15,9 @@ TODO
 
 # python
 __pycache__
+.pyenv
+venv
+.venv
 
 # aider uses this for caches + virtual environments
 .aider*
