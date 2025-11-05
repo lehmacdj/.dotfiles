@@ -24,7 +24,6 @@ add_newline = false
 # where that is important you're doing something wrong because your package
 # manager isn't managing the version of your compiler for you.
 aws.disabled = true
-c.disabled = true
 cmake.disabled = true
 cobol.disabled = true
 conda.disabled = true
@@ -37,8 +36,6 @@ elixir.disabled = true
 elm.disabled = true
 erlang.disabled = true
 golang.disabled = true
-gradle.disabled = true
-haskell.disabled = true
 helm.disabled = true
 java.disabled = true
 julia.disabled = true
