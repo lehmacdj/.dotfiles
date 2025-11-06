@@ -9,11 +9,10 @@ HISTORY_FILE="${WALLPAPER_HISTORY_FILE:-$XDG_DATA_HOME/skipped-wallpapers}"
 mkdir -p "$(dirname "$HISTORY_FILE")"
 
 # Get all current wallpaper paths before switching
-# Use lsof to find the actual image files being displayed
+# Use lsof to find the actual image files being displayed by WallpaperAgent
 # Sort by access time (most recently accessed first) to prioritize active display
 wallpapers=$(\
-  lsof 2>/dev/null \
-    | grep -i "wallpaper" \
+  lsof -c Wallpaper 2>/dev/null \
     | grep -E "\.(jpg|jpeg|png|heic|heif|webp)" \
     | awk '{print $NF}' \
     | sort -u \
