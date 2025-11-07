@@ -29,7 +29,7 @@ command="$1"
 case "$command" in
   show)
     # Display current wallpapers
-    wallpapers=$(get_wallpapers)
+    wallpapers=$(get_wallpapers | xargs -n1 ansi-url)
     if [ -n "$wallpapers" ]; then
       echo "$wallpapers"
     else
