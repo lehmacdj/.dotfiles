@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [ $# -eq 0 ]; then
+  echo "Usage: ansi-url TEXT [URL]" >&2
+  echo "  Creates a clickable hyperlink in the terminal" >&2
+  echo "  If URL is omitted, TEXT is used as the link target" >&2
+  exit 1
+fi
+
+TEXT="$1"
+URL="${2:-$1}"
+
+# ANSI escape sequence for hyperlinks: \e]8;;URL\e\\TEXT\e]8;;\e\\
+printf '\e]8;;%s\e\\%s\e]8;;\e\\\n' "$URL" "$TEXT"
