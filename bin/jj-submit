@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
+set -x
 
 if [ $# -ne 1 ]; then
   echo "Usage: $0 <change>"
@@ -12,6 +13,7 @@ bookmark_name="devin/$(\
   jj show "$change" --no-patch 2>&1 \
     --template '
         description
+          .first_line()
           .trim()
           .replace(regex:"[+\"'"'"'`]", "")
           .replace(regex:"[ /]", "-")
@@ -35,5 +37,11 @@ else
 fi
 jj git push --bookmark "$bookmark_name" --allow-new
 
-gt track "$bookmark_name"
-gt submit --branch "$bookmark_name"
+if command -v gt >/dev/null 2>&1; then
+  gt track "$bookmark_name"
+  gt submit --branch "$bookmark_name"
+elif command -v gh >/dev/null 2>&1; then
+  gh pr create --head "$bookmark_name" --web
+else
+  >&2 echo "Neither 'gt' nor 'gh' installed; create a pull request manually."
+fi
