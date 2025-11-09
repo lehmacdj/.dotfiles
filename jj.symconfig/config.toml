@@ -35,6 +35,8 @@ tug = [
   "coalesce(push_point() & ~unfinished() & ~private(), push_point()- & ~private() & bookmarks()::)"
 ]
 convert-to-colocated = ["util", "exec", "--", "jj-convert-to-colocated"]
+track = ["bookmark", "track"]
+untrack = ["bookmark", "untrack"]
 
 # work things
 submit = ["util", "exec", "--", "jj-submit"]

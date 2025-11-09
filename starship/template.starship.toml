@@ -63,6 +63,7 @@ vagrant.disabled = true
 vlang.disabled = true
 zig.disabled = true
 gcloud.disabled = true
+haskell.disabled = true
 
 [directory]
 truncation_length = 4
