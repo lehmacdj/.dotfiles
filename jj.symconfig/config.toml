@@ -37,6 +37,7 @@ tug = [
 convert-to-colocated = ["util", "exec", "--", "jj-convert-to-colocated"]
 track = ["bookmark", "track"]
 untrack = ["bookmark", "untrack"]
+rs = ["rebase", "-r", "staged()"]
 
 # work things
 submit = ["util", "exec", "--", "jj-submit"]
@@ -66,8 +67,10 @@ pre-commit = ["util", "exec", "--", "jj-pre-commit"]
 'no_description()' = "description(regex:'^$')"
 # commits that would be removed if we left them to edit something else
 'ephemeral()' = "no_description() & empty()"
-'unfinished()' = "empty() | mega_merge() | description(regex:'^$|^wip:.*')"
+'unfinished()' = "no_description() | empty() | description(regex:'^$|^wip:.*')"
 'private()' = "description(regex:'(priv(|ate)|wip):.*')"
+'unpushable()' = "private() | conflicts() | unfinished()"
+'staged()' = 'mega_merge():: ~ unpushable() ~ @'
 
 [fix.tools.ormolu]
 command = ["ormolu", "--stdin-input-file", "$path"]
