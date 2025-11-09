@@ -10,9 +10,17 @@ change="$1"
 # produce a string like "devin/factor-listeningchallengeprom/wswz"
 bookmark_name="devin/$(\
   jj show "$change" --no-patch 2>&1 \
-    --template 'description.substr(0,29).trim() ++ "\0" ++ stringify(change_id).substr(0, 4)' \
-    | tr ' /\0' '--/' \
-    | tr '[:upper:]' '[:lower:]' \
+    --template '
+        description
+          .trim()
+          .replace(regex:"[+\"'"'"'`]", "")
+          .replace(regex:"[ /]", "-")
+          .replace(regex:"-{2,}", "-")
+          .substr(0,29)
+        ++ "/"
+        ++ stringify(change_id).substr(0, 4)
+      ' \
+    | tr '[:upper:]' '[:lower:]'
 )"
 
 bookmark_exists=""
