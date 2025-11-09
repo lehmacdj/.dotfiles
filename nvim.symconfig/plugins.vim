@@ -127,6 +127,7 @@ endif
 Plug 'neovimhaskell/haskell-vim'
 " haskell block formatting: additional config in haskell after/ftplugin file
 Plug 'sdiehl/vim-ormolu'
+Plug 'nanotee/sqls.nvim'
 Plug 'udalov/kotlin-vim'
 Plug 'tvaintrob/bicep.vim'
 Plug 'vito-c/jq.vim'
