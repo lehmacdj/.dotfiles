@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Usage: jj-regen
+# Regenerates all mutable commits with descriptions starting with "regen:"
+
+original_change="$(jj show '@' --template change_id --no-patch 2>/dev/null)"
+empty_change_parent="$(jj show '(@ & ephemeral())-' --template change_id --no-patch 2>/dev/null || true)"
+
+# Find all mutable regen commits
+regen_commits="$(jj log -r 'mutable() & description(regex:"^regen:")' --no-graph --template 'change_id ++ "\n"' 2>/dev/null)"
+
+if [ -z "$regen_commits" ]; then
+  echo "No regen commits found in mutable history" >&2
+  exit 0
+fi
+
+# Process each regen commit
+while IFS= read -r change_id; do
+  [ -z "$change_id" ] && continue
+
+  commands="$(\
+    jj show "$change_id" --no-patch --template '
+    description
+      .lines()
+      .filter(|s| !s.starts_with("regen:"))
+      .filter(|s| s.len() > 0)
+      .join("\n")
+  ')"
+
+  if [ -z "$commands" ]; then
+    echo "Warning: No commands found in commit $change_id, skipping" >&2
+    continue
+  fi
+
+  echo "Regenerating commit $change_id..." >&2
+
+  # Edit the target revision
+  jj edit "$change_id" >/dev/null 2>&1
+
+  # Restore to empty state (abandon all changes)
+  jj restore --changes-in @ >/dev/null 2>&1
+
+  # Execute commands (util exec already runs from repo root)
+  echo "$commands" >&2
+  eval "$commands" || {
+    echo "Error: Commands failed for commit $change_id" >&2
+    echo "You are now in the commit. Fix any issues and run 'jj squash' to update the commit." >&2
+    exit 1
+  }
+done <<< "$regen_commits"
+
+if [ -n "$empty_change_parent" ] ; then
+  jj new "$empty_change_parent"
+else
+  jj edit "$original_change"
+fi
+
+echo "All regen commits regenerated successfully" >&2
