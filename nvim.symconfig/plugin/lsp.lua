@@ -62,3 +62,7 @@ require('lazydev').setup {
 lsp.enable('taplo', {
   on_attach = lsp.on_attach_opts { no_formatting = true },
 })
+
+-- go install github.com/sqls-server/sqls@latest
+-- need to setup connection strings in ~/.config/sqls/config.yml
+lsp.enable('sqls')
