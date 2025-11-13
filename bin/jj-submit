@@ -14,7 +14,7 @@ bookmark_name="devin/$(\
         description
           .first_line()
           .trim()
-          .replace(regex:"[+\"'"'"'`]", "")
+          .replace(regex:"[+\"'"'"'`.]", "")
           .replace(regex:"[ /]", "-")
           .replace(regex:"-{2,}", "-")
           .substr(0,29)
