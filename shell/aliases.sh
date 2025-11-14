@@ -481,7 +481,12 @@ vii() {
     echo "error: $HOME/wiki does not exist"
     return 1
   fi
-  (cd "$HOME/wiki" && "$EDITOR" index.md)
+  # for god knows what reason --cmd and -c have different behaviors in nvim:
+  # - --cmd runs before any plugins are loaded
+  # - -c runs after plugins are loaded
+  # we need to run before plugins are loaded so that LSPs are loaded in the
+  # correct working directory
+  "$EDITOR" --cmd "cd $HOME/wiki" "$HOME/wiki/index.md" "$@"
 }
 
 alias isodate='date -u +"%Y-%m-%d"'
