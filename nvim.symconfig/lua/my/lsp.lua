@@ -6,9 +6,9 @@ mod.guarded_autoformat = function(...)
   end
 end
 
--- Use an on_attach function to only map the following keys
--- after the language server attaches to the current buffer.
--- defined globally so that we can use this for null_ls as well
+-- This function is called when LSP servers attach to a buffer. It sets up
+-- keymaps dependent on the capabilities of the server.
+-- see also `:h lsp-defaults` for extra mappings that are available by default
 mod.on_attach_opts = function(opts) return function(client, bufnr)
   if opts.no_formatting then
     client.server_capabilities.documentFormattingProvider = false
@@ -37,32 +37,11 @@ mod.on_attach_opts = function(opts) return function(client, bufnr)
     augroup END
   ]]
 
-  if client:supports_method("textDocument/hover") then
-    buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>')
-  end
-  if client:supports_method("textDocument/declaration") then
-    buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<CR>')
-  end
-  if client:supports_method("textDocument/definition") then
-    buf_set_keymap('n', '<C-]>', '<cmd>lua vim.lsp.buf.definition()<CR>')
-  end
-  if client:supports_method("textDocument/implementation") then
-    buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>')
-  end
-  if client:supports_method("textDocument/typeDefinition") then
-    buf_set_keymap('n', 'gy', '<cmd>lua vim.lsp.buf.type_definition()<CR>')
-  end
-  if client:supports_method("textDocument/references") then
-    -- this overwrites the grep_string mapping I have because in practice I
-    -- mostly use grep_string like "find references"
-    buf_set_keymap('n', 'g]', '<cmd>Telescope lsp_references<CR>')
-  end
-  if client:supports_method("textDocument/rename") then
-    buf_set_keymap('n', '<Leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>')
-  end
+  -- maybe worth learning to use gra from lsp-defaults instead?
   if client:supports_method("textDocument/codeAction") then
     buf_set_keymap('n', '<Leader>al', '<cmd>lua vim.lsp.buf.code_action()<CR>')
   end
+
   if not opts.no_formatting and client:supports_method("textDocument/formatting") then
     buf_set_keymap('n', '<space>=', [[<cmd>lua require('my.lsp').guarded_autoformat()<CR>]])
     vim.cmd [[
