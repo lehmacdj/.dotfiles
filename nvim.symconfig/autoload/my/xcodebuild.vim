@@ -1,3 +1,3 @@
 function! my#xcodebuild#setup_keybindings() abort
-  nnoremap <buffer> <LocalLeader>b :XcodebuildBuild<CR>
+  nnoremap <buffer> <LocalLeader>b <Cmd>XcodebuildBuild<CR>
 endfunction

@@ -3,4 +3,4 @@ function HideBeforeGreater()
     set conceallevel=3
 endfunction
 
-nnoremap <buffer> <LocalLeader>h> :call HideBeforeGreater()<CR>
+nnoremap <buffer> <LocalLeader>h> <Cmd>call HideBeforeGreater()<CR>

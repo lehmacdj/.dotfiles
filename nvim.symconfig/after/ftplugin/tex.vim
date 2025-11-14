@@ -12,11 +12,11 @@ setlocal wrap linebreak
 nnoremap <buffer> j gj
 nnoremap <buffer> k gk
 
-nnoremap <buffer> <LocalLeader>o :!open %:r.pdf<CR><CR>
-nnoremap <buffer> <LocalLeader>m :make<CR>
-nnoremap <buffer> <LocalLeader>s :VimtexCompile<CR>
-nnoremap <buffer> <LocalLeader>e :VimtexErrors<CR>
-nnoremap <buffer> <LocalLeader>c :!md5 %:r.pdf<CR>
+nnoremap <buffer> <LocalLeader>o <Cmd>!open %:r.pdf<CR><CR>
+nnoremap <buffer> <LocalLeader>m <Cmd>make<CR>
+nnoremap <buffer> <LocalLeader>s <Cmd>VimtexCompile<CR>
+nnoremap <buffer> <LocalLeader>e <Cmd>VimtexErrors<CR>
+nnoremap <buffer> <LocalLeader>c <Cmd>!md5 %:r.pdf<CR>
 
 " let b:deoplete_omni_input_patterns = '\\(?:'
 "     \ .  '\w*cite\w*(?:\s*\[[^]]*\]){0,2}\s*{[^}]*'

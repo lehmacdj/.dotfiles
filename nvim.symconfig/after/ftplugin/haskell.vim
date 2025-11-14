@@ -6,8 +6,8 @@ let g:haskell_enable_typeroles = 1
 let b:ormolu_disable = 1
 let g:ormolu_options=['-o -XTypeApplications', '-o -XImportQualifiedPost']
 
-xnoremap <buffer> <silent> = :<c-u>call OrmoluArg(visualmode(), 1)<CR>
-nnoremap <buffer> <silent> = :set opfunc=OrmoluArg<CR>g@
+xnoremap <buffer> <silent> = :<C-u>call OrmoluArg(visualmode(), 1)<CR>
+nnoremap <buffer> <silent> = <Cmd>set opfunc=OrmoluArg<CR>g@
 " override to make the following line not get swallowed when formatting a
 " paragraph
 nmap <buffer> <silent> =ap =ip
@@ -27,11 +27,11 @@ function! OrmoluArg(type, ...)
   let &selection = sel_save
 endfunction
 
-nnoremap <buffer> <LocalLeader>o :call <SID>open_interactive(12)<CR>
+nnoremap <buffer> <LocalLeader>o <Cmd>call <SID>open_interactive(12)<CR>
 
 " Find and open GHC simplifier output in vertical split
-nnoremap <LocalLeader>vs :call OpenDumpSimpl('dump-simpl')<CR>
-nnoremap <LocalLeader>vd :call OpenDumpSimpl('p.dump-simpl')<CR>
+nnoremap <LocalLeader>vs <Cmd>call OpenDumpSimpl('dump-simpl')<CR>
+nnoremap <LocalLeader>vd <Cmd>call OpenDumpSimpl('p.dump-simpl')<CR>
 
 function! OpenDumpSimpl(dump_type)
     " Get the module name from the current file

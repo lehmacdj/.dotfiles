@@ -17,8 +17,8 @@ setlocal formatoptions+=roj
 " automatically making bullets work as I would desire
 
 " utilities for compiling to pdf
-nmap <buffer> <LocalLeader>c :!pandoc --pdf-engine=xelatex % -o %:r.pdf<CR>
-nmap <buffer> <LocalLeader>o :!open %:r.pdf<CR>
+nmap <buffer> <LocalLeader>c <Cmd>!pandoc --pdf-engine=xelatex % -o %:r.pdf<CR>
+nmap <buffer> <LocalLeader>o <Cmd>!open %:r.pdf<CR>
 
 " convert a wiki style image like `![[file name.png]]` into a standard
 " markdown link like `![|](<images/file name.png>)` placing the cursor at the
@@ -56,10 +56,10 @@ if filereadable('neuron.dhall')
 
     " neuron folgezettel mappings
     " for some reason none of these mappings work when put as nnoremap's?
-    nmap <buffer> ]z :<C-U>call neuron#move_history(1)<CR>
-    nmap <buffer> [z :<C-U>call neuron#move_history(-1)<CR>
+    nmap <buffer> ]z <Cmd>call neuron#move_history(1)<CR>
+    nmap <buffer> [z <Cmd>call neuron#move_history(-1)<CR>
 
-    nmap <buffer> <LocalLeader>o :!open http://localhost:8080/%:t:r.html<CR>
+    nmap <buffer> <LocalLeader>o <Cmd>!open http://localhost:8080/%:t:r.html<CR>
 
     " This is probably subsumed by the LSP already, just keeping it commented
     " out in case I end up wanting to re-enable it because I discover it's
@@ -73,7 +73,7 @@ if filereadable('neuron.dhall')
     nmap <buffer> <LocalLeader>n <Plug>EditZettelNew
     " these are <LocalLeader>d to mean define, which is kind of what it means to
     " create a new zettel for a word
-    nmap <buffer> <LocalLeader>d :<C-U>call neuron#edit_zettel_new_from_cword(0)<CR>
+    nmap <buffer> <LocalLeader>d <Cmd>call neuron#edit_zettel_new_from_cword(0)<CR>
     xmap <buffer> <LocalLeader>d <esc>:<C-U>call neuron#edit_zettel_new_from_visual(0)<CR>
 
     " two variants of each first [[ ]] links then [[[ ]]] links
@@ -87,7 +87,7 @@ if filereadable('neuron.dhall')
     nmap <buffer> <LocalLeader>ts <Plug>TagsAddSelect
     nmap <buffer> <LocalLeader>t/ <Plug>TagsZettelSearch
 
-    nnoremap <buffer> <LocalLeader>r :w %~<CR>:e!<CR>:diffthis<CR>:vsp %~<CR>:diffthis<CR>
+    nnoremap <buffer> <LocalLeader>r <Cmd>w %~<CR>:e!<CR>:diffthis<CR>:vsp %~<CR>:diffthis<CR>
 
     " janky macro that creates a new zettel based on a visual selection which
     " becomes the body of the new zettel

@@ -1,8 +1,8 @@
 " Eclim bindings
-nnoremap <LocalLeader>d :JavaDocPreview<CR>
-nnoremap <LocalLeader>i :JavaImportOrganize<CR>
-nnoremap <Leader>n :lne<CR>
-nnoremap <Leader>N :lNe<CR>
+nnoremap <LocalLeader>d <Cmd>JavaDocPreview<CR>
+nnoremap <LocalLeader>i <Cmd>JavaImportOrganize<CR>
+nnoremap <Leader>n <Cmd>lne<CR>
+nnoremap <Leader>N <Cmd>lNe<CR>
 
 " Abbreviations
 abbreviate sysout System.out.println

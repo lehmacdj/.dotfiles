@@ -47,10 +47,10 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'knsh14/vim-github-link'
 " gs is pretty much useless and nicely can mean `git stage`
-nnoremap gs :GitGutterStageHunk<CR>
+nnoremap gs <Cmd>GitGutterStageHunk<CR>
 xnoremap gs :GitGutterStageHunk<CR>
 " if you squint, gb is like gp for `git preview` but the p is upside down
-nnoremap gb :GitGutterPreviewHunk<CR>
+nnoremap gb <Cmd>GitGutterPreviewHunk<CR>
 
 " ide plugins
 if has('nvim')
@@ -82,14 +82,14 @@ if has('nvim')
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
   Defer 'require("my.telescope")'
-  nnoremap <Leader>o :Telescope find_files<CR>
-  nnoremap <Leader>/ :Telescope live_grep<CR>
-  nnoremap <Leader>b :Telescope buffers<CR>
-  nnoremap <Leader>] :Telescope grep_string<CR>
+  nnoremap <Leader>o <Cmd>Telescope find_files<CR>
+  nnoremap <Leader>/ <Cmd>Telescope live_grep<CR>
+  nnoremap <Leader>b <Cmd>Telescope buffers<CR>
+  nnoremap <Leader>] <Cmd>Telescope grep_string<CR>
   " backup binding for lsp references (overriden in lua/my/lsp.lua)
-  nnoremap g] :Telescope grep_string<CR>
+  nnoremap g] <Cmd>Telescope grep_string<CR>
   " finder resume
-  nnoremap <Leader>fr :Telescope resume<CR>
+  nnoremap <Leader>fr <Cmd>Telescope resume<CR>
 
   " lsp
   Plug 'neovim/nvim-lspconfig'

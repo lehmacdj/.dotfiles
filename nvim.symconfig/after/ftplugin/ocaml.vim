@@ -5,9 +5,9 @@ setlocal shiftwidth=2
 setlocal iskeyword+='
 
 " Bindings for merlin
-nnoremap <LocalLeader>m :GotoDotMerlin<CR>
-nnoremap <LocalLeader>d :MerlinDocument<CR>
-nnoremap <LocalLeader>g :MerlinGrowEnclosing<CR>
+nnoremap <LocalLeader>m <Cmd>GotoDotMerlin<CR>
+nnoremap <LocalLeader>d <Cmd>MerlinDocument<CR>
+nnoremap <LocalLeader>g <Cmd>MerlinGrowEnclosing<CR>
 
 " enable merlin completion
 let b:deoplete_omni_input_patterns = ['[^. *\t]\.\w*','[A-Za-z_]\w*','#']

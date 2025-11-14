@@ -151,9 +151,9 @@ xnoremap gq gw
 " when opening the file. It should be relative to the file with the reference
 " not vim's current directory
 " " make gf / <C-w><C-f> automatically create new files
-" nnoremap gf :e <cfile><CR>
-" nnoremap <C-w>f :split <cfile><CR>
-" nnoremap <C-w><C-f> :split <cfile><CR>
+" nnoremap gf <Cmd>e <cfile><CR>
+" nnoremap <C-w>f <Cmd>split <cfile><CR>
+" nnoremap <C-w><C-f> <Cmd>split <cfile><CR>
 if has('nvim')
     " navigation from terminal
     tnoremap <C-\>j <C-\><C-n><C-w><C-j>
@@ -164,23 +164,23 @@ end
 
 " Editting / meta vim config
 " Edit vimrc
-nnoremap <Leader>ev :split $MYVIMRC<CR>
+nnoremap <Leader>ev <Cmd>split $MYVIMRC<CR>
 " Edit plugins
-nnoremap <Leader>ep :split $VIMHOME/plugins.vim<CR>
+nnoremap <Leader>ep <Cmd>split $VIMHOME/plugins.vim<CR>
 " Edit filetype file
-nnoremap <expr> <Leader>ef ':split '.$VIMHOME.'/after/ftplugin/'.&filetype.'.vim<CR>'
+nnoremap <expr> <Leader>ef '<Cmd>split '.$VIMHOME.'/after/ftplugin/'.&filetype.'.vim<CR>'
 " Edit syntax file
 nnoremap <Leader>es :call my#misc#EditSyntaxFile()<CR>
 " Edit detection file
-nnoremap <expr> <Leader>ed ':split '.$VIMHOME.'/after/ftdetect/'.&filetype.'.vim<CR>'
+nnoremap <expr> <Leader>ed '<Cmd>split '.$VIMHOME.'/after/ftdetect/'.&filetype.'.vim<CR>'
 " Edit a lazy loaded viml/lua config file
-nnoremap <Leader>ec :lua require('my.telescope').find_vim_config_files()<CR>
+nnoremap <Leader>ec <Cmd>lua require('my.telescope').find_vim_config_files()<CR>
 " Edit something in my dotfiles
-nnoremap <Leader>e. :lua require('my.telescope').find_dotfiles()<CR>
+nnoremap <Leader>e. <Cmd>lua require('my.telescope').find_dotfiles()<CR>
 " Edit the local vim config (which may or may not exist, sourced below)
-nnoremap <Leader>el :split $VIMHOME/local.vim<CR>
+nnoremap <Leader>el <Cmd>split $VIMHOME/local.vim<CR>
 " Source vimrc
-nnoremap <Leader>sv :source $MYVIMRC<CR>
+nnoremap <Leader>sv <Cmd>source $MYVIMRC<CR>
 
 augroup vim_config_autorefresh
     autocmd!
@@ -194,7 +194,7 @@ augroup vim_config_autorefresh
 augroup END
 
 " Delete buffers from buffer list interactively
-nnoremap <Leader>db :call my#misc#InteractiveBufDelete()<CR>
+nnoremap <Leader>db <Cmd>call my#misc#InteractiveBufDelete()<CR>
 " run the last normal mode command
 nnoremap <Leader>: :<Up><CR>
 xnoremap <Leader>: :<Up><CR>
@@ -202,14 +202,14 @@ xnoremap <Leader>: :<Up><CR>
 nnoremap <Leader><C-k> i<C-k><Return><C-\><C-n>
 
 " smarter tag following
-nnoremap <C-]> :call my#misc#smart_goto()<CR>
+nnoremap <C-]> <Cmd>call my#misc#smart_goto()<CR>
 " testing out using this for goto references since I barely use :tselect
-" nnoremap g] :call my#misc#smart_goto_select()<CR>
-nnoremap g<C-]> :call my#misc#smart_goto()<CR>
+" nnoremap g] <Cmd>call my#misc#smart_goto_select()<CR>
+nnoremap g<C-]> <Cmd>call my#misc#smart_goto()<CR>
 
 " toggle colorcolumn with <space>8
 set colorcolumn=81
-nnoremap <Leader>8 :call my#misc#ToggleColorColumn()<CR>
+nnoremap <Leader>8 <Cmd>call my#misc#ToggleColorColumn()<CR>
 
 " Trim whitespace / this can be turned off by disabling auto-formatting
 augroup trim_whitespace
@@ -226,19 +226,19 @@ augroup END
 
 " toggle autoformatting on save in style of unimpaired.vim
 let g:do_autoformat = 1
-nnoremap [o= :lua require'my.misc'.enable_autoformat()<CR>
-nnoremap ]o= :lua require'my.misc'.disable_autoformat()<CR>
-nnoremap yo= :<C-U>lua <C-R>=g:do_autoformat
+nnoremap [o= <Cmd>lua require'my.misc'.enable_autoformat()<CR>
+nnoremap ]o= <Cmd>lua require'my.misc'.disable_autoformat()<CR>
+nnoremap yo= <Cmd><C-U>lua <C-R>=g:do_autoformat
     \ ? "require'my.misc'.disable_autoformat()"
     \ : "require'my.misc'.enable_autoformat()"<CR><CR>
 
 " Spelling related things
 nnoremap <Leader>z 1z=
 " automatically commit spellfile changes
-nnoremap zg :call my#misc#commit_dictionary_word()<CR>
+nnoremap zg <Cmd>call my#misc#commit_dictionary_word()<CR>
 xnoremap zg :call my#misc#commit_dictionary_word(visualmode())<CR>
 " TODO: asynchronously compile spell files on startup
-nnoremap <Leader>sc :call my#misc#CompileSpellFiles()<CR>
+nnoremap <Leader>sc <Cmd>call my#misc#CompileSpellFiles()<CR>
 " Spelling corrections
 abbreviate teh the
 
@@ -261,9 +261,9 @@ if executable('pretty-simple')
 endif
 
 
-nnoremap <Leader>ss :call my#misc#SynStack()<CR>
+nnoremap <Leader>ss <Cmd>call my#misc#SynStack()<CR>
 lua require('my.diagnostics').configure()
-nnoremap <Leader>Ds :lua vim.uv.fs_unlink(vim.fn.swapname('%'))<CR>
+nnoremap <Leader>Ds <Cmd>lua vim.uv.fs_unlink(vim.fn.swapname('%'))<CR>
 
 command GetMasterBranchLink call my#misc#get_optimistic_branch_link("master")
 command GetMainBranchLink call my#misc#get_optimistic_branch_link("main")

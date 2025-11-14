@@ -1,3 +1,3 @@
-nnoremap <LocalLeader>m :!make %:r<CR>
-nnoremap <LocalLeader>r :!./%:r<CR>
-nnoremap <LocalLeader>d :!valgrind --track-origins=yes ./%:r<CR>
+nnoremap <LocalLeader>m <Cmd>!make %:r<CR>
+nnoremap <LocalLeader>r <Cmd>!./%:r<CR>
+nnoremap <LocalLeader>d <Cmd>!valgrind --track-origins=yes ./%:r<CR>
