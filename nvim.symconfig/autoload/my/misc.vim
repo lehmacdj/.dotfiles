@@ -96,41 +96,30 @@ endfunction
 " 2. ripgrep search; at time of writing :Telescope grep_string. ripgrep
 "    functionality is also available via <Leader>] directly bypassing lsp/tags
 function! my#misc#smart_goto() abort
-  try
-    normal! 
-  catch /E433: No tags file/
+  if tagfiles() == [] && &tagfunc == ''
     call my#misc#err('no tag file found')
-    lua require('telescope.builtin').grep_string({ prompt_title = 'no tag file; fell back to rg' })
-  catch /E426: tag not found/
-    " tag not found
-    " we don't want to default to grep because this might be a sign that the
-    " symbol actually doesn't exist; whereas if we don't have a tag file we
-    " couldn't try at all
-    call my#misc#err(
-      \ 'tag not found: '
-      \ . expand('<cword>')
-      \ . ' - consider using <Leader>] for a fuzzy search')
-  endtry
+    lua require('telescope.builtin')
+      \ .grep_string({ prompt_title = 'no tag file; fell back to rg' })
+  else
+    " need to feedkeys so that E325 (swap file detected) doesn't get swallowed
+    " due to arising in a function context
+    call feedkeys("\<C-]>", 'n')
+  endif
 endfunction
 
 " my#misc#smart_goto_select is to my#misc#smart_goto as <C-]> (:tag) is to g<C-]>
 " (:tselect)
 function! my#misc#smart_goto_select() abort
-  try
-    normal! g
-  catch /E433: No tags file/
+  if tagfiles() == [] && &tagfunc == ''
     call my#misc#err('no tag file found')
-    lua require('telescope.builtin').grep_string({ prompt_title = 'no tag file; fell back to rg' })
-  catch /E426: tag not found/
-    " tag not found
-    " we don't want to default to grep because this might be a sign that the
-    " symbol actually doesn't exist; whereas if we dont' have a tag file we
-    " couldn't try at all
-    call my#misc#err(
-      \ 'tag not found: '
-      \ . expand('<cword>')
-      \ . ' - consider using <Leader>] for a fuzzy search')
-  endtry
+    lua require('telescope.builtin')
+      \ .grep_string({ prompt_title = 'no tag file; fell back to rg' })
+    return
+  else
+    " need to feedkeys so that E325 (swap file detected) doesn't get swallowed
+    call feedkeys("g\<C-]>", 'n')
+    normal! g
+  endif
 endfunction
 
 function! my#misc#PrettySimple(type, is_visual = v:false) abort
@@ -139,13 +128,13 @@ function! my#misc#PrettySimple(type, is_visual = v:false) abort
 
   if a:is_visual
     echom 'a:type = visual'
-    silent exe 'normal! gv!pretty-simple -c no-color'
+    silent exe "normal! gv!pretty-simple -c no-color\<C-m>"
   elseif a:type ==# 'line' " otherwise we're in operator mode
     echom 'a:type = line'
-    silent exe "normal! '[V']!pretty-simple -c no-color"
+    silent exe "normal! '[V']!pretty-simple -c no-color\<C-m>"
   else
     echom 'a:type = standard'
-    silent exe 'normal! `[v`]!pretty-simple -c no-color'
+    silent exe "normal! `[v`]!pretty-simple -c no-color\<C-m>"
   endif
 
   let &selection = sel_save
