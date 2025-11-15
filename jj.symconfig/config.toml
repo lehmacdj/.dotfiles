@@ -72,6 +72,25 @@ pre-commit = ["util", "exec", "--", "jj-pre-commit"]
 'unpushable()' = "private() | conflicts() | unfinished()"
 'staged()' = 'mega_merge():: ~ unpushable() ~ @'
 
+[template-aliases]
+# remove/replace characters from a string that aren't valid in bookmarks/branch
+# names
+'bookmarkify(str)' = '''
+str.trim()
+   .replace(regex:"[+\"'`.():]", "")
+   .replace(regex:"[ /]", "-")
+   .replace(regex:"-{2,}", "-")
+   .lower()
+'''
+# an up to 40 character string that is a valid bookmark name for a change
+# produces a bookmark name like devin/factor-listeningchallengeprom/wswz
+'change_bookmark' = '''
+"devin/" ++
+  ++ bookmarkify(description.first_line()).substr(0, 29)
+  ++ "/"
+  ++ stringify(change_id).substr(0, 4)
+'''
+
 [fix.tools.ormolu]
 command = ["ormolu", "--stdin-input-file", "$path"]
 patterns = ["glob:'**/*.hs'"]
