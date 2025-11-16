@@ -38,6 +38,8 @@ convert-to-colocated = ["util", "exec", "--", "jj-convert-to-colocated"]
 track = ["bookmark", "track"]
 untrack = ["bookmark", "untrack"]
 rs = ["rebase", "-r", "staged()"]
+# rebase staged to **t**runk and **t**ug
+rst = ["util", "exec", "--", "bash", "-c", "jj rs -A 'local_trunk()' && jj tug"]
 
 # work things
 submit = ["util", "exec", "--", "jj-submit"]
