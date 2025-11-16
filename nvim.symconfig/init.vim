@@ -228,7 +228,7 @@ augroup END
 let g:do_autoformat = 1
 nnoremap [o= <Cmd>lua require'my.misc'.enable_autoformat()<CR>
 nnoremap ]o= <Cmd>lua require'my.misc'.disable_autoformat()<CR>
-nnoremap yo= <Cmd><C-U>lua <C-R>=g:do_autoformat
+nnoremap yo= :<C-u>lua <C-R>=g:do_autoformat
     \ ? "require'my.misc'.disable_autoformat()"
     \ : "require'my.misc'.enable_autoformat()"<CR><CR>
 
