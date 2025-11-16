@@ -81,7 +81,6 @@ if has('nvim')
   Plug 'stevearc/dressing.nvim'
   Plug 'nvim-telescope/telescope.nvim'
   Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-  Defer 'require("my.telescope")'
   nnoremap <Leader>o <Cmd>Telescope find_files<CR>
   nnoremap <Leader>/ <Cmd>Telescope live_grep<CR>
   nnoremap <Leader>b <Cmd>Telescope buffers<CR>
@@ -106,7 +105,6 @@ if has('nvim')
     \| Plug 'hrsh7th/cmp-cmdline'
     \| Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
     \| Plug 'jc-doyle/cmp-pandoc-references'
-  Defer 'require"my.cmp".setup()'
 
   " Snippets
   Plug 'L3MON4D3/LuaSnip'
