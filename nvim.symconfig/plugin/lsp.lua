@@ -38,11 +38,9 @@ lsp.enable('hls', {
     }
   },
   filetypes = {'haskell', 'lhaskell', 'cabal'},
-  settings = {
-    haskell = {
-      formattingProvider = 'ormolu',
-    },
-  },
+  -- HLS formatting version is old and can't use a version from the path
+  -- without recompiling from source; instead use none-ls for Ormolu
+  on_attach = lsp.on_attach_opts { no_formatting = true },
 })
 
 lsp.enable('lua_ls', {

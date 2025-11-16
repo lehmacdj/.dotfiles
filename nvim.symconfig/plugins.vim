@@ -97,7 +97,6 @@ if has('nvim')
 
   Plug 'nvimtools/none-ls.nvim'
     \| Plug 'gbprod/none-ls-shellcheck.nvim'
-  Defer 'require"my.null-ls".setup()'
 
   " completion
   Plug 'hrsh7th/nvim-cmp'
