@@ -87,7 +87,7 @@ str.trim()
 # an up to 40 character string that is a valid bookmark name for a change
 # produces a bookmark name like devin/factor-listeningchallengeprom/wswz
 'change_bookmark' = '''
-"devin/" ++
+"devin/"
   ++ bookmarkify(description.first_line()).substr(0, 29)
   ++ "/"
   ++ stringify(change_id).substr(0, 4)
