@@ -21,6 +21,7 @@ if [ $# -eq 0 ]; then
   echo "Usage: wallpaper <show|skip>" >&2
   echo "  show - Display current wallpaper file paths" >&2
   echo "  skip - Skip current wallpaper and switch to next" >&2
+  echo "  trash - Remove wallpaper from folder and switch to next" >&2
   exit 1
 fi
 
@@ -28,41 +29,49 @@ command="$1"
 
 case "$command" in
   show)
-    # Display current wallpapers
-    wallpapers=$(get_wallpapers | xargs -n1 ansi-url)
-    if [ -n "$wallpapers" ]; then
-      echo "$wallpapers"
-    else
-      echo "No wallpapers currently detected" >&2
-      exit 1
-    fi
+    verb="showed"
     ;;
-
   skip)
-    # Get all current wallpaper paths before switching
-    wallpapers=$(get_wallpapers | tr '\n' ' ')
-
-    # Ensure the data directory exists
-    mkdir -p "$(dirname "$HISTORY_FILE")"
-
-    # Get current timestamp in ISO8601 UTC format
-    timestamp=$(date -u "+%Y-%m-%dT%H:%M:%SZ")
-
-    # Log skip action to history file
-    # Log all wallpapers on one line, space-separated
-    if [ -n "$wallpapers" ]; then
-      echo "$timestamp $wallpapers" >> "$HISTORY_FILE"
-    fi
-
-    # Trigger wallpaper change by restarting WallpaperAgent
-    killall WallpaperAgent
-
-    >&2 echo "Wallpaper skipped and switched. History logged to: $HISTORY_FILE"
+    verb="skipped"
+    ;;
+  trash)
+    verb="trashed"
     ;;
 
   *)
     echo "Error: Unknown command '$command'" >&2
-    echo "Usage: wallpaper <show|skip>" >&2
+    echo "Usage: wallpaper <show|skip|trash>" >&2
     exit 1
     ;;
 esac
+
+# get wallpaper str before wallpaper might get changed
+wallpapers_ansi=$(get_wallpapers | xargs -n1 ansi-url)
+
+# Ensure the data directory exists
+mkdir -p "$(dirname "$HISTORY_FILE")"
+
+# Get current timestamp in ISO8601 UTC format
+timestamp=$(date -u "+%Y-%m-%dT%H:%M:%SZ")
+# get log str before wallpaper gets changed
+log_str="$timestamp $verb $(get_wallpapers | tr '\n' ' ')"
+
+if [ "$command" = "trash" ]; then
+  get_wallpapers | xargs -n1 trash
+fi
+
+if [ "$command" = "skip" ] || [ "$command" = "trash" ]; then
+  # Trigger wallpaper change by restarting WallpaperAgent
+  killall WallpaperAgent
+
+  # Log action to history file
+  [ -n "$log_str" ] && echo "$log_str" >> "$HISTORY_FILE"
+  >&2 echo "Wallpaper $verb and switched, was:"
+fi
+
+if [ -n "$wallpapers_ansi" ]; then
+  echo "$wallpapers_ansi"
+else
+   >&2 echo "No wallpapers currently detected"
+  exit 1
+fi
