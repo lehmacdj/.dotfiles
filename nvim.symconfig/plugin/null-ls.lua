@@ -18,7 +18,7 @@ local ormolu = {
       -- shouldn't
       '--ghc-opt=-XOverloadedLabels',
       '--ghc-opt=-XTypeApplications',
-      '--ghc-opt=-XRecordDotSyntax',
+      '--ghc-opt=-XOverloadedRecordDot',
     },
     to_stdin = true,
   }),
