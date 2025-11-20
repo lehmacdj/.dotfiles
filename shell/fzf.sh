@@ -36,55 +36,46 @@ __fzf_jj_change__() {
   return $ret
 }
 
-if [ -n "$BASH_VERSION" ] && [[ $- =~ i ]]; then
-  fzf-git-widget() {
-    local selected
-    selected="$(__fzf_select_git__ "$@")"
-    READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$selected${READLINE_LINE:$READLINE_POINT}"
-    READLINE_POINT=$(( READLINE_POINT + ${#selected} ))
-  }
+# Define an fzf widget with keybindings for both bash and zsh
+# Usage: define-fzf-widget <widget-name> <function-name> <keybinding>
+# Example: define-fzf-widget fzf-git-widget __fzf_select_git__ 'g'
+# The keybinding should be just the letter (e.g., 'g', 'y'), which will be
+# converted to \C-g for bash and ^G for zsh
+define-fzf-widget() {
+  local widget_name=$1
+  local function_name=$2
+  local key=$3
 
-  bind -m emacs-standard -x '"\C-g": fzf-git-widget'
-  bind -m vi-command -x '"\C-g": fzf-git-widget'
-  bind -m vi-insert -x '"\C-g": fzf-git-widget'
-elif [ -n "$ZSH_VERSION" ] && [[ -o interactive ]]; then
-  fzf-git-widget() {
-     LBUFFER="${LBUFFER}$(__fzf_select_git__)"
-     local ret=$?
-     zle reset-prompt
-     return $ret
-  }
+  if [ -n "$BASH_VERSION" ] && [[ $- =~ i ]]; then
+    eval "${widget_name}() {
+      local selected
+      selected=\"\$(${function_name} \"\$@\")\"
+      READLINE_LINE=\"\${READLINE_LINE:0:\$READLINE_POINT}\$selected\${READLINE_LINE:\$READLINE_POINT}\"
+      READLINE_POINT=\$(( READLINE_POINT + \${#selected} ))
+    }"
 
-  zle     -N            fzf-git-widget
-  bindkey -M emacs '^G' fzf-git-widget
-  bindkey -M vicmd '^G' fzf-git-widget
-  bindkey -M viins '^G' fzf-git-widget
-fi
+    local bash_key="\\C-${key}"
+    bind -m emacs-standard -x "\"${bash_key}\": ${widget_name}"
+    bind -m vi-command -x "\"${bash_key}\": ${widget_name}"
+    bind -m vi-insert -x "\"${bash_key}\": ${widget_name}"
+  elif [ -n "$ZSH_VERSION" ] && [[ -o interactive ]]; then
+    eval "${widget_name}() {
+      LBUFFER=\"\${LBUFFER}\$(${function_name})\"
+      local ret=\$?
+      zle reset-prompt
+      return \$ret
+    }"
 
-if [ -n "$BASH_VERSION" ] && [[ $- =~ i ]]; then
-  fzf-jj-change-widget() {
-    local selected
-    selected="$(__fzf_jj_change__ "$@")"
-    READLINE_LINE="${READLINE_LINE:0:$READLINE_POINT}$selected${READLINE_LINE:$READLINE_POINT}"
-    READLINE_POINT=$(( READLINE_POINT + ${#selected} ))
-  }
+    local zsh_key="^${key}"
+    zle -N "${widget_name}"
+    bindkey -M emacs "${zsh_key}" "${widget_name}"
+    bindkey -M vicmd "${zsh_key}" "${widget_name}"
+    bindkey -M viins "${zsh_key}" "${widget_name}"
+  fi
+}
 
-  bind -m emacs-standard -x '"\C-y": fzf-jj-change-widget'
-  bind -m vi-command -x '"\C-y": fzf-jj-change-widget'
-  bind -m vi-insert -x '"\C-y": fzf-jj-change-widget'
-elif [ -n "$ZSH_VERSION" ] && [[ -o interactive ]]; then
-  fzf-jj-change-widget() {
-     LBUFFER="${LBUFFER}$(__fzf_jj_change__)"
-     local ret=$?
-     zle reset-prompt
-     return $ret
-  }
-
-  zle     -N            fzf-jj-change-widget
-  bindkey -M emacs '^Y' fzf-jj-change-widget
-  bindkey -M vicmd '^Y' fzf-jj-change-widget
-  bindkey -M viins '^Y' fzf-jj-change-widget
-fi
+define-fzf-widget fzf-git-widget __fzf_select_git__ 'g'
+define-fzf-widget fzf-jj-change-widget __fzf_jj_change__ 'y'
 
 # cd to directory using fzf
 function cf () {
