@@ -9,7 +9,17 @@ local ormolu = {
   filetypes = { 'haskell' },
   generator = helpers.formatter_factory({
     command = 'ormolu',
-    args = { '--stdin-input-file', '$FILENAME', '--unsafe' },
+    args = {
+      '--stdin-input-file', '$FILENAME',
+      '--unsafe',
+      -- I essentially always use these language extensions and when not enabled
+      -- e.g. when writing a new file for the first time, sometimes the .cabal
+      -- file isn't updated yet, so ormolu adds extra whitespace where it
+      -- shouldn't
+      '--ghc-opt=-XOverloadedLabels',
+      '--ghc-opt=-XTypeApplications',
+      '--ghc-opt=-XRecordDotSyntax',
+    },
     to_stdin = true,
   }),
 }
