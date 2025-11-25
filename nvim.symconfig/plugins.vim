@@ -39,6 +39,8 @@ if has('nvim')
   Plug 'nvim-tree/nvim-web-devicons'
   Defer 'require"nvim-web-devicons".setup{ default = true }'
   Plug 'folke/lazydev.nvim'
+  Plug 'vhyrro/luarocks.nvim', { 'do': 'nvim -l build.lua' }
+  Defer 'require"luarocks-nvim".setup{ rocks = { "magick" } }'
   Plug '3rd/image.nvim'
 endif
 
