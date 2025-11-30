@@ -24,8 +24,6 @@ rebase-all = [
 pull = ["util", "exec", "--", "bash", "-c", "jj git fetch && jj rebase-all && jj simplify-parents"]
 push = ["git", "push", "--revisions", "bookmarks() & mutable() ~ conflicts()"]
 sq = ["squash"]
-ca = ["util", "exec", "--", "jj-commit-after"]
-c = ["util", "exec", "--", "jj-commit-after", "heads(::push_point() & bookmarks())"]
 pp = ["util", "exec", "--", "bash", "-c", "jj pull && jj push"]
 tug = [
   "bookmark", "move",
