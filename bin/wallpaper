@@ -46,7 +46,11 @@ case "$command" in
 esac
 
 # get wallpaper str before wallpaper might get changed
-wallpapers_ansi=$(get_wallpapers | xargs -n1 ansi-url)
+wallpapers_ansi=$(get_wallpapers | while read -r path; do
+  basename="${path##*/}"
+  basename="${basename%.*}"
+  echo "@$basename $(ansi-url "$path")"
+done)
 
 # Ensure the data directory exists
 mkdir -p "$(dirname "$HISTORY_FILE")"
