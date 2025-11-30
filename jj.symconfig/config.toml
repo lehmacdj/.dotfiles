@@ -64,16 +64,17 @@ pre-commit = ["util", "exec", "--", "jj-pre-commit"]
 # that can conflict with change ids potentially
 'm()' = "mega_merge()"
 # the place from below which we push changes to the remote from
-# if we have a meta merge we push from below it, otherwise we assume we push
-# from the current head
-'push_point()' = "coalesce(mega_merge() & ::@, @)"
+# this is the topmost private commit that is a parent of the current commit
+# often this will be a mega_merge(), but it's useful for this to be generalized
+'push_point()' = "coalesce(roots(private()) & ::@, @)"
 'no_description()' = "description(regex:'^$')"
 # commits that would be removed if we left them to edit something else
 'ephemeral()' = "no_description() & empty()"
-'unfinished()' = "no_description() | empty() | description(regex:'^$|^wip:.*')"
-'private()' = "description(regex:'(priv(|ate)|wip):.*')"
+'wip()' = "description(regex:'^wip:.*')"
+'unfinished()' = "no_description() | empty() | wip()"
+'private()' = "description(regex:'^priv(|ate):.*')|wip()"
 'unpushable()' = "private() | conflicts() | unfinished()"
-'staged()' = 'mega_merge():: ~ unpushable() ~ @'
+'staged()' = 'push_point():: ~ unpushable() ~ @'
 
 [template-aliases]
 # remove/replace characters from a string that aren't valid in bookmarks/branch
