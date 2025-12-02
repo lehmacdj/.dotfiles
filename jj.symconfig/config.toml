@@ -51,7 +51,7 @@ pre-commit = ["util", "exec", "--", "jj-pre-commit"]
 'summary(exclude)' = 'present(@) | ancestors(exclude.., 2) | conflicts() | present(trunk())'
 # the log set I use for the ui.default-command, `jj log` gives me the original
 # default and I use it a decent amount too
-'default_command_log()' = 'summary(saved() | immutable_heads() | local_trunk())'
+'default_command_log()' = 'summary(saved() | immutable_heads() | local_trunk()) ~ hidden()'
 # we consider some changes saved to avoid rebasing them
 'saved()' = "description(regex:'saved:.*')"
 # a "mega merge" on top of which we base private development efforts
@@ -70,9 +70,10 @@ pre-commit = ["util", "exec", "--", "jj-pre-commit"]
 'ephemeral()' = "no_description() & empty()"
 'wip()' = "description(regex:'^wip:.*')"
 'unfinished()' = "no_description() | empty() | wip()"
-'private()' = "description(regex:'^priv(|ate):.*')|wip()"
+'private()' = "description(regex:'^priv(|ate)[^:]*:.*')|wip()"
 'unpushable()' = "private() | conflicts() | unfinished()"
 'staged()' = 'push_point():: ~ unpushable() ~ @'
+'hidden()' = "description(regex:'^[^:]*\\(hidden\\)[^:]*:')"
 
 [template-aliases]
 # remove/replace characters from a string that aren't valid in bookmarks/branch
