@@ -1,3 +1,6 @@
+-- NOTE: There's a parallel implementation in bin/format-path for the zsh prompt.
+-- Consider unifying these implementations in the future.
+
 local M = {}
 
 local function segmentize(path)

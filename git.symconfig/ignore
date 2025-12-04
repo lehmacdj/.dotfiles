@@ -28,3 +28,6 @@ venv
 **/CLAUDE.local.md
 
 **/tmp~
+
+# kotlin language server produces this
+kls_database.db

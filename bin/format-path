@@ -1,0 +1,107 @@
+#!/usr/bin/env bash
+# Format a path for display in prompts/titles
+# Used by zsh prompt. There's a parallel Lua implementation in
+# vim.symdot/lua/my/title.lua - consider unifying in the future.
+#
+# Usage: format-path [path]
+#   path defaults to $PWD
+#
+# Output format:
+#   For VCS repos directly in ~: ~/repo>subpath (> is U+25B6)
+#   For VCS repos elsewhere: .../repo>subpath
+#   For home paths <=4 segments: ~/path
+#   For absolute paths <=4 segments: /path
+#   Fallback: .../last/3/segments
+
+set -euo pipefail
+
+path="${1:-$PWD}"
+home="$HOME"
+ellipsis="…"
+
+# Convert to absolute path if needed
+[[ "$path" != /* ]] && path="$PWD/$path"
+
+# Find VCS root (.git or .jj)
+find_vcs_root() {
+  local dir="$1"
+  while [[ "$dir" != "/" ]]; do
+    if [[ -d "$dir/.git" ]] || [[ -d "$dir/.jj" ]]; then
+      echo "$dir"
+      return 0
+    fi
+    dir="$(dirname "$dir")"
+  done
+  return 1
+}
+
+# Format last N segments with ellipsis prefix
+format_segments() {
+  local p="$1"
+  local max="${2:-999}"
+  local IFS='/'
+  local -a segs
+  read -ra segs <<< "$p"
+
+  # Remove empty first element from absolute paths
+  if [[ -z "${segs[0]:-}" ]]; then
+    segs=("${segs[@]:1}")
+  fi
+
+  local count="${#segs[@]}"
+  if (( count <= max )); then
+    printf '%s' "$p"
+  else
+    local start=$((count - max))
+    local result="$ellipsis"
+    for ((i = start; i < count; i++)); do
+      result+="/${segs[i]}"
+    done
+    printf '%s' "$result"
+  fi
+}
+
+# Check if path starts with home
+home_relative=""
+if [[ "$path" == "$home"/* ]]; then
+  home_relative="${path#"$home"/}"
+fi
+
+# Check for VCS root
+vcs_root=""
+if vcs_root=$(find_vcs_root "$path"); then
+  repo_name="$(basename "$vcs_root")"
+  subpath="${path#"$vcs_root"}"
+  subpath="${subpath#/}"
+
+  # Check if repo is directly in home directory
+  # Use | as a marker between prefix and repo name for coloring
+  if [[ "$(dirname "$vcs_root")" == "$home" ]]; then
+    if [[ -n "$subpath" ]]; then
+      echo "~/|${repo_name}/$(format_segments "$subpath" 3)"
+    else
+      echo "~/|${repo_name}"
+    fi
+  else
+    if [[ -n "$subpath" ]]; then
+      echo "${ellipsis}/|${repo_name}/$(format_segments "$subpath" 3)"
+    else
+      echo "${ellipsis}/|${repo_name}"
+    fi
+  fi
+elif [[ -n "$home_relative" ]]; then
+  IFS='/' read -ra segs <<< "$home_relative"
+  if (( ${#segs[@]} <= 4 )); then
+    echo "~/${home_relative}"
+  else
+    echo "~$(format_segments "/${home_relative}" 4)"
+  fi
+else
+  IFS='/' read -ra segs <<< "$path"
+  segs=("${segs[@]:1}")
+  if (( ${#segs[@]} <= 4 )); then
+    echo "$path"
+  else
+    format_segments "$path" 4
+  fi
+fi

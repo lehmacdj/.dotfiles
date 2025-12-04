@@ -9,6 +9,7 @@ if command -v starship >/dev/null 2>&1; then
 else
   export PROMPT="%~> "
 fi
+# source "$DOTFILES/zsh/prompt.zsh" # this is still a work in progress
 
 function put_pwd_in_titles() {
   # Put the string "/full/directory/path" in the title bar:
