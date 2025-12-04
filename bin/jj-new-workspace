@@ -1,0 +1,110 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage_info() {
+  >&2 echo "usage: $0 [-b <branch>|-r <revset>] [-p <path>|-n <name>]"
+  >&2 echo ""
+  >&2 echo "Create a new jj workspace as a sibling of the current workspace"
+  >&2 echo "Options:"
+  >&2 echo "  --branch,-b <branch>   Create the new workspace at the tip of the given branch"
+  >&2 echo "  --revset,-r <revset>   Create the new workspace at the given revset"
+  >&2 echo "  --path,-p <path>     Path to create the new workspace at (default: ../<branch|name>)"
+  >&2 echo "  --name,-n <name>     Name of the new workspace (used to construct default path)"
+  >&2 echo "  --remote <remote>    Remote to fetch from (default: origin)"
+}
+
+branch=""
+revset=""
+path=""
+name=""
+remote="origin"
+
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    -b|--branch)
+      branch="$2"
+      shift 2
+      ;;
+    -r|--revset)
+      revset="$2"
+      shift 2
+      ;;
+    -p|--path)
+      path="$2"
+      shift 2
+      ;;
+    -n|--name)
+      name="$2"
+      shift 2
+      ;;
+    --remote)
+      remote="$2"
+      shift 2
+      ;;
+    -h|--help)
+      usage_info
+      exit 0
+      ;;
+    *)
+      >&2 echo "Error: unknown option: $1"
+      usage_info
+      exit 1
+      ;;
+  esac
+done
+
+# Validate mutually exclusive options
+if [[ -n "$branch" && -n "$revset" ]]; then
+  >&2 echo "Error: -b and -r are mutually exclusive"
+  usage_info
+  exit 1
+fi
+
+if [[ -n "$path" && -n "$name" ]]; then
+  >&2 echo "Error: -p and -n are mutually exclusive"
+  usage_info
+  exit 1
+fi
+
+# Determine the revset to use
+if [[ -n "$branch" ]]; then
+  # Fetch the branch from remote first
+  jj git fetch --branch "$branch"
+  target_revset="${branch}@${remote}"
+  default_name="$branch"
+elif [[ -n "$revset" ]]; then
+  target_revset="$revset"
+  default_name=""
+else
+  target_revset=""
+  default_name=""
+fi
+
+# Determine workspace name and path
+if [[ -n "$name" ]]; then
+  workspace_name="$name"
+elif [[ -n "$default_name" ]]; then
+  workspace_name="$default_name"
+else
+  >&2 echo "Error: must specify either --branch, --name, or --path"
+  usage_info
+  exit 1
+fi
+
+if [[ -n "$path" ]]; then
+  workspace_path="$path"
+else
+  # Get the parent directory of current workspace root
+  workspace_root="$(jj workspace root)"
+  parent_dir="$(dirname "$workspace_root")"
+  workspace_path="$parent_dir/$workspace_name"
+fi
+
+# Create the workspace
+if [[ -n "$target_revset" ]]; then
+  jj workspace add --name "$workspace_name" --revision "$target_revset" "$workspace_path"
+else
+  jj workspace add --name "$workspace_name" "$workspace_path"
+fi
+
+echo "Created workspace '$workspace_name' at $workspace_path"
