@@ -9,7 +9,7 @@ fi
 change="$1"
 # produce a string like "devin/factor-listeningchallengeprom/wswz"
 bookmark_name="$(\
-  jj show "$change" --no-patch 2>&1 --template '"devin/" ++ change_bookmark' \
+  jj show "$change" --no-patch 2>&1 --template 'change_bookmark' \
 )"
 
 bookmark_exists=""
