@@ -26,7 +26,7 @@ jj git push --bookmark "$bookmark_name" --allow-new
 
 if command -v gt >/dev/null 2>&1; then
   gt track "$bookmark_name"
-  gt submit --branch "$bookmark_name" --publish --view
+  gt submit --branch "$bookmark_name" --publish --no-web --view
 elif command -v gh >/dev/null 2>&1; then
   gh pr create --head "$bookmark_name" --web
 else
