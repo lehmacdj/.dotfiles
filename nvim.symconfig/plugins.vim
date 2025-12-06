@@ -31,6 +31,7 @@ Plug 'tpope/vim-eunuch' " unix utilities
 Plug 'lambdalisue/suda.vim'
 let g:suda_smart_edit = 1
 Plug 'chrisbra/NrrwRgn'
+Plug 'chrisbra/recover.vim'
 
 " ui / colorschemes
 Plug 'overcache/NeoSolarized'
