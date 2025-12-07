@@ -1,26 +1,40 @@
-# Set the location of the dotfiles to ~/.dotfiles if it exists
-[ -d "$HOME/.dotfiles" ] && DOTFILES="$HOME/.dotfiles"
-[ -n "$DOTFILES" ] || { echo "Could not determine path for \$DOTFILES"; exit 1; }
-source "$DOTFILES/zsh/instant-zsh.zsh"
-instant-zsh-pre $'\e[6 q\e[32m❯ \e[0m' # set line cursor, then green basic prompt
-export DOTFILES
-
+# Set the location of the dotfiles repository
+# absolute path of currently sourced file; go up two levels to get to repo root
+export DOTFILES="${${(%):-%x}:A:h:h}"
 [ -n "$PROFILE_ZSH" ] && source "$DOTFILES/zsh/start-profiling.zsh" || true
 
-# env needs to be loaded before compinit; sets up fpath completion dirs
-source "$DOTFILES/shell/env.sh"
-source "$DOTFILES/zsh/antigen.zsh" # calls compinit, sets up zsh packages
-source "$DOTFILES/zsh/post_compinit.zsh"
-source "$DOTFILES/shell/aliases.sh"
-source "$DOTFILES/zsh/aliases.zsh"
-source "$DOTFILES/shell/fzf.sh"
-source "$DOTFILES/zsh/ui.zsh"
-source "$DOTFILES/zsh/settings.zsh"
-# inputrc needs to be loaded after compinit; it sets completion keybindings
-source "$DOTFILES/zsh/inputrc.zsh"
+source "$DOTFILES/zsh/instant-zsh.zsh"
+instant-zsh-pre $'\e[6 q\e[32m❯ \e[0m' # set line cursor, then green basic prompt
+
+source "$HOME/.zplug/init.zsh"
+# some things depend on env.sh, so we need to load it first
+zplug "$DOTFILES/shell", from:"local", use:"env.sh", defer:0
+
+zplug "$DOTFILES/shell", from:"local", use:"{aliases,fzf}.sh"
+zplug "$DOTFILES/zsh/autoload", from:"local"
+zplug "zsh-users/zsh-history-substring-search"
+zplug "mafredri/zsh-async", from:"github", use:"async.zsh"
+zplug 'zplug/zplug', hook-build:'zplug --self-manage'
+
+# after compinit
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
+zplug "$DOTFILES/zsh", from:"local", use:"post_compinit.zsh", defer:2
+
+# check if there are plugins that need to be installed
+if ! zplug check --verbose; then
+    printf "Install? [y/N]: "
+    if read -q; then
+        echo; zplug install
+    fi
+    # on first load, show loading
+    zplug load --verbose
+else
+    # otherwise just let the plugins go
+    zplug load
+fi
 
 # load a local zsh file if it exists
 [ -f "$HOME/.local.zsh" ] && source "$HOME/.local.zsh" || true
 
-[ -n "$PROFILE_ZSH" ] && source "$DOTFILES/zsh/stop-profiling.zsh" || true
 instant-zsh-post
+[ -n "$PROFILE_ZSH" ] && source "$DOTFILES/zsh/stop-profiling.zsh" || true
