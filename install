@@ -90,6 +90,15 @@ popd > /dev/null || exit 0
 # Set XDG_CONFIG_HOME if unset
 [ -n "$XDG_CONFIG_HOME" ] || export XDG_CONFIG_HOME="$HOME/.config"
 
+if [ -n "$ZSH_VERSION" ]; then
+    log 1 ""
+    log 0 "Installing zsh plugin manager zplug..."
+
+    curl -sL --proto-redir -all,https \
+        'https://github.com/zplug/installer/tree/408816a046d034f168efdf452acf2a4b544ad1bb/installer.zsh' \
+        | zsh
+fi
+
 # links files on $path with $suffix mapping them using $mapper where $suffix is
 # implicitly removed with a maximum depth of $depth
 function linkfiles () {
