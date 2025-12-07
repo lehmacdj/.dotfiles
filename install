@@ -87,18 +87,6 @@ pushd "$(dirname "$0")" > /dev/null || exit 0
 DOTFILES="$(pwd -P)"
 popd > /dev/null || exit 0
 
-# Create a file at ~/.dotfiles if no file is present there and not installed there
-if [ "$DOTFILES" != "$HOME/.dotfiles" ]; then
-    # test if a file or symlink is present at ~/.dotfiles
-    if [ -e "$HOME/.dotfiles" ] || [ -h "$HOME/.dotfiles" ]; then
-        # exit the program as this cannot be sucessfully installed then
-        log 0 "A file or directory is present at $HOME/.dotfiles... Aborting."
-        exit 1
-    fi
-    # put the location of dotfiles at ~/.dotfiles in a file
-    echo "$DOTFILES" > "$HOME/.dotfiles"
-fi
-
 # Set XDG_CONFIG_HOME if unset
 [ -n "$XDG_CONFIG_HOME" ] || export XDG_CONFIG_HOME="$HOME/.config"
 

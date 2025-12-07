@@ -4,14 +4,7 @@
 
 # Set the location of the dotfiles to ~/.dotfiles or the path contained within
 # that file
-if [ -d "$HOME/.dotfiles" ]; then
-    DOTFILES="$HOME/.dotfiles"
-elif [ -f "$HOME/.dotfiles" ]; then
-    read -r DOTFILES < "$HOME/.dotfiles"
-else
-    echo "Could not determine path for \$DOTFILES"
-    exit 1
-fi
+DOTFILES="$(dirname "$(dirname "$(realpath "${BASH_SOURCE[0]}")")")"
 export DOTFILES
 
 source "$DOTFILES/shell/env.sh"
