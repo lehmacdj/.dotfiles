@@ -26,9 +26,6 @@ precmd_functions+=(put_pwd_in_titles)
 # - reference: https://thevaluable.dev/zsh-completion-guide-examples/
 # - this MUST happen before compinit is called, otherwise it is ignored
 
-# nicer colorful completion list items
-zmodload -i zsh/complist
-
 # Enable completion caching, use rehash to clear
 zstyle ':completion::complete:*' use-cache on
 zstyle ':completion::complete:*' cache-path ~/.zsh/cache/$HOST

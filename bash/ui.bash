@@ -13,6 +13,7 @@ else
   export PS1="\w> "
 fi
 
+source "$DOTFILES/shell/ui.sh"
 function put_pwd_in_titles() {
   # Put the string "/full/directory/path" in the title bar:
   set_window_title "$PWD"

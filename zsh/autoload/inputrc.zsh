@@ -1,9 +1,6 @@
 # Use vi-mode
 bindkey -v
 
-# S-tab to reverse scroll through completions
-bindkey -M menuselect '[Z' reverse-menu-complete
-
 # make backspace work
 bindkey '^?' backward-delete-char
 
