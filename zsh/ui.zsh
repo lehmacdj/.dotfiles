@@ -7,7 +7,7 @@ if command -v starship >/dev/null 2>&1; then
   export STARSHIP_CONFIG="$ss_dir/right_prompt.starship.toml"
   source <(starship init zsh)
 else
-  export PROMPT="%~> "
+  export PS1="%~> "
 fi
 # source "$DOTFILES/zsh/prompt.zsh" # this is still a work in progress
 

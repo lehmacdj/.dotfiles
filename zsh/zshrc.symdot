@@ -3,37 +3,46 @@
 export DOTFILES="${${(%):-%x}:A:h:h}"
 [ -n "$PROFILE_ZSH" ] && source "$DOTFILES/zsh/start-profiling.zsh" || true
 
-typeset -A ZI
-ZI[BIN_DIR]="${HOME}/.zi/bin"
-source "${ZI[BIN_DIR]}/zi.zsh"
+# install zinit:
+# [ ! -d $ZINIT_HOME ] && mkdir -p "$(dirname $ZINIT_HOME)"
+# [ ! -d $ZINIT_HOME/.git ] && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+source "${ZINIT_HOME}/zinit.zsh"
+
+# want to be able to set a very basic prompt even faster before loading actual
+# prompt
+# # set basic prompt immediately
+# PS1=$'\e[6 q\e[32m❯ \e[0m'
 
 # load prompt synchronously so that it appears first
-zi snippet "$DOTFILES/shell/ui.sh"
-zi snippet "$DOTFILES/zsh/ui.zsh"
+# zinit ice wait"!0b" lucid
+zinit snippet "$DOTFILES/shell/ui.sh"
+# zinit ice wait"!0b" lucid atload"!prompt_starship_precmd"
+zinit snippet "$DOTFILES/zsh/ui.zsh"
 
 # env.sh first (wait"0a" = load early, before others)
-zi ice wait"0a" lucid
-zi snippet "$DOTFILES/shell/env.sh"
+zinit ice wait"0a" lucid
+zinit snippet "$DOTFILES/shell/env.sh"
 
 # aliases and fzf (default wait"0" timing)
-zi ice wait lucid
-zi snippet "$DOTFILES/shell/aliases.sh"
-zi ice wait lucid
-zi snippet "$DOTFILES/shell/fzf.sh"
+zinit ice wait lucid
+zinit snippet "$DOTFILES/shell/aliases.sh"
+zinit ice wait lucid
+zinit snippet "$DOTFILES/shell/fzf.sh"
 
-zi ice wait lucid multisrc"*.zsh"
-zi load "$DOTFILES/zsh/autoload"
+zinit ice wait lucid multisrc"*.zsh"
+zinit load "$DOTFILES/zsh/autoload"
 
-zi ice wait lucid
-zi light mafredri/zsh-async
+zinit ice wait lucid
+zinit light mafredri/zsh-async
 
 # syntax highlighting after compinit (wait"1" = later)
-zi ice wait"1" lucid
-zi light zsh-users/zsh-syntax-highlighting
+zinit ice wait"1" lucid
+zinit light zsh-users/zsh-syntax-highlighting
 
 # post_compinit after syntax highlighting
-zi ice wait"1a" lucid
-zi snippet "$DOTFILES/zsh/post_compinit.zsh"
+zinit ice wait"1a" lucid
+zinit snippet "$DOTFILES/zsh/post_compinit.zsh"
 
 # load a local zsh file if it exists
 [ -f "$HOME/.local.zsh" ] && source "$HOME/.local.zsh" || true
