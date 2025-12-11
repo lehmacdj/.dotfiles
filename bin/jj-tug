@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+from="heads(::push_point() & bookmarks())"
+to="coalesce(push_point() ~ unfinished() ~ private(), push_point()- ~ private() & bookmarks()::)"
+
+# allow restricting to a particular bookmark name/revision by supplying an
+# argument
+if [ "$#" -eq 1 ]; then
+  # Limit to descendants of $1, or mutable ancestors of $1.
+  # Using ($1:: | ::$1 & mutable()) would be expensive because ::$1 traverses
+  # full history. Instead, use trunk().. to bound the ancestor search.
+  relevant="($1:: | trunk()..$1)"
+  from="$from & $relevant"
+  to="$to & $relevant"
+fi
+
+jj bookmark move --from "$from" --to "$to"

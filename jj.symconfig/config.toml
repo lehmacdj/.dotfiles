@@ -25,13 +25,7 @@ pull = ["util", "exec", "--", "bash", "-c", "jj git fetch && jj rebase-all && jj
 push = ["git", "push", "--revisions", "bookmarks() & mutable() ~ conflicts()"]
 sq = ["squash"]
 pp = ["util", "exec", "--", "bash", "-c", "jj pull && jj push"]
-tug = [
-  "bookmark", "move",
-  "--from",
-  "heads(::push_point() & bookmarks())",
-  "--to",
-  "coalesce(push_point() & ~unfinished() & ~private(), push_point()- & ~private() & bookmarks()::)"
-]
+tug = ["util", "exec", "--", "jj-tug"]
 convert-to-colocated = ["util", "exec", "--", "jj-convert-to-colocated"]
 track = ["bookmark", "track"]
 untrack = ["bookmark", "untrack"]
