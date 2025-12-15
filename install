@@ -90,15 +90,6 @@ popd > /dev/null || exit 0
 # Set XDG_CONFIG_HOME if unset
 [ -n "$XDG_CONFIG_HOME" ] || export XDG_CONFIG_HOME="$HOME/.config"
 
-if [ -n "$ZSH_VERSION" ]; then
-    log 1 ""
-    log 0 "Installing zsh plugin manager zplug..."
-
-    curl -sL --proto-redir -all,https \
-        'https://github.com/zplug/installer/tree/408816a046d034f168efdf452acf2a4b544ad1bb/installer.zsh' \
-        | zsh
-fi
-
 # links files on $path with $suffix mapping them using $mapper where $suffix is
 # implicitly removed with a maximum depth of $depth
 function linkfiles () {
@@ -172,6 +163,15 @@ if [ -n "$DARWIN" ] && [ "$features" -ge 2 ]; then
     defaults write org.hammerspoon.Hammerspoon MJConfigFile -string "$DOTFILES/hammerspoon/init.lua"
 
     log 2 "Finished setting up macOS system keybindings"
+fi
+
+if ! [ -d "$HOME/.zplug" ]; then
+    log 1 ""
+    log 0 "Installing zsh plugin manager zplug..."
+
+    curl -sL --proto-redir -all,https \
+        'https://raw.githubusercontent.com/zplug/installer/408816a046d034f168efdf452acf2a4b544ad1bb/installer.zsh' \
+        | zsh
 fi
 
 if [ -n "$DARWIN" ] && [ "$features" -ge 3 ]; then
