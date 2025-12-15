@@ -7,7 +7,7 @@ if command -v starship >/dev/null 2>&1; then
   export STARSHIP_CONFIG="$ss_dir/right_prompt.starship.toml"
   source <(starship init zsh)
 else
-  export PS1="%~> "
+  export PROMPT="%~> "
 fi
 # source "$DOTFILES/zsh/prompt.zsh" # this is still a work in progress
 
@@ -25,6 +25,9 @@ precmd_functions+=(put_pwd_in_titles)
 # configure the style of the completion prompts
 # - reference: https://thevaluable.dev/zsh-completion-guide-examples/
 # - this MUST happen before compinit is called, otherwise it is ignored
+
+# nicer colorful completion list items
+zmodload -i zsh/complist
 
 # Enable completion caching, use rehash to clear
 zstyle ':completion::complete:*' use-cache on

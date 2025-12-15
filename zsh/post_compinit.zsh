@@ -11,7 +11,3 @@ autoload -U +X bashcompinit && bashcompinit
 
 # defines a compdef completion for jj based on its own completion script
 source <(COMPLETE=zsh jj)
-
-zmodload -i zsh/complist
-# S-tab to reverse scroll through completions
-bindkey -M menuselect '[Z' reverse-menu-complete
