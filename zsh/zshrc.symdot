@@ -7,11 +7,11 @@ source "$HOME/.zplug/init.zsh"
 # some things depend on env.sh, so we need to load it first
 zplug "$DOTFILES/shell", from:"local", use:"env.sh", defer:0
 
-zplug "$DOTFILES/shell", from:"local", use:"{aliases,fzf}.sh"
-zplug "$DOTFILES/zsh/autoload", from:"local"
-zplug "zsh-users/zsh-history-substring-search"
-zplug "mafredri/zsh-async", from:"github", use:"async.zsh"
-zplug 'zplug/zplug', hook-build:'zplug --self-manage'
+zplug "$DOTFILES/shell", from:"local", use:"{aliases,fzf}.sh", defer:1
+zplug "$DOTFILES/zsh/autoload", from:"local", defer:1
+zplug "zsh-users/zsh-history-substring-search", defer:1
+zplug "mafredri/zsh-async", from:"github", use:"async.zsh", defer:1
+zplug 'zplug/zplug', hook-build:'zplug --self-manage', defer:1
 
 # after compinit
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
