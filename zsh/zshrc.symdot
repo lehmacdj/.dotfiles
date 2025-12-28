@@ -3,6 +3,11 @@
 export DOTFILES="${${(%):-%x}:A:h:h}"
 [ -n "$PROFILE_ZSH" ] && source "$DOTFILES/zsh/start-profiling.zsh" || true
 
+if [ -f "$_zplug_lock[job]" ]; then
+    >&2 echo "zplug lock file is leftover, this may inhibit job control (e.g. fg/bg)"
+    >&2 echo 'you might want to remove it manually: `rm $_zplug_lock[job]`'
+fi
+
 source "$HOME/.zplug/init.zsh"
 # some things depend on env.sh, so we need to load it first
 zplug "$DOTFILES/shell", from:"local", use:"env.sh", defer:0
@@ -21,7 +26,7 @@ zplug "$DOTFILES/zsh", from:"local", use:"post_compinit.zsh", defer:2
 if ! zplug check --verbose; then
     printf "Install? [y/N]: "
     if read -q; then
-        echo; zplug install
+        >&2 echo; zplug install
     fi
     # on first load, show loading
     zplug load --verbose
