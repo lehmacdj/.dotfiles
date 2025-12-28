@@ -8,10 +8,11 @@
 - Prefer using `jj` over `git`
 
 ## Shell Scripting
-- Prefer writing scripts that are compatible with both bash and zsh
-- Prefer using `#!/usr/bin/env bash` as the shebang for bash scripts
 - Use `set -euo pipefail` in scripts
+- Prefer using `#!/usr/bin/env bash` as the shebang for bash scripts
+- Prefer writing scripts that are compatible with both bash and zsh
 
 ## Python
 - Use 4 spaces for indentation
-- Always use virtual environments or uv when using python dependencies that aren't included as part of the standard library.
+- Prefer using `uv` as the script interpreter if a python script has dependencies not included in python's distribution
+- Always use `uv` or virtual environments for python dependencies not included in python's distribution
