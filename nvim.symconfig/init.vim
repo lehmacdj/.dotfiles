@@ -241,6 +241,9 @@ xnoremap zg :call my#misc#commit_dictionary_word(visualmode())<CR>
 nnoremap <Leader>sc <Cmd>call my#misc#CompileSpellFiles()<CR>
 " Spelling corrections
 abbreviate teh the
+" digraph for 未, which I use in writing 未∆ quite a lot and don't want to
+" have to break a Japanese IME out for every time
+digraph uf 26410
 
 " indent text objects copied from here:
 " https://vim.fandom.com/wiki/Indent_text_object
