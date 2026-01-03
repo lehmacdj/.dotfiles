@@ -10,10 +10,6 @@ from kitty.boss import Boss
 # --- Parsing Logic ---
 
 def parse_time_arg(arg: str) -> float:
-    """
-    Parses time arguments.
-    Supports: "30s", "1m", "1h30m", "14:30", "30" (seconds)
-    """
     arg = arg.strip().lower()
 
     # 1. Check for Absolute Time (HH:MM)
@@ -52,7 +48,6 @@ def parse_time_arg(arg: str) -> float:
         raise ValueError("Invalid time format")
 
 def parse_key_sequence(text: str) -> str:
-    """Parses \\e, \\r, \\n, \\t, \\xHH."""
     def hex_repl(match):
         try:
             return chr(int(match.group(1), 16))
@@ -69,7 +64,6 @@ def parse_key_sequence(text: str) -> str:
     return text
 
 def readable_representation(text: str) -> str:
-    """Returns a pretty string of the keys."""
     mapping = {
         '\r': ' [RET] ', '\n': ' [LF] ',
         '\x1b': ' [ESC] ', '\t': ' [TAB] ', ' ': ' [SPC] '
@@ -87,37 +81,27 @@ def readable_representation(text: str) -> str:
 # --- UI Logic ---
 
 def format_countdown(seconds: float) -> str:
-    """
-    Formats the remaining time string based on duration.
-    < 10s:  "9.5s" (Tenths)
-    < 60s:  "59s" (Seconds)
-    < 10m:  "9m 59s" (Minutes + Seconds)
-    >= 10m: "10m" or "2h3m" (Composite, no seconds)
-    """
     if seconds < 10:
         return f"{seconds:.1f}s"
 
-    # For larger units, we round to nearest second integer
     seconds_int = int(round(seconds))
-
     if seconds_int < 60:
         return f"{seconds_int}s"
 
     minutes, secs = divmod(seconds_int, 60)
 
-    # If less than 10 minutes (600 seconds), show seconds
+    # If less than 10 minutes, show seconds
     if seconds_int < 600:
         return f"{minutes}m {secs}s"
 
-    # If 10 minutes or more, drop the seconds
     hours, minutes = divmod(minutes, 60)
-
     if hours > 0:
         return f"{hours}h{minutes}m"
     else:
         return f"{minutes}m"
 
 def prompt_for_time() -> str:
+    # Initial clear
     sys.stdout.write("\033[2J\033[H\033[?25h")
     print("\n\033[1;36m  DELAYED KEY ENTRY\033[0m")
     print("  ─────────────────")
@@ -134,15 +118,19 @@ def prompt_for_time() -> str:
         except KeyboardInterrupt:
             return None
 
-def draw_ui(remaining: float, total: float, cmd_preview: str, finish_time_str: str = None):
+def draw_ui(remaining: float, total: float, cmd_preview: str, finish_time_str: str = None, force_clear: bool = False):
     cols, rows = shutil.get_terminal_size()
 
+    # If a resize happened (force_clear is True), we wipe the screen clean
+    # so we don't leave artifacts from the previous centering.
+    if force_clear:
+        sys.stdout.write("\033[2J\033[H")
+
     progress = 1.0 - (remaining / total) if total > 0 else 1.0
-    bar_width = 40
+    bar_width = min(40, cols - 4) # Ensure bar fits in narrow terminals
     filled = int(bar_width * progress)
     bar = "█" * filled + "░" * (bar_width - filled)
 
-    # Get the formatted time string
     time_str = format_countdown(remaining)
 
     lines = [
@@ -162,11 +150,16 @@ def draw_ui(remaining: float, total: float, cmd_preview: str, finish_time_str: s
     lines.append("")
     lines.append("\033[2mPress Ctrl+C to Cancel\033[0m")
 
+    # Vertical Centering
     start_row = max(1, (rows - len(lines)) // 2)
 
     for i, line in enumerate(lines):
+        # Calculate horizontal center
         clean_line = re.sub(r'\033\[[0-9;]*m', '', line)
         col_offset = max(1, (cols - len(clean_line)) // 2)
+
+        # Move cursor and print line, then Clear-to-End-of-Line (\033[K)
+        # to ensure any previous longer text on this line is wiped.
         sys.stdout.write(f"\033[{start_row + i};{col_offset}H{line}\033[K")
 
     sys.stdout.flush()
@@ -209,8 +202,11 @@ def main(args: List[str]) -> str:
     if delay_seconds > 60:
         finish_time_str = finish_dt.strftime("%H:%M:%S")
 
+    # Clear screen initially
     sys.stdout.write("\033[2J\033[H\033[?25l")
     sys.stdout.flush()
+
+    last_size = shutil.get_terminal_size()
 
     try:
         start_time = time.time()
@@ -221,7 +217,13 @@ def main(args: List[str]) -> str:
             if remaining <= 0:
                 break
 
-            draw_ui(remaining, delay_seconds, preview, finish_time_str)
+            # Check for resize
+            current_size = shutil.get_terminal_size()
+            resized = (current_size != last_size)
+            if resized:
+                last_size = current_size
+
+            draw_ui(remaining, delay_seconds, preview, finish_time_str, force_clear=resized)
             time.sleep(0.05)
 
         return payload
