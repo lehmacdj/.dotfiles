@@ -74,8 +74,19 @@ define-fzf-widget() {
   fi
 }
 
+__fzf_jj_bookmark__() {
+  FZF_DEFAULT_COMMAND="jj bookmark list --color=always" \
+  FZF_DEFAULT_OPTS=$(__fzf_defaults "--reverse --ansi" "--tiebreak=index -m") \
+  FZF_DEFAULT_OPTS_FILE='' $(__fzfcmd) "$@" < /dev/tty | \
+  perl -ne 'if (/^(\S+):/) { print "$1 " }'
+  local ret=$?
+  echo
+  return $ret
+}
+
 define-fzf-widget fzf-git-widget __fzf_select_git__ 'g'
 define-fzf-widget fzf-jj-change-widget __fzf_jj_change__ 'y'
+define-fzf-widget fzf-jj-bookmark-widget __fzf_jj_bookmark__ 'b'
 
 # cd to directory using fzf
 function cf () {
