@@ -89,6 +89,40 @@ str.trim()
   ++ stringify(change_id).substr(0, 4)
 '''
 
+# Override format_short_commit_header to compress auto-generated bookmarks
+# Auto-generated bookmarks (devin/<desc>/<4-char-id>) are shown as <auto>
+# with * suffix if there are unpushed changes
+'format_short_commit_header(commit)' = '''
+separate(" ",
+  format_short_change_id_with_hidden_and_divergent_info(commit),
+  format_short_signature(commit.author()),
+  format_timestamp(commit_timestamp(commit)),
+  commit.bookmarks().map(|bookmark|
+    if(stringify(bookmark.name()).match(regex:"^devin/[^/]+/.{4}$"),
+      label("bookmark",
+        "<auto>" ++ if(bookmark.remote(),
+          "@" ++ bookmark.remote(),
+          if(!bookmark.synced(), "*")
+        )
+      ),
+      label(
+        if(bookmark.remote(), "bookmark remote", "bookmark"),
+        bookmark.name()
+          ++ if(bookmark.remote(), "@" ++ bookmark.remote())
+          ++ if(!bookmark.remote() && !bookmark.synced(), "*")
+      )
+    )
+  ),
+  commit.tags(),
+  commit.working_copies(),
+  if(commit.git_head(), label("git_head", "git_head()")),
+  format_short_commit_id(commit.commit_id()),
+  if(commit.conflict(), label("conflict", "conflict")),
+  if(config("ui.show-cryptographic-signatures").as_boolean(),
+    format_short_cryptographic_signature(commit.signature())),
+)
+'''
+
 [fix.tools.ormolu]
 command = ["ormolu", "--stdin-input-file", "$path"]
 patterns = ["glob:'**/*.hs'"]
