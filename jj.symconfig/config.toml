@@ -82,15 +82,16 @@ str.trim()
 '''
 # an up to 40 character string that is a valid bookmark name for a change
 # produces a bookmark name like devin/factor-listeningchallengeprom/wswz
-'change_bookmark' = '''
+'change_bookmark' = 'change_bookmark_for(self)'
+'change_bookmark_for(commit)' = '''
 "devin/"
-  ++ bookmarkify(description.first_line()).substr(0, 29)
+  ++ bookmarkify(commit.description().first_line()).substr(0, 29)
   ++ "/"
-  ++ stringify(change_id).substr(0, 4)
+  ++ stringify(commit.change_id()).substr(0, 4)
 '''
 
 # Override format_short_commit_header to compress auto-generated bookmarks
-# Auto-generated bookmarks (devin/<desc>/<4-char-id>) are shown as <auto>
+# Only shows <auto> if bookmark exactly matches what bookmarkify would generate
 # with * suffix if there are unpushed changes
 'format_short_commit_header(commit)' = '''
 separate(" ",
@@ -98,7 +99,7 @@ separate(" ",
   format_short_signature(commit.author()),
   format_timestamp(commit_timestamp(commit)),
   commit.bookmarks().map(|bookmark|
-    if(stringify(bookmark.name()).match(regex:"^devin/[^/]+/.{4}$"),
+    if(stringify(bookmark.name()) == stringify(change_bookmark_for(commit)),
       label("bookmark",
         "<auto>" ++ if(bookmark.remote(),
           "@" ++ bookmark.remote(),
