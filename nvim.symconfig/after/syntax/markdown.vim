@@ -31,3 +31,8 @@ syntax clear markdownH4
 syntax clear markdownH5
 syntax clear markdownH6
 syntax clear markdownId
+
+" fix fenced code blocks inside blockquotes
+" the default patterns don't handle the > prefix, causing the region to bleed
+syntax region markdownBlockquoteCodeBlock matchgroup=markdownCodeDelimiter start="^>\s*\z(`\{3,\}\).*$" end="^>\s*\z1\s*$" keepend
+syntax region markdownBlockquoteCodeBlock matchgroup=markdownCodeDelimiter start="^>\s*\z(\~\{3,\}\).*$" end="^>\s*\z1\s*$" keepend
