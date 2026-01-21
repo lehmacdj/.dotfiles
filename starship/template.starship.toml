@@ -35,7 +35,10 @@ dotnet.disabled = true
 elixir.disabled = true
 elm.disabled = true
 erlang.disabled = true
+gcloud.disabled = true
 golang.disabled = true
+gradle.disabled = true
+haskell.disabled = true
 helm.disabled = true
 java.disabled = true
 julia.disabled = true
@@ -62,8 +65,6 @@ terraform.disabled = true
 vagrant.disabled = true
 vlang.disabled = true
 zig.disabled = true
-gcloud.disabled = true
-haskell.disabled = true
 
 [directory]
 truncation_length = 4
