@@ -11,15 +11,13 @@ function usage_info () {
     echo "Usage: $0 [options]"
     echo "Install dotfiles and do any other necessary configuration"
     echo ""
-    echo "  --update        update the configuration that is currently installed"
-    echo "  --minimal       install a minimal set of files that can be completely"
-    echo "                      uninstalled using the --uninstall option"
-    echo "  --all           install everything, intended for new systems or for where"
-    echo "                      the defaults do not install everything necessary"
-    echo "  --force         overwrite existing configuration when installing files"
-    echo "  --uninstall     symlink configuration to its proper location"
-    echo "  --help          show this help and then quit"
-    echo "  --verbose       show verbose level output"
+    echo "  --all              install everything, intended for new systems"
+    echo "                       on macOS this includes: xcode command line tools,"
+    echo "                       homebrew, and all formulas/casks in the Brewfile"
+    echo "  --overwrite        overwrite existing configuration when installing files"
+    echo "  --update-symlinks  overwrite symlinks when linking configuration files"
+    echo "  --verbose          show verbose level output"
+    echo "  --help             show this help and then quit"
 }
 
 # print data if verbose >= level
@@ -35,7 +33,7 @@ elif [ "$(uname)" == "Linux" ]; then
 fi
 
 # represents the number of features to install
-# 0 := none, 1 := minimal, 2 := default, 3 := all, "uninstall" := uninstall
+# 2 := default, 3 := all
 features=2
 
 # the verbosity of the program
@@ -44,16 +42,12 @@ verbose=0
 
 for arg; do
     case "$arg" in
-        --update)
-            update=1;;
-        --minimal)
-            features=1;;
+        --update-symlinks)
+            update_symlinks=1;;
         --all)
             features=3;;
-        --force)
-            force=1;;
-        --uninstall)
-            features=uninstall;;
+        --overwrite)
+            overwrite=1;;
         --verbose|-v)
             verbose=$((verbose + 1));;
         -vv)
@@ -73,12 +67,6 @@ for arg; do
 done
 
 [ "$verbose" -ge 3 ] && set -x
-
-if [ "$features" == "uninstall" ]; then
-    # uninstall the dotfiles
-    echo "uninstalling is currently unimplemented"
-    exit 0
-fi
 
 log 0 "Installing dotfiles..."
 
@@ -106,22 +94,18 @@ function linkfiles () {
         target="$("$mapper" "$(basename "$file" "$suffix")")"
         log 1 "    Processing file=$file"
         log 1 "        target=$target"
-        log 1 "        force=$force update=$update"
+        log 1 "        overwrite=$overwrite update_symlinks=$update_symlinks"
         if [ ! -e "$target" ]; then
             ln -s "$file" "$target"
             log 0 "Created symlink for $file"
-        elif [ -n "$force" ] || { [ -n "$update" ] && [ -h "$target" ]; }; then
+        elif [ -h "$target" ] && [ "$(readlink "$target")" == "$file" ]; then
+            log 1 "$target already symlinked correctly"
+        elif [ -n "$overwrite" ] || { [ -n "$update_symlinks" ] && [ -h "$target" ]; }; then
             rm -rf "$target"
             ln -s "$file" "$target"
             log 0 "Overwrote symlink for $file"
         elif [ -h "$target" ]; then
-            local current_link
-            current_link="$(readlink "$target")"
-            if [ "$current_link" == "$file" ]; then
-                log 1 "$target already symlinked correctly"
-            else
-                log 0 "$target symlinked to $current_link (not $file)... Skipping."
-            fi
+            log 0 "$target symlinked to $(readlink "$target") (not $file)... Skipping."
         else
             log 0 "$target exists but is not a symlink... Skipping."
         fi
