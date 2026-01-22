@@ -117,8 +117,16 @@ function linkfiles () {
             rm -rf "$target"
             ln -f -s "$file" "$target"
             log 0 "Overwrote symlink for $file"
+        elif [ -h "$target" ]; then
+            local current_link
+            current_link="$(readlink "$target")"
+            if [ "$current_link" == "$file" ]; then
+                log 1 "$target already symlinked correctly"
+            else
+                log 0 "$target symlinked to $current_link (not $file)... Skipping."
+            fi
         else
-            log 0 "$target exists... Skipping."
+            log 0 "$target exists but is not a symlink... Skipping."
         fi
     done
 }
