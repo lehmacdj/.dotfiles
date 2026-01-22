@@ -1,0 +1,20 @@
+{
+  "cleanupPeriodDays": 99999,
+  "permissions": {
+    "allow": [
+      "Bash(jj:*)",
+      "Bash(grep:*)"
+    ]
+  },
+  "model": "opus",
+  "enabledPlugins": {
+    "frontend-design@claude-plugins-official": true,
+    "ralph-wiggum@claude-plugins-official": false,
+    "typescript-lsp@claude-plugins-official": false,
+    "code-simplifier@claude-plugins-official": true
+  },
+  "sandbox": {
+    "enabled": true,
+    "autoAllowBashIfSandboxed": true
+  }
+}
