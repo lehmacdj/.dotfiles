@@ -208,7 +208,9 @@ if [ -n "$DARWIN" ] && [ "$features" -ge 3 ]; then
 
     # allow unsigned qlgenerators to be used
     # workaround documented/taken from here: https://github.com/whomwah/qlstephen#readme
-    xattr -cr ~/Library/QuickLook/*.qlgenerator
-    qlmanage -r
-    qlmanage -r cache
+    if compgen -G "$HOME/Library/QuickLook/*.qlgenerator" > /dev/null; then
+        xattr -cr ~/Library/QuickLook/*.qlgenerator
+        qlmanage -r
+        qlmanage -r cache
+    fi
 fi
