@@ -148,10 +148,12 @@ if [ "$features" -ge 1 ]; then
     linkfiles "" ".symconfig" 5 "config_mapper"
 
     # special purpose needed for .ghcup/config.yml file
+    mkdir -p "$HOME/.ghcup"
     function ghcup_mapper { echo "$HOME/.ghcup/$1"; }
     linkfiles "" ".symghcup" 5 "ghcup_mapper"
 
     # special purpose needed for .claude/CLAUDE.md file
+    mkdir -p "$HOME/.claude"
     function claude_mapper { echo "$HOME/.claude/$1"; }
     linkfiles "" ".symclaude" 5 "claude_mapper"
 
