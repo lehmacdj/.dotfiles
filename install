@@ -110,11 +110,11 @@ function linkfiles () {
         log 1 "        target=$target"
         log 1 "        force=$force update=$update"
         if [ ! -e "$target" ]; then
-            ln -f -s "$file" "$target"
+            ln -s "$file" "$target"
             log 0 "Created symlink for $file"
         elif [ -n "$force" ] || { [ -n "$update" ] && [ -h "$target" ]; }; then
             rm -rf "$target"
-            ln -f -s "$file" "$target"
+            ln -s "$file" "$target"
             log 0 "Overwrote symlink for $file"
         elif [ -h "$target" ]; then
             local current_link
