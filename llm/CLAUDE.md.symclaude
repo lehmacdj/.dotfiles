@@ -5,7 +5,15 @@
 - Try to keep lines to 80 characters or fewer, it's okay for the occasional line to exceed this limit if it improves readability
 
 ## Tools
-- Prefer using `jj` over `git`
+- Use `jj` instead of `git`
+
+## Haskell
+- I typically use a "God module" architecture for Haskell applications: this means having a single library includes all of the code for all executables and tests. This makes it easier to share functionality, and gives improved hot reloading in ghci
+- Building with `stack` is preferred unless the project doesn't have a `stack.yaml` file
+- Building with `stack`/`cabal` requires breaking through Claude Code's sandboxing because of global package DBs; use the Bash tool that bypasses sandboxing
+- Most of my projects use a `MyPrelude` module that re-exports `ClassyPrelude` and generally useful helper functions
+  - When it exists, use it instead of importing `Prelude` or `ClassyPrelude` unless there's a circular dependency
+  - Prefer putting generally useful helper functions somewhere in the `MyPrelude.*` module hierarchy
 
 ## Shell Scripting
 - Use `set -euo pipefail` in scripts
