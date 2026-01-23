@@ -26,9 +26,9 @@ jj git push --bookmark "$bookmark_name" --allow-new
 
 if command -v gt >/dev/null 2>&1; then
   gt track "$bookmark_name"
-  gt submit --branch "$bookmark_name" --publish --no-web --no-edit-description --view
+  gt submit --branch "$bookmark_name" --draft --no-web --no-edit-description --view
 elif command -v gh >/dev/null 2>&1; then
-  gh pr create --head "$bookmark_name" --web
+  gh pr create --head "$bookmark_name" --draft --web
 else
   >&2 echo "Neither 'gt' nor 'gh' installed; create a pull request manually."
 fi
