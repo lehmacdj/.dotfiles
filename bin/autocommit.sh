@@ -42,6 +42,33 @@ date -Iseconds
 
 cd "$repo_dir" || { >&2 echo "repo $repo_dir did not exist"; exit 1; }
 
+# remove stale git index lock files (colocated or non-colocated jj repos)
+for lockfile in \
+  "$repo_dir/.git/index.lock" \
+  "$repo_dir/.jj/repo/store/git/index.lock"; do
+  if [ -f "$lockfile" ]; then
+    age=$(( $(date +%s) - $(stat -f %m "$lockfile") ))
+    if [ "$age" -gt 300 ]; then
+      echo "Removing stale lock file (age: ${age}s): $lockfile"
+      rm -f "$lockfile"
+    fi
+  fi
+done
+
+retry() {
+  local attempts=3
+  local i
+  for ((i=1; i<=attempts; i++)); do
+    if "$@"; then return 0; fi
+    if [ "$i" -lt "$attempts" ]; then
+      echo "Attempt $i/$attempts failed, retrying in 10s..."
+      sleep 10
+    fi
+  done
+  >&2 echo "All $attempts attempts failed"
+  return 1
+}
+
 # we might have a pre_command to run
 if [ -n "$pre_command" ]; then
     "$pre_command" "$@"
@@ -59,10 +86,10 @@ if [ "$(jj diff --name-only | wc -l)" -eq 0 ]; then
 fi
 
 # rename the revision; move the bookmark;
-jj desc -m "autocommit of changes from the past day"
-jj bookmark move "$bookmark" --to=@
+retry jj desc -m "autocommit of changes from the past day"
+retry jj bookmark move "$bookmark" --to=@
 if [ -n "$push" ]; then
-    jj git push || jj new
+    retry jj git push || retry jj new
 else
-    jj new
+    retry jj new
 fi
