@@ -244,6 +244,9 @@ abbreviate teh the
 " digraph for 未, which I use in writing 未∆ quite a lot and don't want to
 " have to break a Japanese IME out for every time
 digraph uf 26410
+" digraphs for ❯, which I use at the start of shell prompts (i.e. instead of $)
+digraph pf 10095
+digraph pb 10094
 
 " indent text objects copied from here:
 " https://vim.fandom.com/wiki/Indent_text_object
