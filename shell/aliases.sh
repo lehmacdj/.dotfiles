@@ -32,6 +32,11 @@ alias dspurge='find . -name .DS_Store -delete'
 # make bc use floats by default
 alias bc='bc -l'
 
+# use custom units file (combined with system units)
+units() {
+  command units -f <(cat /usr/share/misc/units.lib "$DOTFILES/custom-units.lib") "$@"
+}
+
 # editing of things
 function vial {
     search_string="$1"
