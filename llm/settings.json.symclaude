@@ -16,5 +16,6 @@
   "sandbox": {
     "enabled": true,
     "autoAllowBashIfSandboxed": true
-  }
+  },
+  "effortLevel": "medium"
 }
