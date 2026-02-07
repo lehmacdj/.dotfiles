@@ -26,5 +26,26 @@ require('lualine').setup {
       },
       'filetype',
     },
+    lualine_z = {
+      {
+        function()
+          local wc = vim.fn.wordcount()
+          if wc.visual_words then
+            return wc.visual_words .. '/' .. wc.words .. ' words'
+          else
+            return wc.words .. ' words'
+          end
+        end,
+        cond = function()
+          return vim.bo.filetype == 'markdown'
+        end,
+      },
+      {
+        'location',
+        cond = function()
+          return vim.bo.filetype ~= 'markdown'
+        end,
+      },
+    },
   },
 }
