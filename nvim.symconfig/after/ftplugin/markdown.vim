@@ -49,6 +49,18 @@ xnoremap g$ $
 nnoremap g0 0
 xnoremap g0 0
 
+augroup markdown_targets
+  autocmd!
+  " Extend argument text objects to treat | as a separator inside [[...]].
+  " This makes ia/aa work on parts of wikilinks like [[slug|Title]].
+  autocmd User targets#mappings#user call targets#mappings#extend({
+    \ 'a': {'argument': [
+    \   {'o': '[[]', 'c': '[]]', 's': '[|,]'},
+    \   {'o': '(', 'c': ')', 's': ','},
+    \ ]}
+    \ })
+augroup END
+
 if filereadable('neuron.dhall')
     " I don't want git gutter for my notes because it will make me think about
     " commiting things too often
