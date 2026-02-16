@@ -11,11 +11,11 @@
     "frontend-design@claude-plugins-official": true,
     "ralph-wiggum@claude-plugins-official": false,
     "typescript-lsp@claude-plugins-official": false,
-    "code-simplifier@claude-plugins-official": true
+    "code-simplifier@claude-plugins-official": true,
+    "lua-lsp@claude-plugins-official": true
   },
   "sandbox": {
     "enabled": true,
     "autoAllowBashIfSandboxed": true
-  },
-  "effortLevel": "medium"
+  }
 }
