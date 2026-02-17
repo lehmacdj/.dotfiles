@@ -16,16 +16,37 @@ get_wallpapers() {
     | awk '{$1=""; print substr($0,2)}'
 }
 
+# Filter wallpapers by NID or filename suffix
+# Usage: get_wallpapers | filter_wallpapers target1 target2 ...
+filter_wallpapers() {
+  local targets=("$@")
+  while read -r path; do
+    local basename="${path##*/}"
+    local nid="${basename%.*}"
+    for target in "${targets[@]}"; do
+      if [[ "$target" == @* && "${target#@}" == "$nid" ]] \
+        || [[ "$target" == "$nid" ]] \
+        || [[ "$path" == *"$target" ]]; then
+        echo "$path"
+        break
+      fi
+    done
+  done
+}
+
 # Show usage if no argument provided
 if [ $# -eq 0 ]; then
-  echo "Usage: wallpaper <show|skip>" >&2
-  echo "  show - Display current wallpaper file paths" >&2
-  echo "  skip - Skip current wallpaper and switch to next" >&2
-  echo "  trash - Remove wallpaper from folder and switch to next" >&2
+  echo "Usage: wallpaper <show|skip|trash>" >&2
+  echo "  show  - Display current wallpaper file paths" >&2
+  echo "  skip  - Skip current wallpaper and switch to next" >&2
+  echo "  trash [NID|filename ...] - Remove wallpaper(s)" \
+    "and switch to next" >&2
   exit 1
 fi
 
 command="$1"
+shift
+targets=("$@")
 
 case "$command" in
   show)
@@ -45,12 +66,26 @@ case "$command" in
     ;;
 esac
 
+# Get selected wallpapers (filtered if targets given)
+selected_wallpapers() {
+  if [ ${#targets[@]} -eq 0 ]; then
+    get_wallpapers
+  else
+    get_wallpapers | filter_wallpapers "${targets[@]}"
+  fi
+}
+
 # get wallpaper str before wallpaper might get changed
-wallpapers_ansi=$(get_wallpapers | while read -r path; do
+wallpapers_ansi=$(selected_wallpapers | while read -r path; do
   basename="${path##*/}"
   basename="${basename%.*}"
   echo "@$basename $(ansi-url "$path")"
 done)
+
+if [ ${#targets[@]} -gt 0 ] && [ -z "$wallpapers_ansi" ]; then
+  >&2 echo "No matching wallpapers found"
+  exit 1
+fi
 
 # Ensure the data directory exists
 mkdir -p "$(dirname "$HISTORY_FILE")"
@@ -58,10 +93,10 @@ mkdir -p "$(dirname "$HISTORY_FILE")"
 # Get current timestamp in ISO8601 UTC format
 timestamp=$(date -u "+%Y-%m-%dT%H:%M:%SZ")
 # get log str before wallpaper gets changed
-log_str="$timestamp $verb $(get_wallpapers | tr '\n' ' ')"
+log_str="$timestamp $verb $(selected_wallpapers | tr '\n' ' ')"
 
 if [ "$command" = "trash" ]; then
-  get_wallpapers | xargs -n1 trash
+  selected_wallpapers | xargs -n1 trash
 fi
 
 if [ "$command" = "skip" ] || [ "$command" = "trash" ]; then
