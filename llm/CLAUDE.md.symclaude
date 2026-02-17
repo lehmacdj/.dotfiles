@@ -22,5 +22,5 @@
 
 ## Python
 - Use 4 spaces for indentation
-- Prefer using `uv` as the script interpreter if a python script has dependencies not included in python's distribution
+- Use `uv` as the script interpreter for python scripts with dependencies not in python's standard distribution
 - Always use `uv` or virtual environments for python dependencies not included in python's distribution
