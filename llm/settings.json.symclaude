@@ -3,7 +3,8 @@
   "permissions": {
     "allow": [
       "Bash(jj:*)",
-      "Bash(grep:*)"
+      "Bash(grep:*)",
+      "Bash(bd:*)"
     ]
   },
   "model": "opus",

@@ -158,9 +158,10 @@ def draw_ui(remaining: float, total: float, cmd_preview: str, finish_time_str: s
         clean_line = re.sub(r'\033\[[0-9;]*m', '', line)
         col_offset = max(1, (cols - len(clean_line)) // 2)
 
-        # Move cursor and print line, then Clear-to-End-of-Line (\033[K)
-        # to ensure any previous longer text on this line is wiped.
-        sys.stdout.write(f"\033[{start_row + i};{col_offset}H{line}\033[K")
+        # Clear the entire row first. Clearing only from the centered column
+        # can leave stale characters when shorter/later text shifts right.
+        row = start_row + i
+        sys.stdout.write(f"\033[{row};1H\033[2K\033[{row};{col_offset}H{line}")
 
     sys.stdout.flush()
 
