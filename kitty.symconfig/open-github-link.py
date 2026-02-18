@@ -1,6 +1,7 @@
 import re
 import subprocess
 import os
+import sys
 
 def mark(text, args, Mark, extra_cli_args, *a):
     # This function is responsible for finding all
@@ -72,6 +73,17 @@ def get_github_repo(cwd):
     return get_github_repo_from_git(cwd)
 
 
+def warn_user(boss, message):
+    """Display a warning to the user without failing the kitten."""
+    try:
+        if hasattr(boss, 'show_error'):
+            boss.show_error('GitHub Link Warning', message)
+            return
+    except Exception:
+        pass
+    print(f'GitHub link warning: {message}', file=sys.stderr)
+
+
 def handle_result(args, data, target_window_id, boss, extra_cli_args, *a):
     # This function is responsible for performing some
     # action on the selected text.
@@ -86,12 +98,13 @@ def handle_result(args, data, target_window_id, boss, extra_cli_args, *a):
     window = boss.window_id_map.get(target_window_id)
     cwd = window.child.foreground_processes[0]['cwd'] if window and window.child.foreground_processes else os.getcwd()
 
-    # Detect the GitHub repo from git config
+    # Detect the GitHub repo from git/jj config
     github_repo = get_github_repo(cwd)
 
-    # Default to duolingo/duolingo-ios if we can't detect the repo
+    # Gracefully do nothing if we can't detect the repo.
     if not github_repo:
-        github_repo = 'duolingo/duolingo-ios'
+        warn_user(boss, f'Could not determine GitHub repository for: {cwd}')
+        return
 
     for match_text, match_data in zip(matches, groupdicts):
         # Extract the PR number from the groupdicts and open the GitHub PR URL
