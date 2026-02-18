@@ -136,3 +136,10 @@ cond_fpath_add "$HOMEBREW_PREFIX/share/zsh-completions"
 cond_fpath_add "$HOME/src/beets/extra" # beets zsh completion script lives here
 FPATH="$(consolidate-path "$FPATH")"
 export FPATH
+
+# Add completions to fpath for zsh
+# openspec adds completions here, maybe useful to add completions for other
+# things here too
+if [ -n "$ZSH_VERSION" ]; then
+    cond_fpath_add "$HOME/.zsh/completions"
+fi
