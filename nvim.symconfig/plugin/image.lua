@@ -3,6 +3,7 @@ require("image").setup {
   kitty_method = "normal",
   integrations = {
     markdown = {
+      download_remote_images = false,
       resolve_image_path = function (document_path, image_path, fallback)
         -- image_path may have be surrounded by <> in markdown; this is not
         -- handled by the default resolver
