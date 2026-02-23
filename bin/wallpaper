@@ -75,14 +75,10 @@ selected_wallpapers() {
   fi
 }
 
-# get wallpaper str before wallpaper might get changed
-wallpapers_ansi=$(selected_wallpapers | while read -r path; do
-  basename="${path##*/}"
-  basename="${basename%.*}"
-  echo "@$basename $(ansi-url "$path")"
-done)
+# get wallpaper paths before wallpaper might get changed
+mapfile -t wallpaper_paths < <(selected_wallpapers)
 
-if [ ${#targets[@]} -gt 0 ] && [ -z "$wallpapers_ansi" ]; then
+if [ ${#targets[@]} -gt 0 ] && [ ${#wallpaper_paths[@]} -eq 0 ]; then
   >&2 echo "No matching wallpapers found"
   exit 1
 fi
@@ -108,9 +104,30 @@ if [ "$command" = "skip" ] || [ "$command" = "trash" ]; then
   >&2 echo "Wallpaper $verb and switched, was:"
 fi
 
-if [ -n "$wallpapers_ansi" ]; then
-  echo "$wallpapers_ansi"
-else
-   >&2 echo "No wallpapers currently detected"
+if [ ${#wallpaper_paths[@]} -eq 0 ]; then
+  >&2 echo "No wallpapers currently detected"
   exit 1
 fi
+
+use_kitten=false
+if command -v kitten &>/dev/null && [ -t 1 ]; then
+  use_kitten=true
+  cols=$(tput cols)
+fi
+
+for path in "${wallpaper_paths[@]}"; do
+  basename="${path##*/}"
+  basename="${basename%.*}"
+  echo "@$basename $(ansi-url "$path")"
+  if $use_kitten; then
+    # Reserve space, then move back up and query position
+    # (querying after newlines ensures scroll has settled)
+    printf '\n\n\n\n\n'
+    printf '\033[5A'
+    cursor_row=$(cursor-row)
+    kitten icat --align=left \
+      --place "${cols}x5@0x$((cursor_row - 1))" \
+      --transfer-mode=stream "$path" 2>/dev/null || true
+    printf '\033[5B'
+  fi
+done

@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=';' read -sdR -p $'\033[6n' row col </dev/tty
+echo "${row#*[}"
