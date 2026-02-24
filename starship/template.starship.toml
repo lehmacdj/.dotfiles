@@ -24,6 +24,7 @@ add_newline = false
 # where that is important you're doing something wrong because your package
 # manager isn't managing the version of your compiler for you.
 aws.disabled = true
+bun.disabled = true
 cmake.disabled = true
 cobol.disabled = true
 conda.disabled = true
