@@ -142,6 +142,11 @@ Plug 'kana/vim-textobj-user'
   \ | Plug 'liuchengxu/vim-which-key'
   \ | Plug 'isovector/cornelis', { 'do': 'stack build' }
 Plug 'purescript-contrib/purescript-vim'
+if isdirectory($HOME.'/opt/moss/.git')
+  Plug $HOME.'/opt/moss', { 'rtp': 'packages/moss-vim' }
+else
+  Plug 'moss-lang/moss', { 'rtp': 'packages/moss-vim', 'branch': 'add-moss-vim' }
+endif
 Plug 'rust-lang/rust.vim'
 " the fenced markdown languages need to be defined here, because otherwise they
 " aren't set early enough for them to take effect
