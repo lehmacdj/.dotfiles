@@ -2,6 +2,11 @@ setlocal spell
 setlocal nosmartindent " without this for/while/if etc. trigger new indent level
 setlocal conceallevel=2 " hide links/html comments
 
+" toggle markdown comment visibility (unimpaired style)
+nnoremap <buffer> [oc <Cmd>lua require'my.markdown'.hide_comments()<CR>
+nnoremap <buffer> ]oc <Cmd>lua require'my.markdown'.show_comments()<CR>
+nnoremap <buffer> yoc <Cmd>lua if vim.g.show_markdown_comments then require'my.markdown'.hide_comments() else require'my.markdown'.show_comments() end<CR>
+
 " make breakindent recognize markdown lists
 let &formatlistpat = '^\(>\)\?\s*[-+*]\( \[[ x]\]\)\?\s*\|^\s*\d\+\.\s*'
 
