@@ -2,6 +2,9 @@ nvim.symconfig/spell/*.spl
 nvim.symconfig/.netrwhist
 nvim.symconfig/plugged/
 nvim.symconfig/local.vim
+# nvim --headless can write to this file; and we sometimes do that for testing
+# we don't want to accidentally commit it
+.nvimlog
 
 # zsh
 zsh/.*
