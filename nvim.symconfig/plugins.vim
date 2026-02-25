@@ -66,17 +66,21 @@ if has('nvim')
   Plug 'nvim-lua/plenary.nvim'
 
   " treesitter
-  Plug 'nvim-treesitter/nvim-treesitter'
+  Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
   let s:treesitter_setup =<< trim EOF
-    require'nvim-treesitter.configs'.setup {
-      ensure_installed = {'bash', 'haskell', 'java', 'json', 'kotlin', 'lua', 'python', 'rust', 'swift', 'yaml'},
-      highlight = {
-        enable = true,
-        disable = {'haskell'}, -- language names to disable highlighting for
-        additional_vim_regex_highlighting = { 'markdown' },
-      },
-      indent = { enable = true },
-    }
+    local languages = { 'bash', 'java', 'json', 'kotlin', 'lua', 'markdown', 'python', 'rust', 'swift', 'yaml' }
+    require('nvim-treesitter').setup {}
+
+    local group = vim.api.nvim_create_augroup('MyTreesitterFeatures', { clear = true })
+    vim.api.nvim_create_autocmd('FileType', {
+      group = group,
+      pattern = languages,
+      callback = function()
+        -- New nvim-treesitter enables features via explicit Neovim APIs.
+        vim.treesitter.start()
+        vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+      end,
+    })
   EOF
   Defer s:treesitter_setup
 
