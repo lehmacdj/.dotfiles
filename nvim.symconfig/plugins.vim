@@ -69,6 +69,17 @@ if has('nvim')
   Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
   let s:treesitter_setup =<< trim EOF
     local languages = { 'bash', 'java', 'json', 'kotlin', 'lua', 'markdown', 'python', 'rust', 'swift', 'yaml' }
+
+    -- Add nvim-treesitter's bundled queries to runtimepath so that
+    -- treesitter injections (e.g. YAML in markdown frontmatter) can
+    -- find highlight queries for languages without Neovim builtins.
+    local ts_runtime = vim.fs.joinpath(
+      vim.fn.stdpath('config'),
+      'plugged', 'nvim-treesitter', 'runtime')
+    if not vim.list_contains(vim.opt.rtp:get(), ts_runtime) then
+      vim.opt.rtp:prepend(ts_runtime)
+    end
+
     require('nvim-treesitter').setup {}
 
     local group = vim.api.nvim_create_augroup('MyTreesitterFeatures', { clear = true })
@@ -79,6 +90,12 @@ if has('nvim')
         -- New nvim-treesitter enables features via explicit Neovim APIs.
         vim.treesitter.start()
         vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        -- vim.treesitter.start() disables vim regex syntax by default.
+        -- Re-enable it for markdown so after/syntax/markdown.vim rules
+        -- (inline code spans, blockquote code blocks) still work.
+        if vim.bo.filetype == 'markdown' then
+          vim.bo.syntax = 'ON'
+        end
       end,
     })
   EOF
