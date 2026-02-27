@@ -2,6 +2,12 @@ local lsp = require('my.lsp')
 
 -- vim.lsp.log.set_level(vim.log.levels.INFO)
 
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+local ok, blink = pcall(require, 'blink.cmp')
+if ok then
+  capabilities = blink.get_lsp_capabilities(capabilities)
+end
+
 vim.lsp.config('*', {
   cmd_env = {
     -- HLS needs this env var set to not fail with inline-c. See these issues:
@@ -10,7 +16,7 @@ vim.lsp.config('*', {
     __GHCIDE__ = 1
   },
   on_attach = lsp.on_attach,
-  capabilities = require('cmp_nvim_lsp').default_capabilities(),
+  capabilities = capabilities,
   flags = {
     debounce_text_changes = 150,
   },

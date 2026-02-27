@@ -80,7 +80,13 @@ if has('nvim')
       vim.opt.rtp:prepend(ts_runtime)
     end
 
-    require('nvim-treesitter').setup {}
+    local ts_parser_dir = vim.fn.stdpath('data') .. '/site'
+    if not vim.list_contains(vim.opt.rtp:get(), ts_parser_dir) then
+      vim.opt.rtp:prepend(ts_parser_dir)
+    end
+    require('nvim-treesitter').setup {
+      parser_install_dir = ts_parser_dir,
+    }
 
     local group = vim.api.nvim_create_augroup('MyTreesitterFeatures', { clear = true })
     vim.api.nvim_create_autocmd('FileType', {
@@ -122,17 +128,10 @@ if has('nvim')
     \| Plug 'gbprod/none-ls-shellcheck.nvim'
 
   " completion
-  Plug 'hrsh7th/nvim-cmp'
-    \| Plug 'hrsh7th/cmp-nvim-lsp'
-    \| Plug 'hrsh7th/cmp-buffer'
-    \| Plug 'hrsh7th/cmp-path'
-    \| Plug 'hrsh7th/cmp-cmdline'
-    \| Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
-    \| Plug 'jc-doyle/cmp-pandoc-references'
+  Plug 'saghen/blink.cmp', { 'tag': 'v1.*' }
 
   " Snippets
   Plug 'L3MON4D3/LuaSnip'
-    \| Plug 'saadparwaiz1/cmp_luasnip'
     \| Plug 'rafamadriz/friendly-snippets'
   let s:luasnip_setup =<< trim EOF
   require('luasnip').config.set_config {
