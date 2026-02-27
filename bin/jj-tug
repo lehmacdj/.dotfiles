@@ -2,7 +2,7 @@
 set -euo pipefail
 
 from="heads(::push_point() & bookmarks())"
-to="coalesce(push_point() ~ unfinished() ~ private(), push_point()- ~ private() & bookmarks()::)"
+to="coalesce(push_point() ~ unpushable(), push_point()- ~ unpushable() & bookmarks()::)"
 
 # allow restricting to a particular bookmark name/revision by supplying an
 # argument
