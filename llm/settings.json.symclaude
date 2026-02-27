@@ -2,6 +2,8 @@
   "cleanupPeriodDays": 99999,
   "permissions": {
     "allow": [
+      "Bash(killall 'Google Chrome')",
+      "Bash(open -na 'Google Chrome' --args --profile-directory=\"Profile 1\")",
       "Bash(jj:*)",
       "Bash(grep:*)",
       "Bash(bd:*)",
