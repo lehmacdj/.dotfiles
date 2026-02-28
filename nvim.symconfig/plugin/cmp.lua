@@ -33,10 +33,10 @@ cmp.setup {
       i = cmp.mapping.select_prev_item({ behavior = Behavior.Select }),
     },
     ['<C-n>'] = {
-      i = cmp.mapping.select_next_item({ behavior = Behavior.Insert }),
+      i = cmp.mapping.select_next_item({ behavior = Behavior.Select }),
     },
     ['<C-p>'] = {
-      i = cmp.mapping.select_prev_item({ behavior = Behavior.Insert }),
+      i = cmp.mapping.select_prev_item({ behavior = Behavior.Select }),
     },
   },
   sources = cmp.config.sources({
