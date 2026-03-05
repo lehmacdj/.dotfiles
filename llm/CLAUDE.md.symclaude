@@ -20,6 +20,8 @@ Refactoring:
 
 Building:
 - Prefer building with `stack` unless the project doesn't have a `stack.yaml` file
+  - `stack` projects use hpack which rebuilds the cabal file automatically from `package.yaml`
+  - I don't use `stack` for libraries that are published to Hackage, these use `cabal` instead
 - Building with `stack`/`cabal` requires breaking through Claude Code's sandboxing because of global package DBs; use the Bash tool that bypasses sandboxing
 
 ## Shell Scripting
