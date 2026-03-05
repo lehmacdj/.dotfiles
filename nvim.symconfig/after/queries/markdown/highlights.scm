@@ -12,6 +12,13 @@
 ; Conceal block-level HTML comments
 ((html_block) @comment
   (#lua-match? @comment "^<!%-%-")
+  (#md-comments-concealed?)
   (#set! conceal "")
   (#set! conceal_lines "")
+  (#set! priority 101))
+
+; Highlight revealed HTML comments
+((html_block) @comment
+  (#lua-match? @comment "^<!%-%-")
+  (#not-md-comments-concealed?)
   (#set! priority 101))

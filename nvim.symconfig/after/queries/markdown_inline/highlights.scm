@@ -16,7 +16,14 @@
 ; Conceal inline HTML comments
 ((html_tag) @comment
   (#lua-match? @comment "^<!%-%-")
+  (#md-comments-concealed?)
   (#set! conceal "")
+  (#set! priority 101))
+
+; Highlight revealed inline HTML comments
+((html_tag) @comment
+  (#lua-match? @comment "^<!%-%-")
+  (#not-md-comments-concealed?)
   (#set! priority 101))
 
 ; Wikilinks: conceal [[ and ]] brackets
