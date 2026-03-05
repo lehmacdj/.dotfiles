@@ -8,12 +8,19 @@
 - Use `jj` instead of `git`
 
 ## Haskell
-- I typically use a "God module" architecture for Haskell applications: this means having a single library includes all of the code for all executables and tests. This makes it easier to share functionality, and gives improved hot reloading in ghci
-- Building with `stack` is preferred unless the project doesn't have a `stack.yaml` file
-- Building with `stack`/`cabal` requires breaking through Claude Code's sandboxing because of global package DBs; use the Bash tool that bypasses sandboxing
 - Most of my projects use a `MyPrelude` module that re-exports `ClassyPrelude` and generally useful helper functions
   - When it exists, use it instead of importing `Prelude` or `ClassyPrelude` unless there's a circular dependency
   - Prefer putting generally useful helper functions somewhere in the `MyPrelude.*` module hierarchy
+- Most of my Haskell applications use a "God module" architecture: this means having a single library includes all of the code for all executables and tests.
+  - This makes it easier to share functionality and improves hot reloading in `ghci`
+  - Prefer co-locating tests with the code they test
+
+Refactoring:
+- `move-hs-module.sh` (available on PATH) provides a convenient wrapper for renaming modules/moving files
+
+Building:
+- Prefer building with `stack` unless the project doesn't have a `stack.yaml` file
+- Building with `stack`/`cabal` requires breaking through Claude Code's sandboxing because of global package DBs; use the Bash tool that bypasses sandboxing
 
 ## Shell Scripting
 - Use `set -euo pipefail` in scripts

@@ -138,6 +138,30 @@ if [ "$features" -ge 1 ]; then
     function claude_mapper { echo "$HOME/.claude/$1"; }
     linkfiles "" ".symclaude" 5 "claude_mapper"
 
+    # codex configuration files
+    mkdir -p "$HOME/.codex"
+    function codex_mapper { echo "$HOME/.codex/$1"; }
+    linkfiles "" ".symcodex" 5 "codex_mapper"
+
+    # gemini configuration files
+    mkdir -p "$HOME/.gemini"
+    function gemini_mapper { echo "$HOME/.gemini/$1"; }
+    linkfiles "" ".symgemini" 5 "gemini_mapper"
+
+    # shared agent skills → all 3 agent skill dirs
+    mkdir -p "$HOME/.claude/skills" \
+             "$HOME/.codex/skills" \
+             "$HOME/.gemini/skills"
+    function claude_skill_mapper { echo "$HOME/.claude/skills/$1"; }
+    function codex_skill_mapper { echo "$HOME/.codex/skills/$1"; }
+    function gemini_skill_mapper { echo "$HOME/.gemini/skills/$1"; }
+    linkfiles "" ".symskill" 5 "claude_skill_mapper"
+    linkfiles "" ".symskill" 5 "codex_skill_mapper"
+    linkfiles "" ".symskill" 5 "gemini_skill_mapper"
+
+    # claude-only skills
+    linkfiles "" ".symclaudeskill" 5 "claude_skill_mapper"
+
     # xcode configuration files are stored under this directory
     xcode_userdata_path="$HOME/Library/Developer/Xcode/UserData"
     function xcode_userdata_mapper { echo "$xcode_userdata_path/$1"; }
