@@ -5,7 +5,7 @@
 - Try to keep lines to 80 characters or fewer, it's okay for the occasional line to exceed this limit if it improves readability
 
 ## Tools
-- Use `jj` instead of `git`
+- Use `jj` instead of `git`. Use `jj ci` instead of `jj describe` followed by `jj new`
 
 ## Haskell
 - Most of my projects use a `MyPrelude` module that re-exports `ClassyPrelude` and generally useful helper functions
