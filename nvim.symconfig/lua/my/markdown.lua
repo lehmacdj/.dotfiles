@@ -24,4 +24,28 @@ mod.hide_comments = function()
   redraw_markdown_bufs()
 end
 
+-- Count words in the current buffer, skipping YAML frontmatter.
+mod.wordcount = function()
+  local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+  local start = 1
+  if lines[1] == '---' then
+    for i = 2, #lines do
+      if lines[i] == '---' then
+        start = i + 1
+        break
+      end
+    end
+  end
+  local count = 0
+  for i = start, #lines do
+    -- %a matches letters only; optional ' and - allow
+    -- contractions (don't) and hyphenated words (well-known)
+    -- to count as single words
+    for _ in lines[i]:gmatch("%a[%a'-]*") do
+      count = count + 1
+    end
+  end
+  return count
+end
+
 return mod
