@@ -486,3 +486,12 @@ vii() {
 
 alias isodate='date -u +"%Y-%m-%d"'
 alias isots='date -u +"%Y-%m-%dT%H:%M:%SZ"'
+
+vid () {
+    cd "$HOME/wiki" || return
+    if [ $# -eq 0 ]; then
+        vim "$(wiki note --matching-date today)"
+    else
+        vim "$(wiki note --matching-date "$*")"
+    fi
+}
