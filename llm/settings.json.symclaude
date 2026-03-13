@@ -18,7 +18,7 @@
     "typescript-lsp@claude-plugins-official": false,
     "code-simplifier@claude-plugins-official": true,
     "lua-lsp@claude-plugins-official": false,
-    "rust-analyzer-lsp@claude-plugins-official": true,
+    "rust-analyzer-lsp@claude-plugins-official": false,
     "swift-lsp@claude-plugins-official": false
   },
   "sandbox": {
