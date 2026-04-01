@@ -59,7 +59,7 @@ pre-commit = ["util", "exec", "--", "jj-pre-commit"]
 # the place from below which we push changes to the remote from
 # this is the topmost private commit that is a parent of the current commit
 # often this will be a mega_merge(), but it's useful for this to be generalized
-'push_point()' = "coalesce(roots(private()) & ::@, @)"
+'push_point()' = "coalesce(roots(unpushable() & mutable()) & ::@, @)"
 'no_description()' = "description(regex:'^$')"
 # commits that would be removed if we left them to edit something else
 'ephemeral()' = "no_description() & empty()"
