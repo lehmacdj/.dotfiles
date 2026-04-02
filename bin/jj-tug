@@ -15,4 +15,20 @@ if [ "$#" -eq 1 ]; then
   to="$to & $relevant"
 fi
 
+# Extract unpushable commits that block pushable commits from being
+# tugged forward. A "blocker" is an unpushable commit between the
+# bookmark and @ that is an ancestor of a pushable commit in that
+# range. Commits already above all pushable commits aren't blockers.
+# Extract one at a time (older to newer) to avoid creating forks when
+# there are disconnected groups of blockers.
+range="($from..@-)"
+pushable="$range ~ unpushable()"
+blockers="$range & unpushable() & ancestors($pushable)"
+
+jj log --no-graph --reversed -r "$blockers" \
+  -T 'change_id ++ "\n"' 2>/dev/null |
+while read -r b; do
+  [ -n "$b" ] && jj rebase -r "$b" -B @
+done
+
 jj bookmark move --from "$from" --to "$to"
