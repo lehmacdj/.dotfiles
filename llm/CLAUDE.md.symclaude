@@ -6,6 +6,7 @@
 
 ## Tools
 - Use `jj` instead of `git`. Use `jj ci` instead of `jj describe` followed by `jj new`
+- Don't push to remotes; let me push myself
 
 ## Haskell
 - Most of my projects use a `MyPrelude` module that re-exports `ClassyPrelude` and generally useful helper functions
