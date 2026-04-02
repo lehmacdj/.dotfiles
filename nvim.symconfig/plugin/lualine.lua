@@ -29,7 +29,13 @@ require('lualine').setup {
     lualine_z = {
       {
         function()
-          return require('my.markdown').wordcount() .. ' words'
+          local md = require('my.markdown')
+          local mode = vim.fn.mode()
+          if mode == 'v' or mode == 'V' or mode == '\22' then
+            return md.visual_wordcount()
+              .. '/' .. md.wordcount() .. ' words'
+          end
+          return md.wordcount() .. ' words'
         end,
         cond = function()
           return vim.bo.filetype == 'markdown'

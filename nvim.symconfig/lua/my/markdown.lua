@@ -24,6 +24,19 @@ mod.hide_comments = function()
   redraw_markdown_bufs()
 end
 
+local function count_words(lines)
+  local count = 0
+  for _, line in ipairs(lines) do
+    -- %a matches letters only; optional ' and - allow
+    -- contractions (don't) and hyphenated words (well-known)
+    -- to count as single words
+    for _ in line:gmatch("%a[%a'-]*") do
+      count = count + 1
+    end
+  end
+  return count
+end
+
 -- Count words in the current buffer, skipping YAML frontmatter.
 mod.wordcount = function()
   local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
@@ -36,16 +49,16 @@ mod.wordcount = function()
       end
     end
   end
-  local count = 0
-  for i = start, #lines do
-    -- %a matches letters only; optional ' and - allow
-    -- contractions (don't) and hyphenated words (well-known)
-    -- to count as single words
-    for _ in lines[i]:gmatch("%a[%a'-]*") do
-      count = count + 1
-    end
-  end
-  return count
+  return count_words({unpack(lines, start)})
+end
+
+-- Count words in the visual selection.
+mod.visual_wordcount = function()
+  local s = vim.fn.line('v')
+  local e = vim.fn.line('.')
+  if s > e then s, e = e, s end
+  local lines = vim.api.nvim_buf_get_lines(0, s - 1, e, false)
+  return count_words(lines)
 end
 
 return mod
