@@ -27,7 +27,7 @@ setlocal formatoptions+=roj
 " markdown link like `![|](<images/file name.png>)` placing the cursor at the
 " pipe symbol and entering insert mode so that I can easily add alt text.
 " depends on: vim-surround
-nmap <buffer> <LocalLeader>ic F!llds]cs])aimages/<esc>ysi)>hi[]<esc>i
+nmap <buffer> <LocalLeader>c F!llds]cs])aimages/<esc>ysi)>hi[]<esc>i
 
 call my#markdown#setup_softwrap()
 
