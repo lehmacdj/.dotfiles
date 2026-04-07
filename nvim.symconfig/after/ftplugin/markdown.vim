@@ -7,7 +7,7 @@ nnoremap <buffer> [oc <Cmd>lua require'my.markdown'.hide_comments()<CR>
 nnoremap <buffer> ]oc <Cmd>lua require'my.markdown'.show_comments()<CR>
 nnoremap <buffer> yoc <Cmd>lua if vim.g.show_markdown_comments then require'my.markdown'.hide_comments() else require'my.markdown'.show_comments() end<CR>
 
-nnoremap <LocalLeader>i <Cmd>edit index.md<CR>
+nnoremap <LocalLeader>i <Cmd>edit ~/wiki/index.md<CR>
 
 " make breakindent recognize markdown lists
 let &formatlistpat = '^\(>\)\?\s*[-+*]\( \[[ x]\]\)\?\s*\|^\s*\d\+\.\s*'
