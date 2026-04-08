@@ -487,6 +487,26 @@ vii() {
 alias isodate='date -u +"%Y-%m-%d"'
 alias isots='date -u +"%Y-%m-%dT%H:%M:%SZ"'
 
+# clone a github repo (if not already cloned) and cd into it
+ghr () {
+    if [ $# -ne 1 ]; then
+        echo "usage: ghr <owner>/<repo>"
+        return 1
+    fi
+    local owner_repo="$1"
+    local owner="${owner_repo%%/*}"
+    local repo="${owner_repo#*/}"
+    if [ -z "$owner" ] || [ -z "$repo" ] || [ "$owner" = "$owner_repo" ]; then
+        echo "usage: ghr <owner>/<repo>"
+        return 1
+    fi
+    local dir="$HOME/src/github/$owner/$repo"
+    if [ ! -d "$dir" ]; then
+        gh repo clone "$owner/$repo" "$dir" || return
+    fi
+    cd "$dir" || return
+}
+
 vid () {
     cd "$HOME/wiki" || return
     if [ $# -eq 0 ]; then
