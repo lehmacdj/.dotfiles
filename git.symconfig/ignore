@@ -21,6 +21,9 @@ venv
 
 # aider uses this for caches + virtual environments
 .aider*
+
+# this sometimes contains secrets + has become my default place to put API keys
+# I give coding agents
 .env
 
 # claude code
