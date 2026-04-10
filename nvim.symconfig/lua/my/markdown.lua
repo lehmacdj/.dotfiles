@@ -27,9 +27,12 @@ end
 local function count_words(lines)
   local count = 0
   for _, line in ipairs(lines) do
-    -- %a matches letters only; optional ' and - allow
-    -- contractions (don't) and hyphenated words (well-known)
-    -- to count as single words
+    -- strip image alt text: ![alt text](url) -> (url)
+    line = line:gsub('!%[(.-)%]', '![]')
+    -- strip HTML tags
+    line = line:gsub('<[^>]+>', '')
+    -- strip footnote labels: [^label]
+    line = line:gsub('%[%^[^%]]+%]', '')
     for _ in line:gmatch("%a[%a'-]*") do
       count = count + 1
     end

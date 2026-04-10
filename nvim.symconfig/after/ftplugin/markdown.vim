@@ -7,6 +7,11 @@ nnoremap <buffer> [oc <Cmd>lua require'my.markdown'.hide_comments()<CR>
 nnoremap <buffer> ]oc <Cmd>lua require'my.markdown'.show_comments()<CR>
 nnoremap <buffer> yoc <Cmd>lua if vim.g.show_markdown_comments then require'my.markdown'.hide_comments() else require'my.markdown'.show_comments() end<CR>
 
+" toggle markdown image preview
+nnoremap <buffer> [op <Cmd>lua require'image'.disable()<CR>
+nnoremap <buffer> ]op <Cmd>lua require'image'.enable()<CR>
+nnoremap <buffer> yop <Cmd>lua if require("image").is_enabled() then require'image'.disable() else require'image'.enable() end<CR>
+
 nnoremap <LocalLeader>i <Cmd>edit ~/wiki/index.md<CR>
 
 " make breakindent recognize markdown lists
