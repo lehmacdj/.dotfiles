@@ -234,6 +234,9 @@ nnoremap yo= :<C-u>lua <C-R>=g:do_autoformat
 
 " Spelling related things
 nnoremap <Leader>z 1z=
+" pin spellfile to the dotfiles-managed location so zg doesn't land in a
+" plugin's runtime/spell dir (nvim-treesitter ships one that shadows ours)
+set spellfile=~/.config/nvim/spell/en.utf-8.add
 " automatically commit spellfile changes
 nnoremap zg <Cmd>call my#misc#commit_dictionary_word()<CR>
 xnoremap zg :call my#misc#commit_dictionary_word(visualmode())<CR>
