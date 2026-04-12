@@ -27,7 +27,24 @@ lsp.enable('sourcekit', {
 
 lsp.enable('purescriptls')
 
-lsp.enable('wiki_language_server')
+lsp.enable('wiki_language_server', {
+  on_attach = function(client, bufnr)
+    lsp.on_attach(client, bufnr)
+    local opts = { noremap = true, silent = true }
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', '[d',
+      '<cmd>lua vim.lsp.buf.execute_command('
+        .. '{ command = "wiki.prevDay"'
+        .. ', arguments = { vim.uri_from_bufnr(0) }'
+        .. '})<CR>',
+      opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', ']d',
+      '<cmd>lua vim.lsp.buf.execute_command('
+        .. '{ command = "wiki.nextDay"'
+        .. ', arguments = { vim.uri_from_bufnr(0) }'
+        .. '})<CR>',
+      opts)
+  end,
+})
 
 lsp.enable('hls', {
   capabilities = {
