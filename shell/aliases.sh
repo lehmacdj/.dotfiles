@@ -471,7 +471,7 @@ set_term_titles() {
 }
 
 # start editing notes (with the right CWD) from anywhere
-vii() {
+viw() {
   if ! [ -d "$HOME/wiki" ]; then
     echo "error: $HOME/wiki does not exist"
     return 1
@@ -481,7 +481,17 @@ vii() {
   # - -c runs after plugins are loaded
   # we need to run before plugins are loaded so that LSPs are loaded in the
   # correct working directory
-  "$EDITOR" --cmd "cd $HOME/wiki" "$HOME/wiki/index.md" "$@"
+  "$EDITOR" --cmd "cd $HOME/wiki" "$@"
+}
+
+alias vii='viw "$HOME/wiki/index.md"'
+
+vid () {
+    if [ $# -eq 0 ]; then
+        viw "$HOME/wiki/$(wiki note --matching-date today)"
+    else
+        viw "$HOME/wiki/$(wiki note --matching-date "$*")"
+    fi
 }
 
 alias isodate='date -u +"%Y-%m-%d"'
@@ -505,13 +515,4 @@ ghr () {
         gh repo clone "$owner/$repo" "$dir" || return
     fi
     cd "$dir" || return
-}
-
-vid () {
-    cd "$HOME/wiki" || return
-    if [ $# -eq 0 ]; then
-        vim "$(wiki note --matching-date today)"
-    else
-        vim "$(wiki note --matching-date "$*")"
-    fi
 }
