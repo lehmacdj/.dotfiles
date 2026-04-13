@@ -488,9 +488,9 @@ alias vii='viw "$HOME/wiki/index.md"'
 
 vid () {
     if [ $# -eq 0 ]; then
-        viw "$HOME/wiki/$(wiki note --matching-date today)"
+        viw "$(wiki note --matching-date today)"
     else
-        viw "$HOME/wiki/$(wiki note --matching-date "$*")"
+        viw "$(wiki note --matching-date "$*")"
     fi
 }
 

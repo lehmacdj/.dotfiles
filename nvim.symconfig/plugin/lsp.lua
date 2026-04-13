@@ -30,19 +30,27 @@ lsp.enable('purescriptls')
 lsp.enable('wiki_language_server', {
   on_attach = function(client, bufnr)
     lsp.on_attach(client, bufnr)
+    local function wiki_cmd(command)
+      client:request(
+        'workspace/executeCommand',
+        {
+          command = command,
+          arguments = { vim.uri_from_bufnr(bufnr) },
+        },
+        nil,
+        bufnr
+      )
+    end
     local opts = { noremap = true, silent = true }
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', '[d',
-      '<cmd>lua vim.lsp.buf.execute_command('
-        .. '{ command = "wiki.prevDay"'
-        .. ', arguments = { vim.uri_from_bufnr(0) }'
-        .. '})<CR>',
-      opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', ']d',
-      '<cmd>lua vim.lsp.buf.execute_command('
-        .. '{ command = "wiki.nextDay"'
-        .. ', arguments = { vim.uri_from_bufnr(0) }'
-        .. '})<CR>',
-      opts)
+    vim.keymap.set('n', '[d', function()
+      wiki_cmd('wiki.prevDay')
+    end, { buffer = bufnr, noremap = true, silent = true })
+    vim.keymap.set('n', ']d', function()
+      wiki_cmd('wiki.nextDay')
+    end, { buffer = bufnr, noremap = true, silent = true })
+    vim.keymap.set('n', '<LocalLeader>t', function()
+      wiki_cmd('wiki.today')
+    end, { buffer = bufnr, noremap = true, silent = true })
   end,
 })
 
