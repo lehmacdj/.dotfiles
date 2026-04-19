@@ -5,6 +5,8 @@ nvim.symconfig/local.vim
 # nvim --headless can write to this file; and we sometimes do that for testing
 # we don't want to accidentally commit it
 .nvimlog
+# from 0.12+ I think
+nvim.log
 '!.utf-8.spl'
 
 # zsh
