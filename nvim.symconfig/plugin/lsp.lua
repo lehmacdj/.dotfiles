@@ -28,6 +28,7 @@ lsp.enable('sourcekit', {
 lsp.enable('purescriptls')
 
 lsp.enable('wiki_language_server', {
+  cmd = { 'wiki', 'language-server' },
   on_attach = function(client, bufnr)
     lsp.on_attach(client, bufnr)
     local function wiki_cmd(command)
