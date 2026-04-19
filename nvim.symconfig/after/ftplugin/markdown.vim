@@ -64,6 +64,9 @@ if filereadable('neuron.dhall')
     " recover the file comparing swap with what is currently on the disk
     nnoremap <buffer> <LocalLeader>r <Cmd>w %~<CR>:e!<CR>:diffthis<CR>:vsp %~<CR>:diffthis<CR>
 
+    " publish the current note to the blog
+    nnoremap <buffer> <LocalLeader>p <Cmd>execute '!~/src/blog/bin/publish-note ' . expand('%:t:r')<CR>
+
     " janky macro that creates a new zettel based on a visual selection which
     " becomes the body of the new zettel
     " this macro lets me feel like an emacs user because it starts with mX, lol
