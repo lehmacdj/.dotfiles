@@ -26,15 +26,27 @@ end
 
 local function count_words(lines)
   local count = 0
+  -- skip fenced code blocks: ```...``` or ~~~...~~~
+  local fence = nil
   for _, line in ipairs(lines) do
-    -- strip image alt text: ![alt text](url) -> (url)
-    line = line:gsub('!%[(.-)%]', '![]')
-    -- strip HTML tags
-    line = line:gsub('<[^>]+>', '')
-    -- strip footnote labels: [^label]
-    line = line:gsub('%[%^[^%]]+%]', '')
-    for _ in line:gmatch("%a[%a'-]*") do
-      count = count + 1
+    local bt = line:match('^%s*```+')
+    local tl = line:match('^%s*~~~+')
+    if fence == nil and (bt or tl) then
+      fence = bt and '`' or '~'
+    elseif fence == '`' and bt then
+      fence = nil
+    elseif fence == '~' and tl then
+      fence = nil
+    elseif fence == nil then
+      -- strip image alt text: ![alt text](url) -> (url)
+      line = line:gsub('!%[(.-)%]', '![]')
+      -- strip HTML tags
+      line = line:gsub('<[^>]+>', '')
+      -- strip footnote labels: [^label]
+      line = line:gsub('%[%^[^%]]+%]', '')
+      for _ in line:gmatch("%a[%a'-]*") do
+        count = count + 1
+      end
     end
   end
   return count
