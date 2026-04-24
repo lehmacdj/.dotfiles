@@ -9,6 +9,28 @@ if [ -f "$_zplug_lock[job]" ]; then
 fi
 
 source "$HOME/.zplug/init.zsh"
+
+# Serialize `zplug load` across concurrent shell startups. zplug's cache
+# regeneration races: when N shells start in parallel and all see a stale
+# cache, each resets the cache files and then appends its own copy of every
+# entry, leaving N duplicate entries per plugin. That cascades for plugins
+# like starship that wrap zle widgets idempotently-but-not-safely, producing
+# infinite recursion in `zle-keymap-select` once N >= 3.
+zplug-load-locked() {
+  zmodload -F zsh/system b:zsystem 2>/dev/null
+  local lockfile="${ZPLUG_HOME:-$HOME/.zplug}/cache/.load.lock"
+  [[ -e $lockfile ]] || : >> "$lockfile"
+  local fd
+  if zsystem flock -f fd -t 30 "$lockfile" 2>/dev/null; then
+    zplug load "$@"
+    local ret=$?
+    zsystem flock -u $fd
+    return $ret
+  fi
+  # fall back to unlocked load if the lock can't be acquired
+  zplug load "$@"
+}
+
 # some things depend on env.sh, so we need to load it first
 zplug "$DOTFILES/shell", from:"local", use:"env.sh", defer:0
 
@@ -29,13 +51,13 @@ if ! zplug check --verbose; then
         >&2 echo; zplug install
     fi
     # on first load, show loading
-    zplug load --verbose
+    zplug-load-locked --verbose
     [ -f "$HOME/.local.zsh" ] && source "$HOME/.local.zsh"
 else
     # otherwise just let the plugins go, with instant prompt loading
     source "$DOTFILES/zsh/instant-zsh.zsh"
     instant-zsh-pre $'\e[6 q\e[32m❯ \e[0m' # set line cursor, then green basic prompt
-    zplug load
+    zplug-load-locked
     [ -f "$HOME/.local.zsh" ] && source "$HOME/.local.zsh"
     instant-zsh-post
 fi
