@@ -39,10 +39,11 @@
     "enabled": true,
     "autoAllowBashIfSandboxed": true
   },
-  "showThinkingSummaries": true,
-  "voiceEnabled": true,
   "voice": {
     "enabled": true,
     "mode": "hold"
-  }
+  },
+  "showThinkingSummaries": true,
+  "voiceEnabled": true,
+  "editorMode": "vim"
 }
