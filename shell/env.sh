@@ -56,6 +56,9 @@ cond_path_add "$HOME/.ghcup/bin"
 cond_path_add "$HOME/.cabal/bin"
 cond_path_add "$HOME/.stack/bin"
 
+# Lean
+cond_path_add "$HOME/.elan/bin"
+
 # Add python local --user bins to the path
 if [ -d "$HOME"/Library/Python ]; then
     for p in "$HOME"/Library/Python/* ; do

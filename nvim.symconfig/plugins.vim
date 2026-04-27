@@ -192,6 +192,16 @@ if has('nvim')
   Plug 'wojciech-kulik/xcodebuild.nvim'
     \ | Plug 'MunifTanjim/nui.nvim'
   Defer 'require"xcodebuild".setup { xcodebuild_offline = { enabled = true } }'
+  Plug 'Julian/lean.nvim'
+  let s:lean_setup =<< trim EOF
+    require('lean').setup {
+      mappings = true,
+      lsp = {
+        on_attach = require('my.lsp').on_attach,
+      },
+    }
+  EOF
+  Defer s:lean_setup
 end
 Plug 'lehmacdj/neuron.vim', { 'branch': 'patched-old-neuron' } " zettelkasten support
 
