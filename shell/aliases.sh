@@ -516,3 +516,14 @@ ghr () {
     fi
     cd "$dir" || return
 }
+
+# Irregularities in the fine tuning data set, caused GPT-5.5-Codex to have an
+# afinity for Goblins/Gremlins.
+# https://openai.com/index/where-the-goblins-came-from/
+codex-with-goblins () {
+    instructions=$(mktemp /tmp/gpt-5.5-instructions.XXXXXX) && \
+    jq -r '.models[] | select(.slug=="gpt-5.5") | .base_instructions' \
+    ~/.codex/models_cache.json | \
+    grep -vi 'goblins' > "$instructions" && \
+    codex -m gpt-5.5 -c "model_instructions_file=\"$instructions\""
+}
