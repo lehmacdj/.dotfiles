@@ -38,8 +38,13 @@ local function count_words(lines)
     elseif fence == '~' and tl then
       fence = nil
     elseif fence == nil then
-      -- strip image alt text: ![alt text](url) -> (url)
+      -- strip image alt text: ![alt text](url) -> ![](url)
       line = line:gsub('!%[(.-)%]', '![]')
+      -- strip wikilink target: [[target|display]] -> [[display]]
+      line = line:gsub('%[%[[^%]|]*|', '[[')
+      -- strip markdown link URL: [text](url) -> [text]
+      -- (also drops the url from images, alt was stripped above)
+      line = line:gsub('(%b[])%b()', '%1')
       -- strip HTML tags
       line = line:gsub('<[^>]+>', '')
       -- strip footnote labels: [^label]
