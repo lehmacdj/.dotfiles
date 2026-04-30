@@ -13,6 +13,10 @@
     ]
   },
   "model": "opus",
+  "env": {
+    "MANPAGER": "cat",
+    "PAGER": "cat"
+  },
   "hooks": {
     "Stop": [
       {
@@ -44,6 +48,6 @@
     "mode": "hold"
   },
   "showThinkingSummaries": true,
-  "voiceEnabled": true,
-  "editorMode": "vim"
+  "editorMode": "vim",
+  "voiceEnabled": true
 }
