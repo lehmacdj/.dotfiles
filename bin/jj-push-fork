@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# After `gh repo fork`, origin points to the fresh fork (no bookmarks) and the
+# original origin was renamed to upstream. Track main@upstream so a local main
+# bookmark exists, then push it to origin so main@origin is created and tracked
+# (which restores trunk() and normal push behavior).
+set -euo pipefail
+
+jj bookmark track main@upstream 2>/dev/null
+jj git push --remote origin --bookmark main --allow-new
+jj bookmark untrack main@upstream 2>/dev/null
