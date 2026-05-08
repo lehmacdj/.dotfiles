@@ -504,6 +504,10 @@ ghr () {
         return 1
     fi
     local owner_repo="$1"
+    owner_repo="${owner_repo#https://github.com/}"
+    owner_repo="${owner_repo#http://github.com/}"
+    owner_repo="${owner_repo%.git}"
+    owner_repo="${owner_repo%/}"
     local owner="${owner_repo%%/*}"
     local repo="${owner_repo#*/}"
     if [ -z "$owner" ] || [ -z "$repo" ] || [ "$owner" = "$owner_repo" ]; then
