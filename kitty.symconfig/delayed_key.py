@@ -1,10 +1,13 @@
 import sys
+import os
+import json
+import subprocess
 import time
 import re
 import shutil
 import datetime
 import argparse
-from typing import List
+from typing import List, Optional
 from kitty.boss import Boss
 
 # --- Parsing Logic ---
@@ -80,6 +83,11 @@ def readable_representation(text: str) -> str:
 
 # --- UI Logic ---
 
+def set_terminal_title(title: str) -> None:
+    # OSC 2 sets the window title; kitty derives the tab title from this when
+    # the window doesn't have an explicitly-set tab title.
+    sys.stdout.write(f"\033]2;{title}\007")
+
 def format_countdown(seconds: float) -> str:
     if seconds < 10:
         return f"{seconds:.1f}s"
@@ -133,13 +141,15 @@ def draw_ui(remaining: float, total: float, cmd_preview: str, finish_time_str: s
 
     time_str = format_countdown(remaining)
 
+    set_terminal_title(f"delayed key — {time_str}")
+
     lines = [
         f"\033[1;36mDELAYED KEY ENTRY\033[0m",
         "",
         f"Sequence: {cmd_preview}",
         "",
         f"Firing in: \033[1;37m{time_str}\033[0m",
-        f"\033[36m{bar}\033[0m"
+        f"\033[36m{bar}\033[0m",
     ]
 
     if finish_time_str:
@@ -233,6 +243,8 @@ def main(args: List[str]) -> str:
         return "CANCELLED"
 
     finally:
+        # Reset title so the underlying window's next prompt redraw can claim it.
+        sys.stdout.write("\033]2;\007")
         sys.stdout.write("\033[?25h")
         sys.stdout.flush()
 

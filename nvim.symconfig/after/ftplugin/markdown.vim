@@ -66,6 +66,8 @@ if filereadable('neuron.dhall')
 
     " publish the current note to the blog
     nnoremap <buffer> <LocalLeader>p <Cmd>execute '!~/src/blog/bin/publish-note ' . expand('%:t:r')<CR>
+    " copy the slug for the current note
+    nnoremap <buffer> <LocalLeader>c <Cmd>call setreg('+', expand('%:t:r'))<CR>
 
     " janky macro that creates a new zettel based on a visual selection which
     " becomes the body of the new zettel
