@@ -5,6 +5,6 @@
 # (which restores trunk() and normal push behavior).
 set -euo pipefail
 
-jj bookmark track main@upstream 2>/dev/null
-jj git push --remote origin --bookmark main --allow-new
-jj bookmark untrack main@upstream 2>/dev/null
+jj bookmark track main@upstream || true
+jj git push --remote origin --bookmark main --allow-new || true
+jj bookmark untrack main@upstream
