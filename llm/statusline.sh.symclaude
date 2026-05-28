@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Claude Code feeds session context as JSON on stdin.
+input="$(cat)"
+
+# Pull everything out in one jq pass (tab-separated; paths with tabs are
+# implausible). Missing/null fields fall back to empty or 0.
+IFS=$'\t' read -r session_id model cwd ctx_in ctx_size ctx_pct five seven < <(
+  printf '%s' "$input" | jq -r '[
+    .session_id // "?",
+    .model.display_name // "?",
+    (.workspace.current_dir // .cwd // "?"),
+    (.context_window.total_input_tokens // 0),
+    (.context_window.context_window_size // 0),
+    (.context_window.used_percentage // ""),
+    (.rate_limits.five_hour.used_percentage // ""),
+    (.rate_limits.seven_day.used_percentage // "")
+  ] | @tsv'
+)
+
+bold=$'\033[1m'
+blue=$'\033[34m'
+magenta=$'\033[35m'
+yellow=$'\033[33m'
+red=$'\033[31m'
+reset=$'\033[0m'
+
+# Threshold color for a usage percentage: default color until 70, then yellow
+# 70-89, red >=90.
+color_for() {
+  if   (( $1 >= 90 )); then printf '%s' "$red"
+  elif (( $1 >= 70 )); then printf '%s' "$yellow"
+  fi
+}
+
+# --- directory -------------------------------------------------------------
+# format-path emits a `|` marker between the path prefix and the repo name so
+# the two can be colored differently. Mirror the zsh prompt (_prompt_dir in
+# zsh/prompt.zsh): bold throughout, prefix blue, repo name magenta, subpath blue.
+formatted="$("$HOME/.dotfiles/bin/format-path" "$cwd")"
+if [[ "$formatted" == *"|"* ]]; then
+  prefix="${formatted%%|*}"
+  repo_part="${formatted#*|}"
+  if [[ "$repo_part" == *"/"* ]]; then
+    repo_name="${repo_part%%/*}"
+    subpath="${repo_part#*/}"
+    dir="${bold}${blue}${prefix}${magenta}${repo_name}${blue}/${subpath}${reset}"
+  else
+    dir="${bold}${blue}${prefix}${magenta}${repo_part}${reset}"
+  fi
+else
+  dir="${bold}${blue}${formatted}${reset}"
+fi
+
+# --- context usage (e.g. 45k/256k 18%) -------------------------------------
+# total_input_tokens is the input-only count Claude Code uses for used_percentage.
+fmt_k() { printf '%dk' $(( (${1:-0} + 500) / 1000 )); }
+ctx=""
+if (( ctx_size > 0 )); then
+  if [[ -n "$ctx_pct" ]]; then
+    ctx_pct="$(printf '%.0f' "$ctx_pct")"
+  else
+    ctx_pct=$(( ctx_in * 100 / ctx_size ))
+  fi
+  ctx="$(color_for "$ctx_pct")$(fmt_k "$ctx_in")/$(fmt_k "$ctx_size") ${ctx_pct}%${reset}"
+fi
+
+# --- usage limits (the data behind /usage) ---------------------------------
+# Pro/Max only, and absent until the first API response in the session.
+five_seg=""
+if [[ -n "$five" ]]; then
+  p="$(printf '%.0f' "$five")"
+  five_seg="$(color_for "$p")5h ${p}% used${reset}"
+fi
+seven_seg=""
+if [[ -n "$seven" ]]; then
+  p="$(printf '%.0f' "$seven")"
+  seven_seg="$(color_for "$p")7d ${p}% used${reset}"
+fi
+
+# --- assemble, joining non-empty segments with " | " -----------------------
+parts=("$dir" "$model")
+[[ -n "$ctx" ]] && parts+=("$ctx")
+[[ -n "$five_seg" ]] && parts+=("$five_seg")
+[[ -n "$seven_seg" ]] && parts+=("$seven_seg")
+parts+=("$session_id")
+
+out=""
+for p in "${parts[@]}"; do
+  [[ -n "$out" ]] && out+=" | "
+  out+="$p"
+done
+printf '%s' "$out"

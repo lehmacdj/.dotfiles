@@ -13,6 +13,10 @@
     ]
   },
   "model": "opus",
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.sh"
+  },
   "env": {
     "MANPAGER": "cat",
     "PAGER": "cat"

@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+# shellcheck disable=2088
+# We want ~ in shell quotes because we're outputting pretty printed paths.
+#
 # Format a path for display in prompts/titles
 # Used by zsh prompt. There's a parallel Lua implementation in
 # vim.symdot/lua/my/title.lua - consider unifying in the future.
