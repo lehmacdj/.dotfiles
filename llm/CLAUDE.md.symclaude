@@ -41,3 +41,6 @@ Building:
 - Use 4 spaces for indentation
 - Use `uv` as the script interpreter for python scripts with dependencies not in python's standard distribution
 - Always use `uv` or virtual environments for python dependencies not included in python's distribution
+
+## GIMP
+For any automated operation on a `.xcf` file or other headless GIMP work (listing layers, exporting layers as PNGs, running PDB procedures in batch), use the `gimp` skill — it covers the invocation pattern, API gotchas, and ready-made recipes.
