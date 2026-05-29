@@ -80,11 +80,13 @@ if [[ -n "$seven" ]]; then
 fi
 
 # --- assemble, joining non-empty segments with " | " -----------------------
-parts=("$dir" "$model")
+# Order: id, context window, directory, usage limits, model.
+parts=("$session_id")
 [[ -n "$ctx" ]] && parts+=("$ctx")
+parts+=("$dir")
 [[ -n "$five_seg" ]] && parts+=("$five_seg")
 [[ -n "$seven_seg" ]] && parts+=("$seven_seg")
-parts+=("$session_id")
+parts+=("$model")
 
 out=""
 for p in "${parts[@]}"; do
