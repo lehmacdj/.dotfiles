@@ -1,5 +1,9 @@
 {
   "cleanupPeriodDays": 99999,
+  "env": {
+    "MANPAGER": "cat",
+    "PAGER": "cat"
+  },
   "permissions": {
     "allow": [
       "Bash(killall 'Google Chrome')",
@@ -12,15 +16,7 @@
       "WebFetch(domain:raw.githubusercontent.com)"
     ]
   },
-  "model": "opus",
-  "statusLine": {
-    "type": "command",
-    "command": "~/.claude/statusline.sh"
-  },
-  "env": {
-    "MANPAGER": "cat",
-    "PAGER": "cat"
-  },
+  "model": "claude-fable-5[1m]",
   "hooks": {
     "Stop": [
       {
@@ -34,6 +30,10 @@
         ]
       }
     ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.sh"
   },
   "enabledPlugins": {
     "frontend-design@claude-plugins-official": true,
