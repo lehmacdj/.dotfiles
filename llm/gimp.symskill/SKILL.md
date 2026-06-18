@@ -63,6 +63,10 @@ GIMP 3 changed many script-fu signatures from 2.x; do not trust memory.
   `(file-png-export RUN-NONINTERACTIVE image path -1)` where `-1` means NULL options. Positional args still work but emit a deprecation warning.
 - `gimp-image-merge-visible-layers` silently returns NULL ("PDB procedure returned NULL GIMP object" warning) when only one top-level layer is visible. To flatten a group into a single layer at its natural bbox, use `gimp-group-layer-merge` instead.
 - Merge-type constants: `EXPAND-AS-NECESSARY=0`, `CLIP-TO-IMAGE=1`, `CLIP-TO-BOTTOM-LAYER=2`, `FLATTEN-IMAGE=3`.
+- `gimp-image-set-active-layer` was **removed** — use `(gimp-image-set-selected-layers image (make-vector 1 layer))`.
+- `gimp-image-select-polygon` is `(gimp-image-select-polygon image op coords)` — `coords` is a `(cons-array n 'double)` of x/y pairs, with **no separate point-count argument**.
+- `gimp-layer-new` arg order is `(gimp-layer-new image name width height type opacity mode)` — image and name first (2.x had width/height first).
+- `gimp-image-rotate` takes `ROTATE-DEGREES90` / `ROTATE-DEGREES180` / `ROTATE-DEGREES270`; `gimp-image-get-resolution` returns `(xres yres)` in DPI (use it to convert mm/inches → pixels).
 
 ## Recipe: list all layers (with names, IDs, group nesting)
 
