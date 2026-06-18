@@ -4,9 +4,13 @@ set -euo pipefail
 # Claude Code feeds session context as JSON on stdin.
 input="$(cat)"
 
-# Pull everything out in one jq pass (tab-separated; paths with tabs are
-# implausible). Missing/null fields fall back to empty or 0.
-IFS=$'\t' read -r session_id model cwd ctx_in ctx_size ctx_pct five seven < <(
+# Pull everything out in one jq pass, one field per line. Reading line-by-line
+# (rather than tab-splitting) preserves empty fields: with a whitespace IFS like
+# tab, `read` collapses consecutive delimiters, so an empty field would shift
+# every following value left — e.g. an absent context used_percentage would pull
+# the 5h percentage into ctx_pct. Newline-delimited values can't contain a
+# newline in practice, so this stays unambiguous.
+mapfile -t fields < <(
   printf '%s' "$input" | jq -r '[
     .session_id // "?",
     .model.display_name // "?",
@@ -16,8 +20,16 @@ IFS=$'\t' read -r session_id model cwd ctx_in ctx_size ctx_pct five seven < <(
     (.context_window.used_percentage // ""),
     (.rate_limits.five_hour.used_percentage // ""),
     (.rate_limits.seven_day.used_percentage // "")
-  ] | @tsv'
+  ] | .[]'
 )
+session_id="${fields[0]}"
+model="${fields[1]}"
+cwd="${fields[2]}"
+ctx_in="${fields[3]}"
+ctx_size="${fields[4]}"
+ctx_pct="${fields[5]}"
+five="${fields[6]}"
+seven="${fields[7]}"
 
 bold=$'\033[1m'
 blue=$'\033[34m'
