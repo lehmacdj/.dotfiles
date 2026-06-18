@@ -16,7 +16,7 @@
       "WebFetch(domain:raw.githubusercontent.com)"
     ]
   },
-  "model": "claude-fable-5[1m]",
+  "model": "opus",
   "hooks": {
     "Stop": [
       {
@@ -53,5 +53,6 @@
   },
   "showThinkingSummaries": true,
   "editorMode": "vim",
-  "voiceEnabled": true
+  "voiceEnabled": true,
+  "tui": "fullscreen"
 }
