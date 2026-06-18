@@ -1,5 +1,5 @@
 ---
-description: "Authoring GIMP 3 plug-ins in Script-Fu — script-fu-register-filter, SF-* parameter types, menu registration, installing via symlink, the Refresh-Scripts registration-cache gotcha, headless testing, and well-behaved-plugin conventions."
+description: "Authoring GIMP 3 plug-ins in Script-Fu — script-fu-register-filter, SF-* parameter types, menu registration, installing via symlink into the active version's scripts dir, headless testing with (load), and well-behaved-plugin conventions."
 user-invocable: true
 ---
 
@@ -68,28 +68,52 @@ edits in the repo go live with just a *Refresh Scripts*, and there's no stale
 duplicate to forget about.
 
 ```sh
-# macOS
-ln -sf /abs/path/to/repo/plugin/my-thing.scm \
-  ~/Library/Application\ Support/GIMP/3.0/scripts/
+# macOS (use the ACTIVE version dir — see gotcha below)
+ln -sfn /abs/path/to/repo/plugin/my-thing.scm \
+  ~/Library/Application\ Support/GIMP/3.2/scripts/
 ```
 
-Scripts dir per OS:
-- macOS: `~/Library/Application Support/GIMP/3.0/scripts/`
-- Linux: `~/.config/GIMP/3.0/scripts/`
-- Windows: `%APPDATA%\GIMP\3.0\scripts\`
+Scripts dir per OS (note the version segment — see gotcha below):
+- macOS: `~/Library/Application Support/GIMP/<ver>/scripts/`
+- Linux: `~/.config/GIMP/<ver>/scripts/`
+- Windows: `%APPDATA%\GIMP\<ver>\scripts\`
 
 Then in GIMP: **Filters → Script-Fu → Refresh Scripts** (no restart needed). The
-command appears at whatever path you gave `script-fu-menu-register`.
+command appears at whatever path you gave `script-fu-menu-register` — and, for a
+`register-filter`, only when an **image is open** (it's an `<Image>` filter).
 
-## The registration-cache gotcha (this *will* bite headless testing)
+### Gotcha: the config-dir version segment must match the running GIMP
 
-GIMP caches plug-in registrations. A **brand-new or just-edited** script is
-**not** picked up by a fresh `gimp-console` batch run — only scripts already in
-the cache (from a prior GUI run / Refresh) auto-register. Symptom: your proc
-reads as an unbound variable and the batch *hangs* (script-fu deadlocks on
-error; `timeout` is the escape — see the `gimp` skill).
+`<ver>` tracks GIMP's **major.minor**, not a fixed `3.0`. GIMP 3.2.x reads
+`.../GIMP/3.2/`, GIMP 3.0.x reads `.../GIMP/3.0/`. Stale dirs from older
+installs linger and will silently swallow your script if you guess wrong — the
+scan only looks in the *active* version's dir. Confirm before installing:
 
-For headless testing, **explicitly `(load ...)` the file first**, then call it:
+```sh
+/Applications/GIMP.app/Contents/MacOS/gimp-console --version    # -> 3.2.4
+ls -la ~/Library/Application\ Support/GIMP/*/pluginrc           # newest mtime = live dir
+```
+
+The dir whose `pluginrc` was touched on the last GIMP run is the live one; drop
+your script in *that* `scripts/`. Reliable cross-check: find an add-on GIMP
+currently sees and install next to it.
+
+Note: `gimp-console -b` eval mode (the `gimp` skill's invocation) does **not**
+scan the user `scripts/` dir at all, so `(defined? …)` there is **not** a valid
+test of GUI registration — only of an explicit `(load …)`.
+
+## Headless testing (this *will* bite if you skip the `(load …)`)
+
+`gimp-console --batch-interpreter=plug-in-script-fu-eval -b …` does **not** run
+the script-fu directory scan, so **no** user `scripts/` file is registered in
+that mode — verified: even a trivial freshly-dropped script reads as undefined
+there, while bundled procs are present. This is *not* a cache staleness issue;
+the scan just doesn't happen in eval mode. Symptom if you call your proc without
+loading it: unbound-variable error and the batch *hangs* (script-fu deadlocks;
+`timeout` is the escape — see the `gimp` skill).
+
+So for headless testing, **explicitly `(load ...)` the file first**, then call
+it:
 
 ```scheme
 (load "/abs/path/to/plugin/my-thing.scm")
@@ -100,9 +124,9 @@ For headless testing, **explicitly `(load ...)` the file first**, then call it:
   (gimp-quit 0))
 ```
 
-Verify registration separately with
-`(defined? (quote script-fu-my-thing))` after load. In the GUI, Refresh Scripts
-(or restart) is what populates the cache.
+Verify registration separately with `(defined? (quote script-fu-my-thing))`
+*after* the load. The GUI (or **Refresh Scripts**) is the only thing that runs
+the real scan that wires the proc into the menus.
 
 ## Well-behaved-plugin conventions
 
@@ -120,3 +144,28 @@ Verify registration separately with
 - A syntax/registration error makes Refresh Scripts **silently skip** the file
   (menu item just never appears). Check **Filters → Script-Fu → Console** or
   load the file there to surface the error.
+
+## Tests
+
+Add a headless regression test when you write a plug-in (and offer to even when
+not asked — it's easy to skip but cheap to keep). Structure is up to you and the
+plug-in; a shell script driving `gimp-console` that builds a synthetic image,
+runs the proc, and checks the result is plenty.
+
+A few things that bite, however you organise it:
+- The runner is `gimp-console --batch-interpreter=plug-in-script-fu-eval -b`,
+  which **does not scan the scripts dir** (see above) — `(load …)` the plug-in
+  yourself before calling it, and wrap the run in `timeout` (script-fu deadlocks
+  on error).
+- Asserting on *structure* via PDB queries (`gimp-drawable-get-width/height`,
+  `-get-offsets`, `gimp-image-get-item-position`, canvas size, layer names)
+  catches most regressions without touching a pixel.
+- For pixel/geometry checks, exporting a PNG and measuring it (e.g. pillow via
+  `uv run`) is far less painful than `gimp-drawable-get-pixel`, whose script-fu
+  return shape is build-dependent. Flatten a **duplicate** with a known
+  background first so transparency renders deterministically.
+- Don't rely on `gimp-quit`'s exit code for pass/fail; print `PASS:`/`FAIL:`
+  lines and have the shell decide, and confirm a sentinel line was reached so an
+  early GIMP error counts as a failure rather than a pass.
+
+`~/src/gimp/cricut-sensor-marks/plugin/tests/` is one worked example.
