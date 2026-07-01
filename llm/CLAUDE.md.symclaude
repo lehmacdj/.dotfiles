@@ -6,7 +6,9 @@
 
 ## Tools
 - Use `jj` instead of `git`.
-- To commit changes use `jj ci` instead of `jj describe` followed by `jj new`
+- Committing changes is encouraged:
+  - if there are multiple unrelated changes: isolate / commit specific changes using `jj split`
+  - commit using `jj ci` instead of `jj describe` followed by `jj new`
 - Don't push to remotes; let me push myself
 
 ## Searching corpora of long, multi-topic documents
