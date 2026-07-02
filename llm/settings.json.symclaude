@@ -16,7 +16,7 @@
       "WebFetch(domain:raw.githubusercontent.com)"
     ]
   },
-  "model": "opus",
+  "model": "fable",
   "hooks": {
     "Stop": [
       {
@@ -47,12 +47,12 @@
     "enabled": true,
     "autoAllowBashIfSandboxed": true
   },
+  "tui": "fullscreen",
   "voice": {
     "enabled": true,
     "mode": "hold"
   },
   "showThinkingSummaries": true,
   "editorMode": "vim",
-  "voiceEnabled": true,
-  "tui": "fullscreen"
+  "voiceEnabled": true
 }
