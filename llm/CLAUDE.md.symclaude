@@ -35,6 +35,9 @@ Building:
   - I don't use `stack` for libraries that are published to Hackage, these use `cabal` instead
 - Building with `stack`/`cabal` requires breaking through Claude Code's sandboxing because of global package DBs; use the Bash tool that bypasses sandboxing
 
+## iOS / macOS / Xcode / Swift
+- Use the `xcrun mcpbridge` MCP server for testing. This may require me to approve a permission prompt in Xcode
+
 ## Shell Scripting
 - Use `set -euo pipefail` in scripts
 - Prefer using `#!/usr/bin/env bash` as the shebang for bash scripts
