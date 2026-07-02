@@ -19,16 +19,14 @@ fi
 # tugged forward. A "blocker" is an unpushable commit between the
 # bookmark and @ that is an ancestor of a pushable commit in that
 # range. Commits already above all pushable commits aren't blockers.
-# Extract one at a time (older to newer) to avoid creating forks when
-# there are disconnected groups of blockers.
+# Rebase the blocker revset as a single unit so jj preserves graph edges
+# within the set and does not expose transient conflicted states.
 range="($from..@-)"
 pushable="$range ~ unpushable()"
 blockers="$range & unpushable() & ancestors($pushable)"
 
-jj log --no-graph --reversed -r "$blockers" \
-  -T 'change_id ++ "\n"' 2>/dev/null |
-while read -r b; do
-  [ -n "$b" ] && jj rebase -r "$b" -B @
-done
+if jj log --no-graph -r "$blockers" -T 'change_id' 2>/dev/null | grep -q .; then
+  jj rebase -r "$blockers" -B @
+fi
 
 jj bookmark move --from "$from" --to "$to"
