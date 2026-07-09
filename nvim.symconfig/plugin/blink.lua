@@ -23,6 +23,7 @@ blink.setup({
     ['<C-Space>'] = { 'show', 'show_documentation', 'hide_documentation' },
     ['<C-e>'] = { 'hide', 'fallback' },
     ['<C-y>'] = { 'accept', 'fallback' },
+    ['<C-j>'] = { 'accept', 'fallback' },
     ['<C-s>'] = { 'accept', 'fallback' },
     ['<Down>'] = { 'select_next', 'fallback' },
     ['<Up>'] = { 'select_prev', 'fallback' },
