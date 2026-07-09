@@ -5,6 +5,7 @@
     "PAGER": "cat"
   },
   "permissions": {
+    "defaultMode": "auto",
     "allow": [
       "Bash(killall 'Google Chrome')",
       "Bash(open -na 'Google Chrome' --args --profile-directory=\"Profile 1\")",
