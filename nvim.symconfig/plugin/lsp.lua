@@ -79,14 +79,7 @@ lsp.enable('lua_ls', {
   on_attach = lsp.on_attach_opts { no_formatting = true },
   root_markers = {'selene.toml'},
 })
-local dotfiles = os.getenv('DOTFILES') or os.getenv('HOME') .. '/.dotfiles'
-require('lazydev').setup {
-  -- this essentially configures the lua_ls equivalently to setting
-  -- settings.Lua.workspace.library.path, but works with lazydev.nvim
-  library = {
-    path = dotfiles .. '/hammerspoon/Spoons/EmmyLua.spoon/annotations'
-  },
-}
+require('lazydev').setup {}
 
 -- toml, brew install taplo
 lsp.enable('taplo', {

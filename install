@@ -174,9 +174,6 @@ if [ -n "$DARWIN" ] && [ "$features" -ge 2 ]; then
 
     source "$DOTFILES/install_keybindings.macos.sh"
 
-    # load hammerspoon config from dotfiles
-    defaults write org.hammerspoon.Hammerspoon MJConfigFile -string "$DOTFILES/hammerspoon/init.lua"
-
     log 2 "Finished setting up macOS system keybindings"
 fi
 
