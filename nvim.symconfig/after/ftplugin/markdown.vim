@@ -1,6 +1,7 @@
 setlocal spell
 setlocal nosmartindent " without this for/while/if etc. trigger new indent level
 setlocal conceallevel=2 " hide links/html comments
+lua require'my.markdown'.setup_frontmatter_conceal()
 
 " toggle markdown comment visibility (unimpaired style)
 nnoremap <buffer> [oc <Cmd>lua require'my.markdown'.hide_comments()<CR>
