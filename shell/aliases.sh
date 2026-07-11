@@ -481,7 +481,7 @@ viw() {
   # - -c runs after plugins are loaded
   # we need to run before plugins are loaded so that LSPs are loaded in the
   # correct working directory
-  "$EDITOR" --cmd "cd $HOME/wiki" "$@"
+  "$EDITOR" --cmd "cd $HOME/wiki" -c '/^#' "$@"
 }
 
 alias vii='viw "$HOME/wiki/index.md"'
