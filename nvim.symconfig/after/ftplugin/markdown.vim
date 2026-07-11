@@ -57,11 +57,6 @@ if filereadable('neuron.dhall')
     silent! GitGutterDisable
 
     nmap <buffer> <LocalLeader>n <Plug>EditZettelNew
-    " these are <LocalLeader>d to mean define, which is kind of what it means to
-    " create a new zettel for a word
-    nmap <buffer> <LocalLeader>d <Cmd>call neuron#edit_zettel_new_from_cword(0)<CR>
-    xmap <buffer> <LocalLeader>d <esc>:<C-U>call neuron#edit_zettel_new_from_visual(0)<CR>
-
     " recover the file comparing swap with what is currently on the disk
     nnoremap <buffer> <LocalLeader>r <Cmd>w %~<CR>:e!<CR>:diffthis<CR>:vsp %~<CR>:diffthis<CR>
 
@@ -69,9 +64,4 @@ if filereadable('neuron.dhall')
     nnoremap <buffer> <LocalLeader>p <Cmd>execute '!~/src/blog/bin/publish-note ' . expand('%:t:r')<CR>
     " copy the slug for the current note
     nnoremap <buffer> <LocalLeader>c <Cmd>call setreg('+', expand('%:t:r'))<CR>
-
-    " janky macro that creates a new zettel based on a visual selection which
-    " becomes the body of the new zettel
-    " this macro lets me feel like an emacs user because it starts with mX, lol
-    xmap <buffer> <LocalLeader>n mX"zd<esc>\nkVG"zpO- [[<C-r>=expand('%:t:r')<CR>]]<esc>dd:w<CR>'XP
 endif
