@@ -39,6 +39,12 @@ nmap <buffer> <LocalLeader>c F!llds]cs])aimages/<esc>ysi)>hi[]<esc>i
 
 call my#markdown#setup_softwrap()
 
+" Define the word under the cursor or visual selection as a wiki note.
+nnoremap <buffer> <LocalLeader>d viw<Esc><Cmd>lua require'my.markdown'.create_note(true)<CR>
+xnoremap <buffer> <LocalLeader>d <Esc><Cmd>lua require'my.markdown'.create_note(true)<CR>
+" Keep the existing visual new-note binding without entering the created note.
+xnoremap <buffer> <LocalLeader>n <Esc><Cmd>lua require'my.markdown'.create_note(false)<CR>
+
 augroup markdown_targets
   autocmd!
   " Extend argument text objects to treat | as a separator inside [[...]].

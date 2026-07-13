@@ -133,4 +133,33 @@ mod.visual_wordcount = function()
   return count_words(lines)
 end
 
+-- Create a wiki note from the last visual selection. Neovim supplies the
+-- document URI and converts its inclusive, byte-indexed marks to an exclusive
+-- LSP range in the server's negotiated position encoding.
+mod.create_note = function(open_after_creation)
+  local bufnr = vim.api.nvim_get_current_buf()
+  local clients = vim.lsp.get_clients({
+    bufnr = bufnr,
+    name = 'wiki_language_server',
+  })
+  local client = clients[1]
+  if not client then
+    vim.notify('Wiki language server is not attached', vim.log.levels.WARN)
+    return
+  end
+
+  local params = vim.lsp.util.make_given_range_params(
+    nil,
+    nil,
+    bufnr,
+    client.offset_encoding
+  )
+  params.openAfterCreation = open_after_creation
+  client:exec_cmd({
+    title = 'Create wiki note',
+    command = 'wiki.createNoteFromSelection',
+    arguments = { params },
+  }, { bufnr = bufnr })
+end
+
 return mod
