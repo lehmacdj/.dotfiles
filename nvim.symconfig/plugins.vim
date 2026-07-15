@@ -107,6 +107,22 @@ if has('nvim')
   EOF
   Defer s:treesitter_setup
 
+  " treesitter-powered text objects; must track nvim-treesitter's `main`
+  " branch to match the new-API setup above. Provides al/il (bullet subtree)
+  " in markdown, wired up in after/ftplugin/markdown.vim.
+  Plug 'nvim-treesitter/nvim-treesitter-textobjects', { 'branch': 'main' }
+  let s:textobjects_setup =<< trim EOF
+    require'nvim-treesitter-textobjects'.setup {
+      select = {
+        lookahead = true,
+        -- Select the whole bullet subtree linewise so operators like dal
+        -- don't leave dangling indentation behind.
+        selection_modes = { ['@list_item.outer'] = 'V' },
+      },
+    }
+  EOF
+  Defer s:textobjects_setup
+
   " pickers / nvim specific ui
   Plug 'stevearc/dressing.nvim'
   Plug 'nvim-telescope/telescope.nvim'

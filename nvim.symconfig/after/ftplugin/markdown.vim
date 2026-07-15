@@ -45,6 +45,18 @@ xnoremap <buffer> <LocalLeader>d <Esc><Cmd>lua require'my.markdown'.create_note(
 " Keep the existing visual new-note binding without entering the created note.
 xnoremap <buffer> <LocalLeader>n <Esc><Cmd>lua require'my.markdown'.create_note(false)<CR>
 
+" Bullet-subtree text objects via nvim-treesitter-textobjects:
+"   al  the whole bullet including its nested sub-items (the subtree)
+"   il  inner: just this item's own text (marker, checkbox, children excluded)
+" Captures live in after/queries/markdown/textobjects.scm.
+for [s:key, s:obj] in [['al', '@list_item.outer'], ['il', '@list_item.inner']]
+  for s:mode in ['x', 'o']
+    execute s:mode . 'noremap <buffer> ' . s:key
+      \ . " <Cmd>lua require'nvim-treesitter-textobjects.select'"
+      \ . ".select_textobject('" . s:obj . "', 'textobjects')<CR>"
+  endfor
+endfor
+
 augroup markdown_targets
   autocmd!
   " Extend argument text objects to treat | as a separator inside [[...]].
