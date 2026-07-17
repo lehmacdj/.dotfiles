@@ -6,7 +6,7 @@
 
 ## Tools
 - Use `jj` instead of `git`.
-- Commit changes using `jj ci` when you are done working:
+- Commit complete and tested units of work using `jj ci`:
   - if there are multiple unrelated changes: isolate / commit specific changes using `jj split`
 - Don't push to remotes; let me push myself
 
