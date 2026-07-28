@@ -10,6 +10,10 @@
   - if there are multiple unrelated changes: isolate / commit specific changes using `jj split`
 - Don't push to remotes; let me push myself
 
+## Agent configuration
+- Store skills in `~/.dotfiles/llm` and install using `./install`
+- Write local agent configuration to `CLAUDE.md` with `AGENTS.md` symlinked to it
+
 ## Searching corpora of long, multi-topic documents
 When asked to find a specific item in a large set of long documents — past Claude Code sessions in `~/.claude/projects/`, notes in `~/wiki/`, log files, chat exports, etc. — if keyword grep produces too many candidates, step back and ask for more details or extra bounds rather than guessing. Useful things to ask for: distinctive vocabulary the user would have used (jargon, specific identifiers, characteristic phrasings), approximate dates, or other constraints that narrow the candidate set. The user knows how they phrased things; a few well-chosen terms from them collapse the search fast.
 
