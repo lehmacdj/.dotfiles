@@ -1,3 +1,14 @@
+# Run the embedded time-parser tests through Kitty's kitten action. For
+# example, temporarily add this mapping to kitty.conf, reload it, and press
+# the mapped key:
+#
+#   map ctrl+shift+f12 kitten delayed_key.py --test
+#
+# The suite covers valid durations and clock times as well as malformed input.
+# It uses a fixed current time so absolute-time results are deterministic. Run
+# it through Kitty rather than directly with Python, since this script imports
+# Kitty's Python APIs.
+
 import sys
 import os
 import json
@@ -12,7 +23,10 @@ from kitty.boss import Boss
 
 # --- Parsing Logic ---
 
-def parse_time_arg(arg: str) -> float:
+def parse_time_arg(
+    arg: str,
+    now: Optional[datetime.datetime] = None,
+) -> float:
     arg = arg.strip().lower()
 
     # 1. Check for absolute clock time.
@@ -26,7 +40,8 @@ def parse_time_arg(arg: str) -> float:
             except ValueError:
                 continue
 
-            now = datetime.datetime.now()
+            if now is None:
+                now = datetime.datetime.now()
             target = now.replace(
                 hour=parsed.hour,
                 minute=parsed.minute,
@@ -70,6 +85,46 @@ def parse_time_arg(arg: str) -> float:
         return float(arg)
     except ValueError:
         raise ValueError("Invalid time format")
+
+def run_tests() -> None:
+    now = datetime.datetime(2026, 8, 1, 12, 0, 0)
+    valid_cases = {
+        "45": 45,
+        "30s": 30,
+        "1m": 60,
+        "1h30m": 5400,
+        "2h34": 9240,
+        "2h34m": 9240,
+        "2m34": 154,
+        "1h 30m": 5400,
+        "5:31pm": 19860,
+        "5:31 pm": 19860,
+        "5:31:15pm": 19875,
+        "5:31am": 63060,
+        "12:00am": 43200,
+        "12:00pm": 86400,
+        "17:31": 19860,
+    }
+    invalid_cases = ("1hwat", "2h34wat", "1s2", "5:31xm")
+
+    for value, expected in valid_cases.items():
+        actual = parse_time_arg(value, now=now)
+        if actual != expected:
+            raise AssertionError(
+                f"{value!r}: expected {expected}s, got {actual}s"
+            )
+
+    for value in invalid_cases:
+        try:
+            parse_time_arg(value, now=now)
+        except ValueError:
+            continue
+        raise AssertionError(f"{value!r}: expected an invalid time error")
+
+    print(
+        f"Passed {len(valid_cases)} valid and "
+        f"{len(invalid_cases)} invalid time parsing tests."
+    )
 
 def parse_key_sequence(text: str) -> str:
     def hex_repl(match):
@@ -202,11 +257,20 @@ def main(args: List[str]) -> str:
     parser = argparse.ArgumentParser(description="Delayed Key Entry Kitten")
     parser.add_argument("keys", nargs="*", help="Keys to send (default: \\r)")
     parser.add_argument("-t", "--time", help="Time to wait (e.g. 10s, 1m)")
+    parser.add_argument(
+        "--test",
+        action="store_true",
+        help="run embedded time parsing tests",
+    )
 
     try:
         parsed_args = parser.parse_args(args[1:])
     except SystemExit:
         return "ERROR:INVALID_ARGS"
+
+    if parsed_args.test:
+        run_tests()
+        return "CANCELLED"
 
     if parsed_args.keys:
         raw_input = " ".join(parsed_args.keys)
