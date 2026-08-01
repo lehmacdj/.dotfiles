@@ -15,33 +15,54 @@ from kitty.boss import Boss
 def parse_time_arg(arg: str) -> float:
     arg = arg.strip().lower()
 
-    # 1. Check for Absolute Time (HH:MM)
+    # 1. Check for absolute clock time.
     if ':' in arg:
-        try:
-            now = datetime.datetime.now()
-            for fmt in ("%H:%M:%S", "%H:%M"):
-                try:
-                    parsed = datetime.datetime.strptime(arg, fmt)
-                    target = now.replace(hour=parsed.hour, minute=parsed.minute, second=parsed.second, microsecond=0)
-                    if target <= now:
-                        target += datetime.timedelta(days=1)
-                    diff = (target - now).total_seconds()
-                    return diff if diff > 0 else 0
-                except ValueError:
-                    continue
-            raise ValueError
-        except Exception:
-            raise ValueError("Invalid time format")
+        # Normalize both "5:31pm" and "5:31 pm" for strptime.
+        clock_arg = re.sub(r'\s*([ap]m)$', r' \1', arg)
+        formats = ("%I:%M:%S %p", "%I:%M %p", "%H:%M:%S", "%H:%M")
+        for fmt in formats:
+            try:
+                parsed = datetime.datetime.strptime(clock_arg, fmt)
+            except ValueError:
+                continue
 
-    # 2. Check for Composite Duration (e.g., 1h30m)
-    matches = re.findall(r'(\d+(?:\.\d+)?)([hms])', arg)
+            now = datetime.datetime.now()
+            target = now.replace(
+                hour=parsed.hour,
+                minute=parsed.minute,
+                second=parsed.second,
+                microsecond=0,
+            )
+            if target <= now:
+                target += datetime.timedelta(days=1)
+            return (target - now).total_seconds()
+
+        raise ValueError("Invalid time format")
+
+    # 2. Check for a composite duration (e.g., 1h30m). A trailing
+    # unitless value uses the next smaller unit: 2h34 means 2h34m, and
+    # 2m34 means 2m34s.
+    matches = list(re.finditer(r'(\d+(?:\.\d+)?)\s*([hms])', arg))
     if matches:
         total_seconds = 0.0
-        for val, unit in matches:
-            v = float(val)
-            if unit == 'h': total_seconds += v * 3600
-            elif unit == 'm': total_seconds += v * 60
-            elif unit == 's': total_seconds += v
+        end = 0
+        factors = {'h': 3600, 'm': 60, 's': 1}
+        for match in matches:
+            if arg[end:match.start()].strip():
+                raise ValueError("Invalid time format")
+            total_seconds += float(match.group(1)) * factors[match.group(2)]
+            end = match.end()
+
+        trailing = arg[end:].strip()
+        if trailing:
+            last_unit = matches[-1].group(2)
+            smaller_units = {'h': 'm', 'm': 's'}
+            if (
+                last_unit not in smaller_units
+                or not re.fullmatch(r'\d+(?:\.\d+)?', trailing)
+            ):
+                raise ValueError("Invalid time format")
+            total_seconds += float(trailing) * factors[smaller_units[last_unit]]
         return total_seconds
 
     # 3. Fallback: Raw number implies seconds
@@ -114,7 +135,7 @@ def prompt_for_time() -> str:
     print("\n\033[1;36m  DELAYED KEY ENTRY\033[0m")
     print("  ─────────────────")
     print("  Enter delay time.")
-    print("  \033[2mExamples: 30s, 1m, 1h30m, 14:00\033[0m\n")
+    print("  \033[2mExamples: 30s, 1m, 1h30, 14:00, 5:31pm\033[0m\n")
 
     while True:
         try:
