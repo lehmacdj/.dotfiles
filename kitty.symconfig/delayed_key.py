@@ -9,19 +9,160 @@
 # it through Kitty rather than directly with Python, since this script imports
 # Kitty's Python APIs.
 
-import sys
-import os
+import argparse
+import datetime
 import json
-import subprocess
-import time
 import re
 import shutil
-import datetime
-import argparse
+import subprocess
+import sys
+import time
 from typing import List, Optional
 from kitty.boss import Boss
 
 # --- Parsing Logic ---
+
+CODEXBAR_PROVIDERS = ("claude", "codex")
+CODEXBAR_TIMEOUT_SECONDS = 30
+
+
+def fetch_codexbar_usage(provider: str) -> dict:
+    codexbar = shutil.which("codexbar")
+    if codexbar is None:
+        for path in (
+            "/opt/homebrew/bin/codexbar",
+            "/usr/local/bin/codexbar",
+        ):
+            if shutil.which(path):
+                codexbar = path
+                break
+    if codexbar is None:
+        raise ValueError("CodexBar CLI is not installed")
+
+    try:
+        result = subprocess.run(
+            [
+                codexbar,
+                "usage",
+                "--provider",
+                provider,
+                "--format",
+                "json",
+                "--no-color",
+            ],
+            capture_output=True,
+            text=True,
+            timeout=CODEXBAR_TIMEOUT_SECONDS,
+        )
+    except subprocess.TimeoutExpired:
+        raise ValueError("CodexBar usage lookup timed out")
+    except OSError as error:
+        raise ValueError("Could not run CodexBar CLI") from error
+
+    if result.returncode != 0:
+        raise ValueError("CodexBar usage lookup failed")
+
+    try:
+        records = json.loads(result.stdout)
+    except json.JSONDecodeError as error:
+        raise ValueError("CodexBar returned invalid JSON") from error
+
+    if isinstance(records, dict):
+        records = [records]
+    if not isinstance(records, list):
+        raise ValueError("CodexBar returned an unexpected response")
+
+    record = next(
+        (
+            item
+            for item in records
+            if isinstance(item, dict) and item.get("provider") == provider
+        ),
+        None,
+    )
+    if record is None:
+        raise ValueError(f"CodexBar returned no {provider} usage")
+
+    error = record.get("error")
+    if isinstance(error, dict):
+        message = error.get("message")
+        if isinstance(message, str) and message:
+            raise ValueError(message)
+        raise ValueError(f"CodexBar could not fetch {provider} usage")
+
+    usage = record.get("usage")
+    if not isinstance(usage, dict):
+        raise ValueError(f"CodexBar returned no {provider} usage")
+    return usage
+
+
+def parse_reset_timestamp(value) -> Optional[float]:
+    if isinstance(value, bool):
+        return None
+    if isinstance(value, (int, float)):
+        return float(value)
+    if not isinstance(value, str):
+        return None
+
+    try:
+        parsed = datetime.datetime.fromisoformat(
+            value.replace("Z", "+00:00")
+        )
+    except ValueError:
+        return None
+    if parsed.tzinfo is None:
+        return None
+    return parsed.timestamp()
+
+
+def select_reset_delay(usage: dict, now: Optional[float] = None) -> float:
+    if now is None:
+        now = time.time()
+
+    windows = []
+    for name in ("primary", "secondary", "tertiary"):
+        window = usage.get(name)
+        if not isinstance(window, dict):
+            continue
+
+        resets_at = parse_reset_timestamp(window.get("resetsAt"))
+        if resets_at is None or resets_at <= now:
+            continue
+
+        used_percent = window.get("usedPercent")
+        exhausted = (
+            isinstance(used_percent, (int, float))
+            and not isinstance(used_percent, bool)
+            and used_percent >= 100
+        )
+        windows.append((exhausted, resets_at))
+
+    if not windows:
+        raise ValueError("CodexBar returned no future reset time")
+
+    exhausted_resets = [
+        resets_at for exhausted, resets_at in windows if exhausted
+    ]
+    if exhausted_resets:
+        # If more than one limit is exhausted, the provider is usable only
+        # after all of those windows have reset.
+        target = max(exhausted_resets)
+    else:
+        target = min(resets_at for _, resets_at in windows)
+    return target - now
+
+
+def resolve_time_arg(
+    arg: str,
+    now: Optional[datetime.datetime] = None,
+) -> float:
+    provider = arg.strip().lower()
+    if provider not in CODEXBAR_PROVIDERS:
+        return parse_time_arg(arg, now=now)
+
+    usage = fetch_codexbar_usage(provider)
+    now_timestamp = now.timestamp() if now is not None else None
+    return select_reset_delay(usage, now=now_timestamp)
 
 def parse_time_arg(
     arg: str,
@@ -121,9 +262,73 @@ def run_tests() -> None:
             continue
         raise AssertionError(f"{value!r}: expected an invalid time error")
 
+    reset_now = datetime.datetime(
+        2026,
+        8,
+        1,
+        12,
+        0,
+        tzinfo=datetime.timezone.utc,
+    ).timestamp()
+    reset_cases = (
+        (
+            {
+                "primary": {
+                    "usedPercent": 50,
+                    "resetsAt": "2026-08-01T13:00:00Z",
+                },
+                "secondary": {
+                    "usedPercent": 25,
+                    "resetsAt": "2026-08-01T14:00:00Z",
+                },
+            },
+            3600,
+        ),
+        (
+            {
+                "primary": {
+                    "usedPercent": 100,
+                    "resetsAt": "2026-08-01T13:00:00Z",
+                },
+                "secondary": {
+                    "usedPercent": 100,
+                    "resetsAt": "2026-08-01T14:00:00Z",
+                },
+            },
+            7200,
+        ),
+        (
+            {
+                "primary": {
+                    "usedPercent": 100,
+                    "resetsAt": "2026-08-01T11:00:00Z",
+                },
+                "secondary": {
+                    "usedPercent": 40,
+                    "resetsAt": "2026-08-01T15:00:00Z",
+                },
+            },
+            10800,
+        ),
+    )
+    for usage, expected in reset_cases:
+        actual = select_reset_delay(usage, now=reset_now)
+        if actual != expected:
+            raise AssertionError(
+                f"reset case: expected {expected}s, got {actual}s"
+            )
+
+    try:
+        select_reset_delay({"primary": None}, now=reset_now)
+    except ValueError:
+        pass
+    else:
+        raise AssertionError("missing reset: expected an invalid time error")
+
     print(
         f"Passed {len(valid_cases)} valid and "
-        f"{len(invalid_cases)} invalid time parsing tests."
+        f"{len(invalid_cases)} invalid time parsing tests, plus "
+        f"{len(reset_cases) + 1} CodexBar reset tests."
     )
 
 def parse_key_sequence(text: str) -> str:
@@ -190,7 +395,10 @@ def prompt_for_time() -> str:
     print("\n\033[1;36m  DELAYED KEY ENTRY\033[0m")
     print("  ─────────────────")
     print("  Enter delay time.")
-    print("  \033[2mExamples: 30s, 1m, 1h30, 14:00, 5:31pm\033[0m\n")
+    print(
+        "  \033[2mExamples: 30s, 1m, 1h30, 14:00, 5:31pm, "
+        "claude, codex\033[0m\n"
+    )
 
     while True:
         try:
@@ -220,7 +428,7 @@ def draw_ui(remaining: float, total: float, cmd_preview: str, finish_time_str: s
     set_terminal_title(f"delayed key — {time_str}")
 
     lines = [
-        f"\033[1;36mDELAYED KEY ENTRY\033[0m",
+        "\033[1;36mDELAYED KEY ENTRY\033[0m",
         "",
         f"Sequence: {cmd_preview}",
         "",
@@ -256,7 +464,11 @@ def draw_ui(remaining: float, total: float, cmd_preview: str, finish_time_str: s
 def main(args: List[str]) -> str:
     parser = argparse.ArgumentParser(description="Delayed Key Entry Kitten")
     parser.add_argument("keys", nargs="*", help="Keys to send (default: \\r)")
-    parser.add_argument("-t", "--time", help="Time to wait (e.g. 10s, 1m)")
+    parser.add_argument(
+        "-t",
+        "--time",
+        help="Time to wait (e.g. 10s, 1m, claude, codex)",
+    )
     parser.add_argument(
         "--test",
         action="store_true",
@@ -288,7 +500,7 @@ def main(args: List[str]) -> str:
             return "CANCELLED"
 
     try:
-        delay_seconds = parse_time_arg(time_str)
+        delay_seconds = resolve_time_arg(time_str)
     except ValueError:
         return "ERROR:INVALID_TIME"
 
