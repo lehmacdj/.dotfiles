@@ -17,6 +17,7 @@
     ],
     "defaultMode": "auto"
   },
+  "model": "opus",
   "hooks": {
     "Stop": [
       {
@@ -54,6 +55,5 @@
   },
   "showThinkingSummaries": true,
   "editorMode": "vim",
-  "voiceEnabled": true,
-  "model": "opus"
+  "voiceEnabled": true
 }
