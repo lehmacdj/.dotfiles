@@ -24,6 +24,9 @@ from kitty.boss import Boss
 
 CODEXBAR_PROVIDERS = ("claude", "codex")
 CODEXBAR_TIMEOUT_SECONDS = 30
+# Fire slightly after the reported reset so clock skew or a provider rounding
+# its reset time down can't land us before the limit actually resets.
+CODEXBAR_RESET_BUFFER_SECONDS = 60
 
 
 def fetch_codexbar_usage(provider: str) -> dict:
@@ -149,7 +152,7 @@ def select_reset_delay(usage: dict, now: Optional[float] = None) -> float:
         target = max(exhausted_resets)
     else:
         target = min(resets_at for _, resets_at in windows)
-    return target - now
+    return target - now + CODEXBAR_RESET_BUFFER_SECONDS
 
 
 def resolve_time_arg(
@@ -270,6 +273,7 @@ def run_tests() -> None:
         0,
         tzinfo=datetime.timezone.utc,
     ).timestamp()
+    # Expected values include CODEXBAR_RESET_BUFFER_SECONDS.
     reset_cases = (
         (
             {
@@ -282,7 +286,7 @@ def run_tests() -> None:
                     "resetsAt": "2026-08-01T14:00:00Z",
                 },
             },
-            3600,
+            3660,
         ),
         (
             {
@@ -295,7 +299,7 @@ def run_tests() -> None:
                     "resetsAt": "2026-08-01T14:00:00Z",
                 },
             },
-            7200,
+            7260,
         ),
         (
             {
@@ -308,7 +312,7 @@ def run_tests() -> None:
                     "resetsAt": "2026-08-01T15:00:00Z",
                 },
             },
-            10800,
+            10860,
         ),
     )
     for usage, expected in reset_cases:
