@@ -35,6 +35,13 @@ lsp.enable('purescriptls')
 
 lsp.enable('wiki_language_server', {
   cmd = { 'wiki', 'language-server' },
+  settings = {
+    ['wiki-language-server'] = {
+      -- features that only make sense for notes (transcluding the H1 into the
+      -- frontmatter title) are limited to files below these directories
+      wikiDirectories = { '~/wiki' },
+    },
+  },
   on_attach = function(client, bufnr)
     lsp.on_attach(client, bufnr)
     local function wiki_cmd(command, args)
