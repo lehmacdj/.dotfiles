@@ -37,25 +37,37 @@ lsp.enable('wiki_language_server', {
   cmd = { 'wiki', 'language-server' },
   on_attach = function(client, bufnr)
     lsp.on_attach(client, bufnr)
-    local function wiki_cmd(command)
+    local function wiki_cmd(command, args)
       client:request(
         'workspace/executeCommand',
         {
           command = command,
-          arguments = { vim.uri_from_bufnr(bufnr) },
+          arguments = args or { vim.uri_from_bufnr(bufnr) },
         },
         nil,
         bufnr
       )
     end
-    vim.keymap.set('n', '[d', function()
-      wiki_cmd('wiki.prevDay')
-    end, { buffer = bufnr, noremap = true, silent = true })
-    vim.keymap.set('n', ']d', function()
-      wiki_cmd('wiki.nextDay')
-    end, { buffer = bufnr, noremap = true, silent = true })
-    vim.keymap.set('n', '<LocalLeader>t', function()
-      wiki_cmd('wiki.today')
+    local function wiki_map(lhs, command)
+      vim.keymap.set('n', lhs, function()
+        wiki_cmd(command)
+      end, { buffer = bufnr, noremap = true, silent = true })
+    end
+    -- day-wise navigation; missing notes are created on the fly
+    wiki_map('[d', 'wiki.prevDay')
+    wiki_map(']d', 'wiki.nextDay')
+    -- week-wise navigation, snapping to the configured start of week
+    wiki_map('[w', 'wiki.prevWeek')
+    wiki_map(']w', 'wiki.nextWeek')
+    wiki_map('<LocalLeader>w', 'wiki.thisWeek')
+    wiki_map('<LocalLeader>t', 'wiki.today')
+    -- jump to a day described in natural language, e.g. "last friday"
+    vim.keymap.set('n', '<LocalLeader>j', function()
+      vim.ui.input({ prompt = 'Go to date: ' }, function(input)
+        if input and vim.trim(input) ~= '' then
+          wiki_cmd('wiki.jumpToDate', { input })
+        end
+      end)
     end, { buffer = bufnr, noremap = true, silent = true })
   end,
 })
