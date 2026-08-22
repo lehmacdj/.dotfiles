@@ -1,0 +1,14 @@
+{
+  "name": "lehmacdj-dotfiles",
+  "owner": {
+    "name": "Devin",
+    "url": "https://github.com/lehmacdj"
+  },
+  "plugins": [
+    {
+      "name": "devin-skills",
+      "source": "./llm/plugin",
+      "description": "Personal skills from my dotfiles"
+    }
+  ]
+}
