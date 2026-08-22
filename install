@@ -166,9 +166,6 @@ if [ "$features" -ge 1 ]; then
     linkfiles "/llm/plugin/skills" "" 1 "codex_skill_mapper"
     linkfiles "/llm/plugin/skills" "" 1 "gemini_skill_mapper"
 
-    # claude-only skills
-    linkfiles "" ".symclaudeskill" 5 "claude_skill_mapper"
-
     # xcode configuration files are stored under this directory
     xcode_userdata_path="$HOME/Library/Developer/Xcode/UserData"
     function xcode_userdata_mapper { echo "$xcode_userdata_path/$1"; }
