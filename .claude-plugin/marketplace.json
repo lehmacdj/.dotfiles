@@ -7,7 +7,7 @@
   "plugins": [
     {
       "name": "devin-skills",
-      "source": "./llm/plugin",
+      "source": "./llm",
       "description": "Personal skills from my dotfiles"
     }
   ]

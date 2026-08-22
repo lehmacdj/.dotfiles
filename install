@@ -148,23 +148,19 @@ if [ "$features" -ge 1 ]; then
     function gemini_mapper { echo "$HOME/.gemini/$1"; }
     linkfiles "" ".symgemini" 5 "gemini_mapper"
 
-    # shared agent skills → all 3 agent skill dirs
+    # agent skills → all 3 agent skill dirs. Skills carry no suffix and live
+    # only in llm/skills/: llm/ is the Cowork plugin root, so that is the
+    # directory the plugin scans, and a plugin skill's command name comes from
+    # its directory name. An empty suffix matches every entry at depth 1.
     mkdir -p "$HOME/.claude/skills" \
              "$HOME/.codex/skills" \
              "$HOME/.gemini/skills"
     function claude_skill_mapper { echo "$HOME/.claude/skills/$1"; }
     function codex_skill_mapper { echo "$HOME/.codex/skills/$1"; }
     function gemini_skill_mapper { echo "$HOME/.gemini/skills/$1"; }
-    linkfiles "" ".symskill" 5 "claude_skill_mapper"
-    linkfiles "" ".symskill" 5 "codex_skill_mapper"
-    linkfiles "" ".symskill" 5 "gemini_skill_mapper"
-
-    # skills published through the Cowork plugin: these live under
-    # llm/plugin/skills/ without a suffix so their plugin command names are
-    # clean, so they need their own scoped linkfiles calls
-    linkfiles "/llm/plugin/skills" "" 1 "claude_skill_mapper"
-    linkfiles "/llm/plugin/skills" "" 1 "codex_skill_mapper"
-    linkfiles "/llm/plugin/skills" "" 1 "gemini_skill_mapper"
+    linkfiles "/llm/skills" "" 1 "claude_skill_mapper"
+    linkfiles "/llm/skills" "" 1 "codex_skill_mapper"
+    linkfiles "/llm/skills" "" 1 "gemini_skill_mapper"
 
     # xcode configuration files are stored under this directory
     xcode_userdata_path="$HOME/Library/Developer/Xcode/UserData"

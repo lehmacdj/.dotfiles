@@ -13,22 +13,26 @@ the symlinks — don't hand-create them with `ln`. `install` is idempotent (skip
 already-correct links) and a plain run does not touch Homebrew (that's `--all`).
 
 ## Agent skills
-Skills live as `<name>.symskill/` directories (usually under `llm/`), each
-containing a `SKILL.md`. `install` links a `.symskill` into all three agent
-skill dirs: `~/.claude/skills/`, `~/.codex/skills/`, `~/.gemini/skills/`.
+Every skill lives as a suffix-free `llm/skills/<name>/` directory containing a
+`SKILL.md`. `install` links each one into all three agent skill dirs:
+`~/.claude/skills/`, `~/.codex/skills/`, `~/.gemini/skills/`.
 
 `SKILL.md` starts with frontmatter (`description:` and `user-invocable: true`);
 the skill name comes from the directory, so there is no `name:` field.
 
-### Published skills
-Skills under `llm/plugin/skills/` are additionally published through the
-`devin-skills` Cowork plugin declared in `.claude-plugin/marketplace.json`.
-These directories carry no suffix, since a plugin skill's command name comes
-from its directory name; `install` links them into all three agent skill dirs
-under that plain name. Publish a skill by moving it there and dropping the
-`.symskill` suffix — no manifest edit is needed, and the plugin version
-tracks the repo's commit SHA so a push is picked up as an update.
+`llm/` is also the root of the `devin-skills` Cowork plugin declared in
+`.claude-plugin/marketplace.json`, which is why skills live in `llm/skills/`
+and carry no suffix: that is the directory the plugin scans by default, and a
+plugin skill's command name comes from its directory name. Adding a skill there
+publishes it — no manifest edit — and the plugin version tracks the repo's
+commit SHA, so pushing is what ships an update.
 
-Note that installing the plugin locally as well would duplicate these skills:
-plugin skills are always namespaced (`/devin-skills:gimp`) and coexist with the
-unprefixed `/gimp` that `install` provides, rather than overriding it.
+Two consequences of `llm/` being the plugin root:
+- Files in `llm/` named exactly `settings.json`, or directories named
+  `agents/`, `hooks/`, `commands/`, `bin/`, or `monitors/`, would be loaded as
+  plugin components. The existing agent config files are safe only because
+  their `.sym*` suffixes stop the names from matching.
+- The plugin is personal, so installing it *and* running `install` on the same
+  machine would list every skill twice: plugin skills are always namespaced
+  (`/devin-skills:gimp`) and coexist with the unprefixed `/gimp` rather than
+  overriding it.
