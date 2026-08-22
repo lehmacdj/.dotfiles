@@ -55,5 +55,6 @@
   },
   "showThinkingSummaries": true,
   "editorMode": "vim",
+  "agentPushNotifEnabled": true,
   "voiceEnabled": true
 }
