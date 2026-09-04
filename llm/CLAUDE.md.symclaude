@@ -8,7 +8,10 @@
 - Use `jj` instead of `git`.
 - Commit complete and tested units of work using `jj ci`:
   - if there are multiple unrelated changes: isolate / commit specific changes using `jj split`
-- Don't push to remotes; let me push myself
+- Don't push unless I explicitly ask. A request to "push" authorizes
+  pushing the current task's tested commit or bookmark to its configured
+  default remote and triggering its normal CI/CD pipeline. Ask only when
+  the remote, bookmark, or commits to push are ambiguous.
 
 ## Agent configuration
 - Store skills in `~/.dotfiles/llm` and install using `./install`
