@@ -1,0 +1,267 @@
+#!/usr/bin/env python3
+# Build an iCalendar recurrence rule anchored to a time spec, and put it on
+# the clipboard (or print it with --print).
+#
+# The time spec is the same one kitty's delayed_key.py kitten accepts, so
+# `rrule codex` anchors the schedule to one minute after codex's closest
+# limit reset, while `rrule 18:30`, `rrule 2h3m` and `rrule 90` anchor it to
+# a clock time, a duration from now, or a number of seconds from now.
+#
+#   rrule codex --repeat 2 --interval 5h45m
+#
+# fires once at the anchor and twice more, 5h45m apart.
+#
+# Run `rrule --test` for the rule-construction tests; the time-spec parsing
+# tests live with the parser, in bin/timespec.py.
+
+import argparse
+import datetime
+import importlib.util
+import os
+import shutil
+import subprocess
+import sys
+from typing import List, Optional
+
+DEFAULT_INTERVAL = "5h45m"
+
+
+def load_timespec():
+    """Import bin/timespec.py by path, so this works from any clone."""
+    path = os.path.join(
+        os.path.dirname(os.path.realpath(__file__)),
+        "timespec.py",
+    )
+    spec = importlib.util.spec_from_file_location("timespec", path)
+    if spec is None or spec.loader is None:
+        raise ImportError(f"Could not load {path}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+timespec = load_timespec()
+
+# --- Rule construction ---
+
+
+def format_dtstart(start: datetime.datetime) -> str:
+    return start.astimezone(datetime.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+
+
+def format_frequency(interval_seconds: int) -> str:
+    """Pick the coarsest frequency that expresses the interval exactly."""
+    for freq, factor in (
+        ("HOURLY", 3600),
+        ("MINUTELY", 60),
+        ("SECONDLY", 1),
+    ):
+        if interval_seconds % factor == 0:
+            return f"FREQ={freq};INTERVAL={interval_seconds // factor}"
+    raise ValueError("Invalid interval")
+
+
+def build_rrule(
+    start: datetime.datetime,
+    interval_seconds: int,
+    count: int,
+) -> str:
+    return (
+        f"DTSTART:{format_dtstart(start)}\n"
+        f"RRULE:{format_frequency(interval_seconds)};COUNT={count}"
+    )
+
+
+def occurrences(
+    start: datetime.datetime,
+    interval_seconds: int,
+    count: int,
+) -> List[datetime.datetime]:
+    return [
+        start + datetime.timedelta(seconds=interval_seconds * i)
+        for i in range(count)
+    ]
+
+
+# --- Clipboard ---
+
+CLIPBOARD_COMMANDS = (
+    ["pbcopy"],
+    ["wl-copy"],
+    ["xclip", "-selection", "clipboard"],
+    ["xsel", "--clipboard", "--input"],
+    ["clip.exe"],
+)
+
+
+def copy_to_clipboard(text: str) -> str:
+    """Copy text with the first available clipboard tool; return its name."""
+    for command in CLIPBOARD_COMMANDS:
+        if shutil.which(command[0]) is None:
+            continue
+        try:
+            subprocess.run(command, input=text, text=True, check=True)
+        except (OSError, subprocess.CalledProcessError) as error:
+            raise ValueError(f"{command[0]} failed to copy") from error
+        return command[0]
+    raise ValueError(
+        "No clipboard tool found (tried "
+        + ", ".join(command[0] for command in CLIPBOARD_COMMANDS)
+        + "); use --print instead"
+    )
+
+
+# --- Tests ---
+
+
+def run_tests() -> None:
+    start = datetime.datetime(
+        2026, 9, 9, 18, 15, tzinfo=datetime.timezone.utc
+    )
+    cases = (
+        (
+            (start, 20700, 3),
+            "DTSTART:20260909T181500Z\n"
+            "RRULE:FREQ=MINUTELY;INTERVAL=345;COUNT=3",
+        ),
+        (
+            (start, 7200, 1),
+            "DTSTART:20260909T181500Z\n"
+            "RRULE:FREQ=HOURLY;INTERVAL=2;COUNT=1",
+        ),
+        (
+            (start, 90, 2),
+            "DTSTART:20260909T181500Z\n"
+            "RRULE:FREQ=SECONDLY;INTERVAL=90;COUNT=2",
+        ),
+    )
+    for args, expected in cases:
+        actual = build_rrule(*args)
+        if actual != expected:
+            raise AssertionError(f"expected {expected!r}, got {actual!r}")
+
+    times = occurrences(start, 20700, 3)
+    expected_last = start + datetime.timedelta(seconds=41400)
+    if len(times) != 3 or times[-1] != expected_last:
+        raise AssertionError(f"unexpected occurrences: {times}")
+
+    interval_cases = {"5h45m": 20700, "90": 90, "2h": 7200}
+    for value, expected_seconds in interval_cases.items():
+        actual_seconds = parse_interval(value)
+        if actual_seconds != expected_seconds:
+            raise AssertionError(
+                f"{value!r}: expected {expected_seconds}s, "
+                f"got {actual_seconds}s"
+            )
+    for value in ("0", "-1m", "0.5s"):
+        try:
+            parse_interval(value)
+        except ValueError:
+            continue
+        raise AssertionError(f"{value!r}: expected an invalid interval error")
+
+    print(
+        f"Passed {len(cases) + 1} rule construction and "
+        f"{len(interval_cases) + 3} interval tests."
+    )
+
+
+# --- Main ---
+
+
+def parse_interval(value: str) -> int:
+    seconds = timespec.parse_time_arg(value)
+    if seconds <= 0:
+        raise ValueError("Interval must be positive")
+    if seconds != int(seconds):
+        raise ValueError("Interval must be a whole number of seconds")
+    return int(seconds)
+
+
+def main(argv: Optional[List[str]] = None) -> int:
+    parser = argparse.ArgumentParser(
+        description="Build a recurrence rule anchored to a time spec.",
+    )
+    parser.add_argument(
+        "time",
+        nargs="?",
+        help="when the first trigger fires: claude, codex, 18:30, 2h3m, 90",
+    )
+    parser.add_argument(
+        "-r",
+        "--repeat",
+        type=int,
+        default=0,
+        metavar="N",
+        help="additional triggers after the first (default: 0)",
+    )
+    parser.add_argument(
+        "-i",
+        "--interval",
+        default=DEFAULT_INTERVAL,
+        help=f"gap between triggers (default: {DEFAULT_INTERVAL})",
+    )
+    parser.add_argument(
+        "-p",
+        "--print",
+        action="store_true",
+        dest="print_only",
+        help="print the rule to stdout instead of copying it",
+    )
+    parser.add_argument(
+        "--test",
+        action="store_true",
+        help="run the rule-construction tests",
+    )
+    args = parser.parse_args(argv)
+
+    if args.test:
+        run_tests()
+        return 0
+
+    if args.time is None:
+        parser.error("the following arguments are required: time")
+    if args.repeat < 0:
+        parser.error("--repeat must be zero or more")
+
+    try:
+        interval_seconds = parse_interval(args.interval)
+        delay_seconds = timespec.resolve_time_arg(args.time)
+    except ValueError as error:
+        print(f"rrule: {error}", file=sys.stderr)
+        return 1
+
+    now = datetime.datetime.now(datetime.timezone.utc)
+    # Round to the nearest second: sub-second precision is noise here, and
+    # truncating it would put clock-time anchors a second early.
+    start = datetime.datetime.fromtimestamp(
+        round((now + datetime.timedelta(seconds=delay_seconds)).timestamp()),
+        tz=datetime.timezone.utc,
+    )
+    count = args.repeat + 1
+    rule = build_rrule(start, interval_seconds, count)
+
+    if args.print_only:
+        print(rule)
+        return 0
+
+    try:
+        tool = copy_to_clipboard(rule)
+    except ValueError as error:
+        print(f"rrule: {error}", file=sys.stderr)
+        return 1
+
+    summary = f"Copied rule with {tool}: {count} trigger"
+    if count > 1:
+        summary += f"s, every {args.interval}"
+    print(summary, file=sys.stderr)
+    for occurrence in occurrences(start, interval_seconds, count):
+        print(
+            f"  {occurrence.astimezone().strftime('%Y-%m-%d %H:%M:%S %Z')}",
+            file=sys.stderr,
+        )
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
