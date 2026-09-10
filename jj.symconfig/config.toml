@@ -40,6 +40,14 @@ nw = ["util", "exec", "--", "jj-new-workspace"]
 submit = ["util", "exec", "--", "jj-submit"]
 pre-commit = ["util", "exec", "--", "jj-pre-commit"]
 
+[merge-tools.diffconflicts]
+program = "nvim"
+merge-args = [
+    "-c", "let g:jj_diffconflicts_marker_length=$marker_length",
+    "-c", "JJDiffConflicts!", "$output", "$base", "$left", "$right",
+]
+merge-tool-edits-conflict-markers = true
+
 [revset-aliases]
 'local_trunk()' = 'coalesce(bookmarks("main"), bookmarks("master"))'
 # generalized version of the default for `jj log` which at time of writing was:

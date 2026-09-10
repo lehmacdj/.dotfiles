@@ -32,6 +32,7 @@ Plug 'lambdalisue/suda.vim'
 let g:suda_smart_edit = 1
 Plug 'chrisbra/NrrwRgn'
 Plug 'chrisbra/recover.vim'
+Plug 'rafikdraoui/jj-diffconflicts'
 
 " ui / colorschemes
 Plug 'overcache/NeoSolarized'
