@@ -517,6 +517,9 @@ ghr () {
     local dir="$HOME/src/github/$owner/$repo"
     if [ ! -d "$dir" ]; then
         gh repo clone "$owner/$repo" "$dir" || return
+        if command -v jj >/dev/null 2>&1; then
+            jj git init --colocate "$dir" || return
+        fi
     fi
     cd "$dir" || return
 }
