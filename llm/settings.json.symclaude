@@ -56,5 +56,10 @@
   "showThinkingSummaries": true,
   "editorMode": "vim",
   "agentPushNotifEnabled": true,
-  "voiceEnabled": true
+  "voiceEnabled": true,
+  "modelSettings": {
+    "claude-opus-5": {
+      "effortLevel": "medium"
+    }
+  }
 }
