@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# Format Rust source read from stdin, using the edition of the crate that
+# owns $1 (a path relative to the current directory).
+#
+# `cargo fmt` resolves the edition from Cargo.toml but has no stdin mode,
+# and bare `rustfmt` reads stdin but defaults to edition 2015, whose import
+# sorting differs from 2024. This bridges the two for `jj fix`, which feeds
+# content on stdin and substitutes $path.
+#
+# $1 locates the crate only. The content always comes from stdin, since
+# `jj fix` may be fixing a revision whose content differs from the file on
+# disk.
+set -euo pipefail
+
+edition_of() {
+  local dir=$1 root='' ed=''
+  while [[ $dir != . && $dir != / ]]; do
+    if [[ -f $dir/Cargo.toml ]]; then
+      ed=$(sed -n 's/^edition[[:space:]]*=[[:space:]]*"\([0-9]*\)".*/\1/p' \
+        "$dir/Cargo.toml" | head -1)
+      [[ -n $ed ]] && { printf '%s\n' "$ed"; return; }
+      # edition.workspace = true, or a workspace root: remember the root
+      # and keep walking up.
+      grep -q '^\[workspace' "$dir/Cargo.toml" && root=$dir
+    fi
+    dir=$(dirname "$dir")
+  done
+  if [[ -n $root ]]; then
+    ed=$(sed -n 's/^edition[[:space:]]*=[[:space:]]*"\([0-9]*\)".*/\1/p' \
+      "$root/Cargo.toml" | head -1)
+  fi
+  # Match bare rustfmt's default for files outside any crate.
+  printf '%s\n' "${ed:-2015}"
+}
+
+exec rustfmt --edition "$(edition_of "$(dirname "${1:-.}")")" --emit stdout

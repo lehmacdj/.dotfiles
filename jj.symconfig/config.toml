@@ -126,7 +126,7 @@ separate(" ",
 '''
 
 [fix.tools.rustfmt]
-command = ["rustfmt"]
+command = ["rustfmt-stdin", "$path"]
 patterns = ["glob:'**/*.rs'"]
 
 [fix.tools.ormolu]
