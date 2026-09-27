@@ -16,7 +16,10 @@ from kitty.boss import Boss
 
 def load_timespec():
     """Import bin/timespec.py by path, so this works from any clone."""
-    kitty_config_dir = os.path.dirname(os.path.realpath(__file__))
+    # Kitty's keybinding loader uses exec() without setting __file__.
+    # The compiled function retains the script path in both loader modes.
+    script_path = load_timespec.__code__.co_filename
+    kitty_config_dir = os.path.dirname(os.path.realpath(script_path))
     path = os.path.join(
         os.path.dirname(kitty_config_dir), "bin", "timespec.py"
     )
@@ -97,7 +100,7 @@ def prompt_for_time() -> str:
     print("  ─────────────────")
     print("  Enter delay time.")
     print(
-        "  \033[2mExamples: 30s, 1m, 1h30, 14:00, 5:31pm, "
+        "  \033[2mExamples: 30s, 1m, 1h30, 1d, 1w, 14:00, 5:31pm, "
         "claude, codex\033[0m\n"
     )
 
@@ -168,7 +171,7 @@ def main(args: List[str]) -> str:
     parser.add_argument(
         "-t",
         "--time",
-        help="Time to wait (e.g. 10s, 1m, claude, codex)",
+        help="Time to wait (e.g. 10s, 1m, 1h, 1d, 1w, claude, codex)",
     )
 
     try:

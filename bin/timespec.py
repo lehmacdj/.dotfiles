@@ -5,7 +5,8 @@
 #   - a provider name ("claude", "codex"): the delay until that provider's
 #     next usable limit reset, per the CodexBar CLI
 #   - a clock time ("18:30", "5:31pm"): the delay until that time next occurs
-#   - a duration ("5h45m", "2h34", "90"): the duration itself, in seconds
+#   - a duration ("1w2d", "5h45m", "2h34", "90"): a duration in seconds
+#     (days are 24 hours; weeks are 7 days)
 #
 # This module has no third-party or kitty dependencies so that both consumers
 # can import it. Run it directly to execute the tests:
@@ -198,13 +199,13 @@ def parse_time_arg(
         raise ValueError("Invalid time format")
 
     # 2. Check for a composite duration (e.g., 1h30m). A trailing
-    # unitless value uses the next smaller unit: 2h34 means 2h34m, and
-    # 2m34 means 2m34s.
-    matches = list(re.finditer(r'(\d+(?:\.\d+)?)\s*([hms])', arg))
+    # unitless value uses the next smaller unit (w -> d -> h -> m -> s):
+    # 2h34 means 2h34m, and 2m34 means 2m34s.
+    matches = list(re.finditer(r'(\d+(?:\.\d+)?)\s*([wdhms])', arg))
     if matches:
         total_seconds = 0.0
         end = 0
-        factors = {'h': 3600, 'm': 60, 's': 1}
+        factors = {'w': 604800, 'd': 86400, 'h': 3600, 'm': 60, 's': 1}
         for match in matches:
             if arg[end:match.start()].strip():
                 raise ValueError("Invalid time format")
@@ -214,7 +215,7 @@ def parse_time_arg(
         trailing = arg[end:].strip()
         if trailing:
             last_unit = matches[-1].group(2)
-            smaller_units = {'h': 'm', 'm': 's'}
+            smaller_units = {'w': 'd', 'd': 'h', 'h': 'm', 'm': 's'}
             if (
                 last_unit not in smaller_units
                 or not re.fullmatch(r'\d+(?:\.\d+)?', trailing)
@@ -241,6 +242,14 @@ def run_tests() -> None:
         "2h34m": 9240,
         "2m34": 154,
         "1h 30m": 5400,
+        "1d": 86400,
+        "1w": 604800,
+        "1w2d3h4m5s": 788645,
+        "1.5d": 129600,
+        "0.5w": 302400,
+        " 1W 2D ": 777600,
+        "1d2": 93600,
+        "1w2": 777600,
         "5:31pm": 19860,
         "5:31 pm": 19860,
         "5:31:15pm": 19875,
@@ -249,7 +258,10 @@ def run_tests() -> None:
         "12:00pm": 86400,
         "17:31": 19860,
     }
-    invalid_cases = ("1hwat", "2h34wat", "1s2", "5:31xm")
+    invalid_cases = (
+        "1hwat", "2h34wat", "1s2", "5:31xm",
+        "1dwat", "1w2wat", "1d-2h", "w", "1d2w3wat",
+    )
 
     for value, expected in valid_cases.items():
         actual = parse_time_arg(value, now=now)
