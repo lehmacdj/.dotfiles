@@ -49,6 +49,11 @@
     "enabled": true,
     "autoAllowBashIfSandboxed": true
   },
+  "modelSettings": {
+    "claude-opus-5": {
+      "effortLevel": "medium"
+    }
+  },
   "tui": "fullscreen",
   "voice": {
     "enabled": true,
@@ -57,10 +62,5 @@
   "showThinkingSummaries": true,
   "editorMode": "vim",
   "agentPushNotifEnabled": true,
-  "voiceEnabled": true,
-  "modelSettings": {
-    "claude-opus-5": {
-      "effortLevel": "medium"
-    }
-  }
+  "voiceEnabled": true
 }
