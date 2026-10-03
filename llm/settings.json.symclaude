@@ -1,5 +1,6 @@
 {
   "cleanupPeriodDays": 99999,
+  "awaySummaryEnabled": false,
   "env": {
     "MANPAGER": "cat",
     "PAGER": "cat"
