@@ -39,3 +39,10 @@ Two consequences of `llm/` being the plugin root:
   machine would list every skill twice: plugin skills are always namespaced
   (`/devin-skills:gimp`) and coexist with the unprefixed `/gimp` rather than
   overriding it.
+
+## Claude Code mods
+Mods (plugins that are a hooks module, e.g. UI drawn around the prompt) live in
+`llm/mods/<name>/`. They are not part of the `devin-skills` plugin: each is
+loaded straight from the repo by listing its path in `CLAUDE_CODE_PLUGIN_DIRS`
+(separated by `:`) in the `env` block of `llm/settings.json.symclaude`. Check
+one with `claude plugin validate <dir>` and `claude plugin test <dir>`.

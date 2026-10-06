@@ -1,0 +1,5 @@
+{
+  "name": "copy-session-id",
+  "version": "0.1.0",
+  "description": "A button in the prompt footer that copies the session id"
+}

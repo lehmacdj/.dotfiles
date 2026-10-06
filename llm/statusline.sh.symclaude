@@ -12,7 +12,6 @@ input="$(cat)"
 # newline in practice, so this stays unambiguous.
 mapfile -t fields < <(
   printf '%s' "$input" | jq -r '[
-    .session_id // "?",
     .model.display_name // "?",
     (.workspace.current_dir // .cwd // "?"),
     (.context_window.total_input_tokens // 0),
@@ -22,14 +21,13 @@ mapfile -t fields < <(
     (.rate_limits.seven_day.used_percentage // "")
   ] | .[]'
 )
-session_id="${fields[0]}"
-model="${fields[1]}"
-cwd="${fields[2]}"
-ctx_in="${fields[3]}"
-ctx_size="${fields[4]}"
-ctx_pct="${fields[5]}"
-five="${fields[6]}"
-seven="${fields[7]}"
+model="${fields[0]}"
+cwd="${fields[1]}"
+ctx_in="${fields[2]}"
+ctx_size="${fields[3]}"
+ctx_pct="${fields[4]}"
+five="${fields[5]}"
+seven="${fields[6]}"
 
 bold=$'\033[1m'
 blue=$'\033[34m'
@@ -92,8 +90,10 @@ if [[ -n "$seven" ]]; then
 fi
 
 # --- assemble, joining non-empty segments with " | " -----------------------
-# Order: id, context window, directory, usage limits, model.
-parts=("$session_id")
+# Order: context window, directory, usage limits, model. The session id is not
+# shown here: a status line can't draw buttons, so the copy-session-id mod
+# (llm/mods/copy-session-id) offers it as a "copy sid" button in the prompt footer.
+parts=()
 [[ -n "$ctx" ]] && parts+=("$ctx")
 parts+=("$dir")
 [[ -n "$five_seg" ]] && parts+=("$five_seg")

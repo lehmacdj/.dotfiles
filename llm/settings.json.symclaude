@@ -3,7 +3,8 @@
   "awaySummaryEnabled": false,
   "env": {
     "MANPAGER": "cat",
-    "PAGER": "cat"
+    "PAGER": "cat",
+    "CLAUDE_CODE_PLUGIN_DIRS": "~/.dotfiles/llm/mods/copy-session-id"
   },
   "permissions": {
     "allow": [
