@@ -12,13 +12,16 @@ After adding, renaming, or moving any `.sym*` file, run `./install` to create
 the symlinks — don't hand-create them with `ln`. `install` is idempotent (skips
 already-correct links) and a plain run does not touch Homebrew (that's `--all`).
 
+## Scripts
+`bin/` is on `PATH`: an executable placed there is available as a command
+everywhere, with no install step.
+
 ## Agent skills
 Every skill lives as a suffix-free `llm/skills/<name>/` directory containing a
 `SKILL.md`. `install` links each one into all three agent skill dirs:
 `~/.claude/skills/`, `~/.codex/skills/`, `~/.gemini/skills/`.
 
-`SKILL.md` starts with frontmatter (`description:` and `user-invocable: true`);
-the skill name comes from the directory, so there is no `name:` field.
+Only directories are linked; hidden ones and stray files are ignored.
 
 `llm/` is also the root of the `devin-skills` Cowork plugin declared in
 `.claude-plugin/marketplace.json`, which is why skills live in `llm/skills/`

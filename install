@@ -77,19 +77,21 @@ DOTFILES="$(cd "$(dirname "$0")" && pwd -P)"
 [ -n "$XDG_CONFIG_HOME" ] || export XDG_CONFIG_HOME="$HOME/.config"
 
 # links files on $path with $suffix mapping them using $mapper where $suffix is
-# implicitly removed with a maximum depth of $depth
+# implicitly removed with a maximum depth of $depth; any further arguments are
+# extra find predicates that narrow which entries are linked
 function linkfiles () {
     local path="$1"
     local suffix="$2"
     local depth="$3"
     local mapper="$4"
+    shift 4
     log 1 "linking files with: "
     log 1 "    path=$path"
     log 1 "    suffix=$suffix"
     log 1 "    depth=$depth"
     log 1 "    mapper=$mapper"
     find -H "$DOTFILES$path" -mindepth 1 -maxdepth "$depth" -name "*$suffix" \
-        -print0 | while IFS= read -r -d '' file; do
+        "$@" -print0 | while IFS= read -r -d '' file; do
         local target
         target="$("$mapper" "$(basename "$file" "$suffix")")"
         log 1 "    Processing file=$file"
@@ -151,16 +153,18 @@ if [ "$features" -ge 1 ]; then
     # agent skills → all 3 agent skill dirs. Skills carry no suffix and live
     # only in llm/skills/: llm/ is the Cowork plugin root, so that is the
     # directory the plugin scans, and a plugin skill's command name comes from
-    # its directory name. An empty suffix matches every entry at depth 1.
+    # its directory name. An empty suffix matches every entry at depth 1, so
+    # restrict to non-hidden directories: stray files (.DS_Store) aren't skills.
     mkdir -p "$HOME/.claude/skills" \
              "$HOME/.codex/skills" \
              "$HOME/.gemini/skills"
     function claude_skill_mapper { echo "$HOME/.claude/skills/$1"; }
     function codex_skill_mapper { echo "$HOME/.codex/skills/$1"; }
     function gemini_skill_mapper { echo "$HOME/.gemini/skills/$1"; }
-    linkfiles "/llm/skills" "" 1 "claude_skill_mapper"
-    linkfiles "/llm/skills" "" 1 "codex_skill_mapper"
-    linkfiles "/llm/skills" "" 1 "gemini_skill_mapper"
+    skill_dirs=(-type d ! -name ".*")
+    linkfiles "/llm/skills" "" 1 "claude_skill_mapper" "${skill_dirs[@]}"
+    linkfiles "/llm/skills" "" 1 "codex_skill_mapper" "${skill_dirs[@]}"
+    linkfiles "/llm/skills" "" 1 "gemini_skill_mapper" "${skill_dirs[@]}"
 
     # xcode configuration files are stored under this directory
     xcode_userdata_path="$HOME/Library/Developer/Xcode/UserData"
