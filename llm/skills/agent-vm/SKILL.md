@@ -16,16 +16,17 @@ ssh agentvm           # -> agent@192.168.64.2, key ~/.ssh/agentvm_ed25519
 ```
 
 Do all CLI work this way. SSH from the host shell is the **only reliable
-control channel** (see gotcha #1). Run SSH-to-VM commands with the Bash tool's
-`dangerouslyDisableSandbox: true` — the VM (192.168.64.2) is not in the command
-sandbox's network allowlist.
+control channel** (see gotcha #1).
+
+If your commands run in a sandbox, anything that talks to the VM (`ssh`, `scp`,
+`ping`, `curl`) has to run outside it: the VM is a private NAT address
+(192.168.64.2) that a network allowlist won't cover. The same goes for
+launching VirtualBuddy with `open`.
 
 ## Facts
 
-- VirtualBuddy bundle: the VM in `~/Library/Application Support/VirtualBuddy/`
-  (currently the only VM in the library; give it a generic name there — power off
-  to rename).
-- Guest: macOS 26.5.2 (Tahoe), arm64. User `agent`. LocalHostName `Devins-Virtual-Machine`.
+- VirtualBuddy bundle: the VM in `~/Library/Application Support/VirtualBuddy/`.
+- Guest: macOS 26 (Tahoe), arm64. User `agent`. LocalHostName `Devins-Virtual-Machine`.
 - Specs: 147 GB thin disk, 22 GB RAM, 9 vCPU.
 - Network: VirtualBuddy NAT. Host side = `bridge100` 192.168.64.1 (also the guest's
   gateway). Guest = **192.168.64.2** (DHCP — see "If the guest IP changes").
@@ -41,7 +42,7 @@ sandbox's network allowlist.
 - Check if it's already up: `ping -c1 192.168.64.2` from the host, or `ssh agentvm true`.
 - **SSH only comes up after the guest is booted AND logged in.** sshd / the
   network stack do not accept connections at the login window. The `agent` user is
-  now set to **autologin**, so a normal boot logs in on its own and SSH becomes
+  set to **autologin**, so a normal boot logs in on its own and SSH becomes
   reachable without intervention — just poll after starting it:
   ```bash
   until ssh -o ConnectTimeout=4 agentvm true 2>/dev/null; do sleep 5; done

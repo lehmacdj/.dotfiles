@@ -1,5 +1,5 @@
 ---
-description: "Headless / batch operations on GIMP .xcf files via script-fu (listing layers, exporting layers as PNGs, running PDB procedures from the shell)"
+description: "Headless / batch GIMP work via script-fu. Use for any automated operation on a .xcf file or other headless GIMP task: listing layers, exporting layers as PNGs, running PDB procedures from the shell. Covers the invocation pattern, GIMP 3 API gotchas, and ready-made recipes. For writing menu-registered plug-ins use the gimp-plugin skill."
 user-invocable: true
 ---
 
@@ -16,7 +16,7 @@ timeout 30 /Applications/GIMP.app/Contents/MacOS/gimp-console \
 - `--batch-interpreter=...` is required in GIMP 3; without it `-b` hangs silently.
 - The scheme must end with `(gimp-quit 0)` — GIMP does not auto-exit after a batch command.
 - Always wrap with `timeout`. On script error, `gimp-console` and the script-fu plug-in process deadlock waiting on each other over their IPC pipe; `(gimp-quit 0)` is the only clean teardown. `timeout` is the escape hatch when a script errors before reaching it.
-- The Bash tool needs `dangerouslyDisableSandbox: true` so GIMP can write its config under `~/Library/Application Support/GIMP/3.0/`.
+- GIMP writes its config under `~/Library/Application Support/GIMP/<ver>/`, where `<ver>` is the running GIMP's major.minor (e.g. `3.2` — see the `gimp-plugin` skill's version gotcha). If commands run in a sandbox that blocks writes there, run GIMP outside it.
 
 ## Expected timing (macOS, MacPorts build)
 

@@ -59,7 +59,12 @@ Bundled scripts are the best registration examples to crib from:
 | `SF-OPTION _"label" '(_"a" _"b" ...)` | dropdown | 0-based index |
 | `SF-TOGGLE _"label" FALSE` | checkbox | `TRUE`/`FALSE` (1/0) |
 | `SF-COLOR _"label" '(r g b)` | color button | `(r g b)` list |
-| `SF-VALUE` / `SF-STRING` / `SF-ADJUSTMENT` etc. | | number / string |
+| `SF-STRING _"label" "default"` | text entry | string |
+| `SF-FILENAME _"label" "default"` / `SF-DIRNAME` | file / folder chooser | path string |
+
+Rarer resource pickers (`SF-FONT`, `SF-GRADIENT`, `SF-PALETTE`, `SF-IMAGE`) are
+used by a bundled script or two — grep the bundled scripts dir for the exact
+spec before using one.
 
 ## Installing — prefer a symlink
 
@@ -68,9 +73,10 @@ edits in the repo go live with just a *Refresh Scripts*, and there's no stale
 duplicate to forget about.
 
 ```sh
-# macOS (use the ACTIVE version dir — see gotcha below)
+# macOS
+ver=3.2   # the ACTIVE version dir — confirm it, see gotcha below
 ln -sfn /abs/path/to/repo/plugin/my-thing.scm \
-  ~/Library/Application\ Support/GIMP/3.2/scripts/
+  ~/Library/Application\ Support/GIMP/"$ver"/scripts/
 ```
 
 Scripts dir per OS (note the version segment — see gotcha below):
@@ -98,19 +104,18 @@ The dir whose `pluginrc` was touched on the last GIMP run is the live one; drop
 your script in *that* `scripts/`. Reliable cross-check: find an add-on GIMP
 currently sees and install next to it.
 
-Note: `gimp-console -b` eval mode (the `gimp` skill's invocation) does **not**
-scan the user `scripts/` dir at all, so `(defined? …)` there is **not** a valid
-test of GUI registration — only of an explicit `(load …)`.
+A headless run can't confirm the install worked — see the next section.
 
 ## Headless testing (this *will* bite if you skip the `(load …)`)
 
-`gimp-console --batch-interpreter=plug-in-script-fu-eval -b …` does **not** run
-the script-fu directory scan, so **no** user `scripts/` file is registered in
-that mode — verified: even a trivial freshly-dropped script reads as undefined
-there, while bundled procs are present. This is *not* a cache staleness issue;
-the scan just doesn't happen in eval mode. Symptom if you call your proc without
-loading it: unbound-variable error and the batch *hangs* (script-fu deadlocks;
-`timeout` is the escape — see the `gimp` skill).
+`gimp-console --batch-interpreter=plug-in-script-fu-eval -b …` (the `gimp`
+skill's invocation) does **not** run the script-fu directory scan, so **no**
+user `scripts/` file is registered in that mode — verified: even a trivial
+freshly-dropped script reads as undefined there, while bundled procs are
+present. This is *not* a cache staleness issue; the scan just doesn't happen in
+eval mode. Symptom if you call your proc without loading it: unbound-variable
+error and the batch *hangs* (script-fu deadlocks; `timeout` is the escape — see
+the `gimp` skill).
 
 So for headless testing, **explicitly `(load ...)` the file first**, then call
 it:
@@ -124,9 +129,10 @@ it:
   (gimp-quit 0))
 ```
 
-Verify registration separately with `(defined? (quote script-fu-my-thing))`
-*after* the load. The GUI (or **Refresh Scripts**) is the only thing that runs
-the real scan that wires the proc into the menus.
+`(defined? (quote script-fu-my-thing))` *after* the load checks that the file
+defines the proc — it says nothing about GUI registration. Only the GUI (startup
+or **Refresh Scripts**) runs the real scan that wires the proc into the menus,
+so that is the only place to confirm the menu item appears.
 
 ## Well-behaved-plugin conventions
 
@@ -153,10 +159,8 @@ plug-in; a shell script driving `gimp-console` that builds a synthetic image,
 runs the proc, and checks the result is plenty.
 
 A few things that bite, however you organise it:
-- The runner is `gimp-console --batch-interpreter=plug-in-script-fu-eval -b`,
-  which **does not scan the scripts dir** (see above) — `(load …)` the plug-in
-  yourself before calling it, and wrap the run in `timeout` (script-fu deadlocks
-  on error).
+- `(load …)` the plug-in yourself before calling it and wrap the run in
+  `timeout` — see "Headless testing" above.
 - Asserting on *structure* via PDB queries (`gimp-drawable-get-width/height`,
   `-get-offsets`, `gimp-image-get-item-position`, canvas size, layer names)
   catches most regressions without touching a pixel.
