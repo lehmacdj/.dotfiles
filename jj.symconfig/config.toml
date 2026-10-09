@@ -13,6 +13,11 @@ diff-editor = ":builtin"
 
 [revsets]
 simplify-parents = 'mutable()'
+# jj fix rewrites the commits it fixes and all of their descendants. Only fix
+# commits that lead to the working copy and to no other head: the others can
+# belong to another workspace, whose working copy would then go stale (and
+# lose the edits it has not snapshotted yet)
+fix = '(mutable() & ::@) ~ ::(visible_heads() ~ @)'
 
 [aliases]
 rebase-all = [
@@ -138,5 +143,5 @@ command = ["rustfmt-stdin", "$path"]
 patterns = ["glob:'**/*.rs'"]
 
 [fix.tools.ormolu]
-command = ["ormolu", "--stdin-input-file", "$path"]
+command = ["ormolu-stdin", "$root", "$path"]
 patterns = ["glob:'**/*.hs'"]

@@ -1,0 +1,121 @@
+#!/usr/bin/env bash
+# Format Haskell source read from stdin with ormolu, for `jj fix`:
+#
+#   ormolu-stdin ROOT PATH <FILE >FORMATTED
+#
+# ROOT is the workspace root and PATH the file's path relative to it (jj's
+# $root and $path). The content always comes from stdin, since `jj fix` may be
+# fixing a revision whose content differs from the file on disk.
+#
+# ormolu takes a module's language extensions from the .cabal file it finds
+# above the file, and only if that file lists the module. A module it does not
+# list is parsed without the project's extensions, which can silently change
+# the meaning of valid code (`e.source` becomes `e . source` without
+# OverloadedRecordDot). `jj fix` fixes revisions that are not checked out, so
+# the .cabal file on disk can be missing a module of the revision it formats.
+# This script formats a file only when ormolu will have the right context:
+#
+# - the nearest .cabal file above the file inside ROOT lists the file, as
+#   ormolu itself says (see `ormolu_lists`): formatted as plain ormolu would,
+#   from the absolute path ROOT/PATH so that the working directory is
+#   irrelevant;
+# - there is no .cabal file inside ROOT: formatted without any .cabal file
+#   (a stand-alone file carries its own pragmas), even if there is one above
+#   ROOT, which would belong to another project;
+# - otherwise the file is skipped: exit 1 with the reason on stderr, which
+#   makes jj keep the file as it is. So does a file ormolu cannot parse.
+#
+# It never exits 0 with empty output for a non-empty input: jj would replace
+# the file with that output.
+set -euo pipefail
+
+if [[ $# -ne 2 || $1 != /* ]]; then
+  echo "usage: ormolu-stdin ABSOLUTE_ROOT RELATIVE_PATH <FILE >FORMATTED" >&2
+  exit 2
+fi
+root=${1%/}
+relpath=$2
+case "/$relpath/" in
+  //* | */../* | */./*)
+    echo "ormolu-stdin: not a path inside the root: $relpath" >&2
+    exit 2
+    ;;
+esac
+file=$root/$relpath
+
+skip() {
+  echo "ormolu-stdin: skipped $relpath: $*" >&2
+  exit 1
+}
+
+command -v ormolu >/dev/null || skip "ormolu is not on PATH"
+cd "$root" 2>/dev/null || skip "cannot enter $root"
+tmp=$(mktemp -d "${TMPDIR:-/tmp}/ormolu-stdin.XXXXXX")
+trap 'rm -rf "$tmp"' EXIT
+cat >"$tmp/in"
+
+# Print the .cabal file nearest above $file, not leaving $root. Status 1 if
+# there is none, 2 if a directory has several.
+nearest_cabal() {
+  local dir=${file%/*} candidate found n
+  while [[ -n $dir ]]; do
+    found=''
+    n=0
+    if [[ -d $dir ]]; then
+      for candidate in "$dir"/*.cabal; do
+        if [[ -f $candidate ]]; then
+          found=$candidate
+          n=$((n + 1))
+        fi
+      done
+    fi
+    if [[ $n -gt 1 ]]; then return 2; fi
+    if [[ $n -eq 1 ]]; then
+      printf '%s\n' "$found"
+      return 0
+    fi
+    if [[ $dir == "$root" ]]; then return 1; fi
+    dir=${dir%/*}
+  done
+  return 1
+}
+
+# Run ormolu's debug mode on a dummy module as if it were the file $1 and keep
+# what it says in $tmp/debug. Which package a file belongs to is decided before
+# the input is read, so the content does not matter. Only in this mode does
+# ormolu say that it found a .cabal file but the file is not part of it.
+ormolu_debug() {
+  ormolu -d --stdin-input-file "$1" <<<'module Probe where' \
+    >/dev/null 2>"$tmp/debug"
+}
+
+# Succeed if ormolu finds the .cabal file $2 for the file $1 and lists the file
+# in it. Ormolu is silent about a listed file, so the silence is only believed
+# after it has been heard to speak about a file that cannot be listed.
+ormolu_lists() {
+  local rel=${2#"$root"/}
+  ormolu_debug "$1" || skip "ormolu cannot read $rel"
+  if grep -qF 'but it did not mention' "$tmp/debug"; then
+    skip "$rel does not list it"
+  fi
+  ormolu_debug "${2%/*}/.ormolu-stdin-probe/Probe.hs" ||
+    skip "ormolu cannot read $rel"
+  grep -qF -e "Found .cabal file $rel, but it did not mention" \
+    -e "Found .cabal file $2, but it did not mention" "$tmp/debug" ||
+    skip "cannot tell whether ormolu has $rel in mind"
+}
+
+status=0
+cabal=$(nearest_cabal) || status=$?
+case $status in
+  0) ormolu_lists "$file" "$cabal"; no_cabal=() ;;
+  1) no_cabal=(--no-cabal) ;;
+  *) skip "there are several .cabal files in one directory" ;;
+esac
+
+ormolu ${no_cabal[@]+"${no_cabal[@]}"} --stdin-input-file "$file" \
+  <"$tmp/in" >"$tmp/out"
+if [[ -s $tmp/in && ! -s $tmp/out ]]; then
+  skip "ormolu printed nothing"
+fi
+cat "$tmp/out"
