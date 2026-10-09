@@ -1,6 +1,5 @@
 {
   "cleanupPeriodDays": 99999,
-  "awaySummaryEnabled": false,
   "env": {
     "MANPAGER": "cat",
     "PAGER": "cat",
@@ -53,8 +52,12 @@
   "modelSettings": {
     "claude-opus-5": {
       "effortLevel": "medium"
+    },
+    "claude-opus-5-5": {
+      "effortLevel": "medium"
     }
   },
+  "awaySummaryEnabled": false,
   "tui": "fullscreen",
   "voice": {
     "enabled": true,
