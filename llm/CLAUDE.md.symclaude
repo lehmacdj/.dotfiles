@@ -37,6 +37,10 @@ Building:
   - I don't use `stack` for libraries that are published to Hackage, these use `cabal` instead
 - Building with `stack`/`cabal` requires making changes to the global package DB so affects files outside of the project. This may run into problems with sandboxing
 
+Timing and benchmarking:
+- Prefer using `criterion` or `tasty-bench` (`nf`/`whnf` applied to a function and its argument), they make it easier to avoid lazy evaluation pitfalls
+- In tests prefer counts of work (allocation, steps, reads) to times: they do not depend on load
+
 ## iOS / macOS / Xcode / Swift
 - Use the `xcrun mcpbridge` MCP server for testing. This may require me to approve a permission prompt in Xcode
 - When writing code that maps error codes to names or descriptions (e.g. `CKError`, Core Data, `NSURLError`), consult the framework headers in the active SDK (`xcrun --show-sdk-path`, e.g. `CloudKit.framework/Headers/CKError.h`, `CoreData.framework/Headers/CoreDataErrors.h`) rather than writing from memory. Their doc comments are more detailed than `localizedDescription`; base the descriptions on them and use the SDK constants in the mapping so values are compiler-checked
