@@ -1,7 +1,6 @@
 ## General
-- Spawn subagents at an appropriate effort level for their task
-- When asking me questions, prefer keeping unrelated questions in separate batches
 - Keep temporary files and experiments out of commit history
+- If you spawn a subagent, spawn it with an appropriate effort level
 
 ## Coding
 - Prefer 2 space indentation unless otherwise specified; match existing indentation if it is not 2 spaces
