@@ -28,3 +28,6 @@ git.symconfig/template/*
 
 # this seems to have some keys in it and probably doesn't want to be public
 git.symconfig/gh.symconfig/hosts.yml
+
+# jj per-repo config (jj 0.46+): keyed by local repo paths, machine-specific
+jj.symconfig/repos/
