@@ -8,6 +8,11 @@
   coordination cost. Choose reasoning effort to match the task. Prefer a
   fresh agent for a new task; reuse an agent for follow-ups when its retained
   context remains useful.
+- When asking an agent an open-ended question, give the question, constraints,
+  facts, and desired output without seeding candidate answers or directions.
+  If specific candidates need evaluation, raise them after the open pass.
+  Implementation and review briefs still need concrete requirements and
+  acceptance criteria.
 
 ## Coding
 - Prefer simplicity of the finished codebase and behavior over ease of
