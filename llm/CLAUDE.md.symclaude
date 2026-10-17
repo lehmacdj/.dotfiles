@@ -1,5 +1,9 @@
 ## General
 - Keep temporary files and experiments out of commit history
+- Bound expensive experiments by time or resources, retain partial results,
+  and treat hitting a limit as a result. For experiments that launch child
+  processes, ensure cancellation stops those processes too. Coordinate
+  resource-intensive work across agents to avoid overloading the machine.
 - If you spawn a subagent, spawn it with an appropriate effort level
 
 ## Coding
