@@ -6,17 +6,10 @@ user-invocable: true
 
 When asked to find a specific item in a large set of long documents — past
 Claude Code sessions in `~/.claude/projects/`, notes in `~/wiki/`, log files,
-chat exports, etc. — and keyword grep produces too many candidates, step back
-and ask for more details or extra bounds rather than guessing.
-
-Useful things to ask for:
-- distinctive vocabulary the user would have used (jargon, specific
-  identifiers, characteristic phrasings)
-- approximate dates
-- any other constraint that narrows the candidate set
-
-The user knows how they phrased things; a few well-chosen terms from them
-collapse the search fast.
+chat exports, etc. — ask for more details when materially different
+candidates remain and you cannot reasonably distinguish them from the
+available context. A large number of search matches alone is not a reason
+to ask.
 
 ## Things to avoid
 
