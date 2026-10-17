@@ -4,7 +4,10 @@
   and treat hitting a limit as a result. For experiments that launch child
   processes, ensure cancellation stops those processes too. Coordinate
   resource-intensive work across agents to avoid overloading the machine.
-- If you spawn a subagent, spawn it with an appropriate effort level
+- Use subagents when parallel work or independent review justifies the
+  coordination cost. Choose reasoning effort to match the task. Prefer a
+  fresh agent for a new task; reuse an agent for follow-ups when its retained
+  context remains useful.
 
 ## Coding
 - Prefer simplicity of the finished codebase and behavior over ease of
