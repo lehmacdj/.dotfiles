@@ -4,10 +4,7 @@
   and treat hitting a limit as a result. For experiments that launch child
   processes, ensure cancellation stops those processes too. Coordinate
   resource-intensive work across agents to avoid overloading the machine.
-- Use subagents when parallel work or independent review justifies the
-  coordination cost. Choose reasoning effort to match the task. Prefer a
-  fresh agent for a new task; reuse an agent for follow-ups when its retained
-  context remains useful.
+- If you spawn a subagent, choose reasoning effort to match its task; prefer a fresh agent for a new task and reuse an agent for follow-ups when its retained context remains useful.
 - When asking an agent an open-ended question, give the question, constraints,
   facts, and desired output without seeding candidate answers or directions.
   If specific candidates need evaluation, raise them after the open pass.
