@@ -24,6 +24,10 @@
 
 ## `git` / `jj`
 - Use `jj` instead of `git`. If a repo isn't a jj repo yet, set it up with `jj git init --colocate` (installing `jj` first if it is missing).
+  - Exception: `jj` doesn't support `git` submodules so they must be managed using `git submodule`
+    - check out the pinned commits: `git submodule update --init`
+    - bump a pin: `git add <submodule> && git commit` as one command (`jj ci` silently records nothing, and a jj command in between resets git's index). The commit lands on git's HEAD (`@-`), above any private commits; move it with `jj rebase`
+    - Use `jj` as usual within the submodule
 - Commit complete and tested units of work using `jj ci`:
   - always pass `-m "<message>"`: without it `jj ci` and `jj split` open an editor and hang
   - the working copy may contain changes you did not make, made by me or other agents working simultaneously: commit only your changes by listing their paths, `jj ci -m "<message>" <paths>`
