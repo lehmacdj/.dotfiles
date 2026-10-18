@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# system process that shows alerts (e.g. when a process crashes)
+# sometimes these get stuck, and restarting UserNotificationCenter fixes that
+killall UserNotificationCenter
