@@ -497,24 +497,43 @@ vid () {
 alias isodate='date -u +"%Y-%m-%d"'
 alias isots='date -u +"%Y-%m-%dT%H:%M:%SZ"'
 
-# clone a github repo (if not already cloned) and cd into it
+# clone a github repo (if not already cloned) and cd into it; a bare <repo>
+# finds an already cloned repo when exactly one owner has a repo by that name
 ghr () {
+    local usage="usage: ghr <owner>/<repo> | <repo>"
     if [ $# -ne 1 ]; then
-        echo "usage: ghr <owner>/<repo>"
+        echo "$usage" >&2
         return 1
     fi
+    local root="$HOME/src/github"
     local owner_repo="$1"
     owner_repo="${owner_repo#https://github.com/}"
     owner_repo="${owner_repo#http://github.com/}"
     owner_repo="${owner_repo%.git}"
     owner_repo="${owner_repo%/}"
+    if [ -n "$owner_repo" ] && [ "${owner_repo#*/}" = "$owner_repo" ]; then
+        local matches
+        matches=$(find "$root" -mindepth 2 -maxdepth 2 -type d \
+            -iname "$owner_repo" 2>/dev/null)
+        if [ -z "$matches" ]; then
+            echo "ghr: no cloned repo named $owner_repo;" \
+                "use ghr <owner>/$owner_repo to clone it" >&2
+            return 1
+        elif [ "$(printf '%s\n' "$matches" | wc -l)" -gt 1 ]; then
+            echo "ghr: $owner_repo is ambiguous; use one of:" >&2
+            printf '%s\n' "$matches" | sort | sed "s|^$root/|  |" >&2
+            return 1
+        fi
+        cd "$matches" || return
+        return
+    fi
     local owner="${owner_repo%%/*}"
     local repo="${owner_repo#*/}"
-    if [ -z "$owner" ] || [ -z "$repo" ] || [ "$owner" = "$owner_repo" ]; then
-        echo "usage: ghr <owner>/<repo>"
+    if [ -z "$owner" ] || [ -z "$repo" ]; then
+        echo "$usage" >&2
         return 1
     fi
-    local dir="$HOME/src/github/$owner/$repo"
+    local dir="$root/$owner/$repo"
     if [ ! -d "$dir" ]; then
         gh repo clone "$owner/$repo" "$dir" || return
         if command -v jj >/dev/null 2>&1; then
