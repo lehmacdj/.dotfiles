@@ -60,7 +60,12 @@
   },
   "sandbox": {
     "enabled": true,
-    "autoAllowBashIfSandboxed": true
+    "autoAllowBashIfSandboxed": true,
+    "filesystem": {
+      "allowWrite": [
+        "~/.stack"
+      ]
+    }
   },
   "modelSettings": {
     "claude-opus-5": {
@@ -79,5 +84,6 @@
   "showThinkingSummaries": true,
   "editorMode": "vim",
   "agentPushNotifEnabled": true,
-  "voiceEnabled": true
+  "voiceEnabled": true,
+  "feedbackDrafts": "off"
 }
