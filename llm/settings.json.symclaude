@@ -63,6 +63,7 @@
     "autoAllowBashIfSandboxed": true,
     "filesystem": {
       "allowWrite": [
+        "~/src/github",
         "~/.stack"
       ]
     }
