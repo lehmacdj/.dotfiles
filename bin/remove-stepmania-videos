@@ -1,0 +1,149 @@
+#!/usr/bin/env python3
+"""Remove videos from StepMania songs (dry run unless --apply).
+
+Accepts an SM/SSC/DWI file, a song folder, or a directory of packs. A stepfile
+selects its whole song folder, including sibling formats and backups.
+
+Songs with videos to delete are switched to static backgrounds: all BGCHANGES
+and FGCHANGES sequences are disabled, including nonvideo effects. Static art,
+audio, notes, timing, and nonvideo animation assets are kept. Unused animation INIs
+are left intact; their movie references are no longer loaded by the charts.
+
+Song folders with symlinks, scripted actors, videos used as audio, or other
+problems are skipped with a warning and left untouched. Close chart
+editors first. This is a static-background conversion, not a Lua/BGA rewriter.
+"""
+import argparse
+from pathlib import Path
+import re
+import sys
+
+VIDEO = {'.avi', '.mp4', '.mpg', '.mpeg', '.m4v', '.mov', '.wmv', '.webm',
+         '.mkv', '.flv', '.ogv', '.m1v', '.m2v', '.mpe', '.asf', '.vob'}
+STEP = {'.sm', '.ssc', '.dwi'}
+ART = {'BANNER', 'BACKGROUND', 'CDTITLE', 'JACKET', 'CDIMAGE', 'DISCIMAGE',
+       'PREVIEWVID', 'PREVIEWVIDEO'}
+# Hide comments and escaped punctuation so they cannot look like tag boundaries.
+HIDE = re.compile(rb'\\[\s\S]|//[^\r\n]*')
+TAG = re.compile(rb'#([A-Za-z][A-Za-z0-9_]*):')
+VIDEO_REF = re.compile(rb'\.(?:' + b'|'.join(
+    s[1:].encode() for s in sorted(VIDEO)) + rb')(?=$|[\s,;:=])', re.I)
+
+
+def rewrite(data):
+    masked = HIDE.sub(lambda m: b' ' * len(m[0]), data)
+    tags = list(TAG.finditer(masked))
+    edits = []
+    for i, tag in enumerate(tags):
+        name = tag[1].decode().upper()
+        limit = tags[i + 1].start() if i + 1 < len(tags) else len(data)
+        end = masked.find(b';', tag.end(), limit)
+        visual = re.fullmatch(r'(BG|FG)CHANGES\d*', name)
+        if end < 0:
+            if visual or name in ART:
+                raise ValueError(f'Unterminated #{name} tag')
+            continue
+        value = data[tag.end():end].strip()
+        filename = re.sub(rb'\\(.)', rb'\1', value).lower()
+        if visual:
+            new = b'0=songbackground=1=0=0=0' if name in (
+                'BGCHANGES', 'BGCHANGES1') else b''
+        elif name in ART and any(filename.endswith(s.encode()) for s in VIDEO):
+            new = b''
+        elif VIDEO_REF.search(value):
+            raise ValueError(f'Video in unsupported/nonvisual tag #{name}')
+        else:
+            continue
+        edits.append((tag.end(), end, new))
+    for start, end, new in reversed(edits):
+        data = data[:start] + new + data[end:]
+    if not any(t[1].upper() in (b'BGCHANGES', b'BGCHANGES1') for t in tags):
+        newline = b'\r\n' if b'\r\n' in data else b'\n'
+        data += newline + b'#BGCHANGES:0=songbackground=1=0=0=0;' + newline
+    return data
+
+
+def plan(root, links):
+    """Return the stepfile edits and videos to delete for one song folder."""
+    if any(l == root or root in l.parents or l in root.parents for l in links):
+        raise ValueError('Symbolic links require manual review')
+    files = sorted(p for p in root.rglob('*') if p.is_file())
+    movies = [p for p in files if p.suffix.lower() in VIDEO]
+    if not movies:
+        return {}, []
+    if any(p.suffix.lower() in {'.lua', '.xml', '.sprite', '.model'} for p in files):
+        raise ValueError('Scripted actors require manual review')
+    edits = {}
+    for p in files:
+        suffixes = [s.lower() for s in p.suffixes]
+        if any(s in STEP for s in suffixes):
+            before = p.read_bytes()
+            if b'\x00' in before:
+                raise ValueError(f'Binary/UTF-16 stepfile: {p.name}')
+            try:
+                after = rewrite(before)
+            except ValueError as error:
+                raise ValueError(f'{error} in {p.name}') from error
+            if before != after:
+                edits[p] = after
+    return edits, movies
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__,
+        formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument('paths', nargs='+')
+    parser.add_argument('--apply', action='store_true')
+    args = parser.parse_args()
+    roots, links = set(), set()
+    for arg in args.paths:
+        p = Path(arg).expanduser().absolute()
+        if p.is_symlink():
+            raise ValueError(f'Symbolic link in input path: {p}')
+        p = p.resolve()
+        if p.is_file() and p.suffix.lower() in STEP:
+            p = p.parent
+        if not p.is_dir():
+            raise ValueError(f'Expected a stepfile or directory: {p}')
+        files = list(p.rglob('*'))
+        links.update(f for f in files if f.is_symlink())
+        roots.update(f.parent for f in files if f.suffix.lower() in STEP)
+    roots = sorted(p for p in roots if not any(a in roots for a in p.parents))
+    if not roots:
+        raise ValueError('No SM, SSC, or DWI songs found')
+    edits, videos, skipped = {}, [], []
+    for root in roots:
+        try:
+            root_edits, movies = plan(root, links)
+        except (OSError, ValueError) as error:
+            skipped.append(f'{root}: {error}')
+            continue
+        edits.update(root_edits)
+        videos.extend(movies)
+    for s in skipped:
+        print(f'SKIP   {s}', file=sys.stderr)
+    for p in edits:
+        print(f'EDIT   {p}')
+    for p in videos:
+        print(f'DELETE {p}')
+    total = sum(p.stat().st_size for p in videos)
+    print(f'{len(edits)} text edits; {len(videos)} videos; {total:,} bytes')
+    if skipped:
+        print(f'WARNING: skipped {len(skipped)} song folders needing manual '
+              'review (SKIP lines above)', file=sys.stderr)
+    if args.apply:
+        # All parsing/validation happens above, before any files are changed.
+        for p, data in edits.items():
+            p.write_bytes(data)
+        for p in videos:
+            p.unlink()
+        print('Applied. Run again without --apply to verify zero changes.')
+    else:
+        print('Dry run only. Add --apply to make these changes.')
+
+
+if __name__ == '__main__':
+    try:
+        main()
+    except (OSError, ValueError) as error:
+        sys.exit(f'Cannot remove videos: {error}')
