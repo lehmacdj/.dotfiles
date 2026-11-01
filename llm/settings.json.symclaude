@@ -67,6 +67,7 @@
     "filesystem": {
       "allowWrite": [
         "~/src/github",
+        "~/.cache/uv",
         "~/.stack"
       ]
     }
