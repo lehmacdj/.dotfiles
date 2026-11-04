@@ -23,6 +23,7 @@
   - if your change comprises multiple unrelated changes: commit each one separately the same way
   - if your changes share a file with changes that aren't yours, separating them needs the interactive diff editor (`jj split -i`), which you can't drive: ask me rather than committing the whole file
 - `jj tug` pulls the main (i.e. `trunk()`) branch below the head, while floating private commits above it. Prefer using it to fast forwarding using `jj b m` to avoid messing up the order of private bookmarks
+- Prefer to keep `main` below the head (`@`), you can check `main & ::@` in the default workspace
 - Don't push unless I explicitly ask. A request to "push" authorizes pushing the current task's tested commit or bookmark to its configured default remote. Ask only when the remote, bookmark, or commits to push are ambiguous.
 - Use the `ghr` shell function for other people's GitHub repos (checking out a project, contributing to it, forking it). `ghr <owner>/<repo>` (or a GitHub URL) clones into `~/src/github/<owner>/<repo>` with jj if needed and `cd`s there; `ghr <repo>` finds an already cloned repo when the name is unambiguous. Look in `~/src/github/` before cloning anything from GitHub elsewhere.
   - For a fork, keep `origin` pointing at upstream and add my fork as a `fork` remote (`gh repo fork --remote=false`, then `jj git remote add fork git@github.com:lehmacdj/<repo>`), and set `git.push = "fork"` in the repo's jj config (`jj config set --repo git.push fork`)
