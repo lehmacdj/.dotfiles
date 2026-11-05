@@ -1,6 +1,7 @@
 ---
-description: "Connect to and operate the reusable local macOS VM ('Agent VM') for isolated GUI/desktop automation — SSH access, file transfer, networking quirks, and the hard-won gotchas for driving it without disrupting the host."
+description: "Operate the reusable local macOS VM ('Agent VM'): SSH, file transfer, networking quirks and gotchas. Use when a task needs GUI/desktop automation isolated from the host."
 user-invocable: true
+disable-model-invocation: true
 ---
 
 A reusable macOS guest VM for running GUI/desktop automation (native macOS apps)

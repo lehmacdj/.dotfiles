@@ -1,5 +1,5 @@
 ---
-description: "Authoring GIMP 3 plug-ins in Script-Fu — script-fu-register-filter, SF-* parameter types, menu registration, installing via symlink into the active version's scripts dir, headless testing with (load), and well-behaved-plugin conventions."
+description: "Writing GIMP 3 Script-Fu plug-ins: registration, SF-* parameters, menus, installing into the scripts dir, headless testing. Use when creating or changing a GIMP plug-in."
 user-invocable: true
 ---
 

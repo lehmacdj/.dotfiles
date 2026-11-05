@@ -1,6 +1,6 @@
 ---
 name: search-corpora
-description: "How to find a specific item in a large set of long, multi-topic documents — past Claude Code sessions in ~/.claude/projects/, notes in ~/wiki/, log files, chat exports. Use when asked to find a past session, conversation, or note, or whenever keyword search over such a corpus returns too many candidates."
+description: "Find one item in a large set of long, multi-topic documents (past Claude Code sessions in ~/.claude/projects/, ~/wiki notes, logs, chat exports). Use when asked to find a past session, conversation or note, or when keyword search returns too many candidates."
 user-invocable: true
 ---
 

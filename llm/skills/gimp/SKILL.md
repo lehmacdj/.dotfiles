@@ -1,5 +1,5 @@
 ---
-description: "Headless / batch GIMP work via script-fu. Use for any automated operation on a .xcf file or other headless GIMP task: listing layers, exporting layers as PNGs, running PDB procedures from the shell. Covers the invocation pattern, GIMP 3 API gotchas, and ready-made recipes. For writing menu-registered plug-ins use the gimp-plugin skill."
+description: "Headless GIMP via script-fu, with GIMP 3 gotchas and recipes. Use for any automated work on a .xcf file: listing layers, exporting layers as PNG, running PDB procedures from the shell. For menu-registered plug-ins use gimp-plugin."
 user-invocable: true
 ---
 
