@@ -1,15 +1,20 @@
 ## General
 - Keep temporary files and experiments out of commit history
+- Guidelines for using subagents:
+  - choose model and reasoning effort to match its task
+  - prefer a fresh agent for a new tasks
+  - reuse agents for follow-ups only when their retained context remains useful
+  - for open ended questions: give the question, constraints, facts, and desired output without seeding the candidate with answers or directions. If specific candidates need evaluation, raise them after an open pass. Implementation and review briefs still need concrete requirements and acceptance criteria
 - Bound expensive experiments by time or resources, retain partial results, and treat hitting a limit as a result. For experiments that launch child processes, ensure cancellation stops those processes too. Coordinate resource-intensive work across agents to avoid overloading the machine.
-- If you spawn a subagent, choose reasoning effort to match its task; prefer a fresh agent for a new task and reuse an agent for follow-ups when its retained context remains useful.
-- When asking an agent an open-ended question, give the question, constraints, facts, and desired output without seeding candidate answers or directions. If specific candidates need evaluation, raise them after the open pass. Implementation and review briefs still need concrete requirements and acceptance criteria.
 
 ## Coding
 - Prefer simplicity of the finished codebase and behavior over ease of implementing a change. Compare lasting concepts, exceptions, and maintenance costs separately from implementation effort and runtime cost.
+- Convert user-facing errors into human-readable descriptions instead of showing raw domains/codes alone (keep the raw code too to maintain precision)
+
+## Formatting
 - Prefer 2 space indentation unless otherwise specified; match existing indentation if it is not 2 spaces
 - Try to keep lines to 80 characters or fewer, it's okay for the occasional line to exceed this limit if it improves readability
-- For Markdown prose, use one source line per paragraph (including paragraphs in list items) and rely on soft wrapping instead of the 80-character limit. Preserve structural indentation and code-block formatting.
-- Convert user-facing errors into human-readable descriptions instead of showing raw domains/codes alone (keep the raw code too to maintain precision)
+  - exception: for Markdown prose, use one source line per paragraph (including paragraphs in list items) and rely on soft wrapping. Preserve structural indentation and code-block formatting.
 
 ## `git` / `jj`
 - Use `jj` instead of `git`. If a repo isn't a jj repo yet, set it up with `jj git init --colocate` (installing `jj` first if it is missing).
