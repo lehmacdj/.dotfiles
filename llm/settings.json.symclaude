@@ -72,6 +72,7 @@
       ]
     }
   },
+  "feedbackDrafts": "off",
   "modelSettings": {
     "claude-opus-5": {
       "effortLevel": "medium"
@@ -89,6 +90,5 @@
   "showThinkingSummaries": true,
   "editorMode": "vim",
   "agentPushNotifEnabled": true,
-  "voiceEnabled": true,
-  "feedbackDrafts": "off"
+  "voiceEnabled": true
 }
