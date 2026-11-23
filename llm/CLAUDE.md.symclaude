@@ -6,6 +6,7 @@
   - reuse agents for follow-ups only when their retained context remains useful
   - for open ended questions: give the question, constraints, facts, and desired output without seeding the candidate with answers or directions. If specific candidates need evaluation, raise them after an open pass. Implementation and review briefs still need concrete requirements and acceptance criteria
 - Bound expensive experiments by time or resources, retain partial results, and treat hitting a limit as a result. For experiments that launch child processes, ensure cancellation stops those processes too. Coordinate resource-intensive work across agents to avoid overloading the machine.
+- I might be wrong when guessing about the cause of something. Verify the actual problem/cause before acting on my suggestions.
 
 ## Coding
 - Prefer simplicity of the finished codebase and behavior over ease of implementing a change. Compare lasting concepts, exceptions, and maintenance costs separately from implementation effort and runtime cost.
