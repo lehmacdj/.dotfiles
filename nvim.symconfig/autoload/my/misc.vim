@@ -169,42 +169,32 @@ function! my#misc#get_filename_sheets_link() abort
   let @+ = '=HYPERLINK("' . @+ . '", "' . expand('%:t:r') . '")'
 endfunction
 
-" function that returns the visual selection as a string
-function! my#misc#GetVisualSelection() abort
-  let [l:line_start, l:col_start] = [getpos("'<")[1], getpos("'<")[2]]
-  let [l:line_end, l:col_end] = [getpos("'>")[1], getpos("'>")[2]]
-
-  " Adjust for inclusive end position
-  if l:col_end < l:col_start || l:line_start != l:line_end
-    let l:col_end += 1
-  endif
-
-  " Get the lines in the visual selection
-  let lines = getline(l:line_start, l:line_end)
-
-  " If the selection is within a single line
-  if l:line_start == l:line_end
-    let lines = [strpart(lines[0], l:col_start - 1, l:col_end - l:col_start)]
-  else
-    " Adjust the first and last lines to the exact columns
-    let lines[0] = strpart(lines[0], l:col_start - 1)
-    let lines[-1] = strpart(lines[-1], 0, l:col_end - 1)
-  endif
-
-  return join(lines, "\n")
-endfunction
-
-" for rebinding zg to; this adds the word to the dictionary and commits the
-" change so that I don't have to commit the change separately later
+" Add the word with zg and commit the entry that Neovim actually wrote.
 function! my#misc#commit_dictionary_word(visual_mode = 'not_visual') abort
-  let l:is_visual = a:visual_mode !=# 'not_visual'
-  if l:is_visual
-    let l:word = my#misc#GetVisualSelection()
-    execute 'normal! gvzg'
-  else
-    let l:word = expand('<cword>')
-    execute 'normal! zg'
+  let l:entry = get(split(&l:spellfile, '\\\@<!,', 1), 0, '')
+  let l:entry = substitute(l:entry, '\\,', ',', 'g')
+  let l:spellfile = resolve(fnamemodify(l:entry, ':p'))
+  let l:size_before = getfsize(l:spellfile)
+  execute a:visual_mode ==# 'not_visual' ? 'normal! zg' : 'normal! gvzg'
+
+  let l:spell_dir = resolve($DOTFILES . '/nvim.symconfig/spell') . '/'
+  if empty($DOTFILES) || stridx(l:spellfile, l:spell_dir) != 0
+        \ || getfsize(l:spellfile) <= l:size_before
+    return
   endif
-  call system(['git', '-C', $DOTFILES, 'add', 'nvim.symconfig/spell'])
-  call system(['git', '-C', $DOTFILES, 'commit', '-m', 'vim dictionary: add ' . l:word])
+
+  " Read what zg appended so the commit names the exact dictionary entry.
+  " <cword> drops the suffix in todaymorrow's, and spellbadword() can pick
+  " a later misspelling. Recreating zg would also require its fallback and
+  " Visual selection rules. Parsing its success message depends on locale.
+  let l:word = readfile(l:spellfile, '', -1)[0]
+  let l:git = ['git', '-C', $DOTFILES, '--literal-pathspecs']
+  let l:output = system(l:git + ['add', '--intent-to-add', '--', l:spellfile])
+  if !v:shell_error
+    let l:output = system(l:git + ['commit', '--only', '-m',
+          \ 'vim dictionary: add ' . l:word, '--', l:spellfile])
+  endif
+  if v:shell_error
+    call my#misc#err("Could not commit the dictionary entry\n" . l:output)
+  endif
 endfunction

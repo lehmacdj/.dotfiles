@@ -239,7 +239,7 @@ nnoremap <Leader>z 1z=
 set spellfile=~/.config/nvim/spell/en.utf-8.add
 " automatically commit spellfile changes
 nnoremap zg <Cmd>call my#misc#commit_dictionary_word()<CR>
-xnoremap zg :call my#misc#commit_dictionary_word(visualmode())<CR>
+xnoremap zg :<C-u>call my#misc#commit_dictionary_word(visualmode())<CR>
 " TODO: asynchronously compile spell files on startup
 nnoremap <Leader>sc <Cmd>call my#misc#CompileSpellFiles()<CR>
 " Spelling corrections
